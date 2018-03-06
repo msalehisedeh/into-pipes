@@ -1,0 +1,25 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+</div>
+
+<div [innerHTML]="'xyz' | into:'prepend:*'"></div>
+<div [innerHTML]="'xyz' | into:'append:*'"></div>
+<div [innerHTML]="'xyz' | into:'wrap:*'"></div>
+
+<div [innerHTML]="'25' | into:'currency'"></div>
+<div [innerHTML]="'25.34537664' | into:'number'"></div>
+<div [innerHTML]="'3423423422' | into:'mask'"></div>
+
+<div [innerHTML]="'try this' | into:'uppercase'"></div>
+<div [innerHTML]="'TRY THIS' | into:'lowercase'"></div>
+
+<div [innerHTML]="'try this sdfads' | into:'slice:4:8'"></div>
+
+<div [innerHTML]="{q:3,w:43,dw:6565} | into:'json'"></div>
+<div [innerHTML]="'q;3/w;43/dw;6565' | into:'map'"></div>
+
+<div imageholder [innerHTML]="theURL | into:'image:200px:auto:alt text'"></div>
+<div [innerHTML]="theURL | into:'link'"></div>
