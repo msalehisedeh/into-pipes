@@ -1,8 +1,9 @@
 
+
 # Welcome to InTo Pipes!
 
 Have you ever wanted to have a component that can format values on some properties through passing meta data formatting rules?
-This library provides Angular 4 pipes that are all used by a single "into" pipe component. But still are exported for use individually if you like to use them as such.  InTo Pipe will determine how the formatting on a property should be done by parsing a formatting metadata. The rules are same as Angular pipe rules (i.e., parameters separated by a ":" character. But at the same time if you need a format parameter like Date to have ":" characters, make sure you wrap the rule in a quote. For example "MM/dd/YY hh:ss"). You can also cascade formatting metadata rules. For example "mask | font:fa fa-check:right:*".
+This library provides Angular 4 pipes that are all used by a single "into" pipe. But they are still are exported for use individually if you like to use them as such.  InTo Pipe will determine how the formatting on a property should be done by parsing a formatting metadata. The rules are same as Angular pipe rules (i.e., parameters separated by a ":" character. But at the same time if you need a format parameter like Date to have ":" characters, make sure you wrap the rule in a quote. For example "MM/dd/YY hh:ss"). You can also cascade formatting metadata rules. For example "mask | font:fa fa-check:right:*".
 
 You are welcome to add on additional pipes and formatting rules to this library or enhance them.
 
