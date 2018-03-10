@@ -6,4 +6,7 @@ export {ImagePipe} from './src/app/into-pipes/image.pipe';
 export {PrependPipe} from './src/app/into-pipes/prepend.pipe';
 export {AppendPipe} from './src/app/into-pipes/append.pipe';
 export {WrapPipe} from './src/app/into-pipes/wrap.pipe';
+export {EmailPipe} from './src/app/into-pipes/email.pipe';
+export {RatingPipe} from './src/app/into-pipes/rating.pipe';
+export {AddressPipe} from './src/app/into-pipes/address.pipe';
 export {IntoPipeModule} from './src/app/into-pipes/pipe.module';

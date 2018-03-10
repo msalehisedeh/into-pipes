@@ -11,17 +11,35 @@ import {
 
 import {MaskPipe} from './mask.pipe';
 import {MapPipe} from './map.pipe';
+import {ValueOfPipe} from './valueof.pipe';
 import {LinkPipe} from './link.pipe';
 import {ImagePipe} from './image.pipe';
 import {PrependPipe} from './prepend.pipe';
 import {AppendPipe} from './append.pipe';
 import {WrapPipe} from './wrap.pipe';
+import {EmailPipe} from './email.pipe';
+import {RatingPipe} from './rating.pipe';
+import {AddressPipe} from './address.pipe';
+import {FontPipe} from './font.pipe';
 
 @Pipe({name:'into'})
 export class InToPipe implements PipeTransform{
 transform(content: string, list: string): string {
     let result = content;
-    let args:string[] = list.split(":");
+    
+    list.split("|").map( (item) => {
+        result = this._transform(result, this.split(item));
+    });
+
+    return result;
+  }
+
+  private split(item) {
+      return item.trim().match(/(?=\S)[^"\:]*(?:"[^\\"]*(?:\\[\:\S][^\\"]*)*"[^"\:]*)*/g).filter((x)=>x.length);
+  }
+
+  private _transform(content: string, args: string[]) {
+    let result = content;
 
     switch(args[0]){
         case "currency" : 
@@ -36,9 +54,25 @@ transform(content: string, list: string): string {
             // prepend:something
             result = new PrependPipe().transform(content, args.length > 1 ? args[1] : ""); 
             break;
+        case "font" : 
+            // font:fa fa-check:left:*
+            result = new FontPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : ""); 
+            break;
         case "wrap" : 
             // wrap:something:something  OR wrap:something
             result = new WrapPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : args[1]); 
+            break;
+        case "email" : 
+            // email
+            result = new EmailPipe().transform(content, ""); 
+            break;
+        case "address" : 
+            // address
+            result = new AddressPipe().transform(content, ""); 
+            break;
+        case "rating" : 
+            // rating
+            result = new RatingPipe().transform(content, ""); 
             break;
         case "number" : 
             // number:en_US:2   or number:en_US or number
@@ -49,7 +83,7 @@ transform(content: string, list: string): string {
             }
             break;
         case "date" : 
-            // date:en_US:MMDDYY OR date:MMDDYY
+            // date:en_US:MMddyy OR date:\"MM/dd/yyyy hh:ss\"
             if (args.length > 2) {
                 result = new DatePipe(args[1]).transform(content, args[2]);
             }else {
@@ -87,8 +121,12 @@ transform(content: string, list: string): string {
             }
             break;
         case "map" : 
-            // map
+            // map:key1;value1/key2;value2/key3;value3
             result =  new MapPipe().transform(content, args.length > 1 ? args[1] : "");
+            break;
+        case "valueof" : 
+            // valueof:key
+            result =  new ValueOfPipe().transform(content, args.length > 1 ? args[1] : "");
             break;
         case "link" : 
             // link:target:text or link:text or link

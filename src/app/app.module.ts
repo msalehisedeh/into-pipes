@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 
-
 import { AppComponent } from './app.component';
 import { IntoPipeModule } from './into-pipes/pipe.module';
-
 
 @NgModule({
   declarations: [

@@ -9,6 +9,11 @@ import {ImagePipe} from './image.pipe';
 import {PrependPipe} from './prepend.pipe';
 import {AppendPipe} from './append.pipe';
 import {WrapPipe} from './wrap.pipe';
+import {EmailPipe} from './email.pipe';
+import {RatingPipe} from './rating.pipe';
+import {AddressPipe} from './address.pipe';
+import {FontPipe} from './font.pipe';
+import {ValueOfPipe} from './valueof.pipe';
 
 @NgModule({
   imports: [
@@ -22,7 +27,12 @@ import {WrapPipe} from './wrap.pipe';
     MapPipe,
     PrependPipe,
     AppendPipe,
-    WrapPipe
+    WrapPipe,
+    ValueOfPipe,
+    EmailPipe,
+    RatingPipe,
+    FontPipe,
+    AddressPipe
   ],
   exports: [
     InToPipe,
@@ -32,7 +42,12 @@ import {WrapPipe} from './wrap.pipe';
     MapPipe,
     PrependPipe,
     AppendPipe,
-    WrapPipe
+    WrapPipe,
+    ValueOfPipe,
+    EmailPipe,
+    RatingPipe,
+    FontPipe,
+    AddressPipe
   ],
   entryComponents: [
   ],
@@ -51,7 +66,12 @@ import {WrapPipe} from './wrap.pipe';
     MapPipe,
     PrependPipe,
     AppendPipe,
-    WrapPipe
+    EmailPipe,
+    RatingPipe,
+    AddressPipe,
+    FontPipe,
+    WrapPipe,
+    ValueOfPipe
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

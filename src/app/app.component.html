@@ -5,21 +5,27 @@
   </h1>
 </div>
 
-<div [innerHTML]="'xyz' | into:'prepend:*'"></div>
-<div [innerHTML]="'xyz' | into:'append:*'"></div>
-<div [innerHTML]="'xyz' | into:'wrap:*'"></div>
+<div>Display rating of 3.5: <span [innerHTML]="'3.5' | into:'rating'"></span></div>
+<div>Display email in email link: <span [innerHTML]="'xyz@gmail.com' | into:'email'"></span></div>
+<div>Display address with marker: <span [innerHTML]="myaddress | into:'address'"></span></div>
+<div>Display date: <span [innerHTML]="myDate | into:myDateFormat"></span></div>
 
-<div [innerHTML]="'25' | into:'currency'"></div>
-<div [innerHTML]="'25.34537664' | into:'number'"></div>
-<div [innerHTML]="'3423423422' | into:'mask'"></div>
 
-<div [innerHTML]="'try this' | into:'uppercase'"></div>
-<div [innerHTML]="'TRY THIS' | into:'lowercase'"></div>
+<div>Prepend * to content: <span [innerHTML]="'xyz' | into:'prepend:*'"></span></div>
+<div>Append * to content : <span [innerHTML]="'xyz' | into:'append:*'"></span></div>
+<div>Wrap content with * : <span [innerHTML]="'xyz' | into:'wrap:*'"></span></div>
 
-<div [innerHTML]="'try this sdfads' | into:'slice:4:8'"></div>
+<div>Display number in currency: <span [innerHTML]="'25' | into:'currency'"></span></div>
+<div>Display number in decimals: <span [innerHTML]="'25.34537664' | into:'number'"></span></div>
+<div>Mask number and add checkmark: <span [innerHTML]="'3423423422' | into:'mask | font:fa fa-check:right:*'"></span></div>
 
-<div [innerHTML]="{q:3,w:43,dw:6565} | into:'json'"></div>
-<div [innerHTML]="'q;3/w;43/dw;6565' | into:'map'"></div>
+<div>Display content in uppercase: <span [innerHTML]="'try this' | into:'uppercase'"></span></div>
+<div>Display content in lowercase: <span [innerHTML]="'TRY THIS' | into:'lowercase'"></span></div>
 
-<div imageholder [innerHTML]="theURL | into:'image:200px:auto:alt text'"></div>
-<div [innerHTML]="theURL | into:'link'"></div>
+<div>Display part of content from index 4 to 8: <span [innerHTML]="'try this sdfads' | into:'slice:4:8'"></span></div>
+
+<div>Display in json format: <span [innerHTML]="{q:3,w:43,dw:6565} | into:'json'"></span></div>
+<div>Display value of "dw" found in JSON Object: <span [innerHTML]="{q:3,w:43,dw:6565} | into:'valueof:dw'"></span></div>
+
+<div><span imageholder [innerHTML]="theURL | into:'image:200px:auto:alt text'"></span></div>
+<div>Display address in a link: <span [innerHTML]="theURL | into:'link'"></span></div>

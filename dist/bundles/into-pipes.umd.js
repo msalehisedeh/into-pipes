@@ -47,6 +47,22 @@ MapPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'map' },] },
 ];
 MapPipe.ctorParameters = function () { return []; };
+var ValueOfPipe = /** @class */ (function () {
+    function ValueOfPipe() {
+    }
+    ValueOfPipe.prototype.transform = function (object) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        return object[args[0]];
+    };
+    return ValueOfPipe;
+}());
+ValueOfPipe.decorators = [
+    { type: core.Pipe, args: [{ name: 'valueof' },] },
+];
+ValueOfPipe.ctorParameters = function () { return []; };
 var LinkPipe = /** @class */ (function () {
     function LinkPipe() {
     }
@@ -135,12 +151,107 @@ WrapPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'wrap' },] },
 ];
 WrapPipe.ctorParameters = function () { return []; };
+var EmailPipe = /** @class */ (function () {
+    function EmailPipe() {
+    }
+    EmailPipe.prototype.transform = function (source) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        return "<a href=\'mailto:" + source + "\' ><span class='fa fa-envelope' aria-hidden='true'></span><span>" + source + "</span></a>";
+    };
+    return EmailPipe;
+}());
+EmailPipe.decorators = [
+    { type: core.Pipe, args: [{ name: 'email' },] },
+];
+EmailPipe.ctorParameters = function () { return []; };
+var RatingPipe = /** @class */ (function () {
+    function RatingPipe() {
+    }
+    RatingPipe.prototype.transform = function (source) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        var value = parseInt(source, 10);
+        var float = parseFloat(source);
+        var x = "<span class='rating'>";
+        for (var i = 0; i < value; i++) {
+            x += "<span class='fa fa-star' aria-hidden='true'></span>";
+        }
+        if (float !== value) {
+            x += "<span class='fa fa-star-half' aria-hidden='true'></span>";
+        }
+        x += "</span><span class='rate-value'>" + source + "</span>";
+        return x;
+    };
+    return RatingPipe;
+}());
+RatingPipe.decorators = [
+    { type: core.Pipe, args: [{ name: 'raiting' },] },
+];
+RatingPipe.ctorParameters = function () { return []; };
+var AddressPipe = /** @class */ (function () {
+    function AddressPipe() {
+    }
+    AddressPipe.prototype.transform = function (source) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        var url = "https://maps.google.com/?q=" +
+            source.street + ", " + source.city + ", " + source.zipcode + "&ie=UTF-8";
+        url = url.replace("\\s+", "+");
+        return "<span class='address'><span>" + source.street + ", " + source.suite + "</span>" +
+            "<span> " + source.city + ", " + source.zipcode + "</span>" +
+            "</span> <a href=\'" + url + "\' class='google-map'><span class='fa fa-map-marker' aria-hidden='true'></span><span class='off-screen'>View in google map</a>";
+    };
+    return AddressPipe;
+}());
+AddressPipe.decorators = [
+    { type: core.Pipe, args: [{ name: 'address' },] },
+];
+AddressPipe.ctorParameters = function () { return []; };
+var FontPipe = /** @class */ (function () {
+    function FontPipe() {
+    }
+    FontPipe.prototype.transform = function (source) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        var font = args.length ? "<span class=\'" + args[0] + "\' aria-hidden='true'></span>" : "";
+        var location = args.length > 1 ? args[1] : "";
+        var action = args.length > 2 ? args[2].toLowerCase() : "";
+        var content = action === "*" ? source : ("replace" === action.toLowerCase() ? "" : source);
+        return (location === "left" ?
+            (font + content) :
+            ((location === "right") ? content + font : font));
+    };
+    return FontPipe;
+}());
+FontPipe.decorators = [
+    { type: core.Pipe, args: [{ name: 'email' },] },
+];
+FontPipe.ctorParameters = function () { return []; };
 var InToPipe = /** @class */ (function () {
     function InToPipe() {
     }
     InToPipe.prototype.transform = function (content, list) {
+        var _this = this;
         var result = content;
-        var args = list.split(":");
+        list.split("|").map(function (item) {
+            result = _this._transform(result, _this.split(item));
+        });
+        return result;
+    };
+    InToPipe.prototype.split = function (item) {
+        return item.trim().match(/(?=\S)[^"\:]*(?:"[^\\"]*(?:\\[\:\S][^\\"]*)*"[^"\:]*)*/g).filter(function (x) { return x.length; });
+    };
+    InToPipe.prototype._transform = function (content, args) {
+        var result = content;
         switch (args[0]) {
             case "currency":
                 result = new common.CurrencyPipe(args.length > 1 ? args[1] : "en_US").transform(content);
@@ -151,8 +262,20 @@ var InToPipe = /** @class */ (function () {
             case "prepend":
                 result = new PrependPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
+            case "font":
+                result = new FontPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
+                break;
             case "wrap":
                 result = new WrapPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : args[1]);
+                break;
+            case "email":
+                result = new EmailPipe().transform(content, "");
+                break;
+            case "address":
+                result = new AddressPipe().transform(content, "");
+                break;
+            case "rating":
+                result = new RatingPipe().transform(content, "");
                 break;
             case "number":
                 if (args.length > 2) {
@@ -200,6 +323,9 @@ var InToPipe = /** @class */ (function () {
                 break;
             case "map":
                 result = new MapPipe().transform(content, args.length > 1 ? args[1] : "");
+                break;
+            case "valueof":
+                result = new ValueOfPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "link":
                 if (args.length > 2) {
@@ -261,7 +387,12 @@ IntoPipeModule.decorators = [
                     MapPipe,
                     PrependPipe,
                     AppendPipe,
-                    WrapPipe
+                    WrapPipe,
+                    ValueOfPipe,
+                    EmailPipe,
+                    RatingPipe,
+                    FontPipe,
+                    AddressPipe
                 ],
                 exports: [
                     InToPipe,
@@ -271,7 +402,12 @@ IntoPipeModule.decorators = [
                     MapPipe,
                     PrependPipe,
                     AppendPipe,
-                    WrapPipe
+                    WrapPipe,
+                    ValueOfPipe,
+                    EmailPipe,
+                    RatingPipe,
+                    FontPipe,
+                    AddressPipe
                 ],
                 entryComponents: [],
                 providers: [
@@ -289,7 +425,12 @@ IntoPipeModule.decorators = [
                     MapPipe,
                     PrependPipe,
                     AppendPipe,
-                    WrapPipe
+                    EmailPipe,
+                    RatingPipe,
+                    AddressPipe,
+                    FontPipe,
+                    WrapPipe,
+                    ValueOfPipe
                 ],
                 schemas: [core.CUSTOM_ELEMENTS_SCHEMA]
             },] },
@@ -304,7 +445,12 @@ exports.ImagePipe = ImagePipe;
 exports.PrependPipe = PrependPipe;
 exports.AppendPipe = AppendPipe;
 exports.WrapPipe = WrapPipe;
+exports.EmailPipe = EmailPipe;
+exports.RatingPipe = RatingPipe;
+exports.AddressPipe = AddressPipe;
 exports.IntoPipeModule = IntoPipeModule;
+exports.ɵb = FontPipe;
+exports.ɵa = ValueOfPipe;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

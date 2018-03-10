@@ -56,6 +56,26 @@ MapPipe.ctorParameters = () => [];
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+class ValueOfPipe {
+    /**
+     * @param {?} object
+     * @param {...?} args
+     * @return {?}
+     */
+    transform(object, ...args) {
+        return object[args[0]];
+    }
+}
+ValueOfPipe.decorators = [
+    { type: Pipe, args: [{ name: 'valueof' },] },
+];
+/** @nocollapse */
+ValueOfPipe.ctorParameters = () => [];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 class LinkPipe {
     /**
      * @param {?} source
@@ -164,6 +184,107 @@ WrapPipe.ctorParameters = () => [];
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+class EmailPipe {
+    /**
+     * @param {?} source
+     * @param {...?} args
+     * @return {?}
+     */
+    transform(source, ...args) {
+        return "<a href=\'mailto:" + source + "\' ><span class='fa fa-envelope' aria-hidden='true'></span><span>" + source + "</span></a>";
+    }
+}
+EmailPipe.decorators = [
+    { type: Pipe, args: [{ name: 'email' },] },
+];
+/** @nocollapse */
+EmailPipe.ctorParameters = () => [];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+class RatingPipe {
+    /**
+     * @param {?} source
+     * @param {...?} args
+     * @return {?}
+     */
+    transform(source, ...args) {
+        const /** @type {?} */ value = parseInt(source, 10);
+        const /** @type {?} */ float = parseFloat(source);
+        let /** @type {?} */ x = "<span class='rating'>";
+        for (let /** @type {?} */ i = 0; i < value; i++) {
+            x += "<span class='fa fa-star' aria-hidden='true'></span>";
+        }
+        if (float !== value) {
+            x += "<span class='fa fa-star-half' aria-hidden='true'></span>";
+        }
+        x += "</span><span class='rate-value'>" + source + "</span>";
+        return x;
+    }
+}
+RatingPipe.decorators = [
+    { type: Pipe, args: [{ name: 'raiting' },] },
+];
+/** @nocollapse */
+RatingPipe.ctorParameters = () => [];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+class AddressPipe {
+    /**
+     * @param {?} source
+     * @param {...?} args
+     * @return {?}
+     */
+    transform(source, ...args) {
+        let /** @type {?} */ url = "https://maps.google.com/?q=" +
+            source.street + ", " + source.city + ", " + source.zipcode + "&ie=UTF-8";
+        url = url.replace("\\s+", "+");
+        return "<span class='address'><span>" + source.street + ", " + source.suite + "</span>" +
+            "<span> " + source.city + ", " + source.zipcode + "</span>" +
+            "</span> <a href=\'" + url + "\' class='google-map'><span class='fa fa-map-marker' aria-hidden='true'></span><span class='off-screen'>View in google map</a>";
+    }
+}
+AddressPipe.decorators = [
+    { type: Pipe, args: [{ name: 'address' },] },
+];
+/** @nocollapse */
+AddressPipe.ctorParameters = () => [];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+class FontPipe {
+    /**
+     * @param {?} source
+     * @param {...?} args
+     * @return {?}
+     */
+    transform(source, ...args) {
+        const /** @type {?} */ font = args.length ? "<span class=\'" + args[0] + "\' aria-hidden='true'></span>" : "";
+        const /** @type {?} */ location = args.length > 1 ? args[1] : "";
+        const /** @type {?} */ action = args.length > 2 ? args[2].toLowerCase() : "";
+        const /** @type {?} */ content = action === "*" ? source : ("replace" === action.toLowerCase() ? "" : source);
+        return (location === "left" ?
+            (font + content) :
+            ((location === "right") ? content + font : font));
+    }
+}
+FontPipe.decorators = [
+    { type: Pipe, args: [{ name: 'email' },] },
+];
+/** @nocollapse */
+FontPipe.ctorParameters = () => [];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 class InToPipe {
     /**
      * @param {?} content
@@ -172,7 +293,25 @@ class InToPipe {
      */
     transform(content, list) {
         let /** @type {?} */ result = content;
-        let /** @type {?} */ args = list.split(":");
+        list.split("|").map((item) => {
+            result = this._transform(result, this.split(item));
+        });
+        return result;
+    }
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    split(item) {
+        return item.trim().match(/(?=\S)[^"\:]*(?:"[^\\"]*(?:\\[\:\S][^\\"]*)*"[^"\:]*)*/g).filter((x) => x.length);
+    }
+    /**
+     * @param {?} content
+     * @param {?} args
+     * @return {?}
+     */
+    _transform(content, args) {
+        let /** @type {?} */ result = content;
         switch (args[0]) {
             case "currency":
                 // currency:en_US or currency
@@ -186,9 +325,25 @@ class InToPipe {
                 // prepend:something
                 result = new PrependPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
+            case "font":
+                // font:fa fa-check:left:*
+                result = new FontPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
+                break;
             case "wrap":
                 // wrap:something:something  OR wrap:something
                 result = new WrapPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : args[1]);
+                break;
+            case "email":
+                // email
+                result = new EmailPipe().transform(content, "");
+                break;
+            case "address":
+                // address
+                result = new AddressPipe().transform(content, "");
+                break;
+            case "rating":
+                // rating
+                result = new RatingPipe().transform(content, "");
                 break;
             case "number":
                 // number:en_US:2   or number:en_US or number
@@ -200,7 +355,7 @@ class InToPipe {
                 }
                 break;
             case "date":
-                // date:en_US:MMDDYY OR date:MMDDYY
+                // date:en_US:MMddyy OR date:\"MM/dd/yyyy hh:ss\"
                 if (args.length > 2) {
                     result = new DatePipe(args[1]).transform(content, args[2]);
                 }
@@ -242,8 +397,12 @@ class InToPipe {
                 }
                 break;
             case "map":
-                // map
+                // map:key1;value1/key2;value2/key3;value3
                 result = new MapPipe().transform(content, args.length > 1 ? args[1] : "");
+                break;
+            case "valueof":
+                // valueof:key
+                result = new ValueOfPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "link":
                 // link:target:text or link:text or link
@@ -309,7 +468,12 @@ IntoPipeModule.decorators = [
                     MapPipe,
                     PrependPipe,
                     AppendPipe,
-                    WrapPipe
+                    WrapPipe,
+                    ValueOfPipe,
+                    EmailPipe,
+                    RatingPipe,
+                    FontPipe,
+                    AddressPipe
                 ],
                 exports: [
                     InToPipe,
@@ -319,7 +483,12 @@ IntoPipeModule.decorators = [
                     MapPipe,
                     PrependPipe,
                     AppendPipe,
-                    WrapPipe
+                    WrapPipe,
+                    ValueOfPipe,
+                    EmailPipe,
+                    RatingPipe,
+                    FontPipe,
+                    AddressPipe
                 ],
                 entryComponents: [],
                 providers: [
@@ -337,7 +506,12 @@ IntoPipeModule.decorators = [
                     MapPipe,
                     PrependPipe,
                     AppendPipe,
-                    WrapPipe
+                    EmailPipe,
+                    RatingPipe,
+                    AddressPipe,
+                    FontPipe,
+                    WrapPipe,
+                    ValueOfPipe
                 ],
                 schemas: [CUSTOM_ELEMENTS_SCHEMA]
             },] },
@@ -358,5 +532,5 @@ IntoPipeModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, IntoPipeModule };
+export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, IntoPipeModule, FontPipe as ɵb, ValueOfPipe as ɵa };
 //# sourceMappingURL=into-pipes.js.map
