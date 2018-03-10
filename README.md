@@ -30,7 +30,7 @@ In addition, the following pipes are added:
 
 The following are available functionalities presented in this version. 
 ```
-DEPENDENCIES: Other than Angular standard Pipes and core angular libraries, NONE.
+DEPENDENCIES: Core Angular standard and Pipes libraries.
 ```
 
 | Format             |Examples                               |Arguments                                                                               |
@@ -48,7 +48,7 @@ DEPENDENCIES: Other than Angular standard Pipes and core angular libraries, NONE
 |json                | `json`                                |                                                                                        |
 |slice               | `slice 5:12 OR slice 5`               | 1) starting index, 2) ending index                                                     |
 |uppercase           | `uppercase`                           |                                                                                        |
-|lowercase           | `lowecase`                            |                                                                                        |
+|lowercase           | `lowercase`                           |                                                                                        |
 
 ![alt text](https://raw.githubusercontent.com/msalehisedeh/into-pipes/master/sample.png  "Commands and results")
 
