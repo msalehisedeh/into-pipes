@@ -23,7 +23,7 @@ In addition, the following pipes are added:
 |address             |`address`                   |                                          |
 |rating              |`rating`                    |                                          |
 |font                |`font:fa fa-check:left:*`   | 1) class 2) left, right, or replace 3) "*" display source with the font or nothing if argument 2 is replace.|
-|valueof             |`valueof:key`               | 1) key found in source JSON |            |
+|valueof             |`valueof:key`               | 1) key found in source JSON              |
 
 # Version 0.0.0
 
