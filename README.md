@@ -18,6 +18,7 @@ DEPENDENCIES:
 A new Conditional Pipe is added to make the whole thing come together. 
 
 The following formatters are added:
+
 | Format             | Examples                                                 | Arguments                   |
 |--------------------|---------------------------------------------------------|----------------------------|
 | if                  | `'masoud' | into: "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\""` |  1)condition `=,!=,~=,<,>,~,!~,in` , 2)value to be evaluated, 3)action, 4)else action |
@@ -47,6 +48,7 @@ In Addition code in "into" pipe is modified to allow for cascading pipes and esc
 `["date","MM/dd/yyyy hh:ss"]`
 
 The following formatters are added:
+
 | Format             | Examples                    | Arguments                   |
 |--------------------|----------------------------|----------------------------|
 | email               | `email`                     | NONE                        |
