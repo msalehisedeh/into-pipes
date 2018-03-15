@@ -14,6 +14,7 @@ import {RatingPipe} from './rating.pipe';
 import {AddressPipe} from './address.pipe';
 import {FontPipe} from './font.pipe';
 import {ValueOfPipe} from './valueof.pipe';
+import {ConditionalPipe} from './conditional.pipe';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import {ValueOfPipe} from './valueof.pipe';
     EmailPipe,
     RatingPipe,
     FontPipe,
+    ConditionalPipe,
     AddressPipe
   ],
   exports: [
@@ -47,6 +49,7 @@ import {ValueOfPipe} from './valueof.pipe';
     EmailPipe,
     RatingPipe,
     FontPipe,
+    ConditionalPipe,
     AddressPipe
   ],
   entryComponents: [
@@ -70,6 +73,7 @@ import {ValueOfPipe} from './valueof.pipe';
     RatingPipe,
     AddressPipe,
     FontPipe,
+    ConditionalPipe,
     WrapPipe,
     ValueOfPipe
   ],

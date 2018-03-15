@@ -236,6 +236,49 @@ FontPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'email' },] },
 ];
 FontPipe.ctorParameters = function () { return []; };
+var ConditionalPipe = /** @class */ (function () {
+    function ConditionalPipe() {
+    }
+    ConditionalPipe.prototype.transform = function (object) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        var result = "";
+        switch (args[0]) {
+            case "=":
+                result = object === args[1] ? args[2] : args[3];
+                break;
+            case "!=":
+                result = object !== args[1] ? args[2] : args[3];
+                break;
+            case ">":
+                result = object > args[1] ? args[2] : args[3];
+                break;
+            case "<":
+                result = object < args[1] ? args[2] : args[3];
+                break;
+            case "~":
+                result = object && object !== null && object !== "null" ? args[2] : args[3];
+                break;
+            case "!~":
+                result = object === undefined || object === null || object === "null" ? args[2] : args[3];
+                break;
+            case "~=":
+                result = object && String(object).toLowerCase() === String(args[1]).toLowerCase() ? args[2] : args[3];
+                break;
+            case "in":
+                result = object ? object.indexOf(args[2]) : args[3];
+                break;
+        }
+        return result;
+    };
+    return ConditionalPipe;
+}());
+ConditionalPipe.decorators = [
+    { type: core.Pipe, args: [{ name: 'if' },] },
+];
+ConditionalPipe.ctorParameters = function () { return []; };
 var InToPipe = /** @class */ (function () {
     function InToPipe() {
     }
@@ -261,6 +304,17 @@ var InToPipe = /** @class */ (function () {
                 break;
             case "prepend":
                 result = new PrependPipe().transform(content, args.length > 1 ? args[1] : "");
+                break;
+            case "if":
+                var a1 = args.length > 1 ? args[1] : "";
+                var a2 = args.length > 2 ? args[2] : "";
+                var a3 = args.length > 3 ? args[3] : "";
+                var a4 = args.length > 41 ? args[4] : "";
+                result = new ConditionalPipe().transform(content, a1, a2, a3, a4);
+                if (result.length) {
+                    result = result[0] === '"' ? result.substring(1, result.length - 1) : result;
+                    result = this._transform(content, this.split(result));
+                }
                 break;
             case "font":
                 result = new FontPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
@@ -392,6 +446,7 @@ IntoPipeModule.decorators = [
                     EmailPipe,
                     RatingPipe,
                     FontPipe,
+                    ConditionalPipe,
                     AddressPipe
                 ],
                 exports: [
@@ -407,6 +462,7 @@ IntoPipeModule.decorators = [
                     EmailPipe,
                     RatingPipe,
                     FontPipe,
+                    ConditionalPipe,
                     AddressPipe
                 ],
                 entryComponents: [],
@@ -429,6 +485,7 @@ IntoPipeModule.decorators = [
                     RatingPipe,
                     AddressPipe,
                     FontPipe,
+                    ConditionalPipe,
                     WrapPipe,
                     ValueOfPipe
                 ],
@@ -449,6 +506,7 @@ exports.EmailPipe = EmailPipe;
 exports.RatingPipe = RatingPipe;
 exports.AddressPipe = AddressPipe;
 exports.IntoPipeModule = IntoPipeModule;
+exports.ɵc = ConditionalPipe;
 exports.ɵb = FontPipe;
 exports.ɵa = ValueOfPipe;
 

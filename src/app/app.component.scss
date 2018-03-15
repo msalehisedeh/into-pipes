@@ -1,3 +1,38 @@
 [imageholder] ::ng-deep img{
     width: 200px;
 }
+
+table{
+    border: 1px solid #598ec3;
+    border-collapse: separate;
+    border-spacing: 0;
+
+    th {
+        background-color: #598ec3;
+        color: #fff;
+        border-bottom: 1px solid #666;
+    }
+
+    td {
+        color: #444;
+        border: 1px solid #598ec3;
+        padding: 1px 5px;
+
+        ::ng-deep .off-screen {
+            position: absolute;
+            left: -999em;
+        }
+
+        ::ng-deep .rating {
+            color: #f00;
+        }
+
+        ::ng-deep a {
+            .fa {
+                color: #f00;
+                margin: 0 3px;
+            }
+        }
+    }
+}
+

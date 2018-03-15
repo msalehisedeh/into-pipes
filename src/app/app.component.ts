@@ -8,9 +8,14 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'In To Pipes';
 
+  threeFive = 3.5;
+  myJson= {q:3,w:43,dw:6565};
   myDate = "2018-03-10T01:01:20Z";
   myDateFormat="date:\"MM/dd/yyyy hh:ss\"";
   theURL = "https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?h=350&auto=compress&cs=tinysrgb";
+
+  myConditionalLogic = "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\"";
+  myConditionalThreeFive = "if:>:3:\"font:fa fa-check:replace\":\"font:fa fa-bell:replace\"";
 
   myaddress = {
     "street": "Kulas Light",

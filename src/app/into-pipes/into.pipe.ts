@@ -21,6 +21,7 @@ import {EmailPipe} from './email.pipe';
 import {RatingPipe} from './rating.pipe';
 import {AddressPipe} from './address.pipe';
 import {FontPipe} from './font.pipe';
+import {ConditionalPipe} from './conditional.pipe';
 
 @Pipe({name:'into'})
 export class InToPipe implements PipeTransform{
@@ -53,6 +54,18 @@ transform(content: string, list: string): string {
         case "prepend" : 
             // prepend:something
             result = new PrependPipe().transform(content, args.length > 1 ? args[1] : ""); 
+            break;
+        case "if" : 
+            // if:=:true:fa fa-check:fa fa-bell
+            const a1 =  args.length > 1 ? args[1] : "";
+            const a2 =  args.length > 2 ? args[2] : "";
+            const a3 =  args.length > 3 ? args[3] : "";
+            const a4 =  args.length > 41 ? args[4] : "";
+            result = new ConditionalPipe().transform(content,a1, a2, a3, a4);
+            if( result.length ){
+                result = result[0] === '"' ? result.substring(1,result.length-1) : result;
+                result = this._transform(content,this.split(result));
+            }
             break;
         case "font" : 
             // font:fa fa-check:left:*

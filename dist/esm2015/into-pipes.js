@@ -285,6 +285,53 @@ FontPipe.ctorParameters = () => [];
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+class ConditionalPipe {
+    /**
+     * @param {?} object
+     * @param {...?} args
+     * @return {?}
+     */
+    transform(object, ...args) {
+        let /** @type {?} */ result = "";
+        switch (args[0]) {
+            case "=":
+                result = object === args[1] ? args[2] : args[3];
+                break;
+            case "!=":
+                result = object !== args[1] ? args[2] : args[3];
+                break;
+            case ">":
+                result = object > args[1] ? args[2] : args[3];
+                break;
+            case "<":
+                result = object < args[1] ? args[2] : args[3];
+                break;
+            case "~":
+                result = object && object !== null && object !== "null" ? args[2] : args[3];
+                break;
+            case "!~":
+                result = object === undefined || object === null || object === "null" ? args[2] : args[3];
+                break;
+            case "~=":
+                result = object && String(object).toLowerCase() === String(args[1]).toLowerCase() ? args[2] : args[3];
+                break;
+            case "in":
+                result = object ? object.indexOf(args[2]) : args[3];
+                break;
+        }
+        return result;
+    }
+}
+ConditionalPipe.decorators = [
+    { type: Pipe, args: [{ name: 'if' },] },
+];
+/** @nocollapse */
+ConditionalPipe.ctorParameters = () => [];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 class InToPipe {
     /**
      * @param {?} content
@@ -324,6 +371,18 @@ class InToPipe {
             case "prepend":
                 // prepend:something
                 result = new PrependPipe().transform(content, args.length > 1 ? args[1] : "");
+                break;
+            case "if":
+                // if:=:true:fa fa-check:fa fa-bell
+                const /** @type {?} */ a1 = args.length > 1 ? args[1] : "";
+                const /** @type {?} */ a2 = args.length > 2 ? args[2] : "";
+                const /** @type {?} */ a3 = args.length > 3 ? args[3] : "";
+                const /** @type {?} */ a4 = args.length > 41 ? args[4] : "";
+                result = new ConditionalPipe().transform(content, a1, a2, a3, a4);
+                if (result.length) {
+                    result = result[0] === '"' ? result.substring(1, result.length - 1) : result;
+                    result = this._transform(content, this.split(result));
+                }
                 break;
             case "font":
                 // font:fa fa-check:left:*
@@ -473,6 +532,7 @@ IntoPipeModule.decorators = [
                     EmailPipe,
                     RatingPipe,
                     FontPipe,
+                    ConditionalPipe,
                     AddressPipe
                 ],
                 exports: [
@@ -488,6 +548,7 @@ IntoPipeModule.decorators = [
                     EmailPipe,
                     RatingPipe,
                     FontPipe,
+                    ConditionalPipe,
                     AddressPipe
                 ],
                 entryComponents: [],
@@ -510,6 +571,7 @@ IntoPipeModule.decorators = [
                     RatingPipe,
                     AddressPipe,
                     FontPipe,
+                    ConditionalPipe,
                     WrapPipe,
                     ValueOfPipe
                 ],
@@ -532,5 +594,5 @@ IntoPipeModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, IntoPipeModule, FontPipe as ɵb, ValueOfPipe as ɵa };
+export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, IntoPipeModule, ConditionalPipe as ɵc, FontPipe as ɵb, ValueOfPipe as ɵa };
 //# sourceMappingURL=into-pipes.js.map
