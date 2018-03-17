@@ -1,4 +1,6 @@
 import { PipeTransform } from '@angular/core';
 export declare class MaskPipe implements PipeTransform {
-    transform(item: string, ...args: any[]): string;
+    maskString(item: any, visibleDigits: any, maskWith: any): any;
+    maskArray(items: any, visibleDigits: any, maskWith: any): any[];
+    transform(source: any, ...args: any[]): any;
 }

@@ -1,5 +1,6 @@
 import { Pipe, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DatePipe, CurrencyPipe, DecimalPipe, JsonPipe, SlicePipe, UpperCasePipe, LowerCasePipe, CommonModule } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 /**
  * @fileoverview added by tsickle
@@ -8,15 +9,40 @@ import { DatePipe, CurrencyPipe, DecimalPipe, JsonPipe, SlicePipe, UpperCasePipe
 class MaskPipe {
     /**
      * @param {?} item
-     * @param {...?} args
+     * @param {?} visibleDigits
+     * @param {?} maskWith
      * @return {?}
      */
-    transform(item, ...args) {
-        const /** @type {?} */ visibleDigits = (args && args.length) ? args[0] : 4;
-        const /** @type {?} */ maskWith = args.length > 1 ? args[1] : '*';
+    maskString(item, visibleDigits, maskWith) {
         const /** @type {?} */ maskedSection = item ? item.slice(0, -visibleDigits) : "";
         const /** @type {?} */ visibleSection = item ? item.slice(-visibleDigits) : "";
         return item ? maskedSection.replace(/./g, maskWith) + visibleSection : "";
+    }
+    /**
+     * @param {?} items
+     * @param {?} visibleDigits
+     * @param {?} maskWith
+     * @return {?}
+     */
+    maskArray(items, visibleDigits, maskWith) {
+        const /** @type {?} */ result = [];
+        items.map((item) => {
+            result.push(this.maskString(item, visibleDigits, maskWith));
+        });
+        return result;
+    }
+    /**
+     * @param {?} source
+     * @param {...?} args
+     * @return {?}
+     */
+    transform(source, ...args) {
+        const /** @type {?} */ visibleDigits = (args && args.length) ? args[0] : 4;
+        const /** @type {?} */ maskWith = args.length > 1 ? args[1] : '*';
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.maskString(source, visibleDigits, maskWith);
+        }
+        return this.maskArray(source, visibleDigits, maskWith);
     }
 }
 MaskPipe.decorators = [
@@ -31,19 +57,44 @@ MaskPipe.ctorParameters = () => [];
  */
 class MapPipe {
     /**
-     * @param {?} item
-     * @param {...?} args
+     * @param {?} list
+     * @param {?} map
      * @return {?}
      */
-    transform(item, ...args) {
-        const /** @type {?} */ mapping = (args && args.length) ? args[0].split('/') : [];
-        let /** @type {?} */ result = item;
-        mapping.map((key) => {
-            if (key.indexOf(item) === 0) {
-                result = key.split(';')[1];
+    valuesFor(list, map) {
+        const /** @type {?} */ result = [];
+        list.map((key) => {
+            if (map[key]) {
+                result.push(map[key]);
             }
         });
         return result;
+    }
+    /**
+     * @param {?} mapping
+     * @return {?}
+     */
+    geMapping(mapping) {
+        if (mapping.trim) {
+            const /** @type {?} */ map = {};
+            mapping.split('/').map((key) => {
+                const /** @type {?} */ x = key.split(';');
+                map[x[0]] = x[1];
+            });
+            mapping = map;
+        }
+        return mapping;
+    }
+    /**
+     * @param {?} source
+     * @param {...?} args
+     * @return {?}
+     */
+    transform(source, ...args) {
+        const /** @type {?} */ map = this.geMapping((args && args.length) ? args[0] : "");
+        return ((typeof source === "string") || !(source instanceof Array)) ?
+            map[source] :
+            this.valuesFor(source, map);
     }
 }
 MapPipe.decorators = [
@@ -58,12 +109,35 @@ MapPipe.ctorParameters = () => [];
  */
 class ValueOfPipe {
     /**
+     * @param {?} source
+     * @param {?} key
+     * @return {?}
+     */
+    valueOfSingle(source, key) {
+        return source[key];
+    }
+    /**
+     * @param {?} sources
+     * @param {?} key
+     * @return {?}
+     */
+    valueOfMultiple(sources, key) {
+        const /** @type {?} */ result = [];
+        sources.map((source) => {
+            result.push(this.valueOfSingle(source, key));
+        });
+        return result;
+    }
+    /**
      * @param {?} object
      * @param {...?} args
      * @return {?}
      */
     transform(object, ...args) {
-        return object[args[0]];
+        if ((typeof object === "string") || !(object instanceof Array)) {
+            return this.valueOfSingle(object, args[0]);
+        }
+        return this.valueOfMultiple(object, args[0]);
     }
 }
 ValueOfPipe.decorators = [
@@ -79,13 +153,44 @@ ValueOfPipe.ctorParameters = () => [];
 class LinkPipe {
     /**
      * @param {?} source
+     * @param {?} target
+     * @param {?} title
+     * @return {?}
+     */
+    stringToLink(source, target, title) {
+        if (!title || !title.length) {
+            const /** @type {?} */ q = source.indexOf("?");
+            const /** @type {?} */ t = q < 0 ? source : source.substring(0, q);
+            const /** @type {?} */ d = t.lastIndexOf("/");
+            title = d < 0 ? t : t.substring(d + 1);
+        }
+        return "<a href='" + source + "' target='" + target + "'>" + title + "</a>";
+    }
+    /**
+     * @param {?} sources
+     * @param {?} target
+     * @param {?} title
+     * @return {?}
+     */
+    arrayToImagLink(sources, target, title) {
+        const /** @type {?} */ result = [];
+        sources.map((source) => {
+            result.push(this.stringToLink(source, target, ""));
+        });
+        return result;
+    }
+    /**
+     * @param {?} source
      * @param {...?} args
      * @return {?}
      */
     transform(source, ...args) {
         const /** @type {?} */ target = (args && args.length) ? args[0] : "";
         const /** @type {?} */ title = (args && args.length > 1) ? args[1] : "";
-        return "<a href='" + source + "' target='" + target + "'>" + title + "</a>";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.stringToLink(source, target, title);
+        }
+        return this.arrayToImagLink(source, target, title);
     }
 }
 LinkPipe.decorators = [
@@ -101,6 +206,36 @@ LinkPipe.ctorParameters = () => [];
 class ImagePipe {
     /**
      * @param {?} source
+     * @param {?} width
+     * @param {?} height
+     * @param {?} alt
+     * @return {?}
+     */
+    stringToImage(source, width, height, alt) {
+        if (!alt || !alt.length) {
+            const /** @type {?} */ q = source.indexOf("?");
+            const /** @type {?} */ t = q < 0 ? source : source.substring(0, q);
+            const /** @type {?} */ d = t.lastIndexOf("/");
+            alt = d < 0 ? t : t.substring(d + 1);
+        }
+        return "<img src=\'" + source + "\' style=\'" + width + height + "\' title=\'" + alt + "\' />";
+    }
+    /**
+     * @param {?} sources
+     * @param {?} width
+     * @param {?} height
+     * @param {?} alt
+     * @return {?}
+     */
+    arrayToImage(sources, width, height, alt) {
+        const /** @type {?} */ result = [];
+        sources.map((source) => {
+            result.push(this.stringToImage(source, width, height, alt));
+        });
+        return result;
+    }
+    /**
+     * @param {?} source
      * @param {...?} args
      * @return {?}
      */
@@ -108,7 +243,10 @@ class ImagePipe {
         const /** @type {?} */ width = (args && args.length) ? "width: " + args[0] + ";" : "";
         const /** @type {?} */ height = (args && args.length > 1) ? "height: " + args[1] + ";" : "";
         const /** @type {?} */ alt = (args && args.length > 2) ? args[2] : "";
-        return "<img src=\'" + source + "\' style=\'" + width + height + "\' title=\'" + alt + "\' />";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.stringToImage(source, width, height, alt);
+        }
+        return this.arrayToImage(source, width, height, "");
     }
 }
 ImagePipe.decorators = [
@@ -128,7 +266,17 @@ class PrependPipe {
      * @return {?}
      */
     transform(source, ...args) {
-        return ((args && args.length) ? args[0] : "") + source;
+        const /** @type {?} */ key = ((args && args.length) ? args[0] : "");
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return key + source;
+        }
+        else {
+            const /** @type {?} */ result = [];
+            source.map((item) => {
+                result.push(key + item);
+            });
+            return result;
+        }
     }
 }
 PrependPipe.decorators = [
@@ -148,7 +296,17 @@ class AppendPipe {
      * @return {?}
      */
     transform(source, ...args) {
-        return source + ((args && args.length) ? args[0] : "");
+        const /** @type {?} */ key = ((args && args.length) ? args[0] : "");
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return source + key;
+        }
+        else {
+            const /** @type {?} */ result = [];
+            source.map((item) => {
+                result.push(item + key);
+            });
+            return result;
+        }
     }
 }
 AppendPipe.decorators = [
@@ -171,7 +329,17 @@ class WrapPipe {
         const /** @type {?} */ pre = (args && args.length) ? args[0] : "";
         const /** @type {?} */ post = pre.length ?
             (args.length > 1 ? args[1] : "") : pre;
-        return pre + source + post;
+        const /** @type {?} */ key = ((args && args.length) ? args[0] : "");
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return pre + source + post;
+        }
+        else {
+            const /** @type {?} */ result = [];
+            source.map((item) => {
+                result.push(pre + item + post);
+            });
+            return result;
+        }
     }
 }
 WrapPipe.decorators = [
@@ -187,11 +355,27 @@ WrapPipe.ctorParameters = () => [];
 class EmailPipe {
     /**
      * @param {?} source
+     * @return {?}
+     */
+    emailFromString(source) {
+        return "<a href=\'mailto:" + source + "\' ><span class='fa fa-envelope' aria-hidden='true'></span><span>" + source + "</span></a>";
+    }
+    /**
+     * @param {?} source
      * @param {...?} args
      * @return {?}
      */
     transform(source, ...args) {
-        return "<a href=\'mailto:" + source + "\' ><span class='fa fa-envelope' aria-hidden='true'></span><span>" + source + "</span></a>";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.emailFromString(source);
+        }
+        else {
+            const /** @type {?} */ result = [];
+            source.map((item) => {
+                result.push(this.emailFromString(item));
+            });
+            return result;
+        }
     }
 }
 EmailPipe.decorators = [
@@ -207,10 +391,9 @@ EmailPipe.ctorParameters = () => [];
 class RatingPipe {
     /**
      * @param {?} source
-     * @param {...?} args
      * @return {?}
      */
-    transform(source, ...args) {
+    rateString(source) {
         const /** @type {?} */ value = parseInt(source, 10);
         const /** @type {?} */ float = parseFloat(source);
         let /** @type {?} */ x = "<span class='rating'>";
@@ -222,6 +405,23 @@ class RatingPipe {
         }
         x += "</span><span class='rate-value'>" + source + "</span>";
         return x;
+    }
+    /**
+     * @param {?} source
+     * @param {...?} args
+     * @return {?}
+     */
+    transform(source, ...args) {
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.rateString(source);
+        }
+        else {
+            const /** @type {?} */ result = [];
+            source.map((item) => {
+                result.push(this.rateString(item));
+            });
+            return result;
+        }
     }
 }
 RatingPipe.decorators = [
@@ -237,16 +437,32 @@ RatingPipe.ctorParameters = () => [];
 class AddressPipe {
     /**
      * @param {?} source
-     * @param {...?} args
      * @return {?}
      */
-    transform(source, ...args) {
+    addressFromString(source) {
         let /** @type {?} */ url = "https://maps.google.com/?q=" +
             source.street + ", " + source.city + ", " + source.zipcode + "&ie=UTF-8";
         url = url.replace("\\s+", "+");
         return "<span class='address'><span>" + source.street + ", " + source.suite + "</span>" +
             "<span> " + source.city + ", " + source.zipcode + "</span>" +
             "</span> <a href=\'" + url + "\' class='google-map'><span class='fa fa-map-marker' aria-hidden='true'></span><span class='off-screen'>View in google map</a>";
+    }
+    /**
+     * @param {?} source
+     * @param {...?} args
+     * @return {?}
+     */
+    transform(source, ...args) {
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.addressFromString(source);
+        }
+        else {
+            const /** @type {?} */ result = [];
+            source.map((item) => {
+                result.push(this.addressFromString(item));
+            });
+            return result;
+        }
     }
 }
 AddressPipe.decorators = [
@@ -259,7 +475,48 @@ AddressPipe.ctorParameters = () => [];
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+class JoinPipe {
+    /**
+     * @param {?} source
+     * @param {...?} args
+     * @return {?}
+     */
+    transform(source, ...args) {
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return source.join(args[0]);
+        }
+        else {
+            const /** @type {?} */ result = [];
+            Object.keys(source).map((key) => {
+                result.push(source[key]);
+            });
+            return result.join(args[0]);
+        }
+    }
+}
+JoinPipe.decorators = [
+    { type: Pipe, args: [{ name: 'join' },] },
+];
+/** @nocollapse */
+JoinPipe.ctorParameters = () => [];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 class FontPipe {
+    /**
+     * @param {?} font
+     * @param {?} location
+     * @param {?} action
+     * @param {?} content
+     * @return {?}
+     */
+    fontFromString(font, location, action, content) {
+        return (location === "left" ?
+            (font + content) :
+            ((location === "right") ? content + font : font));
+    }
     /**
      * @param {?} source
      * @param {...?} args
@@ -270,9 +527,16 @@ class FontPipe {
         const /** @type {?} */ location = args.length > 1 ? args[1] : "";
         const /** @type {?} */ action = args.length > 2 ? args[2].toLowerCase() : "";
         const /** @type {?} */ content = action === "*" ? source : ("replace" === action.toLowerCase() ? "" : source);
-        return (location === "left" ?
-            (font + content) :
-            ((location === "right") ? content + font : font));
+        if ((typeof content === "string") || !(content instanceof Array)) {
+            return this.fontFromString(font, location, action, content);
+        }
+        else {
+            const /** @type {?} */ result = [];
+            source.map((item) => {
+                result.push(this.fontFromString(font, location, action, item));
+            });
+            return result;
+        }
     }
 }
 FontPipe.decorators = [
@@ -287,39 +551,69 @@ FontPipe.ctorParameters = () => [];
  */
 class ConditionalPipe {
     /**
-     * @param {?} object
-     * @param {...?} args
+     * @param {?} content
+     * @param {?} acondition
+     * @param {?} value
+     * @param {?} action
+     * @param {?} altAction
      * @return {?}
      */
-    transform(object, ...args) {
+    conditionFromString(content, acondition, value, action, altAction) {
         let /** @type {?} */ result = "";
-        switch (args[0]) {
+        switch (acondition) {
             case "=":
-                result = object === args[1] ? args[2] : args[3];
+                result = content === value ? action : altAction;
                 break;
             case "!=":
-                result = object !== args[1] ? args[2] : args[3];
+                result = content !== value ? action : altAction;
                 break;
             case ">":
-                result = object > args[1] ? args[2] : args[3];
+                result = content > value ? action : altAction;
+                break;
+            case ">=":
+                result = content >= value ? action : altAction;
                 break;
             case "<":
-                result = object < args[1] ? args[2] : args[3];
+                result = content < value ? action : altAction;
+                break;
+            case "<=":
+                result = content <= value ? action : altAction;
                 break;
             case "~":
-                result = object && object !== null && object !== "null" ? args[2] : args[3];
+                result = content !== undefined && content !== null && content !== "null" ? action : altAction;
                 break;
             case "!~":
-                result = object === undefined || object === null || object === "null" ? args[2] : args[3];
+                result = content === undefined || content === null || content === "null" ? action : altAction;
                 break;
             case "~=":
-                result = object && String(object).toLowerCase() === String(args[1]).toLowerCase() ? args[2] : args[3];
+                result = content && value && String(content).toLowerCase() === String(value).toLowerCase() ? action : altAction;
                 break;
             case "in":
-                result = object ? object.indexOf(args[2]) : args[3];
+                result = content ? content.indexOf(action) : altAction;
                 break;
         }
         return result;
+    }
+    /**
+     * @param {?} source
+     * @param {...?} args
+     * @return {?}
+     */
+    transform(source, ...args) {
+        const /** @type {?} */ acondition = args.length ? args[0] : "";
+        const /** @type {?} */ value = args.length > 1 ? args[1] : "";
+        const /** @type {?} */ action = args.length > 2 ? args[2] : "";
+        const /** @type {?} */ altAction = args.length > 3 ? args[3] : "";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.conditionFromString(source, acondition, value, action, altAction);
+        }
+        else {
+            const /** @type {?} */ result = {};
+            source.map((item) => {
+                result[item] = this.conditionFromString(item, acondition, value, action, altAction);
+            });
+            return result;
+        }
     }
 }
 ConditionalPipe.decorators = [
@@ -360,26 +654,51 @@ class InToPipe {
     _transform(content, args) {
         let /** @type {?} */ result = content;
         switch (args[0]) {
-            case "currency":
-                // currency:en_US or currency
-                result = new CurrencyPipe(args.length > 1 ? args[1] : "en_US").transform(content);
+            case "slice":
+                // slice 5:12 OR slice 5
+                let /** @type {?} */ start = parseInt(args[1], 10);
+                let /** @type {?} */ end = undefined;
+                if (args.length > 2) {
+                    end = parseInt(args[2], 10);
+                }
+                const /** @type {?} */ slicer = new SlicePipe();
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = end ? slicer.transform(content, start, end) : slicer.transform(content, start);
+                }
+                else {
+                    result = [];
+                    content.map((cnt) => {
+                        result.push(end ? slicer.transform(cnt, start, end) : slicer.transform(cnt, start));
+                    });
+                }
                 break;
-            case "append":
-                // append:something
-                result = new AppendPipe().transform(content, args.length > 1 ? args[1] : "");
-                break;
-            case "prepend":
-                // prepend:something
-                result = new PrependPipe().transform(content, args.length > 1 ? args[1] : "");
+            case "number":
+                // number:en_US:2   or number:en_US or number
+                let /** @type {?} */ numLocal = "en_US";
+                let /** @type {?} */ numDecimal = undefined;
+                if (args.length > 2) {
+                    numLocal = args[1];
+                    numDecimal = args[2];
+                }
+                const /** @type {?} */ decimaler = new DecimalPipe(numLocal);
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = numDecimal ? decimaler.transform(content, numDecimal) : decimaler.transform(content);
+                }
+                else {
+                    result = [];
+                    content.map((cnt) => {
+                        result.push(numDecimal ? decimaler.transform(cnt, numDecimal) : decimaler.transform(cnt));
+                    });
+                }
                 break;
             case "if":
                 // if:=:true:fa fa-check:fa fa-bell
-                const /** @type {?} */ a1 = args.length > 1 ? args[1] : "";
-                const /** @type {?} */ a2 = args.length > 2 ? args[2] : "";
-                const /** @type {?} */ a3 = args.length > 3 ? args[3] : "";
-                const /** @type {?} */ a4 = args.length > 41 ? args[4] : "";
-                result = new ConditionalPipe().transform(content, a1, a2, a3, a4);
-                if (result.length) {
+                const /** @type {?} */ acondition = args.length > 1 ? args[1] : "";
+                const /** @type {?} */ value = args.length > 2 ? args[2] : "";
+                const /** @type {?} */ action = args.length > 3 ? args[3] : "";
+                const /** @type {?} */ altAction = args.length > 4 ? args[4] : "";
+                result = new ConditionalPipe().transform(content, acondition, value, action, altAction);
+                if (typeof result === "string") {
                     result = result[0] === '"' ? result.substring(1, result.length - 1) : result;
                     result = this._transform(content, this.split(result));
                 }
@@ -388,9 +707,30 @@ class InToPipe {
                 // font:fa fa-check:left:*
                 result = new FontPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
                 break;
+            case "currency":
+                // currency:en_US or currency
+                const /** @type {?} */ cp = new CurrencyPipe(args.length > 1 ? args[1] : "en_US");
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = cp.transform(content);
+                }
+                else {
+                    result = [];
+                    content.map((cnt) => {
+                        result.push(cp.transform(cnt));
+                    });
+                }
+                break;
             case "wrap":
                 // wrap:something:something  OR wrap:something
                 result = new WrapPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : args[1]);
+                break;
+            case "append":
+                // append:something
+                result = new AppendPipe().transform(content, args.length > 1 ? args[1] : "");
+                break;
+            case "prepend":
+                // prepend:something
+                result = new PrependPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "email":
                 // email
@@ -404,44 +744,72 @@ class InToPipe {
                 // rating
                 result = new RatingPipe().transform(content, "");
                 break;
-            case "number":
-                // number:en_US:2   or number:en_US or number
-                if (args.length > 2) {
-                    result = new DecimalPipe(args[1]).transform(content, args[2]);
-                }
-                else {
-                    result = new DecimalPipe(args.length > 1 ? args[1] : "en_US").transform(content);
-                }
+            case "map":
+                // map:key1;value1/key2;value2/key3;value3
+                result = new MapPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "date":
                 // date:en_US:MMddyy OR date:\"MM/dd/yyyy hh:ss\"
+                
+                let /** @type {?} */ dateLocal = "en_US";
+                let /** @type {?} */ dateFormat = args[1];
                 if (args.length > 2) {
-                    result = new DatePipe(args[1]).transform(content, args[2]);
+                    dateLocal = args[1];
+                    dateFormat = args[2];
+                }
+                const /** @type {?} */ dater = new DatePipe(dateLocal);
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = dater.transform(content);
                 }
                 else {
-                    result = new DatePipe("en_US").transform(content, args[1]);
+                    result = [];
+                    content.map((cnt) => {
+                        result.push(dater.transform(cnt));
+                    });
                 }
                 break;
             case "json":
                 // json
-                result = new JsonPipe().transform(content);
-                break;
-            case "slice":
-                // slice 5:12 OR slice 5
-                if (args.length > 2) {
-                    result = new SlicePipe().transform(content, parseInt(args[1], 10), parseInt(args[2], 10));
+                const /** @type {?} */ jcp = new JsonPipe();
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = jcp.transform(content);
                 }
                 else {
-                    result = new SlicePipe().transform(content, parseInt(args[1], 10));
+                    result = [];
+                    content.map((cnt) => {
+                        result.push(jcp.transform(cnt));
+                    });
                 }
+                break;
+            case "join":
+                // json
+                result = new JoinPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "uppercase":
                 // uppercase
-                result = new UpperCasePipe().transform(content);
+                const /** @type {?} */ ucp = new UpperCasePipe();
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = ucp.transform(content);
+                }
+                else {
+                    result = [];
+                    content.map((cnt) => {
+                        result.push(ucp.transform(cnt));
+                    });
+                }
                 break;
             case "lowercase":
                 // lowercase
-                result = new LowerCasePipe().transform(content);
+                const /** @type {?} */ lcp = new LowerCasePipe();
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = lcp.transform(content);
+                }
+                else {
+                    result = [];
+                    content.map((cnt) => {
+                        result.push(lcp.transform(cnt));
+                    });
+                }
                 break;
             case "mask":
                 // mask:4:*  OR mask:4
@@ -454,10 +822,6 @@ class InToPipe {
                 else {
                     result = new MaskPipe().transform(content);
                 }
-                break;
-            case "map":
-                // map:key1;value1/key2;value2/key3;value3
-                result = new MapPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "valueof":
                 // valueof:key
@@ -472,11 +836,7 @@ class InToPipe {
                     result = new LinkPipe().transform(content, "", args[1]);
                 }
                 else {
-                    const /** @type {?} */ q = content.indexOf("?");
-                    const /** @type {?} */ t = q < 0 ? content : content.substring(0, q);
-                    const /** @type {?} */ d = t.lastIndexOf("/");
-                    const /** @type {?} */ p = d < 0 ? t : t.substring(d + 1);
-                    result = new LinkPipe().transform(content, "", p);
+                    result = new LinkPipe().transform(content, "", "");
                 }
                 break;
             case "image":
@@ -491,11 +851,7 @@ class InToPipe {
                     result = new ImagePipe().transform(content, args[1]);
                 }
                 else {
-                    const /** @type {?} */ q = content.indexOf("?");
-                    const /** @type {?} */ t = q < 0 ? content : content.substring(0, q);
-                    const /** @type {?} */ d = t.lastIndexOf("/");
-                    const /** @type {?} */ p = d < 0 ? t : t.substring(d + 1);
-                    result = new ImagePipe().transform(content, p);
+                    result = new ImagePipe().transform(content, "");
                 }
                 break;
         }
@@ -512,6 +868,35 @@ InToPipe.ctorParameters = () => [];
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+class SanitizeHtmlPipe {
+    /**
+     * @param {?} _sanitizer
+     */
+    constructor(_sanitizer) {
+        this._sanitizer = _sanitizer;
+    }
+    /**
+     * @param {?} v
+     * @return {?}
+     */
+    transform(v) {
+        return this._sanitizer.bypassSecurityTrustHtml(v);
+    }
+}
+SanitizeHtmlPipe.decorators = [
+    { type: Pipe, args: [{
+                name: 'sanitizeHtml'
+            },] },
+];
+/** @nocollapse */
+SanitizeHtmlPipe.ctorParameters = () => [
+    { type: DomSanitizer, },
+];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 class IntoPipeModule {
 }
 IntoPipeModule.decorators = [
@@ -520,6 +905,7 @@ IntoPipeModule.decorators = [
                     CommonModule
                 ],
                 declarations: [
+                    JoinPipe,
                     InToPipe,
                     ImagePipe,
                     LinkPipe,
@@ -533,9 +919,11 @@ IntoPipeModule.decorators = [
                     RatingPipe,
                     FontPipe,
                     ConditionalPipe,
-                    AddressPipe
+                    AddressPipe,
+                    SanitizeHtmlPipe
                 ],
                 exports: [
+                    JoinPipe,
                     InToPipe,
                     ImagePipe,
                     LinkPipe,
@@ -549,10 +937,12 @@ IntoPipeModule.decorators = [
                     RatingPipe,
                     FontPipe,
                     ConditionalPipe,
-                    AddressPipe
+                    AddressPipe,
+                    SanitizeHtmlPipe
                 ],
                 entryComponents: [],
                 providers: [
+                    JoinPipe,
                     InToPipe,
                     DatePipe,
                     CurrencyPipe,
@@ -573,7 +963,8 @@ IntoPipeModule.decorators = [
                     FontPipe,
                     ConditionalPipe,
                     WrapPipe,
-                    ValueOfPipe
+                    ValueOfPipe,
+                    SanitizeHtmlPipe
                 ],
                 schemas: [CUSTOM_ELEMENTS_SCHEMA]
             },] },
@@ -594,5 +985,5 @@ IntoPipeModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, IntoPipeModule, ConditionalPipe as ɵc, FontPipe as ɵb, ValueOfPipe as ɵa };
+export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, IntoPipeModule, ConditionalPipe as ɵd, FontPipe as ɵc, JoinPipe as ɵa, SanitizeHtmlPipe as ɵe, ValueOfPipe as ɵb };
 //# sourceMappingURL=into-pipes.js.map

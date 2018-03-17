@@ -9,5 +9,7 @@ export {WrapPipe} from './wrap.pipe';
 export {EmailPipe} from './email.pipe';
 export {RatingPipe} from './rating.pipe';
 export {AddressPipe} from './address.pipe';
+export {JoinPipe} from './join.pipe';
+export {SanitizeHtmlPipe} from './sanitizeHtml.pipe';
 export {ConditionalPipe} from './conditional.pipe';
 export { IntoPipeModule } from './pipe.module';

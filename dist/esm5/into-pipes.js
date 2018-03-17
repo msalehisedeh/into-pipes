@@ -1,19 +1,34 @@
 import { Pipe, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DatePipe, CurrencyPipe, DecimalPipe, JsonPipe, SlicePipe, UpperCasePipe, LowerCasePipe, CommonModule } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 var MaskPipe = /** @class */ (function () {
     function MaskPipe() {
     }
-    MaskPipe.prototype.transform = function (item) {
+    MaskPipe.prototype.maskString = function (item, visibleDigits, maskWith) {
+        var maskedSection = item ? item.slice(0, -visibleDigits) : "";
+        var visibleSection = item ? item.slice(-visibleDigits) : "";
+        return item ? maskedSection.replace(/./g, maskWith) + visibleSection : "";
+    };
+    MaskPipe.prototype.maskArray = function (items, visibleDigits, maskWith) {
+        var _this = this;
+        var result = [];
+        items.map(function (item) {
+            result.push(_this.maskString(item, visibleDigits, maskWith));
+        });
+        return result;
+    };
+    MaskPipe.prototype.transform = function (source) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
         var visibleDigits = (args && args.length) ? args[0] : 4;
         var maskWith = args.length > 1 ? args[1] : '*';
-        var maskedSection = item ? item.slice(0, -visibleDigits) : "";
-        var visibleSection = item ? item.slice(-visibleDigits) : "";
-        return item ? maskedSection.replace(/./g, maskWith) + visibleSection : "";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.maskString(source, visibleDigits, maskWith);
+        }
+        return this.maskArray(source, visibleDigits, maskWith);
     };
     return MaskPipe;
 }());
@@ -24,19 +39,35 @@ MaskPipe.ctorParameters = function () { return []; };
 var MapPipe = /** @class */ (function () {
     function MapPipe() {
     }
-    MapPipe.prototype.transform = function (item) {
+    MapPipe.prototype.valuesFor = function (list, map) {
+        var result = [];
+        list.map(function (key) {
+            if (map[key]) {
+                result.push(map[key]);
+            }
+        });
+        return result;
+    };
+    MapPipe.prototype.geMapping = function (mapping) {
+        if (mapping.trim) {
+            var map_1 = {};
+            mapping.split('/').map(function (key) {
+                var x = key.split(';');
+                map_1[x[0]] = x[1];
+            });
+            mapping = map_1;
+        }
+        return mapping;
+    };
+    MapPipe.prototype.transform = function (source) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        var mapping = (args && args.length) ? args[0].split('/') : [];
-        var result = item;
-        mapping.map(function (key) {
-            if (key.indexOf(item) === 0) {
-                result = key.split(';')[1];
-            }
-        });
-        return result;
+        var map = this.geMapping((args && args.length) ? args[0] : "");
+        return ((typeof source === "string") || !(source instanceof Array)) ?
+            map[source] :
+            this.valuesFor(source, map);
     };
     return MapPipe;
 }());
@@ -47,12 +78,26 @@ MapPipe.ctorParameters = function () { return []; };
 var ValueOfPipe = /** @class */ (function () {
     function ValueOfPipe() {
     }
+    ValueOfPipe.prototype.valueOfSingle = function (source, key) {
+        return source[key];
+    };
+    ValueOfPipe.prototype.valueOfMultiple = function (sources, key) {
+        var _this = this;
+        var result = [];
+        sources.map(function (source) {
+            result.push(_this.valueOfSingle(source, key));
+        });
+        return result;
+    };
     ValueOfPipe.prototype.transform = function (object) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        return object[args[0]];
+        if ((typeof object === "string") || !(object instanceof Array)) {
+            return this.valueOfSingle(object, args[0]);
+        }
+        return this.valueOfMultiple(object, args[0]);
     };
     return ValueOfPipe;
 }());
@@ -63,6 +108,23 @@ ValueOfPipe.ctorParameters = function () { return []; };
 var LinkPipe = /** @class */ (function () {
     function LinkPipe() {
     }
+    LinkPipe.prototype.stringToLink = function (source, target, title) {
+        if (!title || !title.length) {
+            var q = source.indexOf("?");
+            var t = q < 0 ? source : source.substring(0, q);
+            var d = t.lastIndexOf("/");
+            title = d < 0 ? t : t.substring(d + 1);
+        }
+        return "<a href='" + source + "' target='" + target + "'>" + title + "</a>";
+    };
+    LinkPipe.prototype.arrayToImagLink = function (sources, target, title) {
+        var _this = this;
+        var result = [];
+        sources.map(function (source) {
+            result.push(_this.stringToLink(source, target, ""));
+        });
+        return result;
+    };
     LinkPipe.prototype.transform = function (source) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -70,7 +132,10 @@ var LinkPipe = /** @class */ (function () {
         }
         var target = (args && args.length) ? args[0] : "";
         var title = (args && args.length > 1) ? args[1] : "";
-        return "<a href='" + source + "' target='" + target + "'>" + title + "</a>";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.stringToLink(source, target, title);
+        }
+        return this.arrayToImagLink(source, target, title);
     };
     return LinkPipe;
 }());
@@ -81,6 +146,23 @@ LinkPipe.ctorParameters = function () { return []; };
 var ImagePipe = /** @class */ (function () {
     function ImagePipe() {
     }
+    ImagePipe.prototype.stringToImage = function (source, width, height, alt) {
+        if (!alt || !alt.length) {
+            var q = source.indexOf("?");
+            var t = q < 0 ? source : source.substring(0, q);
+            var d = t.lastIndexOf("/");
+            alt = d < 0 ? t : t.substring(d + 1);
+        }
+        return "<img src=\'" + source + "\' style=\'" + width + height + "\' title=\'" + alt + "\' />";
+    };
+    ImagePipe.prototype.arrayToImage = function (sources, width, height, alt) {
+        var _this = this;
+        var result = [];
+        sources.map(function (source) {
+            result.push(_this.stringToImage(source, width, height, alt));
+        });
+        return result;
+    };
     ImagePipe.prototype.transform = function (source) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -89,7 +171,10 @@ var ImagePipe = /** @class */ (function () {
         var width = (args && args.length) ? "width: " + args[0] + ";" : "";
         var height = (args && args.length > 1) ? "height: " + args[1] + ";" : "";
         var alt = (args && args.length > 2) ? args[2] : "";
-        return "<img src=\'" + source + "\' style=\'" + width + height + "\' title=\'" + alt + "\' />";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.stringToImage(source, width, height, alt);
+        }
+        return this.arrayToImage(source, width, height, "");
     };
     return ImagePipe;
 }());
@@ -105,7 +190,17 @@ var PrependPipe = /** @class */ (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        return ((args && args.length) ? args[0] : "") + source;
+        var key = ((args && args.length) ? args[0] : "");
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return key + source;
+        }
+        else {
+            var result_1 = [];
+            source.map(function (item) {
+                result_1.push(key + item);
+            });
+            return result_1;
+        }
     };
     return PrependPipe;
 }());
@@ -121,7 +216,17 @@ var AppendPipe = /** @class */ (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        return source + ((args && args.length) ? args[0] : "");
+        var key = ((args && args.length) ? args[0] : "");
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return source + key;
+        }
+        else {
+            var result_2 = [];
+            source.map(function (item) {
+                result_2.push(item + key);
+            });
+            return result_2;
+        }
     };
     return AppendPipe;
 }());
@@ -140,7 +245,16 @@ var WrapPipe = /** @class */ (function () {
         var pre = (args && args.length) ? args[0] : "";
         var post = pre.length ?
             (args.length > 1 ? args[1] : "") : pre;
-        return pre + source + post;
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return pre + source + post;
+        }
+        else {
+            var result_3 = [];
+            source.map(function (item) {
+                result_3.push(pre + item + post);
+            });
+            return result_3;
+        }
     };
     return WrapPipe;
 }());
@@ -151,12 +265,25 @@ WrapPipe.ctorParameters = function () { return []; };
 var EmailPipe = /** @class */ (function () {
     function EmailPipe() {
     }
+    EmailPipe.prototype.emailFromString = function (source) {
+        return "<a href=\'mailto:" + source + "\' ><span class='fa fa-envelope' aria-hidden='true'></span><span>" + source + "</span></a>";
+    };
     EmailPipe.prototype.transform = function (source) {
+        var _this = this;
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        return "<a href=\'mailto:" + source + "\' ><span class='fa fa-envelope' aria-hidden='true'></span><span>" + source + "</span></a>";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.emailFromString(source);
+        }
+        else {
+            var result_4 = [];
+            source.map(function (item) {
+                result_4.push(_this.emailFromString(item));
+            });
+            return result_4;
+        }
     };
     return EmailPipe;
 }());
@@ -167,11 +294,7 @@ EmailPipe.ctorParameters = function () { return []; };
 var RatingPipe = /** @class */ (function () {
     function RatingPipe() {
     }
-    RatingPipe.prototype.transform = function (source) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
+    RatingPipe.prototype.rateString = function (source) {
         var value = parseInt(source, 10);
         var float = parseFloat(source);
         var x = "<span class='rating'>";
@@ -184,6 +307,23 @@ var RatingPipe = /** @class */ (function () {
         x += "</span><span class='rate-value'>" + source + "</span>";
         return x;
     };
+    RatingPipe.prototype.transform = function (source) {
+        var _this = this;
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.rateString(source);
+        }
+        else {
+            var result_5 = [];
+            source.map(function (item) {
+                result_5.push(_this.rateString(item));
+            });
+            return result_5;
+        }
+    };
     return RatingPipe;
 }());
 RatingPipe.decorators = [
@@ -193,11 +333,7 @@ RatingPipe.ctorParameters = function () { return []; };
 var AddressPipe = /** @class */ (function () {
     function AddressPipe() {
     }
-    AddressPipe.prototype.transform = function (source) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
+    AddressPipe.prototype.addressFromString = function (source) {
         var url = "https://maps.google.com/?q=" +
             source.street + ", " + source.city + ", " + source.zipcode + "&ie=UTF-8";
         url = url.replace("\\s+", "+");
@@ -205,16 +341,64 @@ var AddressPipe = /** @class */ (function () {
             "<span> " + source.city + ", " + source.zipcode + "</span>" +
             "</span> <a href=\'" + url + "\' class='google-map'><span class='fa fa-map-marker' aria-hidden='true'></span><span class='off-screen'>View in google map</a>";
     };
+    AddressPipe.prototype.transform = function (source) {
+        var _this = this;
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.addressFromString(source);
+        }
+        else {
+            var result_6 = [];
+            source.map(function (item) {
+                result_6.push(_this.addressFromString(item));
+            });
+            return result_6;
+        }
+    };
     return AddressPipe;
 }());
 AddressPipe.decorators = [
     { type: Pipe, args: [{ name: 'address' },] },
 ];
 AddressPipe.ctorParameters = function () { return []; };
+var JoinPipe = /** @class */ (function () {
+    function JoinPipe() {
+    }
+    JoinPipe.prototype.transform = function (source) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return source.join(args[0]);
+        }
+        else {
+            var result_7 = [];
+            Object.keys(source).map(function (key) {
+                result_7.push(source[key]);
+            });
+            return result_7.join(args[0]);
+        }
+    };
+    return JoinPipe;
+}());
+JoinPipe.decorators = [
+    { type: Pipe, args: [{ name: 'join' },] },
+];
+JoinPipe.ctorParameters = function () { return []; };
 var FontPipe = /** @class */ (function () {
     function FontPipe() {
     }
+    FontPipe.prototype.fontFromString = function (font, location, action, content) {
+        return (location === "left" ?
+            (font + content) :
+            ((location === "right") ? content + font : font));
+    };
     FontPipe.prototype.transform = function (source) {
+        var _this = this;
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
@@ -223,9 +407,16 @@ var FontPipe = /** @class */ (function () {
         var location = args.length > 1 ? args[1] : "";
         var action = args.length > 2 ? args[2].toLowerCase() : "";
         var content = action === "*" ? source : ("replace" === action.toLowerCase() ? "" : source);
-        return (location === "left" ?
-            (font + content) :
-            ((location === "right") ? content + font : font));
+        if ((typeof content === "string") || !(content instanceof Array)) {
+            return this.fontFromString(font, location, action, content);
+        }
+        else {
+            var result_8 = [];
+            source.map(function (item) {
+                result_8.push(_this.fontFromString(font, location, action, item));
+            });
+            return result_8;
+        }
     };
     return FontPipe;
 }());
@@ -236,39 +427,62 @@ FontPipe.ctorParameters = function () { return []; };
 var ConditionalPipe = /** @class */ (function () {
     function ConditionalPipe() {
     }
-    ConditionalPipe.prototype.transform = function (object) {
+    ConditionalPipe.prototype.conditionFromString = function (content, acondition, value, action, altAction) {
+        var result = "";
+        switch (acondition) {
+            case "=":
+                result = content === value ? action : altAction;
+                break;
+            case "!=":
+                result = content !== value ? action : altAction;
+                break;
+            case ">":
+                result = content > value ? action : altAction;
+                break;
+            case ">=":
+                result = content >= value ? action : altAction;
+                break;
+            case "<":
+                result = content < value ? action : altAction;
+                break;
+            case "<=":
+                result = content <= value ? action : altAction;
+                break;
+            case "~":
+                result = content !== undefined && content !== null && content !== "null" ? action : altAction;
+                break;
+            case "!~":
+                result = content === undefined || content === null || content === "null" ? action : altAction;
+                break;
+            case "~=":
+                result = content && value && String(content).toLowerCase() === String(value).toLowerCase() ? action : altAction;
+                break;
+            case "in":
+                result = content ? content.indexOf(action) : altAction;
+                break;
+        }
+        return result;
+    };
+    ConditionalPipe.prototype.transform = function (source) {
+        var _this = this;
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        var result = "";
-        switch (args[0]) {
-            case "=":
-                result = object === args[1] ? args[2] : args[3];
-                break;
-            case "!=":
-                result = object !== args[1] ? args[2] : args[3];
-                break;
-            case ">":
-                result = object > args[1] ? args[2] : args[3];
-                break;
-            case "<":
-                result = object < args[1] ? args[2] : args[3];
-                break;
-            case "~":
-                result = object && object !== null && object !== "null" ? args[2] : args[3];
-                break;
-            case "!~":
-                result = object === undefined || object === null || object === "null" ? args[2] : args[3];
-                break;
-            case "~=":
-                result = object && String(object).toLowerCase() === String(args[1]).toLowerCase() ? args[2] : args[3];
-                break;
-            case "in":
-                result = object ? object.indexOf(args[2]) : args[3];
-                break;
+        var acondition = args.length ? args[0] : "";
+        var value = args.length > 1 ? args[1] : "";
+        var action = args.length > 2 ? args[2] : "";
+        var altAction = args.length > 3 ? args[3] : "";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.conditionFromString(source, acondition, value, action, altAction);
         }
-        return result;
+        else {
+            var result_9 = {};
+            source.map(function (item) {
+                result_9[item] = _this.conditionFromString(item, acondition, value, action, altAction);
+            });
+            return result_9;
+        }
     };
     return ConditionalPipe;
 }());
@@ -293,22 +507,48 @@ var InToPipe = /** @class */ (function () {
     InToPipe.prototype._transform = function (content, args) {
         var result = content;
         switch (args[0]) {
-            case "currency":
-                result = new CurrencyPipe(args.length > 1 ? args[1] : "en_US").transform(content);
+            case "slice":
+                var start_1 = parseInt(args[1], 10);
+                var end_1 = undefined;
+                if (args.length > 2) {
+                    end_1 = parseInt(args[2], 10);
+                }
+                var slicer_1 = new SlicePipe();
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = end_1 ? slicer_1.transform(content, start_1, end_1) : slicer_1.transform(content, start_1);
+                }
+                else {
+                    result = [];
+                    content.map(function (cnt) {
+                        result.push(end_1 ? slicer_1.transform(cnt, start_1, end_1) : slicer_1.transform(cnt, start_1));
+                    });
+                }
                 break;
-            case "append":
-                result = new AppendPipe().transform(content, args.length > 1 ? args[1] : "");
-                break;
-            case "prepend":
-                result = new PrependPipe().transform(content, args.length > 1 ? args[1] : "");
+            case "number":
+                var numLocal = "en_US";
+                var numDecimal_1 = undefined;
+                if (args.length > 2) {
+                    numLocal = args[1];
+                    numDecimal_1 = args[2];
+                }
+                var decimaler_1 = new DecimalPipe(numLocal);
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = numDecimal_1 ? decimaler_1.transform(content, numDecimal_1) : decimaler_1.transform(content);
+                }
+                else {
+                    result = [];
+                    content.map(function (cnt) {
+                        result.push(numDecimal_1 ? decimaler_1.transform(cnt, numDecimal_1) : decimaler_1.transform(cnt));
+                    });
+                }
                 break;
             case "if":
-                var a1 = args.length > 1 ? args[1] : "";
-                var a2 = args.length > 2 ? args[2] : "";
-                var a3 = args.length > 3 ? args[3] : "";
-                var a4 = args.length > 41 ? args[4] : "";
-                result = new ConditionalPipe().transform(content, a1, a2, a3, a4);
-                if (result.length) {
+                var acondition = args.length > 1 ? args[1] : "";
+                var value = args.length > 2 ? args[2] : "";
+                var action = args.length > 3 ? args[3] : "";
+                var altAction = args.length > 4 ? args[4] : "";
+                result = new ConditionalPipe().transform(content, acondition, value, action, altAction);
+                if (typeof result === "string") {
                     result = result[0] === '"' ? result.substring(1, result.length - 1) : result;
                     result = this._transform(content, this.split(result));
                 }
@@ -316,8 +556,26 @@ var InToPipe = /** @class */ (function () {
             case "font":
                 result = new FontPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
                 break;
+            case "currency":
+                var cp_1 = new CurrencyPipe(args.length > 1 ? args[1] : "en_US");
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = cp_1.transform(content);
+                }
+                else {
+                    result = [];
+                    content.map(function (cnt) {
+                        result.push(cp_1.transform(cnt));
+                    });
+                }
+                break;
             case "wrap":
                 result = new WrapPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : args[1]);
+                break;
+            case "append":
+                result = new AppendPipe().transform(content, args.length > 1 ? args[1] : "");
+                break;
+            case "prepend":
+                result = new PrependPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "email":
                 result = new EmailPipe().transform(content, "");
@@ -328,38 +586,65 @@ var InToPipe = /** @class */ (function () {
             case "rating":
                 result = new RatingPipe().transform(content, "");
                 break;
-            case "number":
-                if (args.length > 2) {
-                    result = new DecimalPipe(args[1]).transform(content, args[2]);
-                }
-                else {
-                    result = new DecimalPipe(args.length > 1 ? args[1] : "en_US").transform(content);
-                }
+            case "map":
+                result = new MapPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "date":
+                var dateLocal = "en_US";
+                var dateFormat = args[1];
                 if (args.length > 2) {
-                    result = new DatePipe(args[1]).transform(content, args[2]);
+                    dateLocal = args[1];
+                    dateFormat = args[2];
+                }
+                var dater_1 = new DatePipe(dateLocal);
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = dater_1.transform(content);
                 }
                 else {
-                    result = new DatePipe("en_US").transform(content, args[1]);
+                    result = [];
+                    content.map(function (cnt) {
+                        result.push(dater_1.transform(cnt));
+                    });
                 }
                 break;
             case "json":
-                result = new JsonPipe().transform(content);
-                break;
-            case "slice":
-                if (args.length > 2) {
-                    result = new SlicePipe().transform(content, parseInt(args[1], 10), parseInt(args[2], 10));
+                var jcp_1 = new JsonPipe();
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = jcp_1.transform(content);
                 }
                 else {
-                    result = new SlicePipe().transform(content, parseInt(args[1], 10));
+                    result = [];
+                    content.map(function (cnt) {
+                        result.push(jcp_1.transform(cnt));
+                    });
                 }
                 break;
+            case "join":
+                result = new JoinPipe().transform(content, args.length > 1 ? args[1] : "");
+                break;
             case "uppercase":
-                result = new UpperCasePipe().transform(content);
+                var ucp_1 = new UpperCasePipe();
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = ucp_1.transform(content);
+                }
+                else {
+                    result = [];
+                    content.map(function (cnt) {
+                        result.push(ucp_1.transform(cnt));
+                    });
+                }
                 break;
             case "lowercase":
-                result = new LowerCasePipe().transform(content);
+                var lcp_1 = new LowerCasePipe();
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = lcp_1.transform(content);
+                }
+                else {
+                    result = [];
+                    content.map(function (cnt) {
+                        result.push(lcp_1.transform(cnt));
+                    });
+                }
                 break;
             case "mask":
                 if (args.length > 2) {
@@ -372,9 +657,6 @@ var InToPipe = /** @class */ (function () {
                     result = new MaskPipe().transform(content);
                 }
                 break;
-            case "map":
-                result = new MapPipe().transform(content, args.length > 1 ? args[1] : "");
-                break;
             case "valueof":
                 result = new ValueOfPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
@@ -386,11 +668,7 @@ var InToPipe = /** @class */ (function () {
                     result = new LinkPipe().transform(content, "", args[1]);
                 }
                 else {
-                    var q = content.indexOf("?");
-                    var t = q < 0 ? content : content.substring(0, q);
-                    var d = t.lastIndexOf("/");
-                    var p = d < 0 ? t : t.substring(d + 1);
-                    result = new LinkPipe().transform(content, "", p);
+                    result = new LinkPipe().transform(content, "", "");
                 }
                 break;
             case "image":
@@ -404,11 +682,7 @@ var InToPipe = /** @class */ (function () {
                     result = new ImagePipe().transform(content, args[1]);
                 }
                 else {
-                    var q = content.indexOf("?");
-                    var t = q < 0 ? content : content.substring(0, q);
-                    var d = t.lastIndexOf("/");
-                    var p = d < 0 ? t : t.substring(d + 1);
-                    result = new ImagePipe().transform(content, p);
+                    result = new ImagePipe().transform(content, "");
                 }
                 break;
         }
@@ -420,6 +694,23 @@ InToPipe.decorators = [
     { type: Pipe, args: [{ name: 'into' },] },
 ];
 InToPipe.ctorParameters = function () { return []; };
+var SanitizeHtmlPipe = /** @class */ (function () {
+    function SanitizeHtmlPipe(_sanitizer) {
+        this._sanitizer = _sanitizer;
+    }
+    SanitizeHtmlPipe.prototype.transform = function (v) {
+        return this._sanitizer.bypassSecurityTrustHtml(v);
+    };
+    return SanitizeHtmlPipe;
+}());
+SanitizeHtmlPipe.decorators = [
+    { type: Pipe, args: [{
+                name: 'sanitizeHtml'
+            },] },
+];
+SanitizeHtmlPipe.ctorParameters = function () { return [
+    { type: DomSanitizer, },
+]; };
 var IntoPipeModule = /** @class */ (function () {
     function IntoPipeModule() {
     }
@@ -431,6 +722,7 @@ IntoPipeModule.decorators = [
                     CommonModule
                 ],
                 declarations: [
+                    JoinPipe,
                     InToPipe,
                     ImagePipe,
                     LinkPipe,
@@ -444,9 +736,11 @@ IntoPipeModule.decorators = [
                     RatingPipe,
                     FontPipe,
                     ConditionalPipe,
-                    AddressPipe
+                    AddressPipe,
+                    SanitizeHtmlPipe
                 ],
                 exports: [
+                    JoinPipe,
                     InToPipe,
                     ImagePipe,
                     LinkPipe,
@@ -460,10 +754,12 @@ IntoPipeModule.decorators = [
                     RatingPipe,
                     FontPipe,
                     ConditionalPipe,
-                    AddressPipe
+                    AddressPipe,
+                    SanitizeHtmlPipe
                 ],
                 entryComponents: [],
                 providers: [
+                    JoinPipe,
                     InToPipe,
                     DatePipe,
                     CurrencyPipe,
@@ -484,12 +780,13 @@ IntoPipeModule.decorators = [
                     FontPipe,
                     ConditionalPipe,
                     WrapPipe,
-                    ValueOfPipe
+                    ValueOfPipe,
+                    SanitizeHtmlPipe
                 ],
                 schemas: [CUSTOM_ELEMENTS_SCHEMA]
             },] },
 ];
 IntoPipeModule.ctorParameters = function () { return []; };
 
-export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, IntoPipeModule, ConditionalPipe as ɵc, FontPipe as ɵb, ValueOfPipe as ɵa };
+export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, IntoPipeModule, ConditionalPipe as ɵd, FontPipe as ɵc, JoinPipe as ɵa, SanitizeHtmlPipe as ɵe, ValueOfPipe as ɵb };
 //# sourceMappingURL=into-pipes.js.map

@@ -1,4 +1,5 @@
 import { PipeTransform } from '@angular/core';
 export declare class ConditionalPipe implements PipeTransform {
-    transform(object: any, ...args: any[]): string;
+    conditionFromString(content: any, acondition: any, value: any, action: any, altAction: any): string;
+    transform(source: any, ...args: any[]): any;
 }

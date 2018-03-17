@@ -7,35 +7,58 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'if' })
 export class ConditionalPipe implements PipeTransform {
-    transform(object: any, ...args: any[]): string {
+    conditionFromString(content, acondition, value, action, altAction) {
         let result = "";
 
-        switch(args[0]){
+        switch(acondition){
             case "=" : 
-                result = object === args[1] ? args[2] : args[3];
+                result = content === value ? action : altAction;
                 break;
             case "!=" : 
-                result = object !== args[1] ? args[2] : args[3];
+                result = content !== value ? action : altAction;
                 break;
             case ">" : 
-                result = object > args[1] ? args[2] : args[3];
+                result = content > value ? action : altAction;
+                break;
+            case ">=" : 
+                result = content >= value ? action : altAction;
                 break;
             case "<" : 
-                result = object < args[1] ? args[2] : args[3];
+                result = content < value ? action : altAction;
+                break;
+            case "<=" : 
+                result = content <= value ? action : altAction;
                 break;
             case "~" : 
-                result = object && object !== null && object !== "null" ? args[2] : args[3];
+                result = content !== undefined && content !== null && content !== "null" ? action : altAction;
                 break;
             case "!~" : 
-                result = object === undefined || object === null || object === "null" ? args[2] : args[3];
+                result = content === undefined || content === null || content === "null" ? action : altAction;
                 break;
             case "~=" : 
-                result = object && String(object).toLowerCase() === String(args[1]).toLowerCase() ? args[2] : args[3];
+                result = content && value && String(content).toLowerCase() === String(value).toLowerCase() ? action : altAction;
                 break;
             case "in" :
-                result = object ? object.indexOf(args[2]) : args[3];
+                result = content ? content.indexOf(action) : altAction;
                 break;
         }
         return result;
+
+    }
+    transform(source: any, ...args: any[]): any {
+        const acondition =  args.length ? args[0] : "";
+        const value =  args.length > 1 ? args[1] : "";
+        const action =  args.length > 2 ? args[2] : "";
+        const altAction =  args.length > 3 ? args[3] : "";
+
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.conditionFromString(source, acondition, value, action, altAction);
+        } else {
+            const result = {};
+            source.map((item) => {
+                result[item] = this.conditionFromString(item, acondition, value, action, altAction);
+            });
+            return result;
+        } 
     }
 }

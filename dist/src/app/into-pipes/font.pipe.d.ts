@@ -1,4 +1,5 @@
 import { PipeTransform } from '@angular/core';
 export declare class FontPipe implements PipeTransform {
-    transform(source: string, ...args: any[]): string;
+    fontFromString(font: any, location: any, action: any, content: any): any;
+    transform(source: any, ...args: any[]): any;
 }

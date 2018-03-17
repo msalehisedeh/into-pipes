@@ -5,7 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'raiting' })
 export class RatingPipe implements PipeTransform {
-    transform(source: string, ...args: any[]): string {
+    rateString(source) {
+        const number = typeof source === "number" ? String(source) : source;
         const value = parseInt(source, 10);
         const float = parseFloat(source);
 
@@ -19,5 +20,17 @@ export class RatingPipe implements PipeTransform {
         x += "</span><span class='rate-value'>" + source + "</span>";
 
         return x;
+    }
+
+    transform(source: any, ...args: any[]): any {
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.rateString(source);
+        } else {
+            const result = [];
+            source.map((item) => {
+                result.push(this.rateString(item));
+            });
+            return result;                
+        }
     }
 }

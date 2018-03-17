@@ -15,12 +15,15 @@ import {AddressPipe} from './address.pipe';
 import {FontPipe} from './font.pipe';
 import {ValueOfPipe} from './valueof.pipe';
 import {ConditionalPipe} from './conditional.pipe';
+import {JoinPipe} from './join.pipe';
+import {SanitizeHtmlPipe} from './sanitizeHtml.pipe';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [
+    JoinPipe,
     InToPipe,
     ImagePipe,
     LinkPipe,
@@ -34,9 +37,11 @@ import {ConditionalPipe} from './conditional.pipe';
     RatingPipe,
     FontPipe,
     ConditionalPipe,
-    AddressPipe
+    AddressPipe,
+    SanitizeHtmlPipe
   ],
   exports: [
+    JoinPipe,
     InToPipe,
     ImagePipe,
     LinkPipe,
@@ -50,11 +55,13 @@ import {ConditionalPipe} from './conditional.pipe';
     RatingPipe,
     FontPipe,
     ConditionalPipe,
-    AddressPipe
+    AddressPipe,
+    SanitizeHtmlPipe
   ],
   entryComponents: [
   ],
   providers: [
+    JoinPipe,
     InToPipe,
     DatePipe,
     CurrencyPipe,
@@ -75,7 +82,8 @@ import {ConditionalPipe} from './conditional.pipe';
     FontPipe,
     ConditionalPipe,
     WrapPipe,
-    ValueOfPipe
+    ValueOfPipe,
+    SanitizeHtmlPipe
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

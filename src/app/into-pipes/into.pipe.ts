@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform  } from '@angular/core';
+
 import {
   DatePipe,
   CurrencyPipe,
@@ -20,12 +21,13 @@ import {WrapPipe} from './wrap.pipe';
 import {EmailPipe} from './email.pipe';
 import {RatingPipe} from './rating.pipe';
 import {AddressPipe} from './address.pipe';
+import {JoinPipe} from './join.pipe';
 import {FontPipe} from './font.pipe';
 import {ConditionalPipe} from './conditional.pipe';
 
 @Pipe({name:'into'})
 export class InToPipe implements PipeTransform{
-transform(content: string, list: string): string {
+transform(content: any, list: string): any {
     let result = content;
     
     list.split("|").map( (item) => {
@@ -39,30 +41,53 @@ transform(content: string, list: string): string {
       return item.trim().match(/(?=\S)[^"\:]*(?:"[^\\"]*(?:\\[\:\S][^\\"]*)*"[^"\:]*)*/g).filter((x)=>x.length);
   }
 
-  private _transform(content: string, args: string[]) {
+  private _transform(content: any, args: string[]) {
     let result = content;
 
     switch(args[0]){
-        case "currency" : 
-            // currency:en_US or currency
-            result = new CurrencyPipe(args.length > 1 ? args[1] : "en_US").transform(content); 
+        case "slice" : 
+            // slice 5:12 OR slice 5
+            let start = parseInt(args[1], 10);
+            let end = undefined;
+            if (args.length > 2) {
+                end= parseInt(args[2], 10);
+            }
+            const slicer =new SlicePipe();
+            if ((typeof content === "string") || !(content instanceof Array)) {
+                result = end ? slicer.transform(content, start, end) : slicer.transform(content, start);
+            } else {
+                result = [];
+                content.map((cnt) => {
+                    result.push(end ? slicer.transform(cnt, start, end) : slicer.transform(cnt, start));
+                });
+            }
             break;
-        case "append" : 
-            // append:something
-            result = new AppendPipe().transform(content, args.length > 1 ? args[1] : ""); 
-            break;
-        case "prepend" : 
-            // prepend:something
-            result = new PrependPipe().transform(content, args.length > 1 ? args[1] : ""); 
+        case "number" : 
+            // number:en_US:2   or number:en_US or number
+            let numLocal = "en_US";
+            let numDecimal= undefined;
+            if (args.length > 2) {
+                numLocal = args[1];
+                numDecimal= args[2];
+            }
+            const decimaler =new DecimalPipe(numLocal);
+            if ((typeof content === "string") || !(content instanceof Array)) {
+                result = numDecimal ? decimaler.transform(content, numDecimal) : decimaler.transform(content);
+            } else {
+                result = [];
+                content.map((cnt) => {
+                    result.push(numDecimal ? decimaler.transform(cnt, numDecimal) : decimaler.transform(cnt));
+                });
+            }
             break;
         case "if" : 
             // if:=:true:fa fa-check:fa fa-bell
-            const a1 =  args.length > 1 ? args[1] : "";
-            const a2 =  args.length > 2 ? args[2] : "";
-            const a3 =  args.length > 3 ? args[3] : "";
-            const a4 =  args.length > 41 ? args[4] : "";
-            result = new ConditionalPipe().transform(content,a1, a2, a3, a4);
-            if( result.length ){
+            const acondition =  args.length > 1 ? args[1] : "";
+            const value =  args.length > 2 ? args[2] : "";
+            const action =  args.length > 3 ? args[3] : "";
+            const altAction =  args.length > 4 ? args[4] : "";
+            result = new ConditionalPipe().transform(content, acondition, value, action, altAction);
+            if (typeof result === "string") {
                 result = result[0] === '"' ? result.substring(1,result.length-1) : result;
                 result = this._transform(content,this.split(result));
             }
@@ -71,9 +96,29 @@ transform(content: string, list: string): string {
             // font:fa fa-check:left:*
             result = new FontPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : ""); 
             break;
+        case "currency" : 
+            // currency:en_US or currency
+            const cp = new CurrencyPipe(args.length > 1 ? args[1] : "en_US");
+            if ((typeof content === "string") || !(content instanceof Array)) {
+                result = cp.transform(content);
+            } else {
+                result = [];
+                content.map((cnt) => {
+                    result.push(cp.transform(cnt));
+                });
+            }
+            break;
         case "wrap" : 
             // wrap:something:something  OR wrap:something
             result = new WrapPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : args[1]); 
+            break;
+        case "append" : 
+            // append:something
+            result = new AppendPipe().transform(content, args.length > 1 ? args[1] : ""); 
+            break;
+        case "prepend" : 
+            // prepend:something
+            result = new PrependPipe().transform(content, args.length > 1 ? args[1] : ""); 
             break;
         case "email" : 
             // email
@@ -87,41 +132,68 @@ transform(content: string, list: string): string {
             // rating
             result = new RatingPipe().transform(content, ""); 
             break;
-        case "number" : 
-            // number:en_US:2   or number:en_US or number
-            if (args.length > 2) {
-                result = new DecimalPipe(args[1]).transform(content, args[2]);
-            }else {
-                result =  new DecimalPipe(args.length > 1 ? args[1] : "en_US").transform(content);
-            }
+        case "map" : 
+            // map:key1;value1/key2;value2/key3;value3
+            result =  new MapPipe().transform(content, args.length > 1 ? args[1] : "");
             break;
         case "date" : 
             // date:en_US:MMddyy OR date:\"MM/dd/yyyy hh:ss\"
+            const date = ((typeof content === "string") || !(content instanceof Array)) ? new Date(content) : content;
+            let dateLocal = "en_US";
+            let dateFormat= args[1];
             if (args.length > 2) {
-                result = new DatePipe(args[1]).transform(content, args[2]);
-            }else {
-                result =  new DatePipe("en_US").transform(content, args[1]);
+                dateLocal = args[1];
+                dateFormat= args[2];
+            }
+            const dater =new DatePipe(dateLocal);
+            if ((typeof content === "string") || !(content instanceof Array)) {
+                result = dater.transform(content);
+            } else {
+                result = [];
+                content.map((cnt) => {
+                    result.push(dater.transform(cnt));
+                });
             }
             break;
         case "json" : 
             // json
-            result =  new JsonPipe().transform(content);
-            break;
-        case "slice" : 
-            // slice 5:12 OR slice 5
-            if (args.length > 2) {
-                result = new SlicePipe().transform(content, parseInt(args[1], 10), parseInt(args[2], 10));
-            }else {
-                result =  new SlicePipe().transform(content, parseInt(args[1], 10));
+            const jcp =  new JsonPipe();
+            if ((typeof content === "string") || !(content instanceof Array)) {
+                result = jcp.transform(content);
+            } else {
+                result = [];
+                content.map((cnt) => {
+                    result.push(jcp.transform(cnt));
+                });
             }
+            break;
+        case "join" : 
+            // json
+            result = new JoinPipe().transform(content, args.length > 1 ? args[1] : "");
             break;
         case "uppercase" : 
             // uppercase
-            result =  new UpperCasePipe().transform(content);
+            const ucp =  new UpperCasePipe();
+            if ((typeof content === "string") || !(content instanceof Array)) {
+                result = ucp.transform(content);
+            } else {
+                result = [];
+                content.map((cnt) => {
+                    result.push(ucp.transform(cnt));
+                });
+            }
             break;
         case "lowercase" : 
             // lowercase
-            result =  new LowerCasePipe().transform(content);
+            const lcp =  new LowerCasePipe();
+            if ((typeof content === "string") || !(content instanceof Array)) {
+                result = lcp.transform(content);
+            } else {
+                result = [];
+                content.map((cnt) => {
+                    result.push(lcp.transform(cnt));
+                });
+            }
             break;
         case "mask" : 
             // mask:4:*  OR mask:4
@@ -132,10 +204,6 @@ transform(content: string, list: string): string {
             } else {
                 result =  new MaskPipe().transform(content);
             }
-            break;
-        case "map" : 
-            // map:key1;value1/key2;value2/key3;value3
-            result =  new MapPipe().transform(content, args.length > 1 ? args[1] : "");
             break;
         case "valueof" : 
             // valueof:key
@@ -148,11 +216,7 @@ transform(content: string, list: string): string {
             } else if (args.length > 1) {
                 result =  new LinkPipe().transform(content, "", args[1]);
             } else {
-                const q = content.indexOf("?");
-                const t = q < 0 ? content : content.substring(0, q);
-                const d = t.lastIndexOf("/");
-                const p = d < 0 ? t : t.substring(d+1);
-                result =  new LinkPipe().transform(content, "", p);
+                result =  new LinkPipe().transform(content, "", "");
             }
             break;
         case "image" : 
@@ -164,11 +228,7 @@ transform(content: string, list: string): string {
             } else if (args.length > 1) {
                 result =  new ImagePipe().transform(content, args[1]);
             } else {
-                const q = content.indexOf("?");
-                const t = q < 0 ? content : content.substring(0, q);
-                const d = t.lastIndexOf("/");
-                const p = d < 0 ? t : t.substring(d+1);
-                result =  new ImagePipe().transform(content, p);
+                result =  new ImagePipe().transform(content, "");
             }
             break;
     }

@@ -11,6 +11,7 @@ export class AppComponent {
   threeFive = 3.5;
   myJson= {q:3,w:43,dw:6565};
   myDate = "2018-03-10T01:01:20Z";
+  myDateList = ["2018-03-10T01:01:20Z", "2011-02-12T01:01:20Z"];
   myDateFormat="date:\"MM/dd/yyyy hh:ss\"";
   theURL = "https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?h=350&auto=compress&cs=tinysrgb";
 

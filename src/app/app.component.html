@@ -9,23 +9,24 @@
   <tr>
     <th>Action</th><th>Code</th><th>result</th>
   </tr>
-  <tr><td>Display conditional of name = masoud</td><td>"'masoud' | into:'if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\"'"</td><td><span [innerHTML]="'masoud' | into: myConditionalLogic"></span></td></tr>
-  <tr><td>Display conditional of 3.5 > 3</td><td>"threeFive | into:'if:>:3:\"font:fa fa-check:replace\":\"font:fa fa-bell:replace\"'"</td><td><span [innerHTML]="threeFive | into: myConditionalThreeFive"></span></td></tr>
-  <tr><td>Display rating of 3.5</td><td>"'3.5' | into:'rating'"</td><td><span [innerHTML]="'3.5' | into:'rating'"></span></td></tr>
-  <tr><td>Display email in email linktd</td><td>"'xyz@gmail.com' | into:'email'"</td><td><span [innerHTML]="'xyz@gmail.com' | into:'email'"></span></td></tr>
-  <tr><td>Display address with marker</td><td>"myaddress | into:'address'"</td><td><span [innerHTML]="myaddress | into:'address'"></span></td></tr>
-  <tr><td>Display date</td><td>"myDate | into:myDateFormat"</td><td><span [innerHTML]="myDate | into:myDateFormat"></span></td></tr>
-  <tr><td>Prepend * to content</td><td>"'xyz' | into:'prepend:*'"</td><td><span [innerHTML]="'xyz' | into:'prepend:*'"></span></td></tr>
-  <tr><td>Append * to content</td><td>"'xyz' | into:'append:*'"</td><td><span [innerHTML]="'xyz' | into:'append:*'"></span></td></tr>
-  <tr><td>Wrap content with *</td><td>"'xyz' | into:'wrap:*'"</td><td><span [innerHTML]="'xyz' | into:'wrap:*'"></span></td></tr>
-  <tr><td>Display number in currency</td><td>"'25' | into:'currency'"</td><td><span [innerHTML]="'25' | into:'currency'"></span></td></tr>
-  <tr><td>Display number in decimals</td><td>"'25.34537664' | into:'number'"</td><td><span [innerHTML]="'25.34537664' | into:'number'"></span></td></tr>
-  <tr><td>Mask number and add checkmark</td><td>"'3423423422' | into:'mask | font:fa fa-check:right:*'"</td><td><span [innerHTML]="'3423423422' | into:'mask | font:fa fa-check:right:*'"></span></td></tr>
-  <tr><td>Display content in uppercase</td><td>"'try this' | into:'uppercase'"</td><td><span [innerHTML]="'try this' | into:'uppercase'"></span></td></tr>
-  <tr><td>Display content in lowercase</td><td>"'TRY THIS' | into:'lowercase'"</td><td><span [innerHTML]="'TRY THIS' | into:'lowercase'"></span></td></tr>
-  <tr><td>Display part of content from index 4 to 8</td><td>"'try this sdfads' | into:'slice:4:8'"</td><td><span [innerHTML]="'try this sdfads' | into:'slice:4:8'"></span></td></tr>
+  <tr><td>Display conditional of name = masoud</td><td>"'masoud' | into:'if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\"'"</td><td><span [innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"></span></td></tr>
+  <tr><td>Display conditional of 3.5 > 3</td><td>"threeFive | into:'if:>:3:\"font:fa fa-check:replace\":\"font:fa fa-bell:replace\"'"</td><td><span [innerHTML]="threeFive | into: myConditionalThreeFive | sanitizeHtml"></span></td></tr>
+  <tr><td>Display rating of 3.5</td><td>"'3.5' | into:'rating'"</td><td><span [innerHTML]="'3.5' | into:'rating' | sanitizeHtml"></span></td></tr>
+  <tr><td>Display email in email linktd</td><td>"'xyz@gmail.com' | into:'email'"</td><td><span [innerHTML]="'xyz@gmail.com' | into:'email' | sanitizeHtml"></span></td></tr>
+  <tr><td>Display address with marker</td><td>"myaddress | into:'address'"</td><td><span [innerHTML]="myaddress | into:'address' | sanitizeHtml"></span></td></tr>
+  <tr><td>Display date</td><td>"myDate | into:myDateFormat"</td><td><span [innerHTML]="myDate | into:myDateFormat | sanitizeHtml"></span></td></tr>
+  <tr><td>Display list of dates</td><td>"myDateList | into:myDateFormat | into:'join:*'"</td><td><span [innerHTML]="myDateList | into:myDateFormat | into:'join:*' | sanitizeHtml"></span></td></tr>
+  <tr><td>Prepend * to content</td><td>"'xyz' | into:'prepend:*'"</td><td><span [innerHTML]="'xyz' | into:'prepend:*' | sanitizeHtml"></span></td></tr>
+  <tr><td>Append * to content</td><td>"'xyz' | into:'append:*'"</td><td><span [innerHTML]="'xyz' | into:'append:*' | sanitizeHtml"></span></td></tr>
+  <tr><td>Wrap content with *</td><td>"'xyz' | into:'wrap:*'"</td><td><span [innerHTML]="'xyz' | into:'wrap:*' | sanitizeHtml"></span></td></tr>
+  <tr><td>Display number in currency</td><td>"'25' | into:'currency'"</td><td><span [innerHTML]="'25' | into:'currency' | sanitizeHtml"></span></td></tr>
+  <tr><td>Display number in decimals</td><td>"'25.34537664' | into:'number'"</td><td><span [innerHTML]="'25.34537664' | into:'number' | sanitizeHtml"></span></td></tr>
+  <tr><td>Mask number and add checkmark</td><td>"'3423423422' | into:'mask | font:fa fa-check:right:*'"</td><td><span [innerHTML]="'3423423422' | into:'mask | font:fa fa-check:right:*' | sanitizeHtml"></span></td></tr>
+  <tr><td>Display content in uppercase</td><td>"'try this' | into:'uppercase'"</td><td><span [innerHTML]="'try this' | into:'uppercase' | sanitizeHtml"></span></td></tr>
+  <tr><td>Display content in lowercase</td><td>"'TRY THIS' | into:'lowercase'"</td><td><span [innerHTML]="'TRY THIS' | into:'lowercase' | sanitizeHtml"></span></td></tr>
+  <tr><td>Display part of content from index 4 to 8</td><td>"'try this sdfads' | into:'slice:4:8'"</td><td><span [innerHTML]="'try this sdfads' | into:'slice:4:8' | sanitizeHtml"></span></td></tr>
   <tr><td>Display in json format</td><td>"myJson | into:'json'"</td><td><span [innerHTML]="myJson | into:'json'"></span></td></tr>
-  <tr><td>Display value of "dw" found in JSON Object</td><td>"myJson | into:'valueof:dw'"</td><td><span [innerHTML]="myJson | into:'valueof:dw'"></span></td></tr>
-  <tr><td>Display URL in a link</td><td>"theURL | into:'link'"</td><td><span [innerHTML]="theURL | into:'link'"></span></td></tr>
-  <tr><td>Display URL as image</td><td>"theURL | into:'image:200px:auto:alt text'"</td><td><span imageholder [innerHTML]="theURL | into:'image:200px:auto:alt text'"></span></td></tr>
+  <tr><td>Display value of "dw" found in JSON Object</td><td>"myJson | into:'valueof:dw'"</td><td><span [innerHTML]="myJson | into:'valueof:dw' | sanitizeHtml"></span></td></tr>
+  <tr><td>Display URL in a link</td><td>"theURL | into:'link'"</td><td><span [innerHTML]="theURL | into:'link' | sanitizeHtml"></span></td></tr>
+  <tr><td>Display URL as image</td><td>"theURL | into:'image:200px:auto:alt text'"</td><td><span imageholder [innerHTML]="theURL | into:'image:200px:auto:alt text' | sanitizeHtml"></span></td></tr>
 </table>

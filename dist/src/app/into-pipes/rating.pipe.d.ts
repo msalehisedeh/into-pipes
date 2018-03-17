@@ -1,4 +1,5 @@
 import { PipeTransform } from '@angular/core';
 export declare class RatingPipe implements PipeTransform {
-    transform(source: string, ...args: any[]): string;
+    rateString(source: any): string;
+    transform(source: any, ...args: any[]): any;
 }
