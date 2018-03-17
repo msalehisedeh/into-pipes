@@ -5,14 +5,14 @@ This library provides few Angular 4 pipes that are all used by a single "into" p
 a node, make sure you will pipe the result into sanitizeHtml.
 You are welcom to add on additional pipes and formatting rules to this library.
 
+# Version 0.3.0
+Internally changed code to make sure if array is the source to be transformed, all items in the array are transformed.
+
 | Format             | Examples             | Arguments                                   |
 |--------------------|----------------------|---------------------------------------------|
 | join               | `join:,`             |  1) the characters used to jin the list     |
 | sanitizeHtml       | `sanitizeHtml`       |  NONE  (This pipe is not used by into pipe) |
 
-
-# Version 0.3.0
-Internally changed code to make sure if array is the source to be transformed, all items in the array are transformed.
 
 # Version 0.2.2
 The following are available functionalities presented in this version. 

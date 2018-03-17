@@ -9,4 +9,7 @@ export {WrapPipe} from './src/app/into-pipes/wrap.pipe';
 export {EmailPipe} from './src/app/into-pipes/email.pipe';
 export {RatingPipe} from './src/app/into-pipes/rating.pipe';
 export {AddressPipe} from './src/app/into-pipes/address.pipe';
+export {JoinPipe} from './src/app/into-pipes/join.pipe';
+export {SanitizeHtmlPipe} from './src/app/into-pipes/sanitizeHtml.pipe';
+export {ConditionalPipe} from './src/app/into-pipes/conditional.pipe';
 export {IntoPipeModule} from './src/app/into-pipes/pipe.module';

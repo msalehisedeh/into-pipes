@@ -801,12 +801,12 @@ exports.WrapPipe = WrapPipe;
 exports.EmailPipe = EmailPipe;
 exports.RatingPipe = RatingPipe;
 exports.AddressPipe = AddressPipe;
+exports.JoinPipe = JoinPipe;
+exports.SanitizeHtmlPipe = SanitizeHtmlPipe;
+exports.ConditionalPipe = ConditionalPipe;
 exports.IntoPipeModule = IntoPipeModule;
-exports.ɵd = ConditionalPipe;
-exports.ɵc = FontPipe;
-exports.ɵa = JoinPipe;
-exports.ɵe = SanitizeHtmlPipe;
-exports.ɵb = ValueOfPipe;
+exports.ɵb = FontPipe;
+exports.ɵa = ValueOfPipe;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
