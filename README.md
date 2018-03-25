@@ -5,6 +5,80 @@ This library provides few Angular 4 pipes that are all used by a single "into" p
 a node, make sure you will pipe the result into sanitizeHtml.
 You are welcom to add on additional pipes and formatting rules to this library.
 
+# Version 1.0.0
+Added a directive to enable piping values into form fields!! Provisions is in place if you wich to format the values into a custom field. For thos to happen, you will need to create your component and register it.
+
+```
+MODULE:
+    IntoPipeModule
+
+EXPORTS
+	InToPipe
+	IntoDirective
+
+	PipeComponent
+	ComponentPool
+
+	MaskPipe
+	MapPipe
+	LinkPipe
+	ImagePipe
+	PrependPipe
+	AppendPipe
+	WrapPipe
+	EmailPipe
+	RatingPipe
+	AddressPipe
+	JoinPipe
+	FontPipe
+	ValueOfPipe
+	SanitizeHtmlPipe
+	ConditionalPipe
+	
+DEPENDENCIES: 
+    "font-awesome": "^4.7.0"
+```
+
+| Format             | Examples             | Arguments                                   |
+|--------------------|----------------------|---------------------------------------------|
+| input              | `input:placeholder:formatting,`             |  1) place holder text or blank, 2) formatting rules for the value to be displayed when text field is not editable    |
+| checkbox           | `checkbox:idealvalue`       |  1) the value for which checkbox should be checked. |
+
+```javascript
+import { Component } from '@angular/core';
+import { PipeComponent } from 'into-pipes';
+
+@Component({
+    selector: 'my-custom-component',
+    template: `html tags for custom component here`,
+    styles: [
+        `css classes for custom component here
+        `
+    ]
+})
+export class MyCustomInputComponent implements PipeComponent {
+    source: string;
+
+    transform(source: any, args: any[]) {
+        this.source = source;
+        // do some other stuff here...
+    }
+}
+```
+
+Registering my custom component
+```javascript
+import { ComponentPool } from 'into-pipes';
+
+my component definition ....
+
+constructor(private pool:ComponentPool) {
+    this.pool.registerComponent("input", MyCustomInputComponent);
+}
+```
+
+You can still continue formatting with existing pipes using InTo directive.. however, Email, Addess, Font, Image, Json, Link, and Rating formatters will insert actual components in the end resulting html. This means in the next release, i can add interactions with these components and add editable date fcomponent to format and edit the values when user interacts with the fields.. I will add possibility of custonmizing formatting tags as well in future relase, to allow you to come up with nifty formatters that can interact with users...
+
 # Version 0.3.0
 Internally changed code to make sure if array is the source to be transformed, all items in the array are transformed.
 

@@ -1,4 +1,4 @@
-import { Pipe, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Pipe, Component, ViewChild, Renderer, Injectable, Directive, ViewContainerRef, Input, ComponentFactoryResolver, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DatePipe, CurrencyPipe, DecimalPipe, JsonPipe, SlicePipe, UpperCasePipe, LowerCasePipe, CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -339,7 +339,7 @@ var AddressPipe = /** @class */ (function () {
         url = url.replace("\\s+", "+");
         return "<span class='address'><span>" + source.street + ", " + source.suite + "</span>" +
             "<span> " + source.city + ", " + source.zipcode + "</span>" +
-            "</span> <a href=\'" + url + "\' class='google-map'><span class='fa fa-map-marker' aria-hidden='true'></span><span class='off-screen'>View in google map</a>";
+            "</span> <a href=\'" + url + "\' class='google-map'><span class='fa fa-map-marker' aria-hidden='true'></span><span class='off-screen'>View in google map</span></a>";
     };
     AddressPipe.prototype.transform = function (source) {
         var _this = this;
@@ -711,6 +711,530 @@ SanitizeHtmlPipe.decorators = [
 SanitizeHtmlPipe.ctorParameters = function () { return [
     { type: DomSanitizer, },
 ]; };
+var AddressComponent = /** @class */ (function () {
+    function AddressComponent() {
+    }
+    AddressComponent.prototype.transform = function (source, args) {
+        this.source = source;
+        this.addr1 = source.street + ', ' + source.suite;
+        this.addr2 = source.city + ', ' + source.zipcode;
+        var x = "https://maps.google.com/?q=" + source.street + ", " + this.addr2 + "&ie=UTF-8";
+        this.url = x.replace("\\s+", "+");
+    };
+    return AddressComponent;
+}());
+AddressComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'address-component',
+                template: "\n    <span class=\"address\">\n        <span [textContent]=\"addr1\"></span>\n        <span [textContent]=\"addr2\"></span>\n    </span>\n    <a [href]=\"url\" class=\"google-map\">\n        <span class=\"fa fa-map-marker\" aria-hidden=\"true\"></span>\n        <span class=\"off-screen\">View in google map</span>\n    </a>\n    ",
+                styles: [
+                    ".address {\n            display: inline-block;\n            float: left;\n        }\n        .google-map {\n            display: inline-block;\n            float: left;\n        }\n        .fa {\n            color: #f00;\n            margin: 0 3px;\n        }\n        .off-screen {\n            position: absolute;\n            left: -999em;\n        }\n        "
+                ]
+            },] },
+];
+AddressComponent.ctorParameters = function () { return []; };
+var EmailComponent = /** @class */ (function () {
+    function EmailComponent() {
+    }
+    EmailComponent.prototype.transform = function (source, args) {
+        this.source = source;
+    };
+    return EmailComponent;
+}());
+EmailComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'email',
+                template: "\n    <a [href]=\"'mailto:' + source\">\n        <span class='fa fa-envelope' aria-hidden='true'></span>\n        <span [textContent]=\"source\"></span>\n    </a>\n    ",
+                styles: [
+                    ":host {\n        }\n        "
+                ]
+            },] },
+];
+EmailComponent.ctorParameters = function () { return []; };
+var FontComponent = /** @class */ (function () {
+    function FontComponent() {
+    }
+    FontComponent.prototype.transform = function (source, args) {
+        this.source = source;
+        this.font = args[0];
+        this.location = args.length > 1 ? args[1] : "left";
+        var action = args.length > 2 ? args[2].toLowerCase() : "";
+        this.content = action === "*" ? source : ("replace" === action.toLowerCase() ? "" : source);
+    };
+    return FontComponent;
+}());
+FontComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'font-component',
+                template: "\n    <span *ngIf=\"location === 'left'\">\n        <span [class]=\"font\" aria-hidden='true'></span>\n        <span [textContent]=\"content\"></span>\n    </span>\n    <span *ngIf=\"location === 'right'\">\n        <span [textContent]=\"content\"></span>\n        <span [class]=\"font\" aria-hidden='true'></span>\n    </span>\n    <span *ngIf=\"location === 'replace'\">\n        <span [class]=\"font\" aria-hidden='true'></span>\n    </span>\n    ",
+                styles: [
+                    "span span {\n            float: left;\n        }\n        "
+                ]
+            },] },
+];
+FontComponent.ctorParameters = function () { return []; };
+var ImageComponent = /** @class */ (function () {
+    function ImageComponent() {
+    }
+    ImageComponent.prototype.transform = function (source, args) {
+        this.source = source;
+        this.width = (args && args.length) ? args[0] : "";
+        this.height = (args && args.length > 1) ? args[1] : "";
+        this.alt = (args && args.length > 2) ? args[2] : "";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            if (!this.alt || !this.alt.length) {
+                var q = source.indexOf("?");
+                var t = q < 0 ? source : source.substring(0, q);
+                var d = t.lastIndexOf("/");
+                this.alt = d < 0 ? t : t.substring(d + 1);
+            }
+        }
+    };
+    return ImageComponent;
+}());
+ImageComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'image-component',
+                template: "<img [src]=\"source\" [style.width]=\"width\" [style.height]=\"height\" [title]=\"alt\" />",
+                styles: [""]
+            },] },
+];
+ImageComponent.ctorParameters = function () { return []; };
+var JsonComponent = /** @class */ (function () {
+    function JsonComponent() {
+    }
+    JsonComponent.prototype.transform = function (source, args) {
+        this.source = source;
+    };
+    return JsonComponent;
+}());
+JsonComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'json-component',
+                template: "<span class=\"json-view\" [textContent]=\"source | json\"></span>",
+                styles: [
+                    ".json-view {\n            display: inline-block;\n            float: left;\n            font-family: monospace;\n            padding: 5px;\n            white-space: pre-wrap;\n            unicode-bidi: embed;\n        }\n        "
+                ]
+            },] },
+];
+JsonComponent.ctorParameters = function () { return []; };
+var LinkComponent = /** @class */ (function () {
+    function LinkComponent() {
+    }
+    LinkComponent.prototype.transform = function (source, args) {
+        this.source = source;
+        this.target = (args && args.length) ? args[0] : "";
+        this.title = (args && args.length > 1) ? args[1] : "";
+        if (!this.title || !this.title.length) {
+            var q = source.indexOf("?");
+            var t = q < 0 ? source : source.substring(0, q);
+            var d = t.lastIndexOf("/");
+            this.title = d < 0 ? t : t.substring(d + 1);
+        }
+    };
+    return LinkComponent;
+}());
+LinkComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'link-component',
+                template: "<a [href]=\"source\" [target]=\"target\" [textContent]=\"title\"></a>",
+                styles: [
+                    "\n        "
+                ]
+            },] },
+];
+LinkComponent.ctorParameters = function () { return []; };
+var RatingComponent = /** @class */ (function () {
+    function RatingComponent() {
+        this.value = [];
+    }
+    RatingComponent.prototype.transform = function (source, args) {
+        this.float = parseFloat(source);
+        this.source = source;
+        var size = parseInt(source, 10);
+        for (var i = 0; i < size; i++) {
+            this.value.push(i);
+        }
+    };
+    return RatingComponent;
+}());
+RatingComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'rating-component',
+                template: "\n    <span class='rating'>\n        <span class='fa fa-star' aria-hidden='true' *ngFor=\"let x of value\"></span>\n        <span class='fa fa-star-half' aria-hidden='true' *ngIf=\"float !== value\"></span>\n    </span>\n    <span class='rate-value' [textContent]=\"source\"></span>\n    ",
+                styles: [
+                    ".rating {\n            display: inline-block;\n        }\n        "
+                ]
+            },] },
+];
+RatingComponent.ctorParameters = function () { return []; };
+var InputComponent = /** @class */ (function () {
+    function InputComponent(renderer) {
+        this.renderer = renderer;
+        this.editName = false;
+    }
+    InputComponent.prototype.keyup = function (event) {
+        var code = event.which;
+        if (((code >= 48) && (code <= 90)) ||
+            ((code >= 96) && (code <= 111)) ||
+            ((code == 32) || (code == 8)) ||
+            ((code >= 186) && (code <= 222))) {
+            this.source = event.target.value;
+        }
+    };
+    InputComponent.prototype.keydown = function (event) {
+        var _this = this;
+        var code = event.which;
+        if ((code === 13) || (code === 9)) {
+            this.renderer.invokeElementMethod(event.target, "click");
+            setTimeout(function () {
+                if (_this.nameEditor) {
+                    _this.renderer.invokeElementMethod(_this.nameEditor.nativeElement, "focus");
+                }
+            }, 66);
+        }
+        else if (code === 27) {
+            this.editName = false;
+        }
+    };
+    InputComponent.prototype.clickName = function (event) {
+        var _this = this;
+        event.stopPropagation();
+        event.preventDefault();
+        this.editName = !this.editName;
+        setTimeout(function () {
+            _this.renderer.invokeElementMethod(_this.nameEditor.nativeElement, "focus");
+        }, 66);
+    };
+    InputComponent.prototype.transform = function (source, args) {
+        this.source = source;
+        this.placeholder = args.length ? args[0] : "";
+        this.formatting = args.length > 1 ? args[1] : "";
+        this.editNameId = String(new Date().getTime());
+    };
+    return InputComponent;
+}());
+InputComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'input-component',
+                template: "\n    <span *ngIf=\"editName\">\n    <input #nameEditor\n        type='text'\n        [id]=\"editNameId\"\n        [value]=\"source\"\n        [placeholder]=\"placeholder\"\n        (blur)=\"editName = false;\"\n        (keyup)='keyup($event)'>\n    </span>\n    <span *ngIf='!editName && formatting'\n        class='locked'\n        tabindex='0'\n        (keydown)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? (source | into:formatting) : '&nbsp;'\">\n    </span>\n    <span *ngIf='!editName && !formatting'\n        class='locked'\n        tabindex='0'\n        (keydown)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? source : '&nbsp;'\">\n    </span>\n    ",
+                styles: [
+                    "\n        .locked {\n          display: inline-block;\n          cursor: pointer;\n          min-width: 30px;\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n        input{\n          cursor: beam;\n        }\n        "
+                ]
+            },] },
+];
+InputComponent.ctorParameters = function () { return [
+    { type: Renderer, },
+]; };
+InputComponent.propDecorators = {
+    "nameEditor": [{ type: ViewChild, args: ["nameEditor",] },],
+};
+var CheckboxComponent = /** @class */ (function () {
+    function CheckboxComponent(renderer) {
+        this.renderer = renderer;
+    }
+    CheckboxComponent.prototype.keyup = function (event) {
+        var code = event.which;
+        if (code === 13) {
+            this.renderer.invokeElementMethod(event.target, "click");
+        }
+    };
+    CheckboxComponent.prototype.transform = function (source, args) {
+        this.source = source;
+        this.ideal = args.length > 1 ? args[0] : "";
+    };
+    return CheckboxComponent;
+}());
+CheckboxComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'input-component',
+                template: "\n    <input type=\"checkbox\" [value]=\"source\" [checked]=\"source===ideal ? true : null\" (keyup)=\"keyUp($event)\" />\n    ",
+                styles: [
+                    "\n        "
+                ]
+            },] },
+];
+CheckboxComponent.ctorParameters = function () { return [
+    { type: Renderer, },
+]; };
+var ComponentPool = /** @class */ (function () {
+    function ComponentPool() {
+        this.registeredComponents = {};
+        this.registerComponent("address", AddressComponent);
+        this.registerComponent("email", EmailComponent);
+        this.registerComponent("font", FontComponent);
+        this.registerComponent("image", ImageComponent);
+        this.registerComponent("json", JsonComponent);
+        this.registerComponent("link", LinkComponent);
+        this.registerComponent("rating", RatingComponent);
+        this.registerComponent("input", InputComponent);
+        this.registerComponent("checkbox", CheckboxComponent);
+    }
+    ComponentPool.prototype.registerComponent = function (name, component) {
+        this.registeredComponents[name] = component;
+    };
+    ComponentPool.prototype.registeredComponent = function (name) {
+        return this.registeredComponents[name];
+    };
+    return ComponentPool;
+}());
+ComponentPool.decorators = [
+    { type: Injectable },
+];
+ComponentPool.ctorParameters = function () { return []; };
+var IntoDirective = /** @class */ (function () {
+    function IntoDirective(el, pool, componentFactoryResolver) {
+        this.el = el;
+        this.pool = pool;
+        this.componentFactoryResolver = componentFactoryResolver;
+    }
+    IntoDirective.prototype.split = function (item) {
+        return item.trim().match(/(?=\S)[^"\:]*(?:"[^\\"]*(?:\\[\:\S][^\\"]*)*"[^"\:]*)*/g).filter(function (x) { return x.length; });
+    };
+    IntoDirective.prototype._transform = function (content, args) {
+        var result = content;
+        switch (args[0]) {
+            case "slice":
+                var start_2 = parseInt(args[1], 10);
+                var end_2 = undefined;
+                if (args.length > 2) {
+                    end_2 = parseInt(args[2], 10);
+                }
+                var slicer_2 = new SlicePipe();
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = end_2 ? slicer_2.transform(content, start_2, end_2) : slicer_2.transform(content, start_2);
+                }
+                else {
+                    result = [];
+                    content.map(function (cnt) {
+                        result.push(end_2 ? slicer_2.transform(cnt, start_2, end_2) : slicer_2.transform(cnt, start_2));
+                    });
+                }
+                break;
+            case "number":
+                var numLocal = "en_US";
+                var numDecimal_2 = undefined;
+                if (args.length > 2) {
+                    numLocal = args[1];
+                    numDecimal_2 = args[2];
+                }
+                var decimaler_2 = new DecimalPipe(numLocal);
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = numDecimal_2 ? decimaler_2.transform(content, numDecimal_2) : decimaler_2.transform(content);
+                }
+                else {
+                    result = [];
+                    content.map(function (cnt) {
+                        result.push(numDecimal_2 ? decimaler_2.transform(cnt, numDecimal_2) : decimaler_2.transform(cnt));
+                    });
+                }
+                break;
+            case "currency":
+                var cp_2 = new CurrencyPipe(args.length > 1 ? args[1] : "en_US");
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = cp_2.transform(content);
+                }
+                else {
+                    result = [];
+                    content.map(function (cnt) {
+                        result.push(cp_2.transform(cnt));
+                    });
+                }
+                break;
+            case "wrap":
+                result = new WrapPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : args[1]);
+                break;
+            case "append":
+                result = new AppendPipe().transform(content, args.length > 1 ? args[1] : "");
+                break;
+            case "prepend":
+                result = new PrependPipe().transform(content, args.length > 1 ? args[1] : "");
+                break;
+            case "map":
+                result = new MapPipe().transform(content, args.length > 1 ? args[1] : "");
+                break;
+            case "date":
+                var dateLocal = "en_US";
+                var dateFormat = args[1];
+                if (args.length > 2) {
+                    dateLocal = args[1];
+                    dateFormat = args[2];
+                }
+                var dater_2 = new DatePipe(dateLocal);
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = dater_2.transform(content);
+                }
+                else {
+                    result = [];
+                    content.map(function (cnt) {
+                        result.push(dater_2.transform(cnt));
+                    });
+                }
+                break;
+            case "uppercase":
+                var ucp_2 = new UpperCasePipe();
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = ucp_2.transform(content);
+                }
+                else {
+                    result = [];
+                    content.map(function (cnt) {
+                        result.push(ucp_2.transform(cnt));
+                    });
+                }
+                break;
+            case "lowercase":
+                var lcp_2 = new LowerCasePipe();
+                if ((typeof content === "string") || !(content instanceof Array)) {
+                    result = lcp_2.transform(content);
+                }
+                else {
+                    result = [];
+                    content.map(function (cnt) {
+                        result.push(lcp_2.transform(cnt));
+                    });
+                }
+                break;
+            case "mask":
+                if (args.length > 2) {
+                    result = new MaskPipe().transform(content, parseInt(args[1], 10), args[2]);
+                }
+                else if (args.length > 1) {
+                    result = new MaskPipe().transform(content, args[1]);
+                }
+                else {
+                    result = new MaskPipe().transform(content);
+                }
+                break;
+            case "valueof":
+                result = new ValueOfPipe().transform(content, args.length > 1 ? args[1] : "");
+                break;
+            case "if":
+                var acondition = args.length > 1 ? args[1] : "";
+                var value = args.length > 2 ? args[2] : "";
+                var action = args.length > 3 ? args[3] : "";
+                var altAction = args.length > 4 ? args[4] : "";
+                result = new ConditionalPipe().transform(content, acondition, value, action, altAction);
+                if (typeof result === "string") {
+                    result = result[0] === '"' ? result.substring(1, result.length - 1) : result;
+                    result = this._transform(content, this.split(result));
+                }
+                break;
+            case "join":
+                result = new JoinPipe().transform(content, args.length > 1 ? args[1] : "");
+                break;
+            case "json":
+                result = this.transformComponent("json", content, "");
+                break;
+            case "font":
+                result = this.transformComponent("font", content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
+                break;
+            case "email":
+                result = this.transformComponent("email", content, "");
+                break;
+            case "address":
+                result = this.transformComponent("address", content, "");
+                break;
+            case "rating":
+                result = this.transformComponent("rating", content, "");
+                break;
+            case "link":
+                if (args.length > 2) {
+                    result = this.transformComponent("link", content, args[1], args[2]);
+                }
+                else if (args.length > 1) {
+                    result = this.transformComponent("link", content, "", args[1]);
+                }
+                else {
+                    result = this.transformComponent("link", content, "", "");
+                }
+                break;
+            case "input":
+                result = this.transformComponent("input", content, args[1], args.length > 2 ? args[2] : "");
+                break;
+            case "image":
+                if (args.length > 3) {
+                    result = this.transformComponent("image", content, args[1], args[2], args[3]);
+                }
+                else if (args.length > 2) {
+                    result = this.transformComponent("image", content, args[1], args[2]);
+                }
+                else if (args.length > 1) {
+                    result = this.transformComponent("image", content, args[1]);
+                }
+                else {
+                    result = this.transformComponent("image", content, "");
+                }
+                break;
+        }
+        return result;
+    };
+    IntoDirective.prototype.transformComponent = function (name, content) {
+        var _this = this;
+        var args = [];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            args[_i - 2] = arguments[_i];
+        }
+        var result;
+        if (typeof content === "string" || typeof content === "number" || Object.keys(content).length) {
+            result = this.registeredComponentFor(name);
+            result.transform(content.source ? content.source : content, args);
+        }
+        else if (content instanceof Array) {
+            result = content;
+            content.map(function (source) {
+                if (typeof source === "string" || typeof content === "number" || Object.keys(content).length) {
+                    var sx = _this.registeredComponentFor(name);
+                    sx.transform(source.source ? source.source : source, args);
+                }
+            });
+        }
+        return result;
+    };
+    IntoDirective.prototype.registeredComponentFor = function (name) {
+        var component = this.pool.registeredComponent(name);
+        var componentRef;
+        if (component) {
+            var componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
+            componentRef = this.el.createComponent(componentFactory);
+        }
+        return ((componentRef.instance));
+    };
+    IntoDirective.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.into && this.rawContent) {
+            var result_10 = this.rawContent;
+            this.into.split("|").map(function (item) {
+                result_10 = _this._transform(result_10, _this.split(item));
+            });
+            if (typeof result_10 === "string") {
+                this.registeredComponentFor("span").transform(result_10);
+            }
+            else if (result_10 instanceof Array) {
+                result_10.map(function (source) {
+                    if (typeof source === "string") {
+                        _this.registeredComponentFor("span").transform(source);
+                    }
+                });
+            }
+        }
+    };
+    return IntoDirective;
+}());
+IntoDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[into]'
+            },] },
+];
+IntoDirective.ctorParameters = function () { return [
+    { type: ViewContainerRef, },
+    { type: ComponentPool, },
+    { type: ComponentFactoryResolver, },
+]; };
+IntoDirective.propDecorators = {
+    "rawContent": [{ type: Input, args: ["rawContent",] },],
+    "into": [{ type: Input, args: ["into",] },],
+};
 var IntoPipeModule = /** @class */ (function () {
     function IntoPipeModule() {
     }
@@ -722,6 +1246,15 @@ IntoPipeModule.decorators = [
                     CommonModule
                 ],
                 declarations: [
+                    AddressComponent,
+                    EmailComponent,
+                    FontComponent,
+                    ImageComponent,
+                    JsonComponent,
+                    LinkComponent,
+                    RatingComponent,
+                    InputComponent,
+                    CheckboxComponent,
                     JoinPipe,
                     InToPipe,
                     ImagePipe,
@@ -737,7 +1270,8 @@ IntoPipeModule.decorators = [
                     FontPipe,
                     ConditionalPipe,
                     AddressPipe,
-                    SanitizeHtmlPipe
+                    SanitizeHtmlPipe,
+                    IntoDirective
                 ],
                 exports: [
                     JoinPipe,
@@ -755,9 +1289,20 @@ IntoPipeModule.decorators = [
                     FontPipe,
                     ConditionalPipe,
                     AddressPipe,
-                    SanitizeHtmlPipe
+                    SanitizeHtmlPipe,
+                    IntoDirective
                 ],
-                entryComponents: [],
+                entryComponents: [
+                    AddressComponent,
+                    EmailComponent,
+                    FontComponent,
+                    ImageComponent,
+                    JsonComponent,
+                    LinkComponent,
+                    InputComponent,
+                    CheckboxComponent,
+                    RatingComponent
+                ],
                 providers: [
                     JoinPipe,
                     InToPipe,
@@ -781,12 +1326,14 @@ IntoPipeModule.decorators = [
                     ConditionalPipe,
                     WrapPipe,
                     ValueOfPipe,
-                    SanitizeHtmlPipe
+                    SanitizeHtmlPipe,
+                    IntoDirective,
+                    ComponentPool
                 ],
                 schemas: [CUSTOM_ELEMENTS_SCHEMA]
             },] },
 ];
 IntoPipeModule.ctorParameters = function () { return []; };
 
-export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, FontPipe as ɵb, ValueOfPipe as ɵa };
+export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵi, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵh, JsonComponent as ɵe, LinkComponent as ɵf, RatingComponent as ɵg };
 //# sourceMappingURL=into-pipes.js.map
