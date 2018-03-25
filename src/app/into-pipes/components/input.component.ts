@@ -1,4 +1,4 @@
-import { Component, ViewChild, Renderer } from '@angular/core';
+import { Component, ViewChild, Renderer, Output, EventEmitter } from '@angular/core';
 import { PipeComponent } from '../interfaces/pipe.component';
 
 @Component({
@@ -7,7 +7,8 @@ import { PipeComponent } from '../interfaces/pipe.component';
     <span *ngIf="editName">
     <input #nameEditor
         type='text' 
-        [id]="editNameId"
+        [id]="id"
+        [name]="name"
         [value]="source"
         [placeholder]="placeholder"
         (blur)="editName = false;" 
@@ -48,10 +49,14 @@ import { PipeComponent } from '../interfaces/pipe.component';
 export class InputComponent implements PipeComponent {
 
   source: string;
+  id: string;
+  name: string;
   placeholder: string;
-  editNameId:string;
   formatting:string;
   editName = false;
+
+  @Output("onIntoComponentChange")
+  onIntoComponentChange = new EventEmitter();
 
   constructor(private renderer: Renderer) {
 
@@ -88,6 +93,11 @@ export class InputComponent implements PipeComponent {
     event.stopPropagation();
     event.preventDefault();
     this.editName = !this.editName;
+    this.onIntoComponentChange.emit({
+      id: this.id,
+      name: this.name,
+      value: this.source
+    })
     setTimeout(()=>{
       this.renderer.invokeElementMethod(this.nameEditor.nativeElement, "focus");
     },66);
@@ -97,7 +107,6 @@ export class InputComponent implements PipeComponent {
     this.source= source;
     this.placeholder= args.length ? args[0] : "";
     this.formatting = args.length > 1 ? args[1] : "";
-    this.editNameId = String(new Date().getTime());
   }
 }
 

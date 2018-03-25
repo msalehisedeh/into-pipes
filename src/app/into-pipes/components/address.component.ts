@@ -36,6 +36,8 @@ import { PipeComponent } from '../interfaces/pipe.component';
 export class AddressComponent implements PipeComponent {
     url: string;
     source: string;
+	id: string;
+	name: string;
     addr1: string;
     addr2: string;
 

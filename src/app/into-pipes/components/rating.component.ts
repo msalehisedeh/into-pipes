@@ -19,6 +19,8 @@ import { PipeComponent } from '../interfaces/pipe.component';
 })
 export class RatingComponent implements PipeComponent {
     source: string;
+	id: string;
+	name: string;
     value: number[] = [];
     float: number;
 

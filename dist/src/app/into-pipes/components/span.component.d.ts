@@ -1,9 +1,7 @@
 import { PipeComponent } from '../interfaces/pipe.component';
-export declare class LinkComponent implements PipeComponent {
-    source: string;
+export declare class SpanComponent implements PipeComponent {
     id: string;
     name: string;
-    title: string;
-    target: string;
+    source: string;
     transform(source: any, args: any[]): void;
 }

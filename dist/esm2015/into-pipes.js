@@ -1,4 +1,4 @@
-import { Pipe, Component, ViewChild, Renderer, Injectable, Directive, ViewContainerRef, Input, ComponentFactoryResolver, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Pipe, Component, ViewChild, Renderer, Output, EventEmitter, Injectable, Directive, ViewContainerRef, Input, ComponentFactoryResolver, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DatePipe, CurrencyPipe, DecimalPipe, JsonPipe, SlicePipe, UpperCasePipe, LowerCasePipe, CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -972,9 +972,7 @@ EmailComponent.decorators = [
     </a>
     `,
                 styles: [
-                    `:host {
-        }
-        `
+                    ``
                 ]
             },] },
 ];
@@ -1184,6 +1182,7 @@ class InputComponent {
     constructor(renderer) {
         this.renderer = renderer;
         this.editName = false;
+        this.onIntoComponentChange = new EventEmitter();
     }
     /**
      * @param {?} event
@@ -1224,6 +1223,11 @@ class InputComponent {
         event.stopPropagation();
         event.preventDefault();
         this.editName = !this.editName;
+        this.onIntoComponentChange.emit({
+            id: this.id,
+            name: this.name,
+            value: this.source
+        });
         setTimeout(() => {
             this.renderer.invokeElementMethod(this.nameEditor.nativeElement, "focus");
         }, 66);
@@ -1237,7 +1241,6 @@ class InputComponent {
         this.source = source;
         this.placeholder = args.length ? args[0] : "";
         this.formatting = args.length > 1 ? args[1] : "";
-        this.editNameId = String(new Date().getTime());
     }
 }
 InputComponent.decorators = [
@@ -1247,7 +1250,8 @@ InputComponent.decorators = [
     <span *ngIf="editName">
     <input #nameEditor
         type='text'
-        [id]="editNameId"
+        [id]="id"
+        [name]="name"
         [value]="source"
         [placeholder]="placeholder"
         (blur)="editName = false;"
@@ -1291,6 +1295,7 @@ InputComponent.ctorParameters = () => [
     { type: Renderer, },
 ];
 InputComponent.propDecorators = {
+    "onIntoComponentChange": [{ type: Output, args: ["onIntoComponentChange",] },],
     "nameEditor": [{ type: ViewChild, args: ["nameEditor",] },],
 };
 
@@ -1304,6 +1309,7 @@ class CheckboxComponent {
      */
     constructor(renderer) {
         this.renderer = renderer;
+        this.onIntoComponentChange = new EventEmitter();
     }
     /**
      * @param {?} event
@@ -1316,20 +1322,61 @@ class CheckboxComponent {
         }
     }
     /**
+     * @param {?} event
+     * @return {?}
+     */
+    click(event) {
+        const /** @type {?} */ input = event.target;
+        if (this.source === this.original) {
+            this.source = "";
+        }
+        else {
+            this.source = this.original;
+        }
+        this.onIntoComponentChange.emit({
+            id: this.id,
+            name: this.name,
+            value: this.source
+        });
+        if (this.useFont) {
+            setTimeout(() => {
+                if (this.source === this.original && this.check) {
+                    this.renderer.invokeElementMethod(this.check.nativeElement, "focus");
+                }
+                if (this.source === '' && this.uncheck) {
+                    this.renderer.invokeElementMethod(this.uncheck.nativeElement, "focus");
+                }
+            }, 66);
+        }
+    }
+    /**
      * @param {?} source
      * @param {?} args
      * @return {?}
      */
     transform(source, args) {
         this.source = source;
+        this.original = source;
+        this.id = source;
         this.ideal = args.length > 1 ? args[0] : "";
+        this.useFont = args.length > 2 ? Boolean(args[1]) : false;
     }
 }
 CheckboxComponent.decorators = [
     { type: Component, args: [{
                 selector: 'input-component',
                 template: `
-    <input type="checkbox" [value]="source" [checked]="source===ideal ? true : null" (keyup)="keyUp($event)" />
+    <span *ngIf="useFont">
+      <span *ngIf="source === ideal" #check tabindex="0" class="fa fa-check" (keyup)="keyup($event)" (click)="click($event)"></span>
+      <span *ngIf="source !== ideal" #uncheck tabindex="0" class="fa fa-close" (keyup)="keyup($event)" (click)="click($event)"></span>
+    </span>
+    <input *ngIf="!useFont"
+            type="checkbox"
+            tabindex="0"
+            [value]="source"
+            [checked]="source===ideal ? true : null"
+            (keyup)="keyup($event)"
+            (click)="click($event)" />
     `,
                 styles: [
                     `
@@ -1341,6 +1388,38 @@ CheckboxComponent.decorators = [
 CheckboxComponent.ctorParameters = () => [
     { type: Renderer, },
 ];
+CheckboxComponent.propDecorators = {
+    "check": [{ type: ViewChild, args: ["check",] },],
+    "uncheck": [{ type: ViewChild, args: ["uncheck",] },],
+    "onIntoComponentChange": [{ type: Output, args: ["onIntoComponentChange",] },],
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+class SpanComponent {
+    /**
+     * @param {?} source
+     * @param {?} args
+     * @return {?}
+     */
+    transform(source, args) {
+        this.source = source;
+    }
+}
+SpanComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'span-component',
+                template: `<span [textContent]="source"></span>`,
+                styles: [
+                    `
+        `
+                ]
+            },] },
+];
+/** @nocollapse */
+SpanComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -1349,6 +1428,7 @@ CheckboxComponent.ctorParameters = () => [
 class ComponentPool {
     constructor() {
         this.registeredComponents = {};
+        this.registerComponent("span", SpanComponent);
         this.registerComponent("address", AddressComponent);
         this.registerComponent("email", EmailComponent);
         this.registerComponent("font", FontComponent);
@@ -1557,75 +1637,95 @@ class IntoDirective {
                 break;
             case "json":
                 // json
-                result = this.transformComponent("json", content, "");
+                result = this.transformComponent("json", content, this.intoId, this.intoName, "");
                 break;
             case "font":
                 // font:fa fa-check:left:*
-                result = this.transformComponent("font", content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
+                result = this.transformComponent("font", content, this.intoId, this.intoName, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
                 break;
             case "email":
                 // email
-                result = this.transformComponent("email", content, "");
+                result = this.transformComponent("email", content, this.intoId, this.intoName, "");
                 break;
             case "address":
                 // address
-                result = this.transformComponent("address", content, "");
+                result = this.transformComponent("address", content, this.intoId, this.intoName, "");
                 break;
             case "rating":
                 // rating
-                result = this.transformComponent("rating", content, "");
+                result = this.transformComponent("rating", content, this.intoId, this.intoName, "");
                 break;
             case "link":
                 // link:target:text or link:text or link
                 if (args.length > 2) {
-                    result = this.transformComponent("link", content, args[1], args[2]);
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, args[1], args[2]);
                 }
                 else if (args.length > 1) {
-                    result = this.transformComponent("link", content, "", args[1]);
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, "", args[1]);
                 }
                 else {
-                    result = this.transformComponent("link", content, "", "");
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, "", "");
                 }
                 break;
             case "input":
                 // input:placeholder:pipe
-                result = this.transformComponent("input", content, args[1], args.length > 2 ? args[2] : "");
+                result = this.transformComponent("input", content, this.intoId, this.intoName, args[1], args.length > 2 ? args[2] : "");
+                break;
+            case "checkbox":
+                // input:ideal:useFont
+                result = this.transformComponent("checkbox", content, this.intoId, this.intoName, args[1], args.length > 2 ? args[2] : "");
                 break;
             case "image":
                 // image:200px:auto:alttext OR image:200px:alternate-text OR image:200px OR image
                 if (args.length > 3) {
-                    result = this.transformComponent("image", content, args[1], args[2], args[3]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1], args[2], args[3]);
                 }
                 else if (args.length > 2) {
-                    result = this.transformComponent("image", content, args[1], args[2]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1], args[2]);
                 }
                 else if (args.length > 1) {
-                    result = this.transformComponent("image", content, args[1]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1]);
                 }
                 else {
-                    result = this.transformComponent("image", content, "");
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, "");
+                }
+                break;
+            default:
+                // unknown formatter
+                try {
+                    result = this.transformComponent(args[0], content, this.intoId, this.intoName, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "", args.length > 4 ? args[4] : "", args.length > 5 ? args[5] : "");
+                }
+                catch (/** @type {?} */ x) {
+                    console.error(x);
                 }
                 break;
         }
         return result;
     }
     /**
-     * @param {?} name
+     * @param {?} type
      * @param {?} content
+     * @param {?} id
+     * @param {?} name
      * @param {...?} args
      * @return {?}
      */
-    transformComponent(name, content, ...args) {
+    transformComponent(type, content, id, name, ...args) {
         let /** @type {?} */ result;
         if (typeof content === "string" || typeof content === "number" || Object.keys(content).length) {
-            result = this.registeredComponentFor(name);
+            result = this.registeredComponentFor(type);
+            result.id = id;
+            result.name = name;
             result.transform(content.source ? content.source : content, args);
         }
         else if (content instanceof Array) {
+            let /** @type {?} */ counter = 0;
             result = content;
             content.map((source) => {
                 if (typeof source === "string" || typeof content === "number" || Object.keys(content).length) {
                     const /** @type {?} */ sx = this.registeredComponentFor(name);
+                    sx.id = id + '-' + (counter++);
+                    sx.name = name;
                     sx.transform(source.source ? source.source : source, args);
                 }
             });
@@ -1680,6 +1780,8 @@ IntoDirective.ctorParameters = () => [
 ];
 IntoDirective.propDecorators = {
     "rawContent": [{ type: Input, args: ["rawContent",] },],
+    "intoId": [{ type: Input, args: ["intoId",] },],
+    "intoName": [{ type: Input, args: ["intoName",] },],
     "into": [{ type: Input, args: ["into",] },],
 };
 
@@ -1704,6 +1806,7 @@ IntoPipeModule.decorators = [
                     RatingComponent,
                     InputComponent,
                     CheckboxComponent,
+                    SpanComponent,
                     JoinPipe,
                     InToPipe,
                     ImagePipe,
@@ -1750,7 +1853,8 @@ IntoPipeModule.decorators = [
                     LinkComponent,
                     InputComponent,
                     CheckboxComponent,
-                    RatingComponent
+                    RatingComponent,
+                    SpanComponent
                 ],
                 providers: [
                     JoinPipe,
@@ -1798,5 +1902,5 @@ IntoPipeModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵi, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵh, JsonComponent as ɵe, LinkComponent as ɵf, RatingComponent as ɵg };
+export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵi, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵh, JsonComponent as ɵe, LinkComponent as ɵf, RatingComponent as ɵg, SpanComponent as ɵj };
 //# sourceMappingURL=into-pipes.js.map

@@ -20,6 +20,7 @@ import {SanitizeHtmlPipe} from './pipes/sanitizeHtml.pipe';
 import {IntoDirective} from './directives/into.directive'
 import { ComponentPool } from './injectables/component.pool';
 
+import { SpanComponent } from './components/span.component';
 import { AddressComponent } from './components/address.component';
 import { EmailComponent } from './components/email.component';
 import { FontComponent } from './components/font.component';
@@ -44,6 +45,7 @@ import { CheckboxComponent } from './components/checkbox.component';
     RatingComponent,
     InputComponent,
     CheckboxComponent,
+    SpanComponent,
     JoinPipe,
     InToPipe,
     ImagePipe,
@@ -90,7 +92,8 @@ import { CheckboxComponent } from './components/checkbox.component';
     LinkComponent,
     InputComponent,
     CheckboxComponent,
-    RatingComponent
+    RatingComponent,
+    SpanComponent
   ],
   providers: [
     JoinPipe,

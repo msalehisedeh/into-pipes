@@ -11,6 +11,8 @@ import { PipeComponent } from '../interfaces/pipe.component';
 })
 export class LinkComponent implements PipeComponent {
     source: string;
+	id: string;
+	name: string;
     title: string;
     target: string;
 

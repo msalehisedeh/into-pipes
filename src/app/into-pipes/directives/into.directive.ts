@@ -36,6 +36,12 @@ export class IntoDirective implements OnInit {
     @Input("rawContent")
     rawContent: string;
     
+    @Input("intoId")
+    intoId: string;
+    
+    @Input("intoName")
+    intoName: string;
+    
     @Input("into")
     into: string;
 
@@ -193,65 +199,91 @@ export class IntoDirective implements OnInit {
                 break;
             case "json" : 
                 // json
-                result = this.transformComponent("json", content, ""); 
+                result = this.transformComponent("json", content, this.intoId, this.intoName, ""); 
                 break;
             case "font" : 
                 // font:fa fa-check:left:*
-                result = this.transformComponent("font", content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : ""); 
+                result = this.transformComponent("font", content, this.intoId, this.intoName, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : ""); 
                 break;
             case "email" : 
                 // email
-                result = this.transformComponent("email", content, ""); 
+                result = this.transformComponent("email", content, this.intoId, this.intoName, ""); 
                 break;
             case "address" : 
                 // address
-                result = this.transformComponent("address", content, ""); 
+                result = this.transformComponent("address", content, this.intoId, this.intoName, ""); 
                 break;
             case "rating" : 
                 // rating
-                result = this.transformComponent("rating", content, "");
+                result = this.transformComponent("rating", content, this.intoId, this.intoName, "");
                 break;
             case "link" : 
                 // link:target:text or link:text or link
                 if (args.length > 2) {
-                    result = this.transformComponent("link", content, args[1], args[2]);
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, args[1], args[2]);
                 } else if (args.length > 1) {
-                    result = this.transformComponent("link", content, "", args[1]);
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, "", args[1]);
                 } else {
-                    result = this.transformComponent("link", content, "", "");
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, "", "");
                 }
                 break;
             case "input" : 
                 // input:placeholder:pipe
-                result = this.transformComponent("input", content, args[1], args.length > 2 ? args[2] : "");
+                result = this.transformComponent("input", content, this.intoId, this.intoName, args[1], args.length > 2 ? args[2] : "");
+                break;
+            case "checkbox" : 
+                // input:ideal:useFont
+                result = this.transformComponent("checkbox", content, this.intoId, this.intoName, args[1], args.length > 2 ? args[2] : "");
                 break;
             case "image" : 
                 // image:200px:auto:alttext OR image:200px:alternate-text OR image:200px OR image
                 if (args.length > 3) {
-                    result = this.transformComponent("image", content, args[1], args[2], args[3]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1], args[2], args[3]);
                 } else if (args.length > 2) {
-                    result = this.transformComponent("image", content, args[1], args[2]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1], args[2]);
                 } else if (args.length > 1) {
-                    result = this.transformComponent("image", content, args[1]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1]);
                 } else {
-                    result = this.transformComponent("image", content, "");
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, "");
+                }
+                break;
+            default:
+                // unknown formatter
+                try {
+                    result = this.transformComponent(
+                        args[0], 
+                        content, 
+                        this.intoId, 
+                        this.intoName, 
+                        args.length > 1 ? args[1] : "", 
+                        args.length > 2 ? args[2] : "", 
+                        args.length > 3 ? args[3] : "", 
+                        args.length > 4 ? args[4] : "", 
+                        args.length > 5 ? args[5] : "");
+                }catch(x) {
+                    console.error(x);
                 }
                 break;
         }
         return result;
     }
 
-    private transformComponent(name, content: any, ...args: any[]): any {
+    private transformComponent(type, content: any, id: string, name: string,...args: any[]): any {
         let result: any;
 
         if (typeof content === "string" || typeof content === "number" || Object.keys(content).length) {
-            result =  this.registeredComponentFor(name);
+            result =  this.registeredComponentFor(type);
+            result.id = id;
+            result.name = name;
             result.transform(content.source ? content.source : content, args);
         } else if (content instanceof Array) {
+            let counter = 0;
             result = content;
             content.map((source) => {
                 if (typeof source === "string" || typeof content === "number" || Object.keys(content).length) {
-                   const sx = this.registeredComponentFor(name);
+                    const sx = this.registeredComponentFor(name);
+                    sx.id = id + '-' + (counter++);
+                    sx.name = name;
                     sx.transform(source.source ? source.source : source, args);
                 }
             });        

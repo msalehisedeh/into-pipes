@@ -748,7 +748,7 @@ EmailComponent.decorators = [
                 selector: 'email',
                 template: "\n    <a [href]=\"'mailto:' + source\">\n        <span class='fa fa-envelope' aria-hidden='true'></span>\n        <span [textContent]=\"source\"></span>\n    </a>\n    ",
                 styles: [
-                    ":host {\n        }\n        "
+                    ""
                 ]
             },] },
 ];
@@ -874,6 +874,7 @@ var InputComponent = /** @class */ (function () {
     function InputComponent(renderer) {
         this.renderer = renderer;
         this.editName = false;
+        this.onIntoComponentChange = new core.EventEmitter();
     }
     InputComponent.prototype.keyup = function (event) {
         var code = event.which;
@@ -904,6 +905,11 @@ var InputComponent = /** @class */ (function () {
         event.stopPropagation();
         event.preventDefault();
         this.editName = !this.editName;
+        this.onIntoComponentChange.emit({
+            id: this.id,
+            name: this.name,
+            value: this.source
+        });
         setTimeout(function () {
             _this.renderer.invokeElementMethod(_this.nameEditor.nativeElement, "focus");
         }, 66);
@@ -912,14 +918,13 @@ var InputComponent = /** @class */ (function () {
         this.source = source;
         this.placeholder = args.length ? args[0] : "";
         this.formatting = args.length > 1 ? args[1] : "";
-        this.editNameId = String(new Date().getTime());
     };
     return InputComponent;
 }());
 InputComponent.decorators = [
     { type: core.Component, args: [{
                 selector: 'input-component',
-                template: "\n    <span *ngIf=\"editName\">\n    <input #nameEditor\n        type='text'\n        [id]=\"editNameId\"\n        [value]=\"source\"\n        [placeholder]=\"placeholder\"\n        (blur)=\"editName = false;\"\n        (keyup)='keyup($event)'>\n    </span>\n    <span *ngIf='!editName && formatting'\n        class='locked'\n        tabindex='0'\n        (keydown)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? (source | into:formatting) : '&nbsp;'\">\n    </span>\n    <span *ngIf='!editName && !formatting'\n        class='locked'\n        tabindex='0'\n        (keydown)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? source : '&nbsp;'\">\n    </span>\n    ",
+                template: "\n    <span *ngIf=\"editName\">\n    <input #nameEditor\n        type='text'\n        [id]=\"id\"\n        [name]=\"name\"\n        [value]=\"source\"\n        [placeholder]=\"placeholder\"\n        (blur)=\"editName = false;\"\n        (keyup)='keyup($event)'>\n    </span>\n    <span *ngIf='!editName && formatting'\n        class='locked'\n        tabindex='0'\n        (keydown)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? (source | into:formatting) : '&nbsp;'\">\n    </span>\n    <span *ngIf='!editName && !formatting'\n        class='locked'\n        tabindex='0'\n        (keydown)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? source : '&nbsp;'\">\n    </span>\n    ",
                 styles: [
                     "\n        .locked {\n          display: inline-block;\n          cursor: pointer;\n          min-width: 30px;\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n        input{\n          cursor: beam;\n        }\n        "
                 ]
@@ -929,11 +934,13 @@ InputComponent.ctorParameters = function () { return [
     { type: core.Renderer, },
 ]; };
 InputComponent.propDecorators = {
+    "onIntoComponentChange": [{ type: core.Output, args: ["onIntoComponentChange",] },],
     "nameEditor": [{ type: core.ViewChild, args: ["nameEditor",] },],
 };
 var CheckboxComponent = /** @class */ (function () {
     function CheckboxComponent(renderer) {
         this.renderer = renderer;
+        this.onIntoComponentChange = new core.EventEmitter();
     }
     CheckboxComponent.prototype.keyup = function (event) {
         var code = event.which;
@@ -941,16 +948,44 @@ var CheckboxComponent = /** @class */ (function () {
             this.renderer.invokeElementMethod(event.target, "click");
         }
     };
+    CheckboxComponent.prototype.click = function (event) {
+        var _this = this;
+        var input = event.target;
+        if (this.source === this.original) {
+            this.source = "";
+        }
+        else {
+            this.source = this.original;
+        }
+        this.onIntoComponentChange.emit({
+            id: this.id,
+            name: this.name,
+            value: this.source
+        });
+        if (this.useFont) {
+            setTimeout(function () {
+                if (_this.source === _this.original && _this.check) {
+                    _this.renderer.invokeElementMethod(_this.check.nativeElement, "focus");
+                }
+                if (_this.source === '' && _this.uncheck) {
+                    _this.renderer.invokeElementMethod(_this.uncheck.nativeElement, "focus");
+                }
+            }, 66);
+        }
+    };
     CheckboxComponent.prototype.transform = function (source, args) {
         this.source = source;
+        this.original = source;
+        this.id = source;
         this.ideal = args.length > 1 ? args[0] : "";
+        this.useFont = args.length > 2 ? Boolean(args[1]) : false;
     };
     return CheckboxComponent;
 }());
 CheckboxComponent.decorators = [
     { type: core.Component, args: [{
                 selector: 'input-component',
-                template: "\n    <input type=\"checkbox\" [value]=\"source\" [checked]=\"source===ideal ? true : null\" (keyup)=\"keyUp($event)\" />\n    ",
+                template: "\n    <span *ngIf=\"useFont\">\n      <span *ngIf=\"source === ideal\" #check tabindex=\"0\" class=\"fa fa-check\" (keyup)=\"keyup($event)\" (click)=\"click($event)\"></span>\n      <span *ngIf=\"source !== ideal\" #uncheck tabindex=\"0\" class=\"fa fa-close\" (keyup)=\"keyup($event)\" (click)=\"click($event)\"></span>\n    </span>\n    <input *ngIf=\"!useFont\"\n            type=\"checkbox\"\n            tabindex=\"0\"\n            [value]=\"source\"\n            [checked]=\"source===ideal ? true : null\"\n            (keyup)=\"keyup($event)\"\n            (click)=\"click($event)\" />\n    ",
                 styles: [
                     "\n        "
                 ]
@@ -959,9 +994,33 @@ CheckboxComponent.decorators = [
 CheckboxComponent.ctorParameters = function () { return [
     { type: core.Renderer, },
 ]; };
+CheckboxComponent.propDecorators = {
+    "check": [{ type: core.ViewChild, args: ["check",] },],
+    "uncheck": [{ type: core.ViewChild, args: ["uncheck",] },],
+    "onIntoComponentChange": [{ type: core.Output, args: ["onIntoComponentChange",] },],
+};
+var SpanComponent = /** @class */ (function () {
+    function SpanComponent() {
+    }
+    SpanComponent.prototype.transform = function (source, args) {
+        this.source = source;
+    };
+    return SpanComponent;
+}());
+SpanComponent.decorators = [
+    { type: core.Component, args: [{
+                selector: 'span-component',
+                template: "<span [textContent]=\"source\"></span>",
+                styles: [
+                    "\n        "
+                ]
+            },] },
+];
+SpanComponent.ctorParameters = function () { return []; };
 var ComponentPool = /** @class */ (function () {
     function ComponentPool() {
         this.registeredComponents = {};
+        this.registerComponent("span", SpanComponent);
         this.registerComponent("address", AddressComponent);
         this.registerComponent("email", EmailComponent);
         this.registerComponent("font", FontComponent);
@@ -1126,67 +1185,83 @@ var IntoDirective = /** @class */ (function () {
                 result = new JoinPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "json":
-                result = this.transformComponent("json", content, "");
+                result = this.transformComponent("json", content, this.intoId, this.intoName, "");
                 break;
             case "font":
-                result = this.transformComponent("font", content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
+                result = this.transformComponent("font", content, this.intoId, this.intoName, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
                 break;
             case "email":
-                result = this.transformComponent("email", content, "");
+                result = this.transformComponent("email", content, this.intoId, this.intoName, "");
                 break;
             case "address":
-                result = this.transformComponent("address", content, "");
+                result = this.transformComponent("address", content, this.intoId, this.intoName, "");
                 break;
             case "rating":
-                result = this.transformComponent("rating", content, "");
+                result = this.transformComponent("rating", content, this.intoId, this.intoName, "");
                 break;
             case "link":
                 if (args.length > 2) {
-                    result = this.transformComponent("link", content, args[1], args[2]);
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, args[1], args[2]);
                 }
                 else if (args.length > 1) {
-                    result = this.transformComponent("link", content, "", args[1]);
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, "", args[1]);
                 }
                 else {
-                    result = this.transformComponent("link", content, "", "");
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, "", "");
                 }
                 break;
             case "input":
-                result = this.transformComponent("input", content, args[1], args.length > 2 ? args[2] : "");
+                result = this.transformComponent("input", content, this.intoId, this.intoName, args[1], args.length > 2 ? args[2] : "");
+                break;
+            case "checkbox":
+                result = this.transformComponent("checkbox", content, this.intoId, this.intoName, args[1], args.length > 2 ? args[2] : "");
                 break;
             case "image":
                 if (args.length > 3) {
-                    result = this.transformComponent("image", content, args[1], args[2], args[3]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1], args[2], args[3]);
                 }
                 else if (args.length > 2) {
-                    result = this.transformComponent("image", content, args[1], args[2]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1], args[2]);
                 }
                 else if (args.length > 1) {
-                    result = this.transformComponent("image", content, args[1]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1]);
                 }
                 else {
-                    result = this.transformComponent("image", content, "");
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, "");
+                }
+                break;
+            default:
+                try {
+                    result = this.transformComponent(args[0], content, this.intoId, this.intoName, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "", args.length > 4 ? args[4] : "", args.length > 5 ? args[5] : "");
+                }
+                catch (x) {
+                    console.error(x);
                 }
                 break;
         }
         return result;
     };
-    IntoDirective.prototype.transformComponent = function (name, content) {
+    IntoDirective.prototype.transformComponent = function (type, content, id, name) {
         var _this = this;
         var args = [];
-        for (var _i = 2; _i < arguments.length; _i++) {
-            args[_i - 2] = arguments[_i];
+        for (var _i = 4; _i < arguments.length; _i++) {
+            args[_i - 4] = arguments[_i];
         }
         var result;
         if (typeof content === "string" || typeof content === "number" || Object.keys(content).length) {
-            result = this.registeredComponentFor(name);
+            result = this.registeredComponentFor(type);
+            result.id = id;
+            result.name = name;
             result.transform(content.source ? content.source : content, args);
         }
         else if (content instanceof Array) {
+            var counter_1 = 0;
             result = content;
             content.map(function (source) {
                 if (typeof source === "string" || typeof content === "number" || Object.keys(content).length) {
                     var sx = _this.registeredComponentFor(name);
+                    sx.id = id + '-' + (counter_1++);
+                    sx.name = name;
                     sx.transform(source.source ? source.source : source, args);
                 }
             });
@@ -1235,6 +1310,8 @@ IntoDirective.ctorParameters = function () { return [
 ]; };
 IntoDirective.propDecorators = {
     "rawContent": [{ type: core.Input, args: ["rawContent",] },],
+    "intoId": [{ type: core.Input, args: ["intoId",] },],
+    "intoName": [{ type: core.Input, args: ["intoName",] },],
     "into": [{ type: core.Input, args: ["into",] },],
 };
 var IntoPipeModule = /** @class */ (function () {
@@ -1257,6 +1334,7 @@ IntoPipeModule.decorators = [
                     RatingComponent,
                     InputComponent,
                     CheckboxComponent,
+                    SpanComponent,
                     JoinPipe,
                     InToPipe,
                     ImagePipe,
@@ -1303,7 +1381,8 @@ IntoPipeModule.decorators = [
                     LinkComponent,
                     InputComponent,
                     CheckboxComponent,
-                    RatingComponent
+                    RatingComponent,
+                    SpanComponent
                 ],
                 providers: [
                     JoinPipe,
@@ -1365,6 +1444,7 @@ exports.ɵh = InputComponent;
 exports.ɵe = JsonComponent;
 exports.ɵf = LinkComponent;
 exports.ɵg = RatingComponent;
+exports.ɵj = SpanComponent;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

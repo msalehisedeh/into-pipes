@@ -1,12 +1,14 @@
-import { Renderer } from '@angular/core';
+import { Renderer, EventEmitter } from '@angular/core';
 import { PipeComponent } from '../interfaces/pipe.component';
 export declare class InputComponent implements PipeComponent {
     private renderer;
     source: string;
+    id: string;
+    name: string;
     placeholder: string;
-    editNameId: string;
     formatting: string;
     editName: boolean;
+    onIntoComponentChange: EventEmitter<{}>;
     constructor(renderer: Renderer);
     nameEditor: any;
     keyup(event: any): void;

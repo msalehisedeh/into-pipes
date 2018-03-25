@@ -10,14 +10,13 @@ import { PipeComponent } from '../interfaces/pipe.component';
     </a>
     `,
     styles: [
-        `:host {
-
-        }
-        `
+        ``
     ]
 })
 export class EmailComponent implements PipeComponent {
     source: string;
+	id: string;
+	name: string;
 
     transform(source: any, args: any[]) {
         this.source = source;

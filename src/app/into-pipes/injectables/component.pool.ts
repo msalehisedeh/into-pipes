@@ -15,12 +15,14 @@ import { LinkComponent } from '../components/link.component';
 import { RatingComponent } from '../components/rating.component';
 import { InputComponent } from '../components/input.component';
 import { CheckboxComponent } from '../components/checkbox.component';
+import { SpanComponent } from '../components/span.component';
 
 @Injectable()
 export class ComponentPool {
 	private registeredComponents= {};
 
 	constructor() {
+		this.registerComponent("span", SpanComponent);
 		this.registerComponent("address", AddressComponent);
 		this.registerComponent("email", EmailComponent);
 		this.registerComponent("font", FontComponent);
