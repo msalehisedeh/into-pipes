@@ -1,6 +1,7 @@
-import { Pipe, Component, ViewChild, Renderer, Output, EventEmitter, Injectable, Directive, ViewContainerRef, Input, ComponentFactoryResolver, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Pipe, Component, ViewChild, Renderer, Output, EventEmitter, Injectable, Directive, ViewContainerRef, ElementRef, Input, ComponentFactoryResolver, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DatePipe, CurrencyPipe, DecimalPipe, JsonPipe, SlicePipe, UpperCasePipe, LowerCasePipe, CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
+import { EventEmitter as EventEmitter$1 } from 'events';
 
 /**
  * @fileoverview added by tsickle
@@ -1001,17 +1002,10 @@ FontComponent.decorators = [
     { type: Component, args: [{
                 selector: 'font-component',
                 template: `
-    <span *ngIf="location === 'left'">
-        <span [class]="font" aria-hidden='true'></span>
-        <span [textContent]="content"></span>
-    </span>
-    <span *ngIf="location === 'right'">
-        <span [textContent]="content"></span>
-        <span [class]="font" aria-hidden='true'></span>
-    </span>
-    <span *ngIf="location === 'replace'">
-        <span [class]="font" aria-hidden='true'></span>
-    </span>
+        <span *ngIf="location === 'left'"    [class]="font" aria-hidden='true'></span>
+        <span *ngIf="location !== 'replace'" [textContent]="content"></span>
+        <span *ngIf="location === 'right'"   [class]="font" aria-hidden='true'></span>
+        <span *ngIf="location === 'replace'" [class]="font" aria-hidden='true'></span>
     `,
                 styles: [
                     `span span {
@@ -1358,15 +1352,15 @@ class CheckboxComponent {
         this.source = source;
         this.original = source;
         this.id = source;
-        this.ideal = args.length > 1 ? args[0] : "";
-        this.useFont = args.length > 2 ? Boolean(args[1]) : false;
+        this.ideal = args.length ? args[0] : "";
+        this.useFont = args.length > 1 ? Boolean(args[1]) : false;
     }
 }
 CheckboxComponent.decorators = [
     { type: Component, args: [{
                 selector: 'input-component',
                 template: `
-    <span *ngIf="useFont">
+    <span *ngIf="useFont" class="check-font">
       <span *ngIf="source === ideal" #check tabindex="0" class="fa fa-check" (keyup)="keyup($event)" (click)="click($event)"></span>
       <span *ngIf="source !== ideal" #uncheck tabindex="0" class="fa fa-close" (keyup)="keyup($event)" (click)="click($event)"></span>
     </span>
@@ -1380,6 +1374,9 @@ CheckboxComponent.decorators = [
     `,
                 styles: [
                     `
+        .check-font {
+          cursor: pointer;
+        }
         `
                 ]
             },] },
@@ -1391,6 +1388,62 @@ CheckboxComponent.ctorParameters = () => [
 CheckboxComponent.propDecorators = {
     "check": [{ type: ViewChild, args: ["check",] },],
     "uncheck": [{ type: ViewChild, args: ["uncheck",] },],
+    "onIntoComponentChange": [{ type: Output, args: ["onIntoComponentChange",] },],
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+class SelectComponent {
+    /**
+     * @param {?} renderer
+     */
+    constructor(renderer) {
+        this.renderer = renderer;
+        this.onIntoComponentChange = new EventEmitter();
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    change(event) {
+        this.source = event.target.value;
+        this.onIntoComponentChange.emit({
+            id: this.id,
+            name: this.name,
+            value: this.source
+        });
+    }
+    /**
+     * @param {?} source
+     * @param {?} args
+     * @return {?}
+     */
+    transform(source, args) {
+        this.source = source;
+        this.options = this.service.getDataFor(this.name, this.id);
+    }
+}
+SelectComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'select-component',
+                template: `
+    <select tabindex="0" (change)="change($event)">
+        <option *ngFor="let x of options" [selected]="source === x ? true : null"  [value]="x" [textContent]="x"></option>
+    </select>
+    `,
+                styles: [
+                    `
+        `
+                ]
+            },] },
+];
+/** @nocollapse */
+SelectComponent.ctorParameters = () => [
+    { type: Renderer, },
+];
+SelectComponent.propDecorators = {
     "onIntoComponentChange": [{ type: Output, args: ["onIntoComponentChange",] },],
 };
 
@@ -1428,6 +1481,7 @@ SpanComponent.ctorParameters = () => [];
 class ComponentPool {
     constructor() {
         this.registeredComponents = {};
+        this.registeredServices = {};
         this.registerComponent("span", SpanComponent);
         this.registerComponent("address", AddressComponent);
         this.registerComponent("email", EmailComponent);
@@ -1438,6 +1492,7 @@ class ComponentPool {
         this.registerComponent("rating", RatingComponent);
         this.registerComponent("input", InputComponent);
         this.registerComponent("checkbox", CheckboxComponent);
+        this.registerComponent("select", SelectComponent);
     }
     /**
      * @param {?} name
@@ -1454,6 +1509,21 @@ class ComponentPool {
     registeredComponent(name) {
         return this.registeredComponents[name];
     }
+    /**
+     * @param {?} name
+     * @param {?} service
+     * @return {?}
+     */
+    registerServiceForComponent(name, service) {
+        this.registeredServices[name] = service;
+    }
+    /**
+     * @param {?} name
+     * @return {?}
+     */
+    registeredServiceForComponent(name) {
+        return this.registeredServices[name];
+    }
 }
 ComponentPool.decorators = [
     { type: Injectable },
@@ -1467,14 +1537,17 @@ ComponentPool.ctorParameters = () => [];
  */
 class IntoDirective {
     /**
+     * @param {?} viewRef
      * @param {?} el
      * @param {?} pool
      * @param {?} componentFactoryResolver
      */
-    constructor(el, pool, componentFactoryResolver) {
+    constructor(viewRef, el, pool, componentFactoryResolver) {
+        this.viewRef = viewRef;
         this.el = el;
         this.pool = pool;
         this.componentFactoryResolver = componentFactoryResolver;
+        this.onComponentChange = new EventEmitter$1();
     }
     /**
      * @param {?} item
@@ -1628,7 +1701,8 @@ class IntoDirective {
                 result = new ConditionalPipe().transform(content, acondition, value, action, altAction);
                 if (typeof result === "string") {
                     result = result[0] === '"' ? result.substring(1, result.length - 1) : result;
-                    result = this._transform(content, this.split(result));
+                    result = this.split(result);
+                    result = this._transform(content, result);
                 }
                 break;
             case "join":
@@ -1654,6 +1728,10 @@ class IntoDirective {
             case "rating":
                 // rating
                 result = this.transformComponent("rating", content, this.intoId, this.intoName, "");
+                break;
+            case "select":
+                // rating
+                result = this.transformComponent("select", content, this.intoId, this.intoName, "");
                 break;
             case "link":
                 // link:target:text or link:text or link
@@ -1712,25 +1790,40 @@ class IntoDirective {
      */
     transformComponent(type, content, id, name, ...args) {
         let /** @type {?} */ result;
-        if (typeof content === "string" || typeof content === "number" || Object.keys(content).length) {
+        if (typeof content === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
             result = this.registeredComponentFor(type);
             result.id = id;
             result.name = name;
+            result.service = this.pool.registeredServiceForComponent(type);
             result.transform(content.source ? content.source : content, args);
+            if (result.onIntoComponentChange) {
+                result.onIntoComponentChange.subscribe(this.onIntoComponentChange.bind(this));
+            }
         }
         else if (content instanceof Array) {
             let /** @type {?} */ counter = 0;
             result = content;
             content.map((source) => {
-                if (typeof source === "string" || typeof content === "number" || Object.keys(content).length) {
-                    const /** @type {?} */ sx = this.registeredComponentFor(name);
+                if (typeof source === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
+                    const /** @type {?} */ sx = this.registeredComponentFor(type);
                     sx.id = id + '-' + (counter++);
                     sx.name = name;
+                    sx.service = this.pool.registeredServiceForComponent(type);
                     sx.transform(source.source ? source.source : source, args);
+                    if (sx.onIntoComponentChange) {
+                        sx.onIntoComponentChange.subscribe(this.onIntoComponentChange.bind(this));
+                    }
                 }
             });
         }
         return result;
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    onIntoComponentChange(event) {
+        this.onComponentChange.emit(event);
     }
     /**
      * @param {?} name
@@ -1741,7 +1834,9 @@ class IntoDirective {
         let /** @type {?} */ componentRef;
         if (component) {
             let /** @type {?} */ componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
-            componentRef = this.el.createComponent(componentFactory);
+            componentRef = this.viewRef.createComponent(componentFactory);
+            const /** @type {?} */ domElem = /** @type {?} */ ((/** @type {?} */ (componentRef.hostView)).rootNodes[0]);
+            this.el.nativeElement.appendChild(domElem);
         }
         return (/** @type {?} */ (componentRef.instance));
     }
@@ -1749,11 +1844,13 @@ class IntoDirective {
      * @return {?}
      */
     ngOnInit() {
-        if (this.into && this.rawContent) {
+        if (this.into || this.rawContent) {
             let /** @type {?} */ result = this.rawContent;
-            this.into.split("|").map((item) => {
-                result = this._transform(result, this.split(item));
-            });
+            if (this.into) {
+                this.into.split("|").map((item) => {
+                    result = this._transform(result, this.split(item));
+                });
+            }
             if (typeof result === "string") {
                 this.registeredComponentFor("span").transform(result);
             }
@@ -1775,6 +1872,7 @@ IntoDirective.decorators = [
 /** @nocollapse */
 IntoDirective.ctorParameters = () => [
     { type: ViewContainerRef, },
+    { type: ElementRef, },
     { type: ComponentPool, },
     { type: ComponentFactoryResolver, },
 ];
@@ -1783,6 +1881,7 @@ IntoDirective.propDecorators = {
     "intoId": [{ type: Input, args: ["intoId",] },],
     "intoName": [{ type: Input, args: ["intoName",] },],
     "into": [{ type: Input, args: ["into",] },],
+    "onComponentChange": [{ type: Output, args: ["onComponentChange",] },],
 };
 
 /**
@@ -1806,6 +1905,7 @@ IntoPipeModule.decorators = [
                     RatingComponent,
                     InputComponent,
                     CheckboxComponent,
+                    SelectComponent,
                     SpanComponent,
                     JoinPipe,
                     InToPipe,
@@ -1854,6 +1954,7 @@ IntoPipeModule.decorators = [
                     InputComponent,
                     CheckboxComponent,
                     RatingComponent,
+                    SelectComponent,
                     SpanComponent
                 ],
                 providers: [
@@ -1902,5 +2003,5 @@ IntoPipeModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵi, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵh, JsonComponent as ɵe, LinkComponent as ɵf, RatingComponent as ɵg, SpanComponent as ɵj };
+export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵi, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵh, JsonComponent as ɵe, LinkComponent as ɵf, RatingComponent as ɵg, SelectComponent as ɵj, SpanComponent as ɵk };
 //# sourceMappingURL=into-pipes.js.map

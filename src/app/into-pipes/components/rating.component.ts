@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { PipeComponent } from '../interfaces/pipe.component';
 
 @Component({
@@ -23,6 +23,7 @@ export class RatingComponent implements PipeComponent {
 	name: string;
     value: number[] = [];
     float: number;
+	onIntoComponentChange: EventEmitter<any>;
 
     transform(source: any, args: any[]) {
         const number = typeof source === "number" ? String(source) : source;

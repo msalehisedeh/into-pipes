@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { PipeComponent } from '../interfaces/pipe.component';
 
 @Component({
@@ -17,6 +17,7 @@ export class EmailComponent implements PipeComponent {
     source: string;
 	id: string;
 	name: string;
+	onIntoComponentChange: EventEmitter<any>;
 
     transform(source: any, args: any[]) {
         this.source = source;

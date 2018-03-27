@@ -5,6 +5,43 @@ This library provides few Angular 4 pipes that are all used by a single "into" p
 a node, make sure you will pipe the result into sanitizeHtml.
 You are welcom to add on additional pipes and formatting rules to this library.
 
+# Version 1.2.0
+Fixed a few logic issues and added event emit to the directive. Added into select option. You are now able to pipe a value into select tag. But you will need to register a service that knows how to provide select options for a given attribute. And this service has to implement PipeServiceComponent.
+
+Sample on the directive usage
+```javascript
+	<td scope="row" 
+        [intoName]="SSN"
+        [intoId]="'ssn-' + i"
+        [into]="input:mask"
+        [rawContent]="item.ssn"
+        (onComponentChange)="onTableCellEdit($event)"></td>
+```
+
+Sample registration for select pipe.
+```javascript
+  constructor(private pool: ComponentPool, private myService: MySelectService) {
+    this.pool.registerServiceForComponent("select", myService);
+  }
+```
+
+Interfaces
+```javascript
+export interface PipeComponent {
+	source: any;
+	id: string;
+	name: string;
+	service?:PipeServiceComponent;
+	onIntoComponentChange: EventEmitter<any>;
+	  
+	transform(content: any, args?: any[]);
+}
+
+export interface PipeServiceComponent {
+	getDataFor(itemName, itemId);
+}
+```
+
 # Version 1.1.0
 Added ability for you to declare a custom pipe. You will need to create your own customcomponent for it and register the component as was explained on release 1.0.0.
 

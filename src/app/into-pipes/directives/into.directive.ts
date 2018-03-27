@@ -1,9 +1,13 @@
 import {
     Directive,
     ViewContainerRef,
+    ElementRef,
     Input,
+    Output,
     OnInit,
-	ComponentFactoryResolver
+	ComponentFactoryResolver,
+    ComponentRef,
+    EmbeddedViewRef
 } from '@angular/core';
 
 import {
@@ -27,6 +31,7 @@ import {JoinPipe} from '../pipes/join.pipe';
 
 import { PipeComponent } from '../interfaces/pipe.component';
 import { ComponentPool } from '../injectables/component.pool';
+import { EventEmitter } from 'events';
 
 @Directive({
     selector: '[into]'
@@ -45,8 +50,12 @@ export class IntoDirective implements OnInit {
     @Input("into")
     into: string;
 
+    @Output("onComponentChange")
+    onComponentChange = new EventEmitter();
+
     constructor(
-        private el: ViewContainerRef,
+        private viewRef: ViewContainerRef,
+        public el:ElementRef,
         private pool: ComponentPool,
 		private componentFactoryResolver: ComponentFactoryResolver
     ) {
@@ -190,7 +199,8 @@ export class IntoDirective implements OnInit {
 
                 if (typeof result === "string") {
                     result = result[0] === '"' ? result.substring(1,result.length-1) : result;
-                    result = this._transform(content,this.split(result));
+                    result = this.split(result);
+                    result = this._transform(content, result);
                 }
                 break;
             case "join" : 
@@ -216,6 +226,10 @@ export class IntoDirective implements OnInit {
             case "rating" : 
                 // rating
                 result = this.transformComponent("rating", content, this.intoId, this.intoName, "");
+                break;
+            case "select" : 
+                // rating
+                result = this.transformComponent("select", content, this.intoId, this.intoName, "");
                 break;
             case "link" : 
                 // link:target:text or link:text or link
@@ -270,21 +284,28 @@ export class IntoDirective implements OnInit {
 
     private transformComponent(type, content: any, id: string, name: string,...args: any[]): any {
         let result: any;
-
-        if (typeof content === "string" || typeof content === "number" || Object.keys(content).length) {
+        if (typeof content === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
             result =  this.registeredComponentFor(type);
             result.id = id;
             result.name = name;
+            result.service = this.pool.registeredServiceForComponent(type);
             result.transform(content.source ? content.source : content, args);
+            if (result.onIntoComponentChange) {
+                result.onIntoComponentChange.subscribe(this.onIntoComponentChange.bind(this));
+            }
         } else if (content instanceof Array) {
             let counter = 0;
             result = content;
             content.map((source) => {
-                if (typeof source === "string" || typeof content === "number" || Object.keys(content).length) {
-                    const sx = this.registeredComponentFor(name);
+                if (typeof source === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
+                    const sx = this.registeredComponentFor(type);
                     sx.id = id + '-' + (counter++);
                     sx.name = name;
+                    sx.service = this.pool.registeredServiceForComponent(type);
                     sx.transform(source.source ? source.source : source, args);
+                    if (sx.onIntoComponentChange) {
+                        sx.onIntoComponentChange.subscribe(this.onIntoComponentChange.bind(this));
+                    }
                 }
             });        
         }
@@ -292,23 +313,31 @@ export class IntoDirective implements OnInit {
 
     }
 
+    onIntoComponentChange(event) {
+        this.onComponentChange.emit(event);
+    } 
+
     private registeredComponentFor(name): PipeComponent {
         const component = this.pool.registeredComponent(name);
-        let componentRef;
+        let componentRef: ComponentRef<any>;
         if (component) {
             let componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
-            componentRef = this.el.createComponent(componentFactory);
+            componentRef = this.viewRef.createComponent(componentFactory);
+            const domElem = (componentRef.hostView as EmbeddedViewRef < any > ).rootNodes[0] as HTMLElement;
+            this.el.nativeElement.appendChild(domElem)
         }
         return  (<PipeComponent>componentRef.instance);
     }
     
 	ngOnInit() {
-		if (this.into && this.rawContent) {
+		if (this.into || this.rawContent) {
             let result: any =  this.rawContent;
         
-            this.into.split("|").map( (item) => {
-                result = this._transform(result, this.split(item));
-            });
+            if (this.into) {
+                this.into.split("|").map( (item) => {
+                    result = this._transform(result, this.split(item));
+                });
+            }
             if (typeof result === "string") {
                 this.registeredComponentFor("span").transform(result);
             } else if (result instanceof Array) {

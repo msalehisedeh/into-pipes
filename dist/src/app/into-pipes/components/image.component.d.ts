@@ -1,3 +1,4 @@
+import { EventEmitter } from '@angular/core';
 import { PipeComponent } from '../interfaces/pipe.component';
 export declare class ImageComponent implements PipeComponent {
     source: string;
@@ -6,5 +7,6 @@ export declare class ImageComponent implements PipeComponent {
     width: string;
     height: string;
     alt: string;
+    onIntoComponentChange: EventEmitter<any>;
     transform(source: any, args: any[]): void;
 }

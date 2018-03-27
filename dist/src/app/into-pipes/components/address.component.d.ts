@@ -1,3 +1,4 @@
+import { EventEmitter } from '@angular/core';
 import { PipeComponent } from '../interfaces/pipe.component';
 export declare class AddressComponent implements PipeComponent {
     url: string;
@@ -6,5 +7,6 @@ export declare class AddressComponent implements PipeComponent {
     name: string;
     addr1: string;
     addr2: string;
+    onIntoComponentChange: EventEmitter<any>;
     transform(source: any, args: any[]): void;
 }

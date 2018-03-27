@@ -1,4 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
+
+import { ComponentPool } from './into-pipes/injectables/component.pool';
+import { PipeServiceComponent } from './into-pipes/interfaces/pipe.component';
+
+class myService implements PipeServiceComponent {
+
+  getDataFor(itemName, itemId) {
+    return [
+      'abc@gmail.com',
+      'csd@gmail.com',
+      'ddd@gmail.com',
+      'krg@gmail.com',
+      'xyz@gmail.com'
+    ];
+  }
+}
 
 @Component({
   selector: 'app-root',
@@ -29,7 +45,7 @@ export class AppComponent {
     }
   };
 
-  constructor() {
-
+  constructor(private pool: ComponentPool) {
+    this.pool.registerServiceForComponent("select", new myService());
   }
 }

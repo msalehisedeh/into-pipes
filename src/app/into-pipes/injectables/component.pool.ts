@@ -15,11 +15,13 @@ import { LinkComponent } from '../components/link.component';
 import { RatingComponent } from '../components/rating.component';
 import { InputComponent } from '../components/input.component';
 import { CheckboxComponent } from '../components/checkbox.component';
+import { SelectComponent } from '../components/select.component';
 import { SpanComponent } from '../components/span.component';
 
 @Injectable()
 export class ComponentPool {
 	private registeredComponents= {};
+	private registeredServices= {};
 
 	constructor() {
 		this.registerComponent("span", SpanComponent);
@@ -32,6 +34,7 @@ export class ComponentPool {
 		this.registerComponent("rating", RatingComponent);
 		this.registerComponent("input", InputComponent);
 		this.registerComponent("checkbox", CheckboxComponent);
+		this.registerComponent("select", SelectComponent);
 	}
   
 	registerComponent (name, component: any) {
@@ -39,5 +42,12 @@ export class ComponentPool {
 	}
 	registeredComponent(name) {
 		return this.registeredComponents[name];
+	}
+
+	registerServiceForComponent (name, service: any) {
+		this.registeredServices[name] = service;
+	}
+	registeredServiceForComponent(name): any {
+		return this.registeredServices[name];
 	}
 }

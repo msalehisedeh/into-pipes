@@ -17,4 +17,4 @@ export { ConditionalPipe } from './src/app/into-pipes/pipes/conditional.pipe';
 export { IntoPipeModule } from './src/app/into-pipes/pipe.module';
 export { IntoDirective } from './src/app/into-pipes/directives/into.directive';
 export { ComponentPool } from './src/app/into-pipes/injectables/component.pool';
-export { PipeComponent } from './src/app/into-pipes/interfaces/pipe.component';
+export { PipeComponent, PipeServiceComponent } from './src/app/into-pipes/interfaces/pipe.component';

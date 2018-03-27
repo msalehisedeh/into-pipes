@@ -1,20 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { PipeComponent } from '../interfaces/pipe.component';
 
 @Component({
     selector: 'font-component',
     template: `
-    <span *ngIf="location === 'left'">
-        <span [class]="font" aria-hidden='true'></span>
-        <span [textContent]="content"></span>
-    </span>
-    <span *ngIf="location === 'right'">
-        <span [textContent]="content"></span>
-        <span [class]="font" aria-hidden='true'></span>
-    </span>
-    <span *ngIf="location === 'replace'">
-        <span [class]="font" aria-hidden='true'></span>
-    </span>
+        <span *ngIf="location === 'left'"    [class]="font" aria-hidden='true'></span>
+        <span *ngIf="location !== 'replace'" [textContent]="content"></span>
+        <span *ngIf="location === 'right'"   [class]="font" aria-hidden='true'></span>
+        <span *ngIf="location === 'replace'" [class]="font" aria-hidden='true'></span>
     `,
     styles: [
         `span span {
@@ -30,6 +23,7 @@ export class FontComponent implements PipeComponent {
 	id: string;
 	name: string;
     content: string;
+	onIntoComponentChange: EventEmitter<any>;
 
     transform(source: any, args: any[]) {
         this.source = source;

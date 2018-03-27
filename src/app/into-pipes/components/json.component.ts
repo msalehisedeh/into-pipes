@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { PipeComponent } from '../interfaces/pipe.component';
 
 @Component({
@@ -20,6 +20,7 @@ export class JsonComponent implements PipeComponent {
 	id: string;
 	name: string;
     source: string;
+	onIntoComponentChange: EventEmitter<any>;
 
     transform(source: any, args: any[]) {
         this.source = source

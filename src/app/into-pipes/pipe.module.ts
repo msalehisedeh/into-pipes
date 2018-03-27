@@ -30,6 +30,7 @@ import { LinkComponent } from './components/link.component';
 import { RatingComponent } from './components/rating.component';
 import { InputComponent } from './components/input.component';
 import { CheckboxComponent } from './components/checkbox.component';
+import { SelectComponent } from './components/select.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { CheckboxComponent } from './components/checkbox.component';
     RatingComponent,
     InputComponent,
     CheckboxComponent,
+    SelectComponent,
     SpanComponent,
     JoinPipe,
     InToPipe,
@@ -93,6 +95,7 @@ import { CheckboxComponent } from './components/checkbox.component';
     InputComponent,
     CheckboxComponent,
     RatingComponent,
+    SelectComponent,
     SpanComponent
   ],
   providers: [

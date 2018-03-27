@@ -12,7 +12,8 @@
   <tr><td>Display conditional of name = masoud</td><td>[innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"</td><td><span [innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"></span></td></tr>
   <tr><td>Display conditional of 3.5 > 3</td><td>[rawContent]="threeFive" [into]="myConditionalThreeFive"</td><td><span [rawContent]="threeFive" [into]="myConditionalThreeFive"></span></td></tr>
   <tr><td>Display rating of 3.5</td><td>[rawContent]="'3.5'" [into]="'rating'"</td><td><span [rawContent]="'3.5'" [into]="'rating'"></span></td></tr>
-  <tr><td>Display email in email linktd</td><td>[rawContent]="'xyz@gmail.com'" [into]="'email'"</td><td><span [rawContent]="'xyz@gmail.com'" [into]="'email'"></span></td></tr>
+  <tr><td>Display email in email linked</td><td>[rawContent]="'xyz@gmail.com'" [into]="'email'"</td><td><span [rawContent]="'xyz@gmail.com'" [into]="'email'"></span></td></tr>
+  <tr><td>Display email in select list</td><td>[rawContent]="'xyz@gmail.com'" [into]="'select'" intoName="select1" intoId="select1" </td><td><span [rawContent]="'xyz@gmail.com'" intoName="select1" intoId="select1" [into]="'select'"></span></td></tr>
   <tr><td>Display address with marker</td><td>[rawContent]="myaddress" [into]="'address'"</td><td><span [rawContent]="myaddress" [into]="'address'"></span></td></tr>
   <tr><td>Display date</td><td>[innerHTML]="myDate | into:myDateFormat | sanitizeHtml"</td><td><span [innerHTML]="myDate | into:myDateFormat | sanitizeHtml"></span></td></tr>
   <tr><td>Display list of dates</td><td>[innerHTML]="myDateList | into:myDateFormat | into:'join:*' | sanitizeHtml"</td><td><span [innerHTML]="myDateList | into:myDateFormat | into:'join:*' | sanitizeHtml"></span></td></tr>
@@ -22,7 +23,7 @@
   <tr><td>Display number in currency</td><td>[innerHTML]="'25' | into:'currency' | sanitizeHtml"</td><td><span [innerHTML]="'25' | into:'currency' | sanitizeHtml"></span></td></tr>
   <tr><td>Display number in decimals</td><td>[innerHTML]="'25.34537664' | into:'number' | sanitizeHtml"</td><td><span [innerHTML]="'25.34537664' | into:'number' | sanitizeHtml"></span></td></tr>
   <tr><td>Mask number and add checkmark</td><td> [rawContent]="'3423423422'" [into]="'input:enter number:mask | font:fa fa-check:replace:*'" [intoId]="threefive" [intoName]="threefive"</td><td><span [rawContent]="'3423423422'" [into]="'input:enter number:mask | font:fa fa-check:replace:*'" [intoId]="threefive" [intoName]="threefive"></span></td></tr>
-  <tr><td>Checkbox</td><td> [rawContent]="'yes'" [into]="'checkbox:yes:false'" [intoId]="mycheckbox" [intoName]="mycheckbox"</td><td><span [rawContent]="'yes'" [into]="'checkbox:yes:false'" [intoId]="mycheckbox" [intoName]="mycheckbox"></span></td></tr>
+  <tr><td>Checkbox</td><td> [rawContent]="'yes'" [into]="'checkbox:yes:true'" [intoId]="mycheckbox" [intoName]="mycheckbox"</td><td><span [rawContent]="'yes'" [into]="'checkbox:yes:true'" [intoId]="mycheckbox" [intoName]="mycheckbox"></span></td></tr>
   <tr><td>Display content in uppercase</td><td>[innerHTML]="'try this' | into:'uppercase' | sanitizeHtml"</td><td><span [innerHTML]="'try this' | into:'uppercase' | sanitizeHtml"></span></td></tr>
   <tr><td>Display content in lowercase</td><td>[innerHTML]="'TRY THIS' | into:'lowercase' | sanitizeHtml"</td><td><span [innerHTML]="'TRY THIS' | into:'lowercase' | sanitizeHtml"></span></td></tr>
   <tr><td>Display part of content from index 4 to 8</td><td>[innerHTML]="'try this sdfads' | into:'slice:4:8' | sanitizeHtml"</td><td><span [innerHTML]="'try this sdfads' | into:'slice:4:8' | sanitizeHtml"></span></td></tr>

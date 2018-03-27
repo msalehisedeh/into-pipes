@@ -4,7 +4,7 @@ import { PipeComponent } from '../interfaces/pipe.component';
 @Component({
     selector: 'input-component',
     template: `
-    <span *ngIf="useFont">
+    <span *ngIf="useFont" class="check-font">
       <span *ngIf="source === ideal" #check tabindex="0" class="fa fa-check" (keyup)="keyup($event)" (click)="click($event)"></span>
       <span *ngIf="source !== ideal" #uncheck tabindex="0" class="fa fa-close" (keyup)="keyup($event)" (click)="click($event)"></span>
     </span>
@@ -18,6 +18,9 @@ import { PipeComponent } from '../interfaces/pipe.component';
     `,
     styles: [
         `
+        .check-font {
+          cursor: pointer;
+        }
         `
     ]
 })
@@ -76,8 +79,8 @@ export class CheckboxComponent implements PipeComponent {
     this.source= source;
     this.original= source;
     this.id= source;
-    this.ideal= args.length > 1 ? args[0] : "";
-    this.useFont= args.length > 2 ? Boolean(args[1]) : false;
+    this.ideal= args.length ? args[0] : "";
+    this.useFont= args.length > 1 ? Boolean(args[1]) : false;
   }
 }
 

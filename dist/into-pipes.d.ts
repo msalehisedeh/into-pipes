@@ -11,4 +11,5 @@ export { InputComponent as ɵh } from './src/app/into-pipes/components/input.com
 export { JsonComponent as ɵe } from './src/app/into-pipes/components/json.component';
 export { LinkComponent as ɵf } from './src/app/into-pipes/components/link.component';
 export { RatingComponent as ɵg } from './src/app/into-pipes/components/rating.component';
-export { SpanComponent as ɵj } from './src/app/into-pipes/components/span.component';
+export { SelectComponent as ɵj } from './src/app/into-pipes/components/select.component';
+export { SpanComponent as ɵk } from './src/app/into-pipes/components/span.component';
