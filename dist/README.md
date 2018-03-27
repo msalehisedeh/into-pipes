@@ -8,6 +8,43 @@ You are welcom to add on additional pipes and formatting rules to this library.
 # Version 1.2.0
 Fixed a few logic issues and added event emit to the directive. Added into select option. You are now able to pipe a value into select tag. But you will need to register a service that knows how to provide select options for a given attribute. And this service has to implement PipeServiceComponent.
 
+```
+MODULE:
+    IntoPipeModule
+
+EXPORTS
+	InToPipe
+	IntoDirective
+
+	PipeComponent
+	PipeServiceComponent
+	ComponentPool
+
+	MaskPipe
+	MapPipe
+	LinkPipe
+	ImagePipe
+	PrependPipe
+	AppendPipe
+	WrapPipe
+	EmailPipe
+	RatingPipe
+	AddressPipe
+	JoinPipe
+	FontPipe
+	ValueOfPipe
+	SanitizeHtmlPipe
+	ConditionalPipe
+	
+DEPENDENCIES: 
+    "font-awesome": "^4.7.0"
+```
+
+| Format     | Examples             | Arguments                                                                                                  |
+|------------|----------------------|------------------------------------------------------------------------------------------------------------|
+| select     | `select`             |  No arguments. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
+
+
 Sample on the directive usage
 ```javascript
 	<td scope="row" 
