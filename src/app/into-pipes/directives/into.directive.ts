@@ -50,8 +50,8 @@ export class IntoDirective implements OnInit {
     @Input("into")
     into: string;
 
-    @Output("onComponentChange")
-    onComponentChange = new EventEmitter();
+    @Input("onComponentChange")
+    onComponentChange = (event) => {};
 
     constructor(
         private viewRef: ViewContainerRef,
@@ -290,8 +290,8 @@ export class IntoDirective implements OnInit {
             result.name = name;
             result.service = this.pool.registeredServiceForComponent(type);
             result.transform(content.source ? content.source : content, args);
-            if (result.onIntoComponentChange) {
-                result.onIntoComponentChange.subscribe(this.onIntoComponentChange.bind(this));
+            if (result.onIntoComponentChange && this.onComponentChange) {
+                result.onIntoComponentChange.subscribe(this.onComponentChange);
             }
         } else if (content instanceof Array) {
             let counter = 0;
@@ -303,8 +303,8 @@ export class IntoDirective implements OnInit {
                     sx.name = name;
                     sx.service = this.pool.registeredServiceForComponent(type);
                     sx.transform(source.source ? source.source : source, args);
-                    if (sx.onIntoComponentChange) {
-                        sx.onIntoComponentChange.subscribe(this.onIntoComponentChange.bind(this));
+                    if (sx.onIntoComponentChange && this.onComponentChange) {
+                        sx.onIntoComponentChange.subscribe(this.onComponentChange);
                     }
                 }
             });        
@@ -312,10 +312,6 @@ export class IntoDirective implements OnInit {
         return result;
 
     }
-
-    onIntoComponentChange(event) {
-        this.onComponentChange.emit(event);
-    } 
 
     private registeredComponentFor(name): PipeComponent {
         const component = this.pool.registeredComponent(name);

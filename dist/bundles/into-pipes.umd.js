@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/platform-browser'), require('events')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/platform-browser', 'events'], factory) :
-	(factory((global['into-pipes'] = {}),global.ng.core,global.ng.common,global.ng.platformBrowser,global.events));
-}(this, (function (exports,core,common,platformBrowser,events) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/platform-browser')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/platform-browser'], factory) :
+	(factory((global['into-pipes'] = {}),global.ng.core,global.ng.common,global.ng.platformBrowser));
+}(this, (function (exports,core,common,platformBrowser) { 'use strict';
 
 var MaskPipe = /** @class */ (function () {
     function MaskPipe() {
@@ -951,11 +951,11 @@ var CheckboxComponent = /** @class */ (function () {
     CheckboxComponent.prototype.click = function (event) {
         var _this = this;
         var input = event.target;
-        if (this.source === this.original) {
-            this.source = "";
+        if (this.source === this.ideal) {
+            this.source = this.original;
         }
         else {
-            this.source = this.original;
+            this.source = this.ideal;
         }
         this.onIntoComponentChange.emit({
             id: this.id,
@@ -974,17 +974,16 @@ var CheckboxComponent = /** @class */ (function () {
         }
     };
     CheckboxComponent.prototype.transform = function (source, args) {
-        this.source = source;
-        this.original = source;
-        this.id = source;
-        this.ideal = args.length ? args[0] : "";
+        this.ideal = args.length ? String(args[0]) : "";
         this.useFont = args.length > 1 ? Boolean(args[1]) : false;
+        this.source = String(source);
+        this.original = this.source === this.ideal ? "" : source;
     };
     return CheckboxComponent;
 }());
 CheckboxComponent.decorators = [
     { type: core.Component, args: [{
-                selector: 'input-component',
+                selector: 'checkbox-component',
                 template: "\n    <span *ngIf=\"useFont\" class=\"check-font\">\n      <span *ngIf=\"source === ideal\" #check tabindex=\"0\" class=\"fa fa-check\" (keyup)=\"keyup($event)\" (click)=\"click($event)\"></span>\n      <span *ngIf=\"source !== ideal\" #uncheck tabindex=\"0\" class=\"fa fa-close\" (keyup)=\"keyup($event)\" (click)=\"click($event)\"></span>\n    </span>\n    <input *ngIf=\"!useFont\"\n            type=\"checkbox\"\n            tabindex=\"0\"\n            [value]=\"source\"\n            [checked]=\"source===ideal ? true : null\"\n            (keyup)=\"keyup($event)\"\n            (click)=\"click($event)\" />\n    ",
                 styles: [
                     "\n        .check-font {\n          cursor: pointer;\n        }\n        "
@@ -1091,7 +1090,7 @@ var IntoDirective = /** @class */ (function () {
         this.el = el;
         this.pool = pool;
         this.componentFactoryResolver = componentFactoryResolver;
-        this.onComponentChange = new events.EventEmitter();
+        this.onComponentChange = function (event) { };
     }
     IntoDirective.prototype.split = function (item) {
         return item.trim().match(/(?=\S)[^"\:]*(?:"[^\\"]*(?:\\[\:\S][^\\"]*)*"[^"\:]*)*/g).filter(function (x) { return x.length; });
@@ -1302,8 +1301,8 @@ var IntoDirective = /** @class */ (function () {
             result.name = name;
             result.service = this.pool.registeredServiceForComponent(type);
             result.transform(content.source ? content.source : content, args);
-            if (result.onIntoComponentChange) {
-                result.onIntoComponentChange.subscribe(this.onIntoComponentChange.bind(this));
+            if (result.onIntoComponentChange && this.onComponentChange) {
+                result.onIntoComponentChange.subscribe(this.onComponentChange);
             }
         }
         else if (content instanceof Array) {
@@ -1316,16 +1315,13 @@ var IntoDirective = /** @class */ (function () {
                     sx.name = name;
                     sx.service = _this.pool.registeredServiceForComponent(type);
                     sx.transform(source.source ? source.source : source, args);
-                    if (sx.onIntoComponentChange) {
-                        sx.onIntoComponentChange.subscribe(_this.onIntoComponentChange.bind(_this));
+                    if (sx.onIntoComponentChange && _this.onComponentChange) {
+                        sx.onIntoComponentChange.subscribe(_this.onComponentChange);
                     }
                 }
             });
         }
         return result;
-    };
-    IntoDirective.prototype.onIntoComponentChange = function (event) {
-        this.onComponentChange.emit(event);
     };
     IntoDirective.prototype.registeredComponentFor = function (name) {
         var component = this.pool.registeredComponent(name);
@@ -1377,7 +1373,7 @@ IntoDirective.propDecorators = {
     "intoId": [{ type: core.Input, args: ["intoId",] },],
     "intoName": [{ type: core.Input, args: ["intoName",] },],
     "into": [{ type: core.Input, args: ["into",] },],
-    "onComponentChange": [{ type: core.Output, args: ["onComponentChange",] },],
+    "onComponentChange": [{ type: core.Input, args: ["onComponentChange",] },],
 };
 var IntoPipeModule = /** @class */ (function () {
     function IntoPipeModule() {

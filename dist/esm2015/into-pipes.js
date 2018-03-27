@@ -1,7 +1,6 @@
 import { Pipe, Component, ViewChild, Renderer, Output, EventEmitter, Injectable, Directive, ViewContainerRef, ElementRef, Input, ComponentFactoryResolver, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DatePipe, CurrencyPipe, DecimalPipe, JsonPipe, SlicePipe, UpperCasePipe, LowerCasePipe, CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
-import { EventEmitter as EventEmitter$1 } from 'events';
 
 /**
  * @fileoverview added by tsickle
@@ -1321,11 +1320,11 @@ class CheckboxComponent {
      */
     click(event) {
         const /** @type {?} */ input = event.target;
-        if (this.source === this.original) {
-            this.source = "";
+        if (this.source === this.ideal) {
+            this.source = this.original;
         }
         else {
-            this.source = this.original;
+            this.source = this.ideal;
         }
         this.onIntoComponentChange.emit({
             id: this.id,
@@ -1349,16 +1348,15 @@ class CheckboxComponent {
      * @return {?}
      */
     transform(source, args) {
-        this.source = source;
-        this.original = source;
-        this.id = source;
-        this.ideal = args.length ? args[0] : "";
+        this.ideal = args.length ? String(args[0]) : "";
         this.useFont = args.length > 1 ? Boolean(args[1]) : false;
+        this.source = String(source);
+        this.original = this.source === this.ideal ? "" : source;
     }
 }
 CheckboxComponent.decorators = [
     { type: Component, args: [{
-                selector: 'input-component',
+                selector: 'checkbox-component',
                 template: `
     <span *ngIf="useFont" class="check-font">
       <span *ngIf="source === ideal" #check tabindex="0" class="fa fa-check" (keyup)="keyup($event)" (click)="click($event)"></span>
@@ -1547,7 +1545,7 @@ class IntoDirective {
         this.el = el;
         this.pool = pool;
         this.componentFactoryResolver = componentFactoryResolver;
-        this.onComponentChange = new EventEmitter$1();
+        this.onComponentChange = (event) => { };
     }
     /**
      * @param {?} item
@@ -1796,8 +1794,8 @@ class IntoDirective {
             result.name = name;
             result.service = this.pool.registeredServiceForComponent(type);
             result.transform(content.source ? content.source : content, args);
-            if (result.onIntoComponentChange) {
-                result.onIntoComponentChange.subscribe(this.onIntoComponentChange.bind(this));
+            if (result.onIntoComponentChange && this.onComponentChange) {
+                result.onIntoComponentChange.subscribe(this.onComponentChange);
             }
         }
         else if (content instanceof Array) {
@@ -1810,20 +1808,13 @@ class IntoDirective {
                     sx.name = name;
                     sx.service = this.pool.registeredServiceForComponent(type);
                     sx.transform(source.source ? source.source : source, args);
-                    if (sx.onIntoComponentChange) {
-                        sx.onIntoComponentChange.subscribe(this.onIntoComponentChange.bind(this));
+                    if (sx.onIntoComponentChange && this.onComponentChange) {
+                        sx.onIntoComponentChange.subscribe(this.onComponentChange);
                     }
                 }
             });
         }
         return result;
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    onIntoComponentChange(event) {
-        this.onComponentChange.emit(event);
     }
     /**
      * @param {?} name
@@ -1881,7 +1872,7 @@ IntoDirective.propDecorators = {
     "intoId": [{ type: Input, args: ["intoId",] },],
     "intoName": [{ type: Input, args: ["intoName",] },],
     "into": [{ type: Input, args: ["into",] },],
-    "onComponentChange": [{ type: Output, args: ["onComponentChange",] },],
+    "onComponentChange": [{ type: Input, args: ["onComponentChange",] },],
 };
 
 /**

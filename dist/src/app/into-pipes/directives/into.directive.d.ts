@@ -1,7 +1,5 @@
-/// <reference types="node" />
 import { ViewContainerRef, ElementRef, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { ComponentPool } from '../injectables/component.pool';
-import { EventEmitter } from 'events';
 export declare class IntoDirective implements OnInit {
     private viewRef;
     el: ElementRef;
@@ -11,12 +9,11 @@ export declare class IntoDirective implements OnInit {
     intoId: string;
     intoName: string;
     into: string;
-    onComponentChange: EventEmitter;
+    onComponentChange: (event: any) => void;
     constructor(viewRef: ViewContainerRef, el: ElementRef, pool: ComponentPool, componentFactoryResolver: ComponentFactoryResolver);
     private split(item);
     private _transform(content, args);
     private transformComponent(type, content, id, name, ...args);
-    onIntoComponentChange(event: any): void;
     private registeredComponentFor(name);
     ngOnInit(): void;
 }

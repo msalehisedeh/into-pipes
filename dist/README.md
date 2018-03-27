@@ -52,7 +52,7 @@ Sample on the directive usage
         [intoId]="'ssn-' + i"
         [into]="input:mask"
         [rawContent]="item.ssn"
-        (onComponentChange)="onTableCellEdit($event)"></td>
+        [onComponentChange]="onTableCellEdit.bind(this)"></td>
 ```
 
 Sample registration for select pipe.
@@ -80,7 +80,7 @@ export interface PipeServiceComponent {
 ```
 
 # Version 1.1.0
-Added ability for you to declare a custom pipe. You will need to create your own customcomponent for it and register the component as was explained on release 1.0.0.
+Added ability for you to declare a custom pipe. You will need to create your own custom component for it and register the component as was explained on release 1.0.0.
 
 Also, updated custom component declaration process. You will need to make sure your component has id and name attributes as well as source attribute. also, if your component interacts with user actions and as a result its value is changed, you will need to emit event as i have updated the code sample for version 1.0.0.
 

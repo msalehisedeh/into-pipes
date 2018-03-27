@@ -2,7 +2,7 @@ import { Component, ViewChild, Renderer, Output, EventEmitter } from '@angular/c
 import { PipeComponent } from '../interfaces/pipe.component';
 
 @Component({
-    selector: 'input-component',
+    selector: 'checkbox-component',
     template: `
     <span *ngIf="useFont" class="check-font">
       <span *ngIf="source === ideal" #check tabindex="0" class="fa fa-check" (keyup)="keyup($event)" (click)="click($event)"></span>
@@ -53,10 +53,11 @@ export class CheckboxComponent implements PipeComponent {
 
   click(event) {
     const input = event.target;
-    if (this.source === this.original) {
-      this.source = "";
-		} else {
+
+    if (this.source === this.ideal) {
       this.source = this.original;
+		} else {
+      this.source = this.ideal;
     }
     this.onIntoComponentChange.emit({
       id: this.id,
@@ -76,11 +77,10 @@ export class CheckboxComponent implements PipeComponent {
   }
 
   transform(source: any, args: any[]) {
-    this.source= source;
-    this.original= source;
-    this.id= source;
-    this.ideal= args.length ? args[0] : "";
+    this.ideal= args.length ? String(args[0]) : "";
     this.useFont= args.length > 1 ? Boolean(args[1]) : false;
+    this.source= String(source);
+    this.original= this.source === this.ideal ? "" : source;
   }
 }
 
