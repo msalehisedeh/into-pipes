@@ -1,14 +1,20 @@
 # Welcome to InTo Pipes!
 
-Have you ever wanted to have a component that performs format operations on some values through passing some meta data formatting rules?
-This library provides few Angular 4 pipes that are all used by a single "into" pipe. InTo will determine how the object value should be formatted. If you are flushing the end result of your formatted data into html content of 
-a node, make sure you will pipe the result into sanitizeHtml.
-You are welcom to add on additional pipes and formatting rules to this library.
+Have you ever wanted to have a component that performs format operations on some values just by receiving meta data formatting rules?
+This library provides few Angular4 pipes that are all used by a single **"InTo"** pipe. InTo will determine how the object value should be formatted. 
+Moreover, you can format values into interactive objects and have a component capable of editing the values... and it is all done JUST by passing formatting rules to an InTo directive..
+
+Please Note: If you decide to use the Into pipe and flush the end result of your formatted data into html content of a node, you need to make sure you will pipe the result into sanitizeHtml.
+
+You are definately welcome to add on additional pipes and formatting rules to this library and I will gladly incorporate your ideas **InTo** this project.
+
+Please don't mind the problem with font-awesome fonts on the live demo...
+[Live Demo](https://into-pipes.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes)
 
 # Version 1.2.0
 Fixed a few logic issues and added event emit to the directive. Added into select option. You are now able to pipe a value into select tag. But you will need to register a service that knows how to provide select options for a given attribute. And this service has to implement PipeServiceComponent.
 
-```
+```javascript
 MODULE:
     IntoPipeModule
 
@@ -87,7 +93,7 @@ Also, updated custom component declaration process. You will need to make sure y
 # Version 1.0.0
 Added a directive to enable piping values into form fields!! Provisions is in place if you wish to format the values into a custom field. For those to happen, you will need to create your component and register it.
 
-```
+```javascript
 MODULE:
     IntoPipeModule
 
@@ -182,7 +188,8 @@ Internally changed code to make sure if array is the source to be transformed, a
 
 # Version 0.2.2
 The following are available functionalities presented in this version. 
-```
+
+```javascript
 MODULE:
     IntoPipeModule
 
@@ -200,7 +207,7 @@ The following formatters are added:
 |--------------------|---------------------------------------------------------|----------------------------|
 | if                 | `'masoud' | into: "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\""` |  1)condition `=,!=,~=,<,>,~,!~,in` , 2)value to be evaluated, 3)action, 4)else action |
 
-```
+```javascript
 NOTE: 
     In the Conditional pipe:
         "~" is for exist (check to see if transforming object exist and item 2 is ignored).
@@ -211,8 +218,9 @@ NOTE:
 ```
 
 # Version 0.0.1
-The following are available functionalities presented in this version. 
-```
+The following are available functionalities presented in this version.
+ 
+```javascript
 MODULE:
     IntoPipeModule
 
@@ -239,7 +247,8 @@ The following formatters are added:
 # Version 0.0.0
 
 The following are available functionalities presented in this version. 
-```
+
+```javascript
 MODULE:
     IntoPipeModule
 
@@ -271,7 +280,8 @@ DEPENDENCIES:
 
 
 where the attributes passed in above examples are defined as:
-```
+
+```javascript
   threeFive = 3.5;
   myJson= {q:3,w:43,dw:6565};
   myDate = "2018-03-10T01:01:20Z";
@@ -293,5 +303,3 @@ where the attributes passed in above examples are defined as:
     }
   };
 ```
-
-[Source code](https://github.com/msalehisedeh/into-pipes)
