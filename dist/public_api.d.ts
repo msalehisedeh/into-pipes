@@ -3,6 +3,7 @@ export { MaskPipe } from './src/app/into-pipes/pipes/mask.pipe';
 export { MapPipe } from './src/app/into-pipes/pipes/map.pipe';
 export { LinkPipe } from './src/app/into-pipes/pipes/link.pipe';
 export { ImagePipe } from './src/app/into-pipes/pipes/image.pipe';
+export { VideoPipe } from './src/app/into-pipes/pipes/video.pipe';
 export { PrependPipe } from './src/app/into-pipes/pipes/prepend.pipe';
 export { AppendPipe } from './src/app/into-pipes/pipes/append.pipe';
 export { WrapPipe } from './src/app/into-pipes/pipes/wrap.pipe';

@@ -15,6 +15,7 @@ import {MapPipe} from './map.pipe';
 import {ValueOfPipe} from './valueof.pipe';
 import {LinkPipe} from './link.pipe';
 import {ImagePipe} from './image.pipe';
+import {VideoPipe} from './video.pipe';
 import {PrependPipe} from './prepend.pipe';
 import {AppendPipe} from './append.pipe';
 import {WrapPipe} from './wrap.pipe';
@@ -229,6 +230,18 @@ transform(content: any, list: string): any {
                 result =  new ImagePipe().transform(content, args[1]);
             } else {
                 result =  new ImagePipe().transform(content, "");
+            }
+            break;
+        case "video" : 
+            // video:200px:auto:alttext OR video:200px:alternate-text OR video:200px OR video
+            if (args.length > 3) {
+                result =  new VideoPipe().transform(content, args[1], args[2], args[3]);
+            } else if (args.length > 2) {
+                result =  new VideoPipe().transform(content, args[1], args[2]);
+            } else if (args.length > 1) {
+                result =  new VideoPipe().transform(content, args[1]);
+            } else {
+                result =  new VideoPipe().transform(content, "");
             }
             break;
     }

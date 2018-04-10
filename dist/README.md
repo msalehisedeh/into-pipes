@@ -11,6 +11,19 @@ You are definately welcome to add on additional pipes and formatting rules to th
 Please don't mind the problem with font-awesome fonts on the live demo...
 [Live Demo](https://into-pipes.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes)
 
+# Version 1.3.3
+Added Vide pipe... Now you can a url into video tag.
+
+```javascript
+EXPORTS
+	VideoPipe
+```
+
+| Format     | Examples             | Arguments                                                                                                  |
+|------------|----------------------|------------------------------------------------------------------------------------------------------------|
+| video               | `video:200px:auto:alt text` OR `video`          | 1) width, 2)height, 3) alternate text to be displayed |
+
+
 # Version 1.2.0
 Fixed a few logic issues and added event emit to the directive. Added into select option. You are now able to pipe a value into select tag. But you will need to register a service that knows how to provide select options for a given attribute. And this service has to implement PipeServiceComponent.
 

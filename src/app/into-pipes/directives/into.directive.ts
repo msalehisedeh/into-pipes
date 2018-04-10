@@ -261,6 +261,18 @@ export class IntoDirective implements OnInit {
                     result = this.transformComponent("image", content, this.intoId, this.intoName, "");
                 }
                 break;
+            case "video" : 
+                // video:200px:auto:alttext OR video:200px:alternate-text OR video:200px OR image
+                if (args.length > 3) {
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1], args[2], args[3]);
+                } else if (args.length > 2) {
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1], args[2]);
+                } else if (args.length > 1) {
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1]);
+                } else {
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, "");
+                }
+                break;
             default:
                 // unknown formatter
                 try {

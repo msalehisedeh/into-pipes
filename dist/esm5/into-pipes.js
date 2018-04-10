@@ -182,6 +182,45 @@ ImagePipe.decorators = [
     { type: Pipe, args: [{ name: 'image' },] },
 ];
 ImagePipe.ctorParameters = function () { return []; };
+var VideoPipe = /** @class */ (function () {
+    function VideoPipe() {
+    }
+    VideoPipe.prototype.stringToVideo = function (source, width, height, alt) {
+        if (!alt || !alt.length) {
+            var q = source.indexOf("?");
+            var t = q < 0 ? source : source.substring(0, q);
+            var d = t.lastIndexOf("/");
+            alt = d < 0 ? t : t.substring(d + 1);
+        }
+        return "<video src=\'" + source + "\' style=\'" + width + height + "\' title=\'" + alt + "\'  controls=\'true\' />";
+    };
+    VideoPipe.prototype.arrayToVideo = function (sources, width, height, alt) {
+        var _this = this;
+        var result = [];
+        sources.map(function (source) {
+            result.push(_this.stringToVideo(source, width, height, alt));
+        });
+        return result;
+    };
+    VideoPipe.prototype.transform = function (source) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        var width = (args && args.length) ? "width: " + args[0] + ";" : "";
+        var height = (args && args.length > 1) ? "height: " + args[1] + ";" : "";
+        var alt = (args && args.length > 2) ? args[2] : "";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.stringToVideo(source, width, height, alt);
+        }
+        return this.arrayToVideo(source, width, height, "");
+    };
+    return VideoPipe;
+}());
+VideoPipe.decorators = [
+    { type: Pipe, args: [{ name: 'video' },] },
+];
+VideoPipe.ctorParameters = function () { return []; };
 var PrependPipe = /** @class */ (function () {
     function PrependPipe() {
     }
@@ -685,6 +724,20 @@ var InToPipe = /** @class */ (function () {
                     result = new ImagePipe().transform(content, "");
                 }
                 break;
+            case "video":
+                if (args.length > 3) {
+                    result = new VideoPipe().transform(content, args[1], args[2], args[3]);
+                }
+                else if (args.length > 2) {
+                    result = new VideoPipe().transform(content, args[1], args[2]);
+                }
+                else if (args.length > 1) {
+                    result = new VideoPipe().transform(content, args[1]);
+                }
+                else {
+                    result = new VideoPipe().transform(content, "");
+                }
+                break;
         }
         return result;
     };
@@ -800,6 +853,33 @@ ImageComponent.decorators = [
             },] },
 ];
 ImageComponent.ctorParameters = function () { return []; };
+var VideoComponent = /** @class */ (function () {
+    function VideoComponent() {
+    }
+    VideoComponent.prototype.transform = function (source, args) {
+        this.source = source;
+        this.width = (args && args.length) ? args[0] : "";
+        this.height = (args && args.length > 1) ? args[1] : "";
+        this.alt = (args && args.length > 2) ? args[2] : "";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            if (!this.alt || !this.alt.length) {
+                var q = source.indexOf("?");
+                var t = q < 0 ? source : source.substring(0, q);
+                var d = t.lastIndexOf("/");
+                this.alt = d < 0 ? t : t.substring(d + 1);
+            }
+        }
+    };
+    return VideoComponent;
+}());
+VideoComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'video-component',
+                template: "<video [src]=\"source\" [style.width]=\"width\" [style.height]=\"height\" controls=\"true\" [title]=\"alt\"></video>",
+                styles: [""]
+            },] },
+];
+VideoComponent.ctorParameters = function () { return []; };
 var JsonComponent = /** @class */ (function () {
     function JsonComponent() {
     }
@@ -1057,6 +1137,7 @@ var ComponentPool = /** @class */ (function () {
         this.registerComponent("email", EmailComponent);
         this.registerComponent("font", FontComponent);
         this.registerComponent("image", ImageComponent);
+        this.registerComponent("video", VideoComponent);
         this.registerComponent("json", JsonComponent);
         this.registerComponent("link", LinkComponent);
         this.registerComponent("rating", RatingComponent);
@@ -1275,6 +1356,20 @@ var IntoDirective = /** @class */ (function () {
                     result = this.transformComponent("image", content, this.intoId, this.intoName, "");
                 }
                 break;
+            case "video":
+                if (args.length > 3) {
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1], args[2], args[3]);
+                }
+                else if (args.length > 2) {
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1], args[2]);
+                }
+                else if (args.length > 1) {
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1]);
+                }
+                else {
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, "");
+                }
+                break;
             default:
                 try {
                     result = this.transformComponent(args[0], content, this.intoId, this.intoName, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "", args.length > 4 ? args[4] : "", args.length > 5 ? args[5] : "");
@@ -1388,6 +1483,7 @@ IntoPipeModule.decorators = [
                     EmailComponent,
                     FontComponent,
                     ImageComponent,
+                    VideoComponent,
                     JsonComponent,
                     LinkComponent,
                     RatingComponent,
@@ -1398,6 +1494,7 @@ IntoPipeModule.decorators = [
                     JoinPipe,
                     InToPipe,
                     ImagePipe,
+                    VideoPipe,
                     LinkPipe,
                     MaskPipe,
                     MapPipe,
@@ -1417,6 +1514,7 @@ IntoPipeModule.decorators = [
                     JoinPipe,
                     InToPipe,
                     ImagePipe,
+                    VideoPipe,
                     LinkPipe,
                     MaskPipe,
                     MapPipe,
@@ -1437,6 +1535,7 @@ IntoPipeModule.decorators = [
                     EmailComponent,
                     FontComponent,
                     ImageComponent,
+                    VideoComponent,
                     JsonComponent,
                     LinkComponent,
                     InputComponent,
@@ -1456,6 +1555,7 @@ IntoPipeModule.decorators = [
                     UpperCasePipe,
                     LowerCasePipe,
                     ImagePipe,
+                    VideoPipe,
                     LinkPipe,
                     MaskPipe,
                     MapPipe,
@@ -1477,5 +1577,5 @@ IntoPipeModule.decorators = [
 ];
 IntoPipeModule.ctorParameters = function () { return []; };
 
-export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵi, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵh, JsonComponent as ɵe, LinkComponent as ɵf, RatingComponent as ɵg, SelectComponent as ɵj, SpanComponent as ɵk };
+export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, VideoPipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵj, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵi, JsonComponent as ɵf, LinkComponent as ɵg, RatingComponent as ɵh, SelectComponent as ɵk, SpanComponent as ɵl, VideoComponent as ɵe };
 //# sourceMappingURL=into-pipes.js.map

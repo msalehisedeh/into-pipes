@@ -6,6 +6,7 @@ import {MaskPipe} from './pipes/mask.pipe';
 import {MapPipe} from './pipes/map.pipe';
 import {LinkPipe} from './pipes/link.pipe';
 import {ImagePipe} from './pipes/image.pipe';
+import {VideoPipe} from './pipes/video.pipe';
 import {PrependPipe} from './pipes/prepend.pipe';
 import {JoinPipe} from './pipes/join.pipe';
 import {AppendPipe} from './pipes/append.pipe';
@@ -25,6 +26,7 @@ import { AddressComponent } from './components/address.component';
 import { EmailComponent } from './components/email.component';
 import { FontComponent } from './components/font.component';
 import { ImageComponent } from './components/image.component';
+import { VideoComponent } from './components/video.component';
 import { JsonComponent } from './components/json.component';
 import { LinkComponent } from './components/link.component';
 import { RatingComponent } from './components/rating.component';
@@ -41,6 +43,7 @@ import { SelectComponent } from './components/select.component';
     EmailComponent,
     FontComponent,
     ImageComponent,
+    VideoComponent,
     JsonComponent,
     LinkComponent,
     RatingComponent,
@@ -51,6 +54,7 @@ import { SelectComponent } from './components/select.component';
     JoinPipe,
     InToPipe,
     ImagePipe,
+    VideoPipe,
     LinkPipe,
     MaskPipe,
     MapPipe,
@@ -70,6 +74,7 @@ import { SelectComponent } from './components/select.component';
     JoinPipe,
     InToPipe,
     ImagePipe,
+    VideoPipe,
     LinkPipe,
     MaskPipe,
     MapPipe,
@@ -90,6 +95,7 @@ import { SelectComponent } from './components/select.component';
     EmailComponent,
     FontComponent,
     ImageComponent,
+    VideoComponent,
     JsonComponent,
     LinkComponent,
     InputComponent,
@@ -109,6 +115,7 @@ import { SelectComponent } from './components/select.component';
     UpperCasePipe,
     LowerCasePipe,
     ImagePipe,
+    VideoPipe,
     LinkPipe,
     MaskPipe,
     MapPipe,

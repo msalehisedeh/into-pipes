@@ -259,6 +259,62 @@ ImagePipe.ctorParameters = () => [];
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+class VideoPipe {
+    /**
+     * @param {?} source
+     * @param {?} width
+     * @param {?} height
+     * @param {?} alt
+     * @return {?}
+     */
+    stringToVideo(source, width, height, alt) {
+        if (!alt || !alt.length) {
+            const /** @type {?} */ q = source.indexOf("?");
+            const /** @type {?} */ t = q < 0 ? source : source.substring(0, q);
+            const /** @type {?} */ d = t.lastIndexOf("/");
+            alt = d < 0 ? t : t.substring(d + 1);
+        }
+        return "<video src=\'" + source + "\' style=\'" + width + height + "\' title=\'" + alt + "\'  controls=\'true\' />";
+    }
+    /**
+     * @param {?} sources
+     * @param {?} width
+     * @param {?} height
+     * @param {?} alt
+     * @return {?}
+     */
+    arrayToVideo(sources, width, height, alt) {
+        const /** @type {?} */ result = [];
+        sources.map((source) => {
+            result.push(this.stringToVideo(source, width, height, alt));
+        });
+        return result;
+    }
+    /**
+     * @param {?} source
+     * @param {...?} args
+     * @return {?}
+     */
+    transform(source, ...args) {
+        const /** @type {?} */ width = (args && args.length) ? "width: " + args[0] + ";" : "";
+        const /** @type {?} */ height = (args && args.length > 1) ? "height: " + args[1] + ";" : "";
+        const /** @type {?} */ alt = (args && args.length > 2) ? args[2] : "";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            return this.stringToVideo(source, width, height, alt);
+        }
+        return this.arrayToVideo(source, width, height, "");
+    }
+}
+VideoPipe.decorators = [
+    { type: Pipe, args: [{ name: 'video' },] },
+];
+/** @nocollapse */
+VideoPipe.ctorParameters = () => [];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 class PrependPipe {
     /**
      * @param {?} source
@@ -854,6 +910,21 @@ class InToPipe {
                     result = new ImagePipe().transform(content, "");
                 }
                 break;
+            case "video":
+                // video:200px:auto:alttext OR video:200px:alternate-text OR video:200px OR video
+                if (args.length > 3) {
+                    result = new VideoPipe().transform(content, args[1], args[2], args[3]);
+                }
+                else if (args.length > 2) {
+                    result = new VideoPipe().transform(content, args[1], args[2]);
+                }
+                else if (args.length > 1) {
+                    result = new VideoPipe().transform(content, args[1]);
+                }
+                else {
+                    result = new VideoPipe().transform(content, "");
+                }
+                break;
         }
         return result;
     }
@@ -1051,6 +1122,41 @@ ImageComponent.decorators = [
 ];
 /** @nocollapse */
 ImageComponent.ctorParameters = () => [];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+class VideoComponent {
+    /**
+     * @param {?} source
+     * @param {?} args
+     * @return {?}
+     */
+    transform(source, args) {
+        this.source = source;
+        this.width = (args && args.length) ? args[0] : "";
+        this.height = (args && args.length > 1) ? args[1] : "";
+        this.alt = (args && args.length > 2) ? args[2] : "";
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            if (!this.alt || !this.alt.length) {
+                const /** @type {?} */ q = source.indexOf("?");
+                const /** @type {?} */ t = q < 0 ? source : source.substring(0, q);
+                const /** @type {?} */ d = t.lastIndexOf("/");
+                this.alt = d < 0 ? t : t.substring(d + 1);
+            }
+        }
+    }
+}
+VideoComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'video-component',
+                template: `<video [src]="source" [style.width]="width" [style.height]="height" controls="true" [title]="alt"></video>`,
+                styles: [``]
+            },] },
+];
+/** @nocollapse */
+VideoComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -1485,6 +1591,7 @@ class ComponentPool {
         this.registerComponent("email", EmailComponent);
         this.registerComponent("font", FontComponent);
         this.registerComponent("image", ImageComponent);
+        this.registerComponent("video", VideoComponent);
         this.registerComponent("json", JsonComponent);
         this.registerComponent("link", LinkComponent);
         this.registerComponent("rating", RatingComponent);
@@ -1766,6 +1873,21 @@ class IntoDirective {
                     result = this.transformComponent("image", content, this.intoId, this.intoName, "");
                 }
                 break;
+            case "video":
+                // video:200px:auto:alttext OR video:200px:alternate-text OR video:200px OR image
+                if (args.length > 3) {
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1], args[2], args[3]);
+                }
+                else if (args.length > 2) {
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1], args[2]);
+                }
+                else if (args.length > 1) {
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1]);
+                }
+                else {
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, "");
+                }
+                break;
             default:
                 // unknown formatter
                 try {
@@ -1891,6 +2013,7 @@ IntoPipeModule.decorators = [
                     EmailComponent,
                     FontComponent,
                     ImageComponent,
+                    VideoComponent,
                     JsonComponent,
                     LinkComponent,
                     RatingComponent,
@@ -1901,6 +2024,7 @@ IntoPipeModule.decorators = [
                     JoinPipe,
                     InToPipe,
                     ImagePipe,
+                    VideoPipe,
                     LinkPipe,
                     MaskPipe,
                     MapPipe,
@@ -1920,6 +2044,7 @@ IntoPipeModule.decorators = [
                     JoinPipe,
                     InToPipe,
                     ImagePipe,
+                    VideoPipe,
                     LinkPipe,
                     MaskPipe,
                     MapPipe,
@@ -1940,6 +2065,7 @@ IntoPipeModule.decorators = [
                     EmailComponent,
                     FontComponent,
                     ImageComponent,
+                    VideoComponent,
                     JsonComponent,
                     LinkComponent,
                     InputComponent,
@@ -1959,6 +2085,7 @@ IntoPipeModule.decorators = [
                     UpperCasePipe,
                     LowerCasePipe,
                     ImagePipe,
+                    VideoPipe,
                     LinkPipe,
                     MaskPipe,
                     MapPipe,
@@ -1994,5 +2121,5 @@ IntoPipeModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵi, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵh, JsonComponent as ɵe, LinkComponent as ɵf, RatingComponent as ɵg, SelectComponent as ɵj, SpanComponent as ɵk };
+export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, VideoPipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵj, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵi, JsonComponent as ɵf, LinkComponent as ɵg, RatingComponent as ɵh, SelectComponent as ɵk, SpanComponent as ɵl, VideoComponent as ɵe };
 //# sourceMappingURL=into-pipes.js.map

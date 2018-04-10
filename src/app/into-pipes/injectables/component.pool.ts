@@ -10,6 +10,7 @@ import { AddressComponent } from '../components/address.component';
 import { EmailComponent } from '../components/email.component';
 import { FontComponent } from '../components/font.component';
 import { ImageComponent } from '../components/image.component';
+import { VideoComponent } from '../components/video.component';
 import { JsonComponent } from '../components/json.component';
 import { LinkComponent } from '../components/link.component';
 import { RatingComponent } from '../components/rating.component';
@@ -29,6 +30,7 @@ export class ComponentPool {
 		this.registerComponent("email", EmailComponent);
 		this.registerComponent("font", FontComponent);
 		this.registerComponent("image", ImageComponent);
+		this.registerComponent("video", VideoComponent);
 		this.registerComponent("json", JsonComponent);
 		this.registerComponent("link", LinkComponent);
 		this.registerComponent("rating", RatingComponent);
