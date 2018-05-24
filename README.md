@@ -316,3 +316,22 @@ where the attributes passed in above examples are defined as:
     }
   };
 ```
+
+### How to include font-awesome in your project?
+
+In your project root folder, find and open the file 'angular-cli.json' in any editor 
+Locate the styles[] array and add font-awesome references directory. like:
+
+```javascript
+"apps": 
+	[
+        {
+            ....
+            "styles": [
+              "../node_modules/font-awesome/css/font-awesome.css"
+              "styles.css"
+            ],
+            ...
+        }
+    ]
+```
