@@ -1,6 +1,6 @@
-import { ViewContainerRef, ElementRef, OnInit, ComponentFactoryResolver } from '@angular/core';
+import { ViewContainerRef, ElementRef, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
 import { ComponentPool } from '../injectables/component.pool';
-export declare class IntoDirective implements OnInit {
+export declare class IntoDirective implements OnInit, OnDestroy {
     private viewRef;
     el: ElementRef;
     private pool;
@@ -16,4 +16,5 @@ export declare class IntoDirective implements OnInit {
     private transformComponent(type, content, id, name, ...args);
     private registeredComponentFor(name);
     ngOnInit(): void;
+    ngOnDestroy(): void;
 }

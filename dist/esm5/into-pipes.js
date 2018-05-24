@@ -1402,7 +1402,10 @@ var IntoDirective = /** @class */ (function () {
             var counter_1 = 0;
             result = content;
             content.map(function (source) {
-                if (typeof source === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
+                if (typeof source === "string" ||
+                    typeof content === "number" ||
+                    typeof content === "boolean" ||
+                    Object.keys(content).length) {
                     var sx = _this.registeredComponentFor(type);
                     sx.id = id + '-' + (counter_1++);
                     sx.name = name;
@@ -1418,14 +1421,15 @@ var IntoDirective = /** @class */ (function () {
     };
     IntoDirective.prototype.registeredComponentFor = function (name) {
         var component = this.pool.registeredComponent(name);
-        var componentRef;
+        var result = null;
         if (component) {
             var componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
-            componentRef = this.viewRef.createComponent(componentFactory);
+            var componentRef = this.viewRef.createComponent(componentFactory);
             var domElem = (((componentRef.hostView)).rootNodes[0]);
             this.el.nativeElement.appendChild(domElem);
+            result = ((componentRef.instance));
         }
-        return ((componentRef.instance));
+        return result;
     };
     IntoDirective.prototype.ngOnInit = function () {
         var _this = this;
@@ -1447,6 +1451,8 @@ var IntoDirective = /** @class */ (function () {
                 });
             }
         }
+    };
+    IntoDirective.prototype.ngOnDestroy = function () {
     };
     return IntoDirective;
 }());

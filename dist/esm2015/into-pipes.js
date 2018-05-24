@@ -1924,7 +1924,10 @@ class IntoDirective {
             let /** @type {?} */ counter = 0;
             result = content;
             content.map((source) => {
-                if (typeof source === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
+                if (typeof source === "string" ||
+                    typeof content === "number" ||
+                    typeof content === "boolean" ||
+                    Object.keys(content).length) {
                     const /** @type {?} */ sx = this.registeredComponentFor(type);
                     sx.id = id + '-' + (counter++);
                     sx.name = name;
@@ -1944,14 +1947,15 @@ class IntoDirective {
      */
     registeredComponentFor(name) {
         const /** @type {?} */ component = this.pool.registeredComponent(name);
-        let /** @type {?} */ componentRef;
+        let /** @type {?} */ result = null;
         if (component) {
             let /** @type {?} */ componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
-            componentRef = this.viewRef.createComponent(componentFactory);
+            const /** @type {?} */ componentRef = this.viewRef.createComponent(componentFactory);
             const /** @type {?} */ domElem = /** @type {?} */ ((/** @type {?} */ (componentRef.hostView)).rootNodes[0]);
             this.el.nativeElement.appendChild(domElem);
+            result = (/** @type {?} */ (componentRef.instance));
         }
-        return (/** @type {?} */ (componentRef.instance));
+        return result;
     }
     /**
      * @return {?}
@@ -1975,6 +1979,11 @@ class IntoDirective {
                 });
             }
         }
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
     }
 }
 IntoDirective.decorators = [

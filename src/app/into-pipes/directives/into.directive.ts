@@ -5,6 +5,7 @@ import {
     Input,
     Output,
     OnInit,
+    OnDestroy,
 	ComponentFactoryResolver,
     ComponentRef,
     EmbeddedViewRef
@@ -36,7 +37,7 @@ import { EventEmitter } from 'events';
 @Directive({
     selector: '[into]'
 })
-export class IntoDirective implements OnInit {
+export class IntoDirective implements OnInit, OnDestroy {
     
     @Input("rawContent")
     rawContent: string;
@@ -309,7 +310,11 @@ export class IntoDirective implements OnInit {
             let counter = 0;
             result = content;
             content.map((source) => {
-                if (typeof source === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
+                if (typeof source === "string" || 
+                    typeof content === "number" || 
+                    typeof content === "boolean" || 
+                    Object.keys(content).length) {
+
                     const sx = this.registeredComponentFor(type);
                     sx.id = id + '-' + (counter++);
                     sx.name = name;
@@ -327,14 +332,15 @@ export class IntoDirective implements OnInit {
 
     private registeredComponentFor(name): PipeComponent {
         const component = this.pool.registeredComponent(name);
-        let componentRef: ComponentRef<any>;
+        let result: PipeComponent = null;
         if (component) {
             let componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
-            componentRef = this.viewRef.createComponent(componentFactory);
+            const componentRef: ComponentRef<any> = this.viewRef.createComponent(componentFactory);
             const domElem = (componentRef.hostView as EmbeddedViewRef < any > ).rootNodes[0] as HTMLElement;
-            this.el.nativeElement.appendChild(domElem)
+            this.el.nativeElement.appendChild(domElem);
+            result = (<PipeComponent>componentRef.instance);
         }
-        return  (<PipeComponent>componentRef.instance);
+        return  result;
     }
     
 	ngOnInit() {
@@ -356,5 +362,9 @@ export class IntoDirective implements OnInit {
                 });
             }
         }
-	}
+    }
+    
+    ngOnDestroy() {
+       
+    }
 }

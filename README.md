@@ -1,18 +1,18 @@
 # Welcome to InTo Pipes!
 
 Have you ever wanted to have a component that performs format operations on some values just by receiving meta data formatting rules?
-This library provides few Angular4 pipes that are all used by a single **"InTo"** pipe. InTo will determine how the object value should be formatted. 
-Moreover, you can format values into interactive objects and have a component capable of editing the values... and it is all done JUST by passing formatting rules to an InTo directive..
+This library provides few Angular4 pipes that are all used by a single **"InTo"** pipe component/directive. "InTo" will determine how the object value should be formatted. 
+Moreover, you can format values into interactive objects and create components capable of editing and interaction... and it is all done JUST by passing few formatting rules to an "InTo" directive.
 
-Please Note: If you decide to use the Into pipe and flush the end result of your formatted data into html content of a node, you need to make sure you will pipe the result into sanitizeHtml.
+**Please Note:** If you decide to use the "Into" pipe instead of the directive and flush the end result of your formatted data into html content of a node, you need to make sure you will pipe the result into sanitizeHtml.
 
-You are definately welcome to add on additional pipes and formatting rules to this library and I will gladly incorporate your ideas **InTo** this project.
+You are definately welcome to add on additional pipes and formatting rules to this library and I will gladly incorporate your ideas **InTo** this project. Add your coments an requests through the link provided below.
 
 Please don't mind the problem with font-awesome fonts on the live demo...
-[Live Demo](https://into-pipes.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes)
+[Live Demo](https://into-pipes.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes) | [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
 
 # Version 1.3.3
-Added Vide pipe... Now you can a url into video tag.
+Added Video pipe... Now you can pipe a url into video tag.
 
 ```javascript
 EXPORTS

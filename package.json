@@ -1,6 +1,6 @@
 {
   "name": "into-pipes",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -10,7 +10,20 @@
     "packagr": "ng-packagr -p ng-package.json"
   },
   "private": false,
-  "keywords": ["Angular 4", "Pipe", "Pipeline", "readable", "reusable", "filter", "transformation", "though", "interactive", "easy", "best"],
+  "keywords": [
+	"Angular 4", 
+	"Pipe", 
+	"Pipeline", 
+	"readable", 
+	"reusable", 
+	"filter", 
+	"transformation", 
+	"through", 
+	"plugin", 
+	"interactive", 
+	"easy", 
+	"best"
+  ],
   "dependencies": {
     "@angular/common": "^5.0.0 || ^4.0.0 || ^2.0.0",
     "@angular/compiler": "^5.0.0 || ^4.0.0 || ^2.0.0",
