@@ -1,18 +1,19 @@
 # Welcome to InTo Pipes!
 
-Have you ever wanted to have a component that performs format operations on some values just by receiving meta data formatting rules?
+Have you ever wanted to have a component that transforms values into interactive objects just by receiving meta data formatting rules?
 This library provides few Angular4 pipes that are all used by a single **"InTo"** pipe component/directive. "InTo" will determine how the object value should be formatted. 
-Moreover, you can format values into interactive objects and create components capable of editing and interaction... and it is all done JUST by passing few formatting rules to an "InTo" directive.
+Moreover, you can provide your own extenssions and it is all done JUST by passing few formatting rules to an "InTo" directive.
 
-**Please Note:** If you decide to use the "Into" pipe instead of the directive and flush the end result of your formatted data into html content of a node, you need to make sure you will pipe the result into sanitizeHtml.
+**Please Note:** If you decide to use the "Into" pipe instead of the directive, you need to make sure you will pipe the result into sanitizeHtml.
 
-You are definately welcome to add on additional pipes and formatting rules to this library and I will gladly incorporate your ideas **InTo** this project. Add your coments an requests through the link provided below.
+**Please Note:** When you create tags and insert them into DOM at runtime though InTo Pipes, angular will not be able to enforce CSS on the tags. In that case the workaround is to use **::ng-deep** in your CSS. For example, if img tage is created through image pipe under a DIV with class "something", then you need to declare attributes in `::ng-deep .something img{ }` in order to have control over img tag.
 
-Please don't mind the problem with font-awesome fonts on the live demo...
+You are definitely welcome to add on additional pipes and formatting rules to this library and I will gladly incorporate your ideas **InTo** this project. Add your comments an requests through the link provided below.
+
 [Live Demo](https://into-pipes.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes) | [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
 
 # Version 1.3.3
-Added Video pipe... Now you can pipe a url into video tag.
+Added Video pipe... Now you can pipe a URL into video tag.
 
 ```javascript
 EXPORTS
@@ -188,7 +189,7 @@ constructor(private pool:ComponentPool) {
 }
 ```
 
-You can still continue formatting with existing pipes using InTo directive.. however, Email, Addess, Font, Image, Json, Link, and Rating formatters will insert actual components in the end resulting html. This means in the next release, I can add interactions with these components and add editable date component to format and edit the values when user interacts with the fields.. To allow you to come up with nifty formatters that can interact with users, in future release, I will add possibility of customizing formatting tags as well ...
+You can still continue formatting with existing pipes using InTo directive.. however, Email, Address, Font, Image, JSON, Link, and Rating formatters will insert actual components in the end resulting html. This means in the next release, I can add interactions with these components and add editable date component to format and edit the values when user interacts with the fields.. To allow you to come up with nifty formatters that can interact with users, in future release, I will add possibility of customizing formatting tags as well ...
 
 # Version 0.3.0
 Internally changed code to make sure if array is the source to be transformed, all items in the array are transformed.
@@ -274,14 +275,14 @@ DEPENDENCIES:
 
 | Format              | Examples                                        | Arguments                  | 
 |---------------------|-------------------------------------------------|----------------------------|
-| mask                | `mask:4:*  OR mask:4`                           | 1) last # number of characters to mask, 2) masking chachter |
+| mask                | `mask:4:*  OR mask:4`                           | 1) last # number of characters to mask, 2) masking character |
 | image               | `image:200px:auto:alt text` OR `image`          | 1) width, 2)height, 3) alternate text to be displayed |
 | link                | `link:text OR link`                             | 1)text to be displayed in the link |
 | map                 | `map:a;x/b;y/c;z`                               | 1)take a source as a key and returns value of key from the given map argument |
 | currency            | `currency:en_US or currency`                    | 1)local |
 | append              | `append:something`                              | 1)appending string |
-| prepend             | `prepend:something`                             | 1)prepending string |
-| wrap                | `wrap:something:something  OR wrap:something`   | 1)prepending string, 2)appending string. if appending string is not supplied, prepending string will be used. |
+| prepend             | `prepend:something`                             | 1)pre-pending string |
+| wrap                | `wrap:something:something  OR wrap:something`   | 1)pre-pending string, 2)appending string. if appending string is not supplied, pre-pending string will be used. |
 | number              | `number:en_US:2   or number:en_US or number`    | 1)local, 2)decimal points |
 | date                | `date:en_US:MMDDYY OR date:MMDDYY`              | 1)local, 2)format |
 | json                | `json`                                          | NONE    |

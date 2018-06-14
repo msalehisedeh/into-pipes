@@ -1577,7 +1577,6 @@ IntoPipeModule.decorators = [
                     WrapPipe,
                     ValueOfPipe,
                     SanitizeHtmlPipe,
-                    IntoDirective,
                     ComponentPool
                 ],
                 schemas: [core.CUSTOM_ELEMENTS_SCHEMA]

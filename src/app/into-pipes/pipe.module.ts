@@ -129,7 +129,6 @@ import { SelectComponent } from './components/select.component';
     WrapPipe,
     ValueOfPipe,
     SanitizeHtmlPipe,
-    IntoDirective,
     ComponentPool
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
