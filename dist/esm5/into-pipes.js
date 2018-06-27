@@ -941,7 +941,7 @@ var RatingComponent = /** @class */ (function () {
 RatingComponent.decorators = [
     { type: Component, args: [{
                 selector: 'rating-component',
-                template: "\n    <span class='rating'>\n        <span class='fa fa-star' aria-hidden='true' *ngFor=\"let x of value\"></span>\n        <span class='fa fa-star-half' aria-hidden='true' *ngIf=\"float !== value\"></span>\n    </span>\n    <span class='rate-value' [textContent]=\"source\"></span>\n    ",
+                template: "\n    <span class='rating'>\n        <span class='fa fa-star' aria-hidden='true' *ngFor=\"let x of value\"></span>\n        <span class='fa fa-star-half' aria-hidden='true' *ngIf=\"float != value\"></span>\n    </span>\n    <span class='rate-value' [textContent]=\"source\"></span>\n    ",
                 styles: [
                     ".rating {\n            display: inline-block;\n        }\n        "
                 ]

@@ -1255,7 +1255,7 @@ RatingComponent.decorators = [
                 template: `
     <span class='rating'>
         <span class='fa fa-star' aria-hidden='true' *ngFor="let x of value"></span>
-        <span class='fa fa-star-half' aria-hidden='true' *ngIf="float !== value"></span>
+        <span class='fa fa-star-half' aria-hidden='true' *ngIf="float != value"></span>
     </span>
     <span class='rate-value' [textContent]="source"></span>
     `,

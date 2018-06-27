@@ -4,8 +4,8 @@ export declare class RatingComponent implements PipeComponent {
     source: string;
     id: string;
     name: string;
-    value: number[];
-    float: number;
+    value: any[];
+    float: any;
     onIntoComponentChange: EventEmitter<any>;
     transform(source: any, args: any[]): void;
 }

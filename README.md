@@ -12,6 +12,9 @@ You are definitely welcome to add on additional pipes and formatting rules to th
 
 [Live Demo](https://into-pipes.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes) | [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
 
+# Version 1.3.7
+Compiled with AOT option and resolved issues.
+
 # Version 1.3.3
 Added Video pipe... Now you can pipe a URL into video tag.
 

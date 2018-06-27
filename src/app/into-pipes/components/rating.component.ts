@@ -6,7 +6,7 @@ import { PipeComponent } from '../interfaces/pipe.component';
     template: `
     <span class='rating'>
         <span class='fa fa-star' aria-hidden='true' *ngFor="let x of value"></span>
-        <span class='fa fa-star-half' aria-hidden='true' *ngIf="float !== value"></span>
+        <span class='fa fa-star-half' aria-hidden='true' *ngIf="float != value"></span>
     </span>
     <span class='rate-value' [textContent]="source"></span>
     `,
@@ -21,8 +21,8 @@ export class RatingComponent implements PipeComponent {
     source: string;
 	id: string;
 	name: string;
-    value: number[] = [];
-    float: number;
+    value: any[] = [];
+    float: any;
 	onIntoComponentChange: EventEmitter<any>;
 
     transform(source: any, args: any[]) {
