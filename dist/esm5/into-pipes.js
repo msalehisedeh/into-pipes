@@ -767,7 +767,7 @@ SanitizeHtmlPipe.ctorParameters = function () { return [
 var AddressComponent = /** @class */ (function () {
     function AddressComponent() {
     }
-    AddressComponent.prototype.transform = function (source, args) {
+    AddressComponent.prototype.transform = function (source, data, args) {
         this.source = source;
         this.addr1 = source.street + ', ' + source.suite;
         this.addr2 = source.city + ', ' + source.zipcode;
@@ -789,7 +789,7 @@ AddressComponent.ctorParameters = function () { return []; };
 var EmailComponent = /** @class */ (function () {
     function EmailComponent() {
     }
-    EmailComponent.prototype.transform = function (source, args) {
+    EmailComponent.prototype.transform = function (source, data, args) {
         this.source = source;
     };
     return EmailComponent;
@@ -807,7 +807,7 @@ EmailComponent.ctorParameters = function () { return []; };
 var FontComponent = /** @class */ (function () {
     function FontComponent() {
     }
-    FontComponent.prototype.transform = function (source, args) {
+    FontComponent.prototype.transform = function (source, data, args) {
         this.source = source;
         this.font = args[0];
         this.location = args.length > 1 ? args[1] : "left";
@@ -829,7 +829,7 @@ FontComponent.ctorParameters = function () { return []; };
 var ImageComponent = /** @class */ (function () {
     function ImageComponent() {
     }
-    ImageComponent.prototype.transform = function (source, args) {
+    ImageComponent.prototype.transform = function (source, data, args) {
         this.source = source;
         this.width = (args && args.length) ? args[0] : "";
         this.height = (args && args.length > 1) ? args[1] : "";
@@ -856,7 +856,7 @@ ImageComponent.ctorParameters = function () { return []; };
 var VideoComponent = /** @class */ (function () {
     function VideoComponent() {
     }
-    VideoComponent.prototype.transform = function (source, args) {
+    VideoComponent.prototype.transform = function (source, data, args) {
         this.source = source;
         this.width = (args && args.length) ? args[0] : "";
         this.height = (args && args.length > 1) ? args[1] : "";
@@ -883,7 +883,7 @@ VideoComponent.ctorParameters = function () { return []; };
 var JsonComponent = /** @class */ (function () {
     function JsonComponent() {
     }
-    JsonComponent.prototype.transform = function (source, args) {
+    JsonComponent.prototype.transform = function (source, data, args) {
         this.source = source;
     };
     return JsonComponent;
@@ -901,7 +901,7 @@ JsonComponent.ctorParameters = function () { return []; };
 var LinkComponent = /** @class */ (function () {
     function LinkComponent() {
     }
-    LinkComponent.prototype.transform = function (source, args) {
+    LinkComponent.prototype.transform = function (source, data, args) {
         this.source = source;
         this.target = (args && args.length) ? args[0] : "";
         this.title = (args && args.length > 1) ? args[1] : "";
@@ -928,7 +928,7 @@ var RatingComponent = /** @class */ (function () {
     function RatingComponent() {
         this.value = [];
     }
-    RatingComponent.prototype.transform = function (source, args) {
+    RatingComponent.prototype.transform = function (source, data, args) {
         this.float = parseFloat(source);
         this.source = source;
         var size = parseInt(source, 10);
@@ -992,7 +992,7 @@ var InputComponent = /** @class */ (function () {
             _this.renderer.invokeElementMethod(_this.nameEditor.nativeElement, "focus");
         }, 66);
     };
-    InputComponent.prototype.transform = function (source, args) {
+    InputComponent.prototype.transform = function (source, data, args) {
         this.source = source;
         this.placeholder = args.length ? args[0] : "";
         this.formatting = args.length > 1 ? args[1] : "";
@@ -1051,7 +1051,7 @@ var CheckboxComponent = /** @class */ (function () {
             }, 66);
         }
     };
-    CheckboxComponent.prototype.transform = function (source, args) {
+    CheckboxComponent.prototype.transform = function (source, data, args) {
         this.ideal = args.length ? String(args[0]) : "";
         this.useFont = args.length > 1 ? Boolean(args[1]) : false;
         this.source = String(source);
@@ -1089,7 +1089,7 @@ var SelectComponent = /** @class */ (function () {
             value: this.source
         });
     };
-    SelectComponent.prototype.transform = function (source, args) {
+    SelectComponent.prototype.transform = function (source, data, args) {
         this.source = source;
         this.options = this.service.getDataFor(this.name, this.id);
     };
@@ -1113,7 +1113,7 @@ SelectComponent.propDecorators = {
 var SpanComponent = /** @class */ (function () {
     function SpanComponent() {
     }
-    SpanComponent.prototype.transform = function (source, args) {
+    SpanComponent.prototype.transform = function (source, data, args) {
         this.source = source;
     };
     return SpanComponent;
@@ -1148,11 +1148,17 @@ var ComponentPool = /** @class */ (function () {
     ComponentPool.prototype.registerComponent = function (name, component) {
         this.registeredComponents[name] = component;
     };
+    ComponentPool.prototype.removeComponent = function (name) {
+        delete this.registeredComponents[name];
+    };
     ComponentPool.prototype.registeredComponent = function (name) {
         return this.registeredComponents[name];
     };
     ComponentPool.prototype.registerServiceForComponent = function (name, service) {
         this.registeredServices[name] = service;
+    };
+    ComponentPool.prototype.removeServiceForComponent = function (name) {
+        delete this.registeredServices[name];
     };
     ComponentPool.prototype.registeredServiceForComponent = function (name) {
         return this.registeredServices[name];
@@ -1174,7 +1180,7 @@ var IntoDirective = /** @class */ (function () {
     IntoDirective.prototype.split = function (item) {
         return item.trim().match(/(?=\S)[^"\:]*(?:"[^\\"]*(?:\\[\:\S][^\\"]*)*"[^"\:]*)*/g).filter(function (x) { return x.length; });
     };
-    IntoDirective.prototype._transform = function (content, args) {
+    IntoDirective.prototype._transform = function (content, args, data) {
         var result = content;
         switch (args[0]) {
             case "slice":
@@ -1301,78 +1307,78 @@ var IntoDirective = /** @class */ (function () {
                 if (typeof result === "string") {
                     result = result[0] === '"' ? result.substring(1, result.length - 1) : result;
                     result = this.split(result);
-                    result = this._transform(content, result);
+                    result = this._transform(content, result, data);
                 }
                 break;
             case "join":
                 result = new JoinPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "json":
-                result = this.transformComponent("json", content, this.intoId, this.intoName, "");
+                result = this.transformComponent("json", content, this.intoId, this.intoName, data, "");
                 break;
             case "font":
-                result = this.transformComponent("font", content, this.intoId, this.intoName, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
+                result = this.transformComponent("font", content, this.intoId, this.intoName, data, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
                 break;
             case "email":
-                result = this.transformComponent("email", content, this.intoId, this.intoName, "");
+                result = this.transformComponent("email", content, this.intoId, this.intoName, data, "");
                 break;
             case "address":
-                result = this.transformComponent("address", content, this.intoId, this.intoName, "");
+                result = this.transformComponent("address", content, this.intoId, this.intoName, data, "");
                 break;
             case "rating":
-                result = this.transformComponent("rating", content, this.intoId, this.intoName, "");
+                result = this.transformComponent("rating", content, this.intoId, this.intoName, data, "");
                 break;
             case "select":
-                result = this.transformComponent("select", content, this.intoId, this.intoName, "");
+                result = this.transformComponent("select", content, this.intoId, this.intoName, data, "");
                 break;
             case "link":
                 if (args.length > 2) {
-                    result = this.transformComponent("link", content, this.intoId, this.intoName, args[1], args[2]);
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, data, args[1], args[2]);
                 }
                 else if (args.length > 1) {
-                    result = this.transformComponent("link", content, this.intoId, this.intoName, "", args[1]);
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, data, "", args[1]);
                 }
                 else {
-                    result = this.transformComponent("link", content, this.intoId, this.intoName, "", "");
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, data, "", "");
                 }
                 break;
             case "input":
-                result = this.transformComponent("input", content, this.intoId, this.intoName, args[1], args.length > 2 ? args[2] : "");
+                result = this.transformComponent("input", content, this.intoId, this.intoName, data, args[1], args.length > 2 ? args[2] : "");
                 break;
             case "checkbox":
-                result = this.transformComponent("checkbox", content, this.intoId, this.intoName, args[1], args.length > 2 ? args[2] : "");
+                result = this.transformComponent("checkbox", content, this.intoId, this.intoName, data, args[1], args.length > 2 ? args[2] : "");
                 break;
             case "image":
                 if (args.length > 3) {
-                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1], args[2], args[3]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, data, args[1], args[2], args[3]);
                 }
                 else if (args.length > 2) {
-                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1], args[2]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, data, args[1], args[2]);
                 }
                 else if (args.length > 1) {
-                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, data, args[1]);
                 }
                 else {
-                    result = this.transformComponent("image", content, this.intoId, this.intoName, "");
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, data, "");
                 }
                 break;
             case "video":
                 if (args.length > 3) {
-                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1], args[2], args[3]);
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, data, args[1], args[2], args[3]);
                 }
                 else if (args.length > 2) {
-                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1], args[2]);
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, data, args[1], args[2]);
                 }
                 else if (args.length > 1) {
-                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1]);
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, data, args[1]);
                 }
                 else {
-                    result = this.transformComponent("video", content, this.intoId, this.intoName, "");
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, data, "");
                 }
                 break;
             default:
                 try {
-                    result = this.transformComponent(args[0], content, this.intoId, this.intoName, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "", args.length > 4 ? args[4] : "", args.length > 5 ? args[5] : "");
+                    result = this.transformComponent(args[0], content, this.intoId, this.intoName, data, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "", args.length > 4 ? args[4] : "", args.length > 5 ? args[5] : "");
                 }
                 catch (x) {
                     console.error(x);
@@ -1381,11 +1387,11 @@ var IntoDirective = /** @class */ (function () {
         }
         return result;
     };
-    IntoDirective.prototype.transformComponent = function (type, content, id, name) {
+    IntoDirective.prototype.transformComponent = function (type, content, id, name, data) {
         var _this = this;
         var args = [];
-        for (var _i = 4; _i < arguments.length; _i++) {
-            args[_i - 4] = arguments[_i];
+        for (var _i = 5; _i < arguments.length; _i++) {
+            args[_i - 5] = arguments[_i];
         }
         var result;
         if (typeof content === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
@@ -1393,7 +1399,7 @@ var IntoDirective = /** @class */ (function () {
             result.id = id;
             result.name = name;
             result.service = this.pool.registeredServiceForComponent(type);
-            result.transform(content.source ? content.source : content, args);
+            result.transform(content.source ? content.source : content, data, args);
             if (result.onIntoComponentChange && this.onComponentChange) {
                 result.onIntoComponentChange.subscribe(this.onComponentChange);
             }
@@ -1410,7 +1416,7 @@ var IntoDirective = /** @class */ (function () {
                     sx.id = id + '-' + (counter_1++);
                     sx.name = name;
                     sx.service = _this.pool.registeredServiceForComponent(type);
-                    sx.transform(source.source ? source.source : source, args);
+                    sx.transform(source.source ? source.source : source, data, args);
                     if (sx.onIntoComponentChange && _this.onComponentChange) {
                         sx.onIntoComponentChange.subscribe(_this.onComponentChange);
                     }
@@ -1437,16 +1443,16 @@ var IntoDirective = /** @class */ (function () {
             var result_10 = this.rawContent;
             if (this.into) {
                 this.into.split("|").map(function (item) {
-                    result_10 = _this._transform(result_10, _this.split(item));
+                    result_10 = _this._transform(result_10, _this.split(item), _this.intoData);
                 });
             }
             if (typeof result_10 === "string") {
-                this.registeredComponentFor("span").transform(result_10);
+                this.registeredComponentFor("span").transform(result_10, [], this.intoData);
             }
             else if (result_10 instanceof Array) {
                 result_10.map(function (source) {
                     if (typeof source === "string") {
-                        _this.registeredComponentFor("span").transform(source);
+                        _this.registeredComponentFor("span").transform(source, [], _this.intoData);
                     }
                 });
             }
@@ -1471,6 +1477,7 @@ IntoDirective.propDecorators = {
     "rawContent": [{ type: Input, args: ["rawContent",] },],
     "intoId": [{ type: Input, args: ["intoId",] },],
     "intoName": [{ type: Input, args: ["intoName",] },],
+    "intoData": [{ type: Input, args: ["intoData",] },],
     "into": [{ type: Input, args: ["into",] },],
     "onComponentChange": [{ type: Input, args: ["onComponentChange",] },],
 };

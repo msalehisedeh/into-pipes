@@ -971,10 +971,11 @@ SanitizeHtmlPipe.ctorParameters = () => [
 class AddressComponent {
     /**
      * @param {?} source
+     * @param {?} data
      * @param {?} args
      * @return {?}
      */
-    transform(source, args) {
+    transform(source, data, args) {
         this.source = source;
         this.addr1 = source.street + ', ' + source.suite;
         this.addr2 = source.city + ', ' + source.zipcode;
@@ -1026,10 +1027,11 @@ AddressComponent.ctorParameters = () => [];
 class EmailComponent {
     /**
      * @param {?} source
+     * @param {?} data
      * @param {?} args
      * @return {?}
      */
-    transform(source, args) {
+    transform(source, data, args) {
         this.source = source;
     }
 }
@@ -1057,10 +1059,11 @@ EmailComponent.ctorParameters = () => [];
 class FontComponent {
     /**
      * @param {?} source
+     * @param {?} data
      * @param {?} args
      * @return {?}
      */
-    transform(source, args) {
+    transform(source, data, args) {
         this.source = source;
         this.font = args[0];
         this.location = args.length > 1 ? args[1] : "left";
@@ -1095,10 +1098,11 @@ FontComponent.ctorParameters = () => [];
 class ImageComponent {
     /**
      * @param {?} source
+     * @param {?} data
      * @param {?} args
      * @return {?}
      */
-    transform(source, args) {
+    transform(source, data, args) {
         this.source = source;
         this.width = (args && args.length) ? args[0] : "";
         this.height = (args && args.length > 1) ? args[1] : "";
@@ -1130,10 +1134,11 @@ ImageComponent.ctorParameters = () => [];
 class VideoComponent {
     /**
      * @param {?} source
+     * @param {?} data
      * @param {?} args
      * @return {?}
      */
-    transform(source, args) {
+    transform(source, data, args) {
         this.source = source;
         this.width = (args && args.length) ? args[0] : "";
         this.height = (args && args.length > 1) ? args[1] : "";
@@ -1165,10 +1170,11 @@ VideoComponent.ctorParameters = () => [];
 class JsonComponent {
     /**
      * @param {?} source
+     * @param {?} data
      * @param {?} args
      * @return {?}
      */
-    transform(source, args) {
+    transform(source, data, args) {
         this.source = source;
     }
 }
@@ -1199,10 +1205,11 @@ JsonComponent.ctorParameters = () => [];
 class LinkComponent {
     /**
      * @param {?} source
+     * @param {?} data
      * @param {?} args
      * @return {?}
      */
-    transform(source, args) {
+    transform(source, data, args) {
         this.source = source;
         this.target = (args && args.length) ? args[0] : "";
         this.title = (args && args.length > 1) ? args[1] : "";
@@ -1237,10 +1244,11 @@ class RatingComponent {
     }
     /**
      * @param {?} source
+     * @param {?} data
      * @param {?} args
      * @return {?}
      */
-    transform(source, args) {
+    transform(source, data, args) {
         this.float = parseFloat(source);
         this.source = source;
         const /** @type {?} */ size = parseInt(source, 10);
@@ -1333,10 +1341,11 @@ class InputComponent {
     }
     /**
      * @param {?} source
+     * @param {?} data
      * @param {?} args
      * @return {?}
      */
-    transform(source, args) {
+    transform(source, data, args) {
         this.source = source;
         this.placeholder = args.length ? args[0] : "";
         this.formatting = args.length > 1 ? args[1] : "";
@@ -1450,10 +1459,11 @@ class CheckboxComponent {
     }
     /**
      * @param {?} source
+     * @param {?} data
      * @param {?} args
      * @return {?}
      */
-    transform(source, args) {
+    transform(source, data, args) {
         this.ideal = args.length ? String(args[0]) : "";
         this.useFont = args.length > 1 ? Boolean(args[1]) : false;
         this.source = String(source);
@@ -1521,10 +1531,11 @@ class SelectComponent {
     }
     /**
      * @param {?} source
+     * @param {?} data
      * @param {?} args
      * @return {?}
      */
-    transform(source, args) {
+    transform(source, data, args) {
         this.source = source;
         this.options = this.service.getDataFor(this.name, this.id);
     }
@@ -1558,10 +1569,11 @@ SelectComponent.propDecorators = {
 class SpanComponent {
     /**
      * @param {?} source
+     * @param {?} data
      * @param {?} args
      * @return {?}
      */
-    transform(source, args) {
+    transform(source, data, args) {
         this.source = source;
     }
 }
@@ -1611,6 +1623,13 @@ class ComponentPool {
      * @param {?} name
      * @return {?}
      */
+    removeComponent(name) {
+        delete this.registeredComponents[name];
+    }
+    /**
+     * @param {?} name
+     * @return {?}
+     */
     registeredComponent(name) {
         return this.registeredComponents[name];
     }
@@ -1621,6 +1640,13 @@ class ComponentPool {
      */
     registerServiceForComponent(name, service) {
         this.registeredServices[name] = service;
+    }
+    /**
+     * @param {?} name
+     * @return {?}
+     */
+    removeServiceForComponent(name) {
+        delete this.registeredServices[name];
     }
     /**
      * @param {?} name
@@ -1664,9 +1690,10 @@ class IntoDirective {
     /**
      * @param {?} content
      * @param {?} args
+     * @param {?} data
      * @return {?}
      */
-    _transform(content, args) {
+    _transform(content, args, data) {
         let /** @type {?} */ result = content;
         switch (args[0]) {
             case "slice":
@@ -1807,7 +1834,7 @@ class IntoDirective {
                 if (typeof result === "string") {
                     result = result[0] === '"' ? result.substring(1, result.length - 1) : result;
                     result = this.split(result);
-                    result = this._transform(content, result);
+                    result = this._transform(content, result, data);
                 }
                 break;
             case "join":
@@ -1816,82 +1843,82 @@ class IntoDirective {
                 break;
             case "json":
                 // json
-                result = this.transformComponent("json", content, this.intoId, this.intoName, "");
+                result = this.transformComponent("json", content, this.intoId, this.intoName, data, "");
                 break;
             case "font":
                 // font:fa fa-check:left:*
-                result = this.transformComponent("font", content, this.intoId, this.intoName, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
+                result = this.transformComponent("font", content, this.intoId, this.intoName, data, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
                 break;
             case "email":
                 // email
-                result = this.transformComponent("email", content, this.intoId, this.intoName, "");
+                result = this.transformComponent("email", content, this.intoId, this.intoName, data, "");
                 break;
             case "address":
                 // address
-                result = this.transformComponent("address", content, this.intoId, this.intoName, "");
+                result = this.transformComponent("address", content, this.intoId, this.intoName, data, "");
                 break;
             case "rating":
                 // rating
-                result = this.transformComponent("rating", content, this.intoId, this.intoName, "");
+                result = this.transformComponent("rating", content, this.intoId, this.intoName, data, "");
                 break;
             case "select":
                 // rating
-                result = this.transformComponent("select", content, this.intoId, this.intoName, "");
+                result = this.transformComponent("select", content, this.intoId, this.intoName, data, "");
                 break;
             case "link":
                 // link:target:text or link:text or link
                 if (args.length > 2) {
-                    result = this.transformComponent("link", content, this.intoId, this.intoName, args[1], args[2]);
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, data, args[1], args[2]);
                 }
                 else if (args.length > 1) {
-                    result = this.transformComponent("link", content, this.intoId, this.intoName, "", args[1]);
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, data, "", args[1]);
                 }
                 else {
-                    result = this.transformComponent("link", content, this.intoId, this.intoName, "", "");
+                    result = this.transformComponent("link", content, this.intoId, this.intoName, data, "", "");
                 }
                 break;
             case "input":
                 // input:placeholder:pipe
-                result = this.transformComponent("input", content, this.intoId, this.intoName, args[1], args.length > 2 ? args[2] : "");
+                result = this.transformComponent("input", content, this.intoId, this.intoName, data, args[1], args.length > 2 ? args[2] : "");
                 break;
             case "checkbox":
                 // input:ideal:useFont
-                result = this.transformComponent("checkbox", content, this.intoId, this.intoName, args[1], args.length > 2 ? args[2] : "");
+                result = this.transformComponent("checkbox", content, this.intoId, this.intoName, data, args[1], args.length > 2 ? args[2] : "");
                 break;
             case "image":
                 // image:200px:auto:alttext OR image:200px:alternate-text OR image:200px OR image
                 if (args.length > 3) {
-                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1], args[2], args[3]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, data, args[1], args[2], args[3]);
                 }
                 else if (args.length > 2) {
-                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1], args[2]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, data, args[1], args[2]);
                 }
                 else if (args.length > 1) {
-                    result = this.transformComponent("image", content, this.intoId, this.intoName, args[1]);
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, data, args[1]);
                 }
                 else {
-                    result = this.transformComponent("image", content, this.intoId, this.intoName, "");
+                    result = this.transformComponent("image", content, this.intoId, this.intoName, data, "");
                 }
                 break;
             case "video":
                 // video:200px:auto:alttext OR video:200px:alternate-text OR video:200px OR image
                 if (args.length > 3) {
-                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1], args[2], args[3]);
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, data, args[1], args[2], args[3]);
                 }
                 else if (args.length > 2) {
-                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1], args[2]);
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, data, args[1], args[2]);
                 }
                 else if (args.length > 1) {
-                    result = this.transformComponent("video", content, this.intoId, this.intoName, args[1]);
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, data, args[1]);
                 }
                 else {
-                    result = this.transformComponent("video", content, this.intoId, this.intoName, "");
+                    result = this.transformComponent("video", content, this.intoId, this.intoName, data, "");
                 }
                 break;
             default:
                 // unknown formatter
                 try {
-                    result = this.transformComponent(args[0], content, this.intoId, this.intoName, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "", args.length > 4 ? args[4] : "", args.length > 5 ? args[5] : "");
+                    result = this.transformComponent(args[0], content, this.intoId, this.intoName, data, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "", args.length > 4 ? args[4] : "", args.length > 5 ? args[5] : "");
                 }
                 catch (/** @type {?} */ x) {
                     console.error(x);
@@ -1905,17 +1932,18 @@ class IntoDirective {
      * @param {?} content
      * @param {?} id
      * @param {?} name
+     * @param {?} data
      * @param {...?} args
      * @return {?}
      */
-    transformComponent(type, content, id, name, ...args) {
+    transformComponent(type, content, id, name, data, ...args) {
         let /** @type {?} */ result;
         if (typeof content === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
             result = this.registeredComponentFor(type);
             result.id = id;
             result.name = name;
             result.service = this.pool.registeredServiceForComponent(type);
-            result.transform(content.source ? content.source : content, args);
+            result.transform(content.source ? content.source : content, data, args);
             if (result.onIntoComponentChange && this.onComponentChange) {
                 result.onIntoComponentChange.subscribe(this.onComponentChange);
             }
@@ -1932,7 +1960,7 @@ class IntoDirective {
                     sx.id = id + '-' + (counter++);
                     sx.name = name;
                     sx.service = this.pool.registeredServiceForComponent(type);
-                    sx.transform(source.source ? source.source : source, args);
+                    sx.transform(source.source ? source.source : source, data, args);
                     if (sx.onIntoComponentChange && this.onComponentChange) {
                         sx.onIntoComponentChange.subscribe(this.onComponentChange);
                     }
@@ -1965,16 +1993,16 @@ class IntoDirective {
             let /** @type {?} */ result = this.rawContent;
             if (this.into) {
                 this.into.split("|").map((item) => {
-                    result = this._transform(result, this.split(item));
+                    result = this._transform(result, this.split(item), this.intoData);
                 });
             }
             if (typeof result === "string") {
-                this.registeredComponentFor("span").transform(result);
+                this.registeredComponentFor("span").transform(result, [], this.intoData);
             }
             else if (result instanceof Array) {
                 result.map((source) => {
                     if (typeof source === "string") {
-                        this.registeredComponentFor("span").transform(source);
+                        this.registeredComponentFor("span").transform(source, [], this.intoData);
                     }
                 });
             }
@@ -2002,6 +2030,7 @@ IntoDirective.propDecorators = {
     "rawContent": [{ type: Input, args: ["rawContent",] },],
     "intoId": [{ type: Input, args: ["intoId",] },],
     "intoName": [{ type: Input, args: ["intoName",] },],
+    "intoData": [{ type: Input, args: ["intoData",] },],
     "into": [{ type: Input, args: ["into",] },],
     "onComponentChange": [{ type: Input, args: ["onComponentChange",] },],
 };

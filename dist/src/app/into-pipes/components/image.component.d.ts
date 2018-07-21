@@ -8,5 +8,5 @@ export declare class ImageComponent implements PipeComponent {
     height: string;
     alt: string;
     onIntoComponentChange: EventEmitter<any>;
-    transform(source: any, args: any[]): void;
+    transform(source: any, data: any, args: any[]): void;
 }

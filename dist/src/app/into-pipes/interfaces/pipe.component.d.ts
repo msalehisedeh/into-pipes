@@ -5,7 +5,7 @@ export interface PipeComponent {
     name: string;
     service?: PipeServiceComponent;
     onIntoComponentChange: EventEmitter<any>;
-    transform(content: any, args?: any[]): any;
+    transform(content: any, data: any, args?: any[]): any;
 }
 export interface PipeServiceComponent {
     getDataFor(itemName: any, itemId: any): any;

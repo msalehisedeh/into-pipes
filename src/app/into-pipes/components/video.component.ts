@@ -15,7 +15,7 @@ export class VideoComponent implements PipeComponent {
     alt: string;
 	onIntoComponentChange: EventEmitter<any>;
 
-    transform(source: any, args: any[]) {
+    transform(source: any, data: any, args: any[]) {
 
         this.source = source;
         this.width = (args && args.length) ? args[0] : "";

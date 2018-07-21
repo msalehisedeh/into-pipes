@@ -25,7 +25,7 @@ export class FontComponent implements PipeComponent {
     content: string;
 	onIntoComponentChange: EventEmitter<any>;
 
-    transform(source: any, args: any[]) {
+    transform(source: any, data: any, args: any[]) {
         this.source = source;
         this.font = args[0];
         this.location = args.length > 1 ? args[1] : "left";

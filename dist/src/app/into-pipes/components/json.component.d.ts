@@ -5,5 +5,5 @@ export declare class JsonComponent implements PipeComponent {
     name: string;
     source: string;
     onIntoComponentChange: EventEmitter<any>;
-    transform(source: any, args: any[]): void;
+    transform(source: any, data: any, args: any[]): void;
 }

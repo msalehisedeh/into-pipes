@@ -17,7 +17,7 @@ export class LinkComponent implements PipeComponent {
     target: string;
 	onIntoComponentChange: EventEmitter<any>;
 
-    transform(source: any, args: any[]) {
+    transform(source: any, data: any, args: any[]) {
         this.source = source;
         this.target = (args && args.length) ? args[0] : "";
         this.title = (args && args.length > 1) ? args[1] : "";

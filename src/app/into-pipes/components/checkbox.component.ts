@@ -76,7 +76,7 @@ export class CheckboxComponent implements PipeComponent {
     }
   }
 
-  transform(source: any, args: any[]) {
+  transform(source: any, data: any, args: any[]) {
     this.ideal= args.length ? String(args[0]) : "";
     this.useFont= args.length > 1 ? Boolean(args[1]) : false;
     this.source= String(source);

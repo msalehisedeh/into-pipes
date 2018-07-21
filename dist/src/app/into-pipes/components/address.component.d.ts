@@ -8,5 +8,5 @@ export declare class AddressComponent implements PipeComponent {
     addr1: string;
     addr2: string;
     onIntoComponentChange: EventEmitter<any>;
-    transform(source: any, args: any[]): void;
+    transform(source: any, data: any, args: any[]): void;
 }

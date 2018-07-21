@@ -42,7 +42,7 @@ export class AddressComponent implements PipeComponent {
     addr2: string;
 	onIntoComponentChange: EventEmitter<any>;
 
-    transform(source: any, args: any[]) {
+    transform(source: any, data: any, args: any[]) {
         this.source= source;
         this.addr1 = source.street + ', ' + source.suite;
         this.addr2 = source.city + ', ' + source.zipcode;

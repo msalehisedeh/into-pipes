@@ -12,6 +12,10 @@ You are definitely welcome to add on additional pipes and formatting rules to th
 
 [Live Demo](https://into-pipes.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes) | [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
 
+
+# Version 1.3.8
+Modified pipe component to accept one more argument allowing you to have additional data when you are formatting data. Consider a case when you are formatting data in a table row. You may need to format based on some attribute on a different column and may need to access the data for enite row.  By adding a **'intoData'**, your custom component will have access to the data and you can gain great flexibility formatting data. Standard pipes will not have access to "intoData" object. If you have not created custom pipe components on previous vesions, you will have no issue upgrading to this vesion. However, if you have created custom components, you will have to take note of new parameter passed to your component (please pay attention to the 'PipeComponent' interface).
+
 # Version 1.3.7
 Compiled with AOT option and resolved issues.
 
@@ -74,6 +78,7 @@ Sample on the directive usage
         [intoName]="SSN"
         [intoId]="'ssn-' + i"
         [into]="input:mask"
+        [intoData]="{x:'something',y:'whatever'}"
         [rawContent]="item.ssn"
         [onComponentChange]="onTableCellEdit.bind(this)"></td>
 ```
@@ -94,7 +99,7 @@ export interface PipeComponent {
 	service?:PipeServiceComponent;
 	onIntoComponentChange: EventEmitter<any>;
 	  
-	transform(content: any, args?: any[]);
+	transform(content: any, data: any, args?: any[]);
 }
 
 export interface PipeServiceComponent {
@@ -190,6 +195,17 @@ my component definition ....
 constructor(private pool:ComponentPool) {
     this.pool.registerComponent("input", MyCustomInputComponent);
 }
+```
+
+Custom component registration API
+```javascript
+	registerComponent (name, component: any)
+	removeComponent (name)
+	registeredComponent(name): any
+
+	registerServiceForComponent (name, service: any)
+	removeServiceForComponent (name)
+	registeredServiceForComponent(name): any
 ```
 
 You can still continue formatting with existing pipes using InTo directive.. however, Email, Address, Font, Image, JSON, Link, and Rating formatters will insert actual components in the end resulting html. This means in the next release, I can add interactions with these components and add editable date component to format and edit the values when user interacts with the fields.. To allow you to come up with nifty formatters that can interact with users, in future release, I will add possibility of customizing formatting tags as well ...

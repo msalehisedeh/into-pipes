@@ -8,5 +8,5 @@ export declare class FontComponent implements PipeComponent {
     name: string;
     content: string;
     onIntoComponentChange: EventEmitter<any>;
-    transform(source: any, args: any[]): void;
+    transform(source: any, data: any, args: any[]): void;
 }

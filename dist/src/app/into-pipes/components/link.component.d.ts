@@ -7,5 +7,5 @@ export declare class LinkComponent implements PipeComponent {
     title: string;
     target: string;
     onIntoComponentChange: EventEmitter<any>;
-    transform(source: any, args: any[]): void;
+    transform(source: any, data: any, args: any[]): void;
 }

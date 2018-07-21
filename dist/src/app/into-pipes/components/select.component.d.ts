@@ -10,5 +10,5 @@ export declare class SelectComponent implements PipeComponent {
     onIntoComponentChange: EventEmitter<{}>;
     constructor(renderer: Renderer);
     change(event: any): void;
-    transform(source: any, args: any[]): void;
+    transform(source: any, data: any, args: any[]): void;
 }

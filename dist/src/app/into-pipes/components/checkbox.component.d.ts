@@ -14,5 +14,5 @@ export declare class CheckboxComponent implements PipeComponent {
     constructor(renderer: Renderer);
     keyup(event: any): void;
     click(event: any): void;
-    transform(source: any, args: any[]): void;
+    transform(source: any, data: any, args: any[]): void;
 }

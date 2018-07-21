@@ -14,5 +14,5 @@ export declare class InputComponent implements PipeComponent {
     keyup(event: any): void;
     keydown(event: any): void;
     clickName(event: any): void;
-    transform(source: any, args: any[]): void;
+    transform(source: any, data: any, args: any[]): void;
 }

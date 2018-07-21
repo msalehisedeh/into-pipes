@@ -5,5 +5,5 @@ export declare class EmailComponent implements PipeComponent {
     id: string;
     name: string;
     onIntoComponentChange: EventEmitter<any>;
-    transform(source: any, args: any[]): void;
+    transform(source: any, data: any, args: any[]): void;
 }

@@ -19,7 +19,7 @@ export class EmailComponent implements PipeComponent {
 	name: string;
 	onIntoComponentChange: EventEmitter<any>;
 
-    transform(source: any, args: any[]) {
+    transform(source: any, data: any, args: any[]) {
         this.source = source;
     }
 }

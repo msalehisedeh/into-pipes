@@ -7,5 +7,5 @@ export declare class RatingComponent implements PipeComponent {
     value: any[];
     float: any;
     onIntoComponentChange: EventEmitter<any>;
-    transform(source: any, args: any[]): void;
+    transform(source: any, data: any, args: any[]): void;
 }

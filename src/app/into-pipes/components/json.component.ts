@@ -22,7 +22,7 @@ export class JsonComponent implements PipeComponent {
     source: string;
 	onIntoComponentChange: EventEmitter<any>;
 
-    transform(source: any, args: any[]) {
+    transform(source: any, data: any, args: any[]) {
         this.source = source
     }
 }

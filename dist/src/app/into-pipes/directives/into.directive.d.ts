@@ -8,12 +8,13 @@ export declare class IntoDirective implements OnInit, OnDestroy {
     rawContent: string;
     intoId: string;
     intoName: string;
+    intoData: any;
     into: string;
     onComponentChange: (event: any) => void;
     constructor(viewRef: ViewContainerRef, el: ElementRef, pool: ComponentPool, componentFactoryResolver: ComponentFactoryResolver);
     private split(item);
-    private _transform(content, args);
-    private transformComponent(type, content, id, name, ...args);
+    private _transform(content, args, data);
+    private transformComponent(type, content, id, name, data, ...args);
     private registeredComponentFor(name);
     ngOnInit(): void;
     ngOnDestroy(): void;

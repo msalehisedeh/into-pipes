@@ -103,7 +103,7 @@ export class InputComponent implements PipeComponent {
     },66);
   }
 
-  transform(source: any, args: any[]) {
+  transform(source: any, data: any, args: any[]) {
     this.source= source;
     this.placeholder= args.length ? args[0] : "";
     this.formatting = args.length > 1 ? args[1] : "";

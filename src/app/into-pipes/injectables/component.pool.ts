@@ -42,12 +42,18 @@ export class ComponentPool {
 	registerComponent (name, component: any) {
 		this.registeredComponents[name] = component;
 	}
+	removeComponent (name) {
+		delete this.registeredComponents[name];
+	}
 	registeredComponent(name) {
 		return this.registeredComponents[name];
 	}
 
 	registerServiceForComponent (name, service: any) {
 		this.registeredServices[name] = service;
+	}
+	removeServiceForComponent (name) {
+		delete this.registeredServices[name];
 	}
 	registeredServiceForComponent(name): any {
 		return this.registeredServices[name];
