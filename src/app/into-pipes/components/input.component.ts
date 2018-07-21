@@ -11,7 +11,7 @@ import { PipeComponent } from '../interfaces/pipe.component';
         [name]="name"
         [value]="source"
         [placeholder]="placeholder"
-        (blur)="editName = false;" 
+        (blur)="blur($event)" 
         (keyup)='keyup($event)'>
     </span>
     <span *ngIf='!editName && formatting'
@@ -54,6 +54,7 @@ export class InputComponent implements PipeComponent {
   placeholder: string;
   formatting:string;
   editName = false;
+  oldValue: string;
 
   @Output("onIntoComponentChange")
   onIntoComponentChange = new EventEmitter();
@@ -72,11 +73,31 @@ export class InputComponent implements PipeComponent {
         ((code == 32) || (code == 8)) ||
         ((code >= 186) && (code <= 222))) {
           this.source = event.target.value;
+    } else if ((code === 13) || (code === 9) || (code === 27) ) {
+      this.editName = false;
+      if (this.oldValue !== String(this.source)) {
+        this.onIntoComponentChange.emit({
+          id: this.id,
+          name: this.name,
+          value: this.source
+        });
+      }
+    }
+  }
+  blur(event) {
+    this.editName = false;
+    if (this.oldValue !== String(this.source)) {
+      this.onIntoComponentChange.emit({
+        id: this.id,
+        name: this.name,
+        value: this.source
+      });
     }
   }
 
   keydown(event) {
     const code = event.which;
+    console.log(code)
     if ((code === 13) || (code === 9)) {
       this.renderer.invokeElementMethod(event.target, "click");
       setTimeout(()=>{
@@ -84,21 +105,15 @@ export class InputComponent implements PipeComponent {
           this.renderer.invokeElementMethod(this.nameEditor.nativeElement, "focus");
         }
       },66);
-		} else if (code === 27) {
-      this.editName = false;
-    }
+		}
   }
 
   clickName(event) {
     event.stopPropagation();
     event.preventDefault();
-    this.editName = !this.editName;
-    this.onIntoComponentChange.emit({
-      id: this.id,
-      name: this.name,
-      value: this.source
-    })
-    setTimeout(()=>{
+    this.editName = true;
+    this.oldValue = String(this.source);
+    setTimeout(() => {
       this.renderer.invokeElementMethod(this.nameEditor.nativeElement, "focus");
     },66);
   }

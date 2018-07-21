@@ -962,10 +962,31 @@ var InputComponent = /** @class */ (function () {
             ((code >= 186) && (code <= 222))) {
             this.source = event.target.value;
         }
+        else if ((code === 13) || (code === 9) || (code === 27)) {
+            this.editName = false;
+            if (this.oldValue !== String(this.source)) {
+                this.onIntoComponentChange.emit({
+                    id: this.id,
+                    name: this.name,
+                    value: this.source
+                });
+            }
+        }
+    };
+    InputComponent.prototype.blur = function (event) {
+        this.editName = false;
+        if (this.oldValue !== String(this.source)) {
+            this.onIntoComponentChange.emit({
+                id: this.id,
+                name: this.name,
+                value: this.source
+            });
+        }
     };
     InputComponent.prototype.keydown = function (event) {
         var _this = this;
         var code = event.which;
+        console.log(code);
         if ((code === 13) || (code === 9)) {
             this.renderer.invokeElementMethod(event.target, "click");
             setTimeout(function () {
@@ -974,20 +995,13 @@ var InputComponent = /** @class */ (function () {
                 }
             }, 66);
         }
-        else if (code === 27) {
-            this.editName = false;
-        }
     };
     InputComponent.prototype.clickName = function (event) {
         var _this = this;
         event.stopPropagation();
         event.preventDefault();
-        this.editName = !this.editName;
-        this.onIntoComponentChange.emit({
-            id: this.id,
-            name: this.name,
-            value: this.source
-        });
+        this.editName = true;
+        this.oldValue = String(this.source);
         setTimeout(function () {
             _this.renderer.invokeElementMethod(_this.nameEditor.nativeElement, "focus");
         }, 66);
@@ -1002,7 +1016,7 @@ var InputComponent = /** @class */ (function () {
 InputComponent.decorators = [
     { type: Component, args: [{
                 selector: 'input-component',
-                template: "\n    <span *ngIf=\"editName\">\n    <input #nameEditor\n        type='text'\n        [id]=\"id\"\n        [name]=\"name\"\n        [value]=\"source\"\n        [placeholder]=\"placeholder\"\n        (blur)=\"editName = false;\"\n        (keyup)='keyup($event)'>\n    </span>\n    <span *ngIf='!editName && formatting'\n        class='locked'\n        tabindex='0'\n        (keydown)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? (source | into:formatting) : '&nbsp;'\">\n    </span>\n    <span *ngIf='!editName && !formatting'\n        class='locked'\n        tabindex='0'\n        (keydown)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? source : '&nbsp;'\">\n    </span>\n    ",
+                template: "\n    <span *ngIf=\"editName\">\n    <input #nameEditor\n        type='text'\n        [id]=\"id\"\n        [name]=\"name\"\n        [value]=\"source\"\n        [placeholder]=\"placeholder\"\n        (blur)=\"blur($event)\"\n        (keyup)='keyup($event)'>\n    </span>\n    <span *ngIf='!editName && formatting'\n        class='locked'\n        tabindex='0'\n        (keydown)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? (source | into:formatting) : '&nbsp;'\">\n    </span>\n    <span *ngIf='!editName && !formatting'\n        class='locked'\n        tabindex='0'\n        (keydown)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? source : '&nbsp;'\">\n    </span>\n    ",
                 styles: [
                     "\n        .locked {\n          display: inline-block;\n          cursor: pointer;\n          min-width: 30px;\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n        input{\n          cursor: beam;\n        }\n        "
                 ]

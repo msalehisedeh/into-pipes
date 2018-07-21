@@ -1303,6 +1303,30 @@ class InputComponent {
             ((code >= 186) && (code <= 222))) {
             this.source = event.target.value;
         }
+        else if ((code === 13) || (code === 9) || (code === 27)) {
+            this.editName = false;
+            if (this.oldValue !== String(this.source)) {
+                this.onIntoComponentChange.emit({
+                    id: this.id,
+                    name: this.name,
+                    value: this.source
+                });
+            }
+        }
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    blur(event) {
+        this.editName = false;
+        if (this.oldValue !== String(this.source)) {
+            this.onIntoComponentChange.emit({
+                id: this.id,
+                name: this.name,
+                value: this.source
+            });
+        }
     }
     /**
      * @param {?} event
@@ -1310,6 +1334,7 @@ class InputComponent {
      */
     keydown(event) {
         const /** @type {?} */ code = event.which;
+        console.log(code);
         if ((code === 13) || (code === 9)) {
             this.renderer.invokeElementMethod(event.target, "click");
             setTimeout(() => {
@@ -1317,9 +1342,6 @@ class InputComponent {
                     this.renderer.invokeElementMethod(this.nameEditor.nativeElement, "focus");
                 }
             }, 66);
-        }
-        else if (code === 27) {
-            this.editName = false;
         }
     }
     /**
@@ -1329,12 +1351,8 @@ class InputComponent {
     clickName(event) {
         event.stopPropagation();
         event.preventDefault();
-        this.editName = !this.editName;
-        this.onIntoComponentChange.emit({
-            id: this.id,
-            name: this.name,
-            value: this.source
-        });
+        this.editName = true;
+        this.oldValue = String(this.source);
         setTimeout(() => {
             this.renderer.invokeElementMethod(this.nameEditor.nativeElement, "focus");
         }, 66);
@@ -1362,7 +1380,7 @@ InputComponent.decorators = [
         [name]="name"
         [value]="source"
         [placeholder]="placeholder"
-        (blur)="editName = false;"
+        (blur)="blur($event)"
         (keyup)='keyup($event)'>
     </span>
     <span *ngIf='!editName && formatting'

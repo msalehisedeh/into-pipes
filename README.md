@@ -14,6 +14,9 @@ You are definitely welcome to add on additional pipes and formatting rules to th
 
 
 # Version 1.3.8
+Fixed the firing event on input component. It will fire after the input is changed back to default plain text and only if the value is changed. tab, return, anf escape keys will revert input back to plain text.
+
+# Version 1.3.8
 Modified pipe component to accept one more argument allowing you to have additional data when you are formatting data. Consider a case when you are formatting data in a table row. You may need to format based on some attribute on a different column and may need to access the data for enite row.  By adding a **'intoData'**, your custom component will have access to the data and you can gain great flexibility formatting data. Standard pipes will not have access to "intoData" object. If you have not created custom pipe components on previous vesions, you will have no issue upgrading to this vesion. However, if you have created custom components, you will have to take note of new parameter passed to your component (please pay attention to the 'PipeComponent' interface).
 
 # Version 1.3.7

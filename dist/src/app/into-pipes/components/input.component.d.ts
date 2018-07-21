@@ -8,10 +8,12 @@ export declare class InputComponent implements PipeComponent {
     placeholder: string;
     formatting: string;
     editName: boolean;
+    oldValue: string;
     onIntoComponentChange: EventEmitter<{}>;
     constructor(renderer: Renderer);
     nameEditor: any;
     keyup(event: any): void;
+    blur(event: any): void;
     keydown(event: any): void;
     clickName(event: any): void;
     transform(source: any, data: any, args: any[]): void;

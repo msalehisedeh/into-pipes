@@ -65,7 +65,7 @@ export class CheckboxComponent implements PipeComponent {
       value: this.source
     });
     if (this.useFont) {
-      setTimeout(()=>{
+      setTimeout(() => {
         if (this.source === this.original && this.check) {
           this.renderer.invokeElementMethod(this.check.nativeElement, "focus");
         }
