@@ -1612,6 +1612,118 @@ SpanComponent.ctorParameters = () => [];
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+class ShareComponent {
+    constructor() {
+        this.shouldDisplay = false;
+        this.shareList = [];
+    }
+    /**
+     * @param {?} type
+     * @param {?} address
+     * @return {?}
+     */
+    shareInfo(type, address) {
+        return {
+            icon: 'fa fa-' + type,
+            href: address,
+            title: 'share with ' + type
+        };
+    }
+    /**
+     * @param {?} source
+     * @param {?} data
+     * @param {?} args
+     * @return {?}
+     */
+    transform(source, data, args) {
+        this.source = source;
+        const /** @type {?} */ list = (args[0] instanceof Array) ? args[0] : args;
+        list.map((arg) => {
+            if (arg === 'facebook') {
+                this.shareList.push(this.shareInfo('facebook', 'http://www.facebook.com/sharer.php?u=' + source));
+            }
+            else if (arg === 'twitter') {
+                this.shareList.push(this.shareInfo('twitter', 'https://twitter.com/share?title=&amp;url=' + source));
+            }
+            else if (arg === 'linkedin') {
+                this.shareList.push(this.shareInfo('linkedin', 'http://www.linkedin.com/shareArticle?title=&amp;url=' + source));
+            }
+            else if (arg === 'google') {
+                this.shareList.push(this.shareInfo('google-plus', 'https://plus.google.com/share?url=' + source));
+            }
+            else if (arg === 'pinterest') {
+                this.shareList.push(this.shareInfo('google-plus', 'http://pinterest.com/pin/create/link/?url=' + source));
+            }
+            else if (arg === 'digg') {
+                this.shareList.push(this.shareInfo('digg', 'http://digg.com/submit?url=' + source));
+            }
+            else if (arg === 'get-pocket') {
+                this.shareList.push(this.shareInfo('get-pocket', 'https://getpocket.com/edit?url=' + source));
+            }
+            else if (arg === 'xing') {
+                this.shareList.push(this.shareInfo('xing', 'https://www.xing.com/app/user?op=share&url=' + source));
+            }
+            else if (arg === 'stumbleupon') {
+                this.shareList.push(this.shareInfo('stumbleupon', 'http://www.stumbleupon.com/submit?url=' + source));
+            }
+        });
+    }
+}
+ShareComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'share-component',
+                template: `
+    <a id='share-comment-{{id}}' class='share-item-tips' (click)='shouldDisplay = !shouldDisplay'>share</a>
+    <span id='share-comment-{{id}}-tips' class='tips' *ngIf='shouldDisplay'>
+      <span class='social-referal'>
+        <a *ngFor="let share of shareList" [class]='share.icon' target='_blank' [href]='share.href'><span class='off-screen' [textContent]="share.title"></span></a>
+      </span>
+    </span>
+`,
+                styles: [`
+    :host {display: table;position: relative}
+    .share-item-tips {
+        margin:0 0 0 20px;
+        cursor: pointer;
+    }
+    .tips {
+        position: absolute;
+        display: flex;
+        flex-direction: row;
+        padding: 5px;
+        border: 1px solid #aaa;
+        border-radius: 2px;
+        background-color: #fff;
+    }
+    .tips .social-referal {
+        display: flex;
+        flex-direction: row;
+    }
+    .tips .social-referal .fa {
+        float: left;
+        padding: 2px 4px;
+        color: blue;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        text-decoration: none;
+        margin: 0 1px;
+        width: 20px;
+        text-align: center;
+    }
+    .tips .social-referal .fa:hover {
+        color: #fff;
+        background-color: blue;
+    }
+    `]
+            },] },
+];
+/** @nocollapse */
+ShareComponent.ctorParameters = () => [];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 class ComponentPool {
     constructor() {
         this.registeredComponents = {};
@@ -1628,6 +1740,7 @@ class ComponentPool {
         this.registerComponent("input", InputComponent);
         this.registerComponent("checkbox", CheckboxComponent);
         this.registerComponent("select", SelectComponent);
+        this.registerComponent("share", ShareComponent);
     }
     /**
      * @param {?} name
@@ -1879,6 +1992,10 @@ class IntoDirective {
                 // rating
                 result = this.transformComponent("rating", content, this.intoId, this.intoName, data, "");
                 break;
+            case "share":
+                // share
+                result = this.transformComponent("share", content, this.intoId, this.intoName, data, args);
+                break;
             case "select":
                 // rating
                 result = this.transformComponent("select", content, this.intoId, this.intoName, data, "");
@@ -2077,6 +2194,7 @@ IntoPipeModule.decorators = [
                     CheckboxComponent,
                     SelectComponent,
                     SpanComponent,
+                    ShareComponent,
                     JoinPipe,
                     InToPipe,
                     ImagePipe,
@@ -2128,7 +2246,8 @@ IntoPipeModule.decorators = [
                     CheckboxComponent,
                     RatingComponent,
                     SelectComponent,
-                    SpanComponent
+                    SpanComponent,
+                    ShareComponent
                 ],
                 providers: [
                     JoinPipe,
@@ -2176,5 +2295,5 @@ IntoPipeModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, VideoPipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵj, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵi, JsonComponent as ɵf, LinkComponent as ɵg, RatingComponent as ɵh, SelectComponent as ɵk, SpanComponent as ɵl, VideoComponent as ɵe };
+export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, VideoPipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵj, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵi, JsonComponent as ɵf, LinkComponent as ɵg, RatingComponent as ɵh, SelectComponent as ɵk, ShareComponent as ɵm, SpanComponent as ɵl, VideoComponent as ɵe };
 //# sourceMappingURL=into-pipes.js.map

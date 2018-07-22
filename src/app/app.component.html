@@ -9,6 +9,7 @@
   <tr>
     <th>Action</th><th>Code</th><th>result</th>
   </tr>
+  <tr><td>share interesting content</td><td>[rawContent]="'http://thiswebsite.com/thispage/thisarticle'" [into]="'share:facebook:linkedin:google:twitter'" intoId="myshare" intoName="share"</td><td><span [rawContent]="'http://thiswebsite.com/thispage/thisarticle'" [into]="'share:facebook:linkedin:google:twitter'" intoId="myshare" intoName="share"></span></td></tr>
   <tr><td>Display conditional of name = masoud</td><td>[innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"</td><td><span [innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"></span></td></tr>
   <tr><td>Display conditional of 3.5 > 3</td><td>[rawContent]="threeFive" [into]="myConditionalThreeFive"</td><td><span [rawContent]="threeFive" [into]="myConditionalThreeFive"></span></td></tr>
   <tr><td>Display rating of 3.5</td><td>[rawContent]="'3.5'" [into]="'rating'"</td><td><span [rawContent]="'3.5'" [into]="'rating'"></span></td></tr>

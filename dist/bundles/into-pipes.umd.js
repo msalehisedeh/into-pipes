@@ -1144,6 +1144,62 @@ SpanComponent.decorators = [
             },] },
 ];
 SpanComponent.ctorParameters = function () { return []; };
+var ShareComponent = /** @class */ (function () {
+    function ShareComponent() {
+        this.shouldDisplay = false;
+        this.shareList = [];
+    }
+    ShareComponent.prototype.shareInfo = function (type, address) {
+        return {
+            icon: 'fa fa-' + type,
+            href: address,
+            title: 'share with ' + type
+        };
+    };
+    ShareComponent.prototype.transform = function (source, data, args) {
+        var _this = this;
+        this.source = source;
+        var list = (args[0] instanceof Array) ? args[0] : args;
+        list.map(function (arg) {
+            if (arg === 'facebook') {
+                _this.shareList.push(_this.shareInfo('facebook', 'http://www.facebook.com/sharer.php?u=' + source));
+            }
+            else if (arg === 'twitter') {
+                _this.shareList.push(_this.shareInfo('twitter', 'https://twitter.com/share?title=&amp;url=' + source));
+            }
+            else if (arg === 'linkedin') {
+                _this.shareList.push(_this.shareInfo('linkedin', 'http://www.linkedin.com/shareArticle?title=&amp;url=' + source));
+            }
+            else if (arg === 'google') {
+                _this.shareList.push(_this.shareInfo('google-plus', 'https://plus.google.com/share?url=' + source));
+            }
+            else if (arg === 'pinterest') {
+                _this.shareList.push(_this.shareInfo('google-plus', 'http://pinterest.com/pin/create/link/?url=' + source));
+            }
+            else if (arg === 'digg') {
+                _this.shareList.push(_this.shareInfo('digg', 'http://digg.com/submit?url=' + source));
+            }
+            else if (arg === 'get-pocket') {
+                _this.shareList.push(_this.shareInfo('get-pocket', 'https://getpocket.com/edit?url=' + source));
+            }
+            else if (arg === 'xing') {
+                _this.shareList.push(_this.shareInfo('xing', 'https://www.xing.com/app/user?op=share&url=' + source));
+            }
+            else if (arg === 'stumbleupon') {
+                _this.shareList.push(_this.shareInfo('stumbleupon', 'http://www.stumbleupon.com/submit?url=' + source));
+            }
+        });
+    };
+    return ShareComponent;
+}());
+ShareComponent.decorators = [
+    { type: core.Component, args: [{
+                selector: 'share-component',
+                template: "\n    <a id='share-comment-{{id}}' class='share-item-tips' (click)='shouldDisplay = !shouldDisplay'>share</a>\n    <span id='share-comment-{{id}}-tips' class='tips' *ngIf='shouldDisplay'>\n      <span class='social-referal'>\n        <a *ngFor=\"let share of shareList\" [class]='share.icon' target='_blank' [href]='share.href'><span class='off-screen' [textContent]=\"share.title\"></span></a>\n      </span>\n    </span>\n",
+                styles: ["\n    :host {display: table;position: relative}\n    .share-item-tips {\n        margin:0 0 0 20px;\n        cursor: pointer;\n    }\n    .tips {\n        position: absolute;\n        display: flex;\n        flex-direction: row;\n        padding: 5px;\n        border: 1px solid #aaa;\n        border-radius: 2px;\n        background-color: #fff;\n    }\n    .tips .social-referal {\n        display: flex;\n        flex-direction: row;\n    }\n    .tips .social-referal .fa {\n        float: left;\n        padding: 2px 4px;\n        color: blue;\n        border: 1px solid #ccc;\n        border-radius: 4px;\n        text-decoration: none;\n        margin: 0 1px;\n        width: 20px;\n        text-align: center;\n    }\n    .tips .social-referal .fa:hover {\n        color: #fff;\n        background-color: blue;\n    }\n    "]
+            },] },
+];
+ShareComponent.ctorParameters = function () { return []; };
 var ComponentPool = /** @class */ (function () {
     function ComponentPool() {
         this.registeredComponents = {};
@@ -1160,6 +1216,7 @@ var ComponentPool = /** @class */ (function () {
         this.registerComponent("input", InputComponent);
         this.registerComponent("checkbox", CheckboxComponent);
         this.registerComponent("select", SelectComponent);
+        this.registerComponent("share", ShareComponent);
     }
     ComponentPool.prototype.registerComponent = function (name, component) {
         this.registeredComponents[name] = component;
@@ -1344,6 +1401,9 @@ var IntoDirective = /** @class */ (function () {
             case "rating":
                 result = this.transformComponent("rating", content, this.intoId, this.intoName, data, "");
                 break;
+            case "share":
+                result = this.transformComponent("share", content, this.intoId, this.intoName, data, args);
+                break;
             case "select":
                 result = this.transformComponent("select", content, this.intoId, this.intoName, data, "");
                 break;
@@ -1520,6 +1580,7 @@ IntoPipeModule.decorators = [
                     CheckboxComponent,
                     SelectComponent,
                     SpanComponent,
+                    ShareComponent,
                     JoinPipe,
                     InToPipe,
                     ImagePipe,
@@ -1571,7 +1632,8 @@ IntoPipeModule.decorators = [
                     CheckboxComponent,
                     RatingComponent,
                     SelectComponent,
-                    SpanComponent
+                    SpanComponent,
+                    ShareComponent
                 ],
                 providers: [
                     JoinPipe,
@@ -1635,6 +1697,7 @@ exports.ɵf = JsonComponent;
 exports.ɵg = LinkComponent;
 exports.ɵh = RatingComponent;
 exports.ɵk = SelectComponent;
+exports.ɵm = ShareComponent;
 exports.ɵl = SpanComponent;
 exports.ɵe = VideoComponent;
 

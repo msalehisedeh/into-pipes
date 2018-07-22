@@ -231,6 +231,10 @@ export class IntoDirective implements OnInit, OnDestroy {
                 // rating
                 result = this.transformComponent("rating", content, this.intoId, this.intoName,  data, "");
                 break;
+            case "share" : 
+                // share
+                result = this.transformComponent("share", content, this.intoId, this.intoName,  data, args);
+                break;
             case "select" : 
                 // rating
                 result = this.transformComponent("select", content, this.intoId, this.intoName,  data, "");

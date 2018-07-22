@@ -12,5 +12,6 @@ export { JsonComponent as ɵf } from './src/app/into-pipes/components/json.compo
 export { LinkComponent as ɵg } from './src/app/into-pipes/components/link.component';
 export { RatingComponent as ɵh } from './src/app/into-pipes/components/rating.component';
 export { SelectComponent as ɵk } from './src/app/into-pipes/components/select.component';
+export { ShareComponent as ɵm } from './src/app/into-pipes/components/share.component';
 export { SpanComponent as ɵl } from './src/app/into-pipes/components/span.component';
 export { VideoComponent as ɵe } from './src/app/into-pipes/components/video.component';

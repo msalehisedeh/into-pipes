@@ -13,14 +13,22 @@ You are definitely welcome to add on additional pipes and formatting rules to th
 [Live Demo](https://into-pipes.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes) | [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
 
 
+# Version 1.4.0
+Added share social sites component.
+
 # Version 1.3.8
 Fixed the firing event on input component. It will fire after the input is changed back to default plain text and only if the value is changed. tab, return, anf escape keys will revert input back to plain text.
 
 # Version 1.3.8
-Modified pipe component to accept one more argument allowing you to have additional data when you are formatting data. Consider a case when you are formatting data in a table row. You may need to format based on some attribute on a different column and may need to access the data for enite row.  By adding a **'intoData'**, your custom component will have access to the data and you can gain great flexibility formatting data. Standard pipes will not have access to "intoData" object. If you have not created custom pipe components on previous vesions, you will have no issue upgrading to this vesion. However, if you have created custom components, you will have to take note of new parameter passed to your component (please pay attention to the 'PipeComponent' interface).
+Modified pipe component to accept one more argument allowing you to have additional data when you are formatting data. Consider a case when you are formatting data in a table row. You may need to format based on some attribute on a different column and may need to access the data for enite row.  By adding a **intoData**, your custom component will have access to the data and you can gain great flexibility formatting data. Standard pipes will not have access to "intoData" object. If you have not created custom pipe components on previous vesions, you will have no issue upgrading to this vesion. However, if you have created custom components, you will have to take note of new parameter passed to your component (please pay attention to the 'PipeComponent' interface).
 
 # Version 1.3.7
 Compiled with AOT option and resolved issues.
+
+| Format     | Examples             | Arguments                                                                                                  |
+|------------|----------------------|------------------------------------------------------------------------------------------------------------|
+| share               | `share:facebook:linkedin:google:twitter`          | 1) list of any one of supported sites (facebook, linkedin, google, twitter, pinterest, digg, xing, get-pocket, stumbleupon) |
+
 
 # Version 1.3.3
 Added Video pipe... Now you can pipe a URL into video tag.

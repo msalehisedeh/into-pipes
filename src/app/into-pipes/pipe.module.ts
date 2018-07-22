@@ -33,6 +33,7 @@ import { RatingComponent } from './components/rating.component';
 import { InputComponent } from './components/input.component';
 import { CheckboxComponent } from './components/checkbox.component';
 import { SelectComponent } from './components/select.component';
+import { ShareComponent } from './components/share.component';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { SelectComponent } from './components/select.component';
     CheckboxComponent,
     SelectComponent,
     SpanComponent,
+    ShareComponent,
     JoinPipe,
     InToPipe,
     ImagePipe,
@@ -102,7 +104,8 @@ import { SelectComponent } from './components/select.component';
     CheckboxComponent,
     RatingComponent,
     SelectComponent,
-    SpanComponent
+    SpanComponent,
+    ShareComponent
   ],
   providers: [
     JoinPipe,

@@ -18,6 +18,7 @@ import { InputComponent } from '../components/input.component';
 import { CheckboxComponent } from '../components/checkbox.component';
 import { SelectComponent } from '../components/select.component';
 import { SpanComponent } from '../components/span.component';
+import { ShareComponent } from '../components/share.component';
 
 @Injectable()
 export class ComponentPool {
@@ -37,6 +38,7 @@ export class ComponentPool {
 		this.registerComponent("input", InputComponent);
 		this.registerComponent("checkbox", CheckboxComponent);
 		this.registerComponent("select", SelectComponent);
+		this.registerComponent("share", ShareComponent);
 	}
   
 	registerComponent (name, component: any) {
