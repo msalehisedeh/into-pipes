@@ -97,7 +97,7 @@ Sample on the directive usage
         [onComponentChange]="onTableCellEdit.bind(this)"></td>
 ```
 
-Sample registration for select pipe.
+Sample registration for select pipe. You will have to make sure to add your custom service in NgModel of your application under providers.
 ```javascript
   constructor(private pool: ComponentPool, private myService: MySelectService) {
     this.pool.registerServiceForComponent("select", myService);
@@ -200,7 +200,7 @@ export class MyCustomInputComponent implements PipeComponent {
 }
 ```
 
-Registering my custom component
+Registering my custom component. You will have to make sure to add your custom component in NgModel of your application under declarations and entryComponents.
 ```javascript
 import { ComponentPool } from 'into-pipes';
 
