@@ -13,6 +13,9 @@ You are definitely welcome to add on additional pipes and formatting rules to th
 [Live Demo](https://into-pipes.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes) | [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
 
 
+# Version 1.4.1
+Added error log if accessing a custom component that is not registered.
+
 # Version 1.4.0
 Added share social sites component.
 

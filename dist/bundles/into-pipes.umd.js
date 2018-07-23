@@ -1472,12 +1472,17 @@ var IntoDirective = /** @class */ (function () {
         var result;
         if (typeof content === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
             result = this.registeredComponentFor(type);
-            result.id = id;
-            result.name = name;
-            result.service = this.pool.registeredServiceForComponent(type);
-            result.transform(content.source ? content.source : content, data, args);
-            if (result.onIntoComponentChange && this.onComponentChange) {
-                result.onIntoComponentChange.subscribe(this.onComponentChange);
+            if (result === null || result === undefined) {
+                console.error("Custom component '" + type + "' is not defined.");
+            }
+            else {
+                result.id = id;
+                result.name = name;
+                result.service = this.pool.registeredServiceForComponent(type);
+                result.transform(content.source ? content.source : content, data, args);
+                if (result.onIntoComponentChange && this.onComponentChange) {
+                    result.onIntoComponentChange.subscribe(this.onComponentChange);
+                }
             }
         }
         else if (content instanceof Array) {
@@ -1489,12 +1494,17 @@ var IntoDirective = /** @class */ (function () {
                     typeof content === "boolean" ||
                     Object.keys(content).length) {
                     var sx = _this.registeredComponentFor(type);
-                    sx.id = id + '-' + (counter_1++);
-                    sx.name = name;
-                    sx.service = _this.pool.registeredServiceForComponent(type);
-                    sx.transform(source.source ? source.source : source, data, args);
-                    if (sx.onIntoComponentChange && _this.onComponentChange) {
-                        sx.onIntoComponentChange.subscribe(_this.onComponentChange);
+                    if (sx === null || sx === undefined) {
+                        console.error("Custom component '" + type + "' is not defined.");
+                    }
+                    else {
+                        sx.id = id + '-' + (counter_1++);
+                        sx.name = name;
+                        sx.service = _this.pool.registeredServiceForComponent(type);
+                        sx.transform(source.source ? source.source : source, data, args);
+                        if (sx.onIntoComponentChange && _this.onComponentChange) {
+                            sx.onIntoComponentChange.subscribe(_this.onComponentChange);
+                        }
                     }
                 }
             });
