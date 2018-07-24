@@ -9,28 +9,150 @@
   <tr>
     <th>Action</th><th>Code</th><th>result</th>
   </tr>
-  <tr><td>share interesting content</td><td>[rawContent]="'http://thiswebsite.com/thispage/thisarticle'" [into]="'share:facebook:linkedin:google:twitter'" intoId="myshare" intoName="share"</td><td><span [rawContent]="'http://thiswebsite.com/thispage/thisarticle'" [into]="'share:facebook:linkedin:google:twitter'" intoId="myshare" intoName="share"></span></td></tr>
-  <tr><td>Display conditional of name = masoud</td><td>[innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"</td><td><span [innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"></span></td></tr>
-  <tr><td>Display conditional of 3.5 > 3</td><td>[rawContent]="threeFive" [into]="myConditionalThreeFive"</td><td><span [rawContent]="threeFive" [into]="myConditionalThreeFive"></span></td></tr>
-  <tr><td>Display rating of 3.5</td><td>[rawContent]="'3.5'" [into]="'rating'"</td><td><span [rawContent]="'3.5'" [into]="'rating'"></span></td></tr>
-  <tr><td>Display email in email linked</td><td>[rawContent]="'xyz@gmail.com'" [into]="'email'"</td><td><span [rawContent]="'xyz@gmail.com'" [into]="'email'"></span></td></tr>
-  <tr><td>Display email in select list</td><td>[rawContent]="'xyz@gmail.com'" [into]="'select'" intoName="select1" intoId="select1" </td><td><span [rawContent]="'xyz@gmail.com'" intoName="select1" intoId="select1" [into]="'select'"></span></td></tr>
-  <tr><td>Display address with marker</td><td>[rawContent]="myaddress" [into]="'address'"</td><td><span [rawContent]="myaddress" [into]="'address'"></span></td></tr>
-  <tr><td>Display date</td><td>[innerHTML]="myDate | into:myDateFormat | sanitizeHtml"</td><td><span [innerHTML]="myDate | into:myDateFormat | sanitizeHtml"></span></td></tr>
-  <tr><td>Display list of dates</td><td>[innerHTML]="myDateList | into:myDateFormat | into:'join:*' | sanitizeHtml"</td><td><span [innerHTML]="myDateList | into:myDateFormat | into:'join:*' | sanitizeHtml"></span></td></tr>
-  <tr><td>Prepend * to content</td><td>[innerHTML]="'xyz' | into:'prepend:*' | sanitizeHtml"</td><td><span [innerHTML]="'xyz' | into:'prepend:*' | sanitizeHtml"></span></td></tr>
-  <tr><td>Append * to content</td><td>[innerHTML]="'xyz' | into:'append:*' | sanitizeHtml"</td><td><span [innerHTML]="'xyz' | into:'append:*' | sanitizeHtml"></span></td></tr>
-  <tr><td>Wrap content with *</td><td>[innerHTML]="'xyz' | into:'wrap:*' | sanitizeHtml"</td><td><span [innerHTML]="'xyz' | into:'wrap:*' | sanitizeHtml"></span></td></tr>
-  <tr><td>Display number in currency</td><td>[innerHTML]="'25' | into:'currency' | sanitizeHtml"</td><td><span [innerHTML]="'25' | into:'currency' | sanitizeHtml"></span></td></tr>
-  <tr><td>Display number in decimals</td><td>[innerHTML]="'25.34537664' | into:'number' | sanitizeHtml"</td><td><span [innerHTML]="'25.34537664' | into:'number' | sanitizeHtml"></span></td></tr>
-  <tr><td>Mask number and add checkmark</td><td> [rawContent]="'3423423422'" [into]="'input:enter number:mask | font:fa fa-check:replace:*'" [intoId]="threeFive" [intoName]="threeFive"</td><td><span [rawContent]="'3423423422'" [into]="'input:enter number:mask | font:fa fa-check:replace:*'" [intoId]="threeFive" [intoName]="threeFive"></span></td></tr>
-  <tr><td>Checkbox</td><td> [rawContent]="'yes'" [into]="'checkbox:yes:true'" intoId="mycheckbox" intoName="mycheckbox"</td><td><span [rawContent]="'yes'" [into]="'checkbox:yes:true'" intoId="mycheckbox" intoName="mycheckbox"></span></td></tr>
-  <tr><td>Display content in uppercase</td><td>[innerHTML]="'try this' | into:'uppercase' | sanitizeHtml"</td><td><span [innerHTML]="'try this' | into:'uppercase' | sanitizeHtml"></span></td></tr>
-  <tr><td>Display content in lowercase</td><td>[innerHTML]="'TRY THIS' | into:'lowercase' | sanitizeHtml"</td><td><span [innerHTML]="'TRY THIS' | into:'lowercase' | sanitizeHtml"></span></td></tr>
-  <tr><td>Display part of content from index 4 to 8</td><td>[innerHTML]="'try this sdfads' | into:'slice:4:8' | sanitizeHtml"</td><td><span [innerHTML]="'try this sdfads' | into:'slice:4:8' | sanitizeHtml"></span></td></tr>
-  <tr><td>Display in json format</td><td>[rawContent]="myJson"  [into]="'json'"</td><td><span [rawContent]="myJson"  [into]="'json'"></span></td></tr>
-  <tr><td>Display value of "dw" found in JSON Object</td><td>[innerHTML]="myJson | into:'valueof:dw' | sanitizeHtml"</td><td><span [innerHTML]="myJson | into:'valueof:dw' | sanitizeHtml"></span></td></tr>
-  <tr><td>Display URL in a link</td><td>[rawContent]="theURL" [into]="'link'"</td><td><span [rawContent]="theURL" [into]="'link'"></span></td></tr>
-  <tr><td>Display URL as image</td><td>[rawContent]="theURL"  [into]="'image:200px:auto:alt text'"</td><td><span [rawContent]="theURL"  [into]="'image:200px:auto:alt text'"></span></td></tr>
-  <tr><td>Display URL as video</td><td>[rawContent]="videoURL"  [into]="'video:200px:auto:alt text'"</td><td><span [rawContent]="videoURL"  [into]="'video:200px:auto:alt text'"></span></td></tr>
+  <tr>
+    <td>Format a URL of specific content <b>into</b> a Media Share link of specified websites.</td>
+    <td>[rawContent]="'http://thiswebsite.com/thispage/thisarticle'" 
+      [into]="'share:facebook:linkedin:google:twitter'" intoId="myshare" intoName="share"
+      [onComponentChange]="onComponentChange.bind(this)"
+    </td>
+    <td><span [rawContent]="'http://thiswebsite.com/thispage/thisarticle'" 
+      [into]="'share:facebook:linkedin:google:twitter'" 
+      intoId="myshare" intoName="share"
+      [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Execute if else: for example show checkmark if <b>name = masoud</b> or show a bell icon if not.</td>
+    <td>[innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"</td>
+    <td><span [innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
+    <td>Execute if else: for example show checkmark if <b>3.5 > 3</b> or show a bell icon if not. </td>
+    <td>[rawContent]="threeFive" [into]="myConditionalThreeFive"</td>
+    <td><span [rawContent]="threeFive" [into]="myConditionalThreeFive"></span></td>
+  </tr>
+  <tr>
+    <td>Format 3.5 <b>into</b> stars rating representation</td>
+    <td>[rawContent]="'3.5'" [into]="'rating'"</td>
+    <td><span [rawContent]="'3.5'" [into]="'rating'"></span></td>
+  </tr>
+  <tr>
+    <td>Format email address <b>into</b> an email link</td>
+    <td>[rawContent]="'xyz@gmail.com'" [into]="'email'"</td>
+    <td><span [rawContent]="'xyz@gmail.com'" [into]="'email'"></span></td>
+  </tr>
+  <tr>
+    <td>Format list of email addresses <b>into</b> a select list</td>
+    <td>[rawContent]="'xyz@gmail.com'" 
+      [into]="'select'" intoName="select1" intoId="select1" 
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span 
+      [rawContent]="'xyz@gmail.com'" intoName="select1" intoId="select1" 
+      [into]="'select'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Display address with a marker icon</td>
+    <td>[rawContent]="myaddress" [into]="'address'"</td>
+    <td><span [rawContent]="myaddress" [into]="'address'"></span></td>
+  </tr>
+  <tr>
+    <td>Format date</td>
+    <td>[innerHTML]="myDate | into:myDateFormat | sanitizeHtml"</td>
+    <td><span [innerHTML]="myDate | into:myDateFormat | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
+    <td>Format list of dates</td>
+    <td>[innerHTML]="myDateList | into:myDateFormat | into:'join:*' | sanitizeHtml"</td>
+    <td><span [innerHTML]="myDateList | into:myDateFormat | into:'join:*' | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
+    <td>Prepend * to content</td>
+    <td>[innerHTML]="'xyz' | into:'prepend:*' | sanitizeHtml"</td>
+    <td><span [innerHTML]="'xyz' | into:'prepend:*' | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
+    <td>Append * to content</td>
+    <td>[innerHTML]="'xyz' | into:'append:*' | sanitizeHtml"</td>
+    <td><span [innerHTML]="'xyz' | into:'append:*' | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
+    <td>Wrap content with *</td>
+    <td>[innerHTML]="'xyz' | into:'wrap:*' | sanitizeHtml"</td>
+    <td><span [innerHTML]="'xyz' | into:'wrap:*' | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
+    <td>Format number <b>into</b> currency</td>
+    <td>[innerHTML]="'25' | into:'currency' | sanitizeHtml"</td>
+    <td><span [innerHTML]="'25' | into:'currency' | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
+    <td>Format number <b>into</b> decimals</td>
+    <td>[innerHTML]="'25.34537664' | into:'number' | sanitizeHtml"</td>
+    <td><span [innerHTML]="'25.34537664' | into:'number' | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
+    <td>Mask number and add a checkmark icon</td>
+    <td> [rawContent]="'3423423422'" [into]="'input:enter number:mask | font:fa fa-check:replace:*'" [intoId]="threeFive" [intoName]="threeFive"</td>
+    <td><span 
+      [rawContent]="'3423423422'" 
+      [into]="'input:enter number:mask | font:fa fa-check:replace:*'" 
+      [intoId]="threeFive" [onComponentChange]="onComponentChange.bind(this)"
+      [intoName]="threeFive"></span></td>
+  </tr>
+  <tr>
+    <td>Format value <b>into</b> an interactive checkbox</td>
+    <td> [rawContent]="'yes'" [into]="'checkbox:yes:true'" intoId="mycheckbox" intoName="mycheckbox"
+        [onComponentChange]="onComponentChange.bind(this)"
+    </td>
+    <td><span 
+      [rawContent]="'yes'" 
+      [into]="'checkbox:yes:true'" 
+      intoId="mycheckbox" intoName="mycheckbox"
+      [onComponentChange]="onComponentChange.bind(this)"></span></td></tr>
+  <tr>
+    <td>Format content <b>into</b> uppercase content</td>
+    <td>[innerHTML]="'try this' | into:'uppercase' | sanitizeHtml"</td>
+    <td><span [innerHTML]="'try this' | into:'uppercase' | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
+    <td>Format content <b>into</b> lowercase content</td>
+    <td>[innerHTML]="'TRY THIS' | into:'lowercase' | sanitizeHtml"</td>
+    <td><span [innerHTML]="'TRY THIS' | into:'lowercase' | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
+    <td>Format value <b>into</b> a partial value</td>
+    <td>[innerHTML]="'try this sdfads' | into:'slice:4:8' | sanitizeHtml"</td>
+    <td><span [innerHTML]="'try this sdfads' | into:'slice:4:8' | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
+    <td>Bautify json</td>
+    <td>[rawContent]="myJson"  [into]="'json'"</td>
+    <td><span [rawContent]="myJson"  [into]="'json'"></span></td>
+  </tr>
+  <tr>
+    <td>Traverse <b>into</b> JSON Object and display value of "dw" attribute</td>
+    <td>[innerHTML]="myJson | into:'valueof:dw' | sanitizeHtml"</td>
+    <td><span [innerHTML]="myJson | into:'valueof:dw' | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
+    <td>Format the URL <b>into</b> a link</td>
+    <td>[rawContent]="theURL" [into]="'link'"</td>
+    <td><span [rawContent]="theURL" [into]="'link'"></span></td>
+  </tr>
+  <tr>
+    <td>Format the URL <b>into</b> an image tag</td>
+    <td>[rawContent]="theURL"  [into]="'image:200px:auto:alt text'"</td>
+    <td><span [rawContent]="theURL"  [into]="'image:200px:auto:alt text'"></span></td>
+  </tr>
+  <tr>
+    <td>Format the URL <b>into</b> a video tag</td>
+    <td>[rawContent]="videoURL"  [into]="'video:200px:auto:alt text'" 
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="videoURL" 
+       [into]="'video:200px:auto:alt text'"
+       [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
 </table>
+
+<ul class="logger">
+  <li *ngFor="let x of events" [textContent]="x"></li>
+</ul>

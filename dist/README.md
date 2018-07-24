@@ -1,40 +1,47 @@
 # Welcome to InTo Pipes!
 
-Have you ever wanted to have a component that transforms values into interactive objects just by receiving meta data formatting rules?
-This library provides few Angular4 pipes that are all used by a single **"InTo"** pipe component/directive. "InTo" will determine how the object value should be formatted. 
-Moreover, you can provide your own extenssions and it is all done JUST by passing few formatting rules to an "InTo" directive.
+Have you ever wanted transforms values in different parts of your application into interactive objects without writing a single line of code? 
+This library provides few Angular4 pipes that are all used by a single **InTo** pipe component/directive. **InTo** will determine how the object value should be formatted based on meta-data formatting rules?
+Moreover, **"InTo"** can be customized by adding custom formatters **into** it!!
 
-**Please Note:** If you decide to use the "Into" pipe instead of the directive, you need to make sure you will pipe the result into sanitizeHtml.
+**Please Note:** If you decide to use the **InTo** pipes instead of the directive, you need to make sure you will pipe the result **into** sanitizeHtml.
 
-**Please Note:** When you create tags and insert them into DOM at runtime though InTo Pipes, angular will not be able to enforce CSS on the tags. In that case the workaround is to use **::ng-deep** in your CSS. For example, if img tage is created through image pipe under a DIV with class "something", then you need to declare attributes in `::ng-deep .something img{ }` in order to have control over img tag.
+**Please Note:** When you create tags and insert them **into** DOM at runtime through **InTo** Pipes, angular will not be able to enforce CSS rules on the tags. In that case the workaround is to use **::ng-deep** in your CSS. For example, if img tage is created through image pipe under a DIV with class "something", then you need to declare attributes in `::ng-deep .something img{ }` in order to have control over img tag.
 
-You are definitely welcome to add on additional pipes and formatting rules to this library and I will gladly incorporate your ideas **InTo** this project. Add your comments an requests through the link provided below.
+You are definitely welcome to submit additional pipes and formatting rules to this library and I will gladly incorporate your ideas **InTo** this project. Add your comments an requests through the link provided below.
 
 [Live Demo](https://into-pipes.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes) | [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
 
 
 # Version 1.4.1
-Added error log if accessing a custom component that is not registered.
+Calling console.error() if applying a custom rule when the custom component for it is not registered.
 
 # Version 1.4.0
-Added share social sites component.
+Added an interactive share social sites component.
 
-# Version 1.3.8
-Fixed the firing event on input component. It will fire after the input is changed back to default plain text and only if the value is changed. tab, return, anf escape keys will revert input back to plain text.
-
-# Version 1.3.8
-Modified pipe component to accept one more argument allowing you to have additional data when you are formatting data. Consider a case when you are formatting data in a table row. You may need to format based on some attribute on a different column and may need to access the data for enite row.  By adding a **intoData**, your custom component will have access to the data and you can gain great flexibility formatting data. Standard pipes will not have access to "intoData" object. If you have not created custom pipe components on previous vesions, you will have no issue upgrading to this vesion. However, if you have created custom components, you will have to take note of new parameter passed to your component (please pay attention to the 'PipeComponent' interface).
-
-# Version 1.3.7
-Compiled with AOT option and resolved issues.
+```javascript
+EXPORTS
+	ShareComponent
+```
 
 | Format     | Examples             | Arguments                                                                                                  |
 |------------|----------------------|------------------------------------------------------------------------------------------------------------|
 | share               | `share:facebook:linkedin:google:twitter`          | 1) list of any one of supported sites (facebook, linkedin, google, twitter, pinterest, digg, xing, get-pocket, stumbleupon) |
 
 
+# Version 1.3.8
+Fixed the firing event on interactive input component. Event will fire after the input value is changed and a tab, return, or escape key is pressed. After the event is fired, input field will revert back to a plain text.
+
+# Version 1.3.8
+Modified all pipe components to accept one more argument allowing you to have additional data when you are formatting data. Consider a case when you are formatting data in a table row. You may need to format based on some attributes from other columns and would need to have ability to access the data for the enite row.  By passing data to a **intoData** attribute, your custom component will have access to the data and you can gain great flexibility formatting a particular tabel cell. **NOTE:** Standard pipes will not have access to "intoData" object. If you have not created custom pipe components on previous vesions, you will have no issue upgrading to this vesion. However, if you have created custom components, you will have to take note of new parameter passed to your component (please pay attention to the 'PipeComponent' interface presented in this page).
+
+
+# Version 1.3.7
+Compiled with AOT option and resolved issues.
+
+
 # Version 1.3.3
-Added Video pipe... Now you can pipe a URL into video tag.
+Added Video pipe... Now you can pipe a URL **into** video tag.
 
 ```javascript
 EXPORTS
@@ -47,38 +54,12 @@ EXPORTS
 
 
 # Version 1.2.0
-Fixed a few logic issues and added event emit to the directive. Added into select option. You are now able to pipe a value into select tag. But you will need to register a service that knows how to provide select options for a given attribute. And this service has to implement PipeServiceComponent.
+Fixed a few logic issues and added event emit to the directive. Added into select option. You are now able to pipe a value **into** a select tag. But you will need to register a service that knows how to provide select options for a given attribute. And this service has to implement PipeServiceComponent.
 
 ```javascript
-MODULE:
-    IntoPipeModule
-
 EXPORTS
-	InToPipe
-	IntoDirective
-
-	PipeComponent
-	PipeServiceComponent
-	ComponentPool
-
-	MaskPipe
-	MapPipe
-	LinkPipe
-	ImagePipe
-	PrependPipe
-	AppendPipe
-	WrapPipe
-	EmailPipe
-	RatingPipe
-	AddressPipe
-	JoinPipe
-	FontPipe
-	ValueOfPipe
-	SanitizeHtmlPipe
-	ConditionalPipe
-	
-DEPENDENCIES: 
-    "font-awesome": "^4.7.0"
+    PipeServiceComponent
+    SelectComponent
 ```
 
 | Format     | Examples             | Arguments                                                                                                  |
@@ -127,7 +108,7 @@ Added ability for you to declare a custom pipe. You will need to create your own
 Also, updated custom component declaration process. You will need to make sure your component has id and name attributes as well as source attribute. also, if your component interacts with user actions and as a result its value is changed, you will need to emit event as i have updated the code sample for version 1.0.0.
 
 # Version 1.0.0
-Added a directive to enable piping values into form fields!! Provisions is in place if you wish to format the values into a custom field. For those to happen, you will need to create your component and register it.
+Added a directive to enable morphing values into form fields!! Provisions is in place if you wish to format the values into a custom field. For those to happen, you will need to create your component and register it.
 
 ```javascript
 MODULE:

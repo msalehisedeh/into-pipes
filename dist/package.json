@@ -1,6 +1,6 @@
 {
   "name": "into-pipes",
-  "version": "1.4.1",
+  "version": "1.4.3",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -11,9 +11,12 @@
   },
   "private": false,
   "keywords": [
-    "Angular 4",
-    "Pipe",
-    "Pipeline",
+    "Angular 4+",
+    "pipe",
+    "format",
+    "customizable",
+    "extendible",
+    "pipeline",
     "readable",
     "reusable",
     "filter",

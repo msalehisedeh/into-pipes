@@ -1673,7 +1673,10 @@ ShareComponent.decorators = [
     { type: Component, args: [{
                 selector: 'share-component',
                 template: `
-    <a id='share-comment-{{id}}' class='share-item-tips' (click)='shouldDisplay = !shouldDisplay'>share</a>
+    <a id='share-comment-{{id}}' class='share-item-tips' (click)='shouldDisplay = !shouldDisplay'>
+    <span class="fa fa-share-alt"></span>
+    <span class="share">share</span>
+    </a>
     <span id='share-comment-{{id}}-tips' class='tips' *ngIf='shouldDisplay'>
       <span class='social-referal'>
         <a *ngFor="let share of shareList" [class]='share.icon' target='_blank' [href]='share.href'><span class='off-screen' [textContent]="share.title"></span></a>
@@ -1683,8 +1686,10 @@ ShareComponent.decorators = [
                 styles: [`
     :host {display: table;position: relative}
     .share-item-tips {
-        margin:0 0 0 20px;
         cursor: pointer;
+    }
+    .share-item-tips .fa {
+        margin: 0;
     }
     .tips {
         position: absolute;
@@ -2242,7 +2247,20 @@ IntoPipeModule.decorators = [
                     ConditionalPipe,
                     AddressPipe,
                     SanitizeHtmlPipe,
-                    IntoDirective
+                    IntoDirective,
+                    AddressComponent,
+                    EmailComponent,
+                    FontComponent,
+                    ImageComponent,
+                    VideoComponent,
+                    JsonComponent,
+                    LinkComponent,
+                    InputComponent,
+                    CheckboxComponent,
+                    RatingComponent,
+                    SelectComponent,
+                    SpanComponent,
+                    ShareComponent
                 ],
                 entryComponents: [
                     AddressComponent,

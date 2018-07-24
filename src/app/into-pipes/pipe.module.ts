@@ -18,6 +18,7 @@ import {FontPipe} from './pipes/font.pipe';
 import {ValueOfPipe} from './pipes/valueof.pipe';
 import {ConditionalPipe} from './pipes/conditional.pipe';
 import {SanitizeHtmlPipe} from './pipes/sanitizeHtml.pipe';
+
 import {IntoDirective} from './directives/into.directive'
 import { ComponentPool } from './injectables/component.pool';
 
@@ -90,7 +91,20 @@ import { ShareComponent } from './components/share.component';
     ConditionalPipe,
     AddressPipe,
     SanitizeHtmlPipe,
-    IntoDirective
+    IntoDirective,
+    AddressComponent,
+    EmailComponent,
+    FontComponent,
+    ImageComponent,
+    VideoComponent,
+    JsonComponent,
+    LinkComponent,
+    InputComponent,
+    CheckboxComponent,
+    RatingComponent,
+    SelectComponent,
+    SpanComponent,
+    ShareComponent
   ],
   entryComponents: [
     AddressComponent,

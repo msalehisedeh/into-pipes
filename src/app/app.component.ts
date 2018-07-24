@@ -4,7 +4,7 @@ import { ComponentPool } from './into-pipes/injectables/component.pool';
 import { PipeServiceComponent } from './into-pipes/interfaces/pipe.component';
 
 class myService implements PipeServiceComponent {
-
+  
   getDataFor(itemName, itemId) {
     return [
       'abc@gmail.com',
@@ -25,6 +25,7 @@ export class AppComponent {
   title = 'In To Pipes';
 
   threeFive = 3.5;
+  events = [];
   myJson= {q:3,w:43,dw:6565};
   myDate = "2018-03-10T01:01:20Z";
   myDateList = ["2018-03-10T01:01:20Z", "2011-02-12T01:01:20Z"];
@@ -49,4 +50,9 @@ export class AppComponent {
   constructor(private pool: ComponentPool) {
     this.pool.registerServiceForComponent("select", new myService());
   }
+
+  onComponentChange(event) {
+    this.events.push(event);
+  }
+
 }

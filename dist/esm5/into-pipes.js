@@ -1193,8 +1193,8 @@ var ShareComponent = /** @class */ (function () {
 ShareComponent.decorators = [
     { type: Component, args: [{
                 selector: 'share-component',
-                template: "\n    <a id='share-comment-{{id}}' class='share-item-tips' (click)='shouldDisplay = !shouldDisplay'>share</a>\n    <span id='share-comment-{{id}}-tips' class='tips' *ngIf='shouldDisplay'>\n      <span class='social-referal'>\n        <a *ngFor=\"let share of shareList\" [class]='share.icon' target='_blank' [href]='share.href'><span class='off-screen' [textContent]=\"share.title\"></span></a>\n      </span>\n    </span>\n",
-                styles: ["\n    :host {display: table;position: relative}\n    .share-item-tips {\n        margin:0 0 0 20px;\n        cursor: pointer;\n    }\n    .tips {\n        position: absolute;\n        display: flex;\n        flex-direction: row;\n        padding: 5px;\n        border: 1px solid #aaa;\n        border-radius: 2px;\n        background-color: #fff;\n    }\n    .tips .social-referal {\n        display: flex;\n        flex-direction: row;\n    }\n    .tips .social-referal .fa {\n        float: left;\n        padding: 2px 4px;\n        color: blue;\n        border: 1px solid #ccc;\n        border-radius: 4px;\n        text-decoration: none;\n        margin: 0 1px;\n        width: 20px;\n        text-align: center;\n    }\n    .tips .social-referal .fa:hover {\n        color: #fff;\n        background-color: blue;\n    }\n    "]
+                template: "\n    <a id='share-comment-{{id}}' class='share-item-tips' (click)='shouldDisplay = !shouldDisplay'>\n    <span class=\"fa fa-share-alt\"></span>\n    <span class=\"share\">share</span>\n    </a>\n    <span id='share-comment-{{id}}-tips' class='tips' *ngIf='shouldDisplay'>\n      <span class='social-referal'>\n        <a *ngFor=\"let share of shareList\" [class]='share.icon' target='_blank' [href]='share.href'><span class='off-screen' [textContent]=\"share.title\"></span></a>\n      </span>\n    </span>\n",
+                styles: ["\n    :host {display: table;position: relative}\n    .share-item-tips {\n        cursor: pointer;\n    }\n    .share-item-tips .fa {\n        margin: 0;\n    }\n    .tips {\n        position: absolute;\n        display: flex;\n        flex-direction: row;\n        padding: 5px;\n        border: 1px solid #aaa;\n        border-radius: 2px;\n        background-color: #fff;\n    }\n    .tips .social-referal {\n        display: flex;\n        flex-direction: row;\n    }\n    .tips .social-referal .fa {\n        float: left;\n        padding: 2px 4px;\n        color: blue;\n        border: 1px solid #ccc;\n        border-radius: 4px;\n        text-decoration: none;\n        margin: 0 1px;\n        width: 20px;\n        text-align: center;\n    }\n    .tips .social-referal .fa:hover {\n        color: #fff;\n        background-color: blue;\n    }\n    "]
             },] },
 ];
 ShareComponent.ctorParameters = function () { return []; };
@@ -1626,7 +1626,20 @@ IntoPipeModule.decorators = [
                     ConditionalPipe,
                     AddressPipe,
                     SanitizeHtmlPipe,
-                    IntoDirective
+                    IntoDirective,
+                    AddressComponent,
+                    EmailComponent,
+                    FontComponent,
+                    ImageComponent,
+                    VideoComponent,
+                    JsonComponent,
+                    LinkComponent,
+                    InputComponent,
+                    CheckboxComponent,
+                    RatingComponent,
+                    SelectComponent,
+                    SpanComponent,
+                    ShareComponent
                 ],
                 entryComponents: [
                     AddressComponent,
