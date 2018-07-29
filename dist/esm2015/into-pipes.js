@@ -1807,7 +1807,7 @@ class LikeComponent {
      * @return {?}
      */
     formatterSource() {
-        let /** @type {?} */ result = "";
+        let /** @type {?} */ result = this.source;
         if (this.source > 1000) {
             result = (this.source / 1000).toFixed(1) + " k";
         }

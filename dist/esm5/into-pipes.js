@@ -1251,7 +1251,7 @@ var LikeComponent = /** @class */ (function () {
         return found;
     };
     LikeComponent.prototype.formatterSource = function () {
-        var result = "";
+        var result = this.source;
         if (this.source > 1000) {
             result = (this.source / 1000).toFixed(1) + " k";
         }

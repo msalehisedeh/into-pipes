@@ -16,6 +16,6 @@ export declare class LikeComponent implements PipeComponent {
     private addItem(id);
     private removeItem(id);
     private getItem(id);
-    formatterSource(): string;
+    formatterSource(): any;
     toggleCount(event: any): void;
 }

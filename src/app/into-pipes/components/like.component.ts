@@ -95,7 +95,7 @@ export class LikeComponent implements PipeComponent {
         return found;
       }
       formatterSource() {
-          let result = "";
+          let result = this.source;
           if (this.source > 1000) {
               result = (this.source/1000).toFixed(1) + " k"
           }
