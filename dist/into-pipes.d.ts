@@ -9,6 +9,8 @@ export { FontComponent as ɵc } from './src/app/into-pipes/components/font.compo
 export { ImageComponent as ɵd } from './src/app/into-pipes/components/image.component';
 export { InputComponent as ɵi } from './src/app/into-pipes/components/input.component';
 export { JsonComponent as ɵf } from './src/app/into-pipes/components/json.component';
+export { LastUpdateComponent as ɵo } from './src/app/into-pipes/components/lastupdate.component';
+export { LikeComponent as ɵn } from './src/app/into-pipes/components/like.component';
 export { LinkComponent as ɵg } from './src/app/into-pipes/components/link.component';
 export { RatingComponent as ɵh } from './src/app/into-pipes/components/rating.component';
 export { SelectComponent as ɵk } from './src/app/into-pipes/components/select.component';

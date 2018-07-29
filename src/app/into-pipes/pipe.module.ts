@@ -30,6 +30,8 @@ import { ImageComponent } from './components/image.component';
 import { VideoComponent } from './components/video.component';
 import { JsonComponent } from './components/json.component';
 import { LinkComponent } from './components/link.component';
+import { LikeComponent } from './components/like.component';
+import { LastUpdateComponent } from './components/lastupdate.component';
 import { RatingComponent } from './components/rating.component';
 import { InputComponent } from './components/input.component';
 import { CheckboxComponent } from './components/checkbox.component';
@@ -54,6 +56,8 @@ import { ShareComponent } from './components/share.component';
     SelectComponent,
     SpanComponent,
     ShareComponent,
+    LikeComponent,
+    LastUpdateComponent,
     JoinPipe,
     InToPipe,
     ImagePipe,
@@ -104,7 +108,9 @@ import { ShareComponent } from './components/share.component';
     RatingComponent,
     SelectComponent,
     SpanComponent,
-    ShareComponent
+    ShareComponent,
+    LikeComponent,
+    LastUpdateComponent
   ],
   entryComponents: [
     AddressComponent,
@@ -119,7 +125,9 @@ import { ShareComponent } from './components/share.component';
     RatingComponent,
     SelectComponent,
     SpanComponent,
-    ShareComponent
+    ShareComponent,
+    LikeComponent,
+    LastUpdateComponent
   ],
   providers: [
     JoinPipe,

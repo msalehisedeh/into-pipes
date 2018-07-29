@@ -235,6 +235,20 @@ export class IntoDirective implements OnInit, OnDestroy {
                 // share
                 result = this.transformComponent("share", content, this.intoId, this.intoName,  data, args);
                 break;
+             case "like" : 
+                if (args.length > 3) {
+                    result = this.transformComponent("like", content, this.intoId, this.intoName,  data, args[1], args[2], args[3]);
+                } else {
+                    result = this.transformComponent("like", content, this.intoId, this.intoName,  data, false, false, undefined);
+                }
+                break;
+             case "lastupdate" : 
+                if (args.length > 1) {
+                    result = this.transformComponent("lastupdate", content, this.intoId, this.intoName,  data, args[1]);
+                } else {
+                    result = this.transformComponent("lastupdate", content, this.intoId, this.intoName,  data, false);
+                }
+                break;
             case "select" : 
                 // rating
                 result = this.transformComponent("select", content, this.intoId, this.intoName,  data, "");
@@ -305,7 +319,10 @@ export class IntoDirective implements OnInit, OnDestroy {
 
     private transformComponent(type, content: any, id: string, name: string, data: any,...args: any[]): any {
         let result: any;
-        if (typeof content === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
+        if (content === undefined) {
+            return "";
+        }
+        if (content instanceof Date || typeof content === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
             result =  this.registeredComponentFor(type);
             if (result === null || result === undefined) {
                 console.error("Custom component '" + type+ "' is not defined.");

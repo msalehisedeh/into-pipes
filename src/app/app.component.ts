@@ -36,6 +36,13 @@ export class AppComponent {
   myConditionalLogic = "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\"";
   myConditionalThreeFive = "if:>:3:\"font:fa fa-check:replace\":\"font:fa fa-bell:replace\"";
 
+  myLastUpdatedDate = new Date(Date.now() - 640000);
+
+  dataSet = {
+    id: 3453453453,
+    likes: 10,
+    dislikes: 5
+  }
   myaddress = {
     "street": "Kulas Light",
     "suite": "Apt. 556",

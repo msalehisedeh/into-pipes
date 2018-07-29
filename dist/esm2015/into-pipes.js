@@ -1729,6 +1729,253 @@ ShareComponent.ctorParameters = () => [];
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+class LikeComponent {
+    constructor() {
+        this.thumbs = "";
+        this.onIntoComponentChange = new EventEmitter();
+    }
+    /**
+     * @param {?} source
+     * @param {?} data
+     * @param {?} args
+     * @return {?}
+     */
+    transform(source, data, args) {
+        this.source = source;
+        this.item = data;
+        this.showCount = (args && args.length && args[0] === 'true');
+        this.thumbsup = (args && args.length > 1 && args[1] === 'true');
+        this.key = (args && args.length > 2) ? args[2] : "";
+        this.thumbs = this.thumbsup ? "thumbs-up-items" : "thumbs-down-items";
+        this.selected = (this.getItem(this.item[this.key]) !== null);
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    keyup(event) {
+        const /** @type {?} */ code = event.which;
+        if (code === 13) {
+            event.target.click();
+        }
+    }
+    /**
+     * @param {?} id
+     * @return {?}
+     */
+    addItem(id) {
+        const /** @type {?} */ saved = localStorage.getItem(this.thumbs);
+        if (saved) {
+            const /** @type {?} */ savedItems = JSON.parse(saved);
+            savedItems.push(id);
+            localStorage.setItem(this.thumbs, JSON.stringify(savedItems));
+        }
+        else {
+            localStorage.setItem(this.thumbs, JSON.stringify([id]));
+        }
+        this.source++;
+    }
+    /**
+     * @param {?} id
+     * @return {?}
+     */
+    removeItem(id) {
+        const /** @type {?} */ saved = localStorage.getItem(this.thumbs);
+        if (saved) {
+            const /** @type {?} */ savedItems = JSON.parse(saved);
+            const /** @type {?} */ i = savedItems.indexOf(id);
+            savedItems.splice(i, 1);
+            localStorage.setItem(this.thumbs, JSON.stringify(savedItems));
+            this.source--;
+        }
+    }
+    /**
+     * @param {?} id
+     * @return {?}
+     */
+    getItem(id) {
+        const /** @type {?} */ saved = localStorage.getItem(this.thumbs);
+        let /** @type {?} */ found = null;
+        if (saved) {
+            const /** @type {?} */ savedItems = JSON.parse(saved);
+            const /** @type {?} */ i = savedItems.indexOf(id);
+            found = i < 0 ? null : savedItems[i];
+        }
+        return found;
+    }
+    /**
+     * @return {?}
+     */
+    formatterSource() {
+        let /** @type {?} */ result = "";
+        if (this.source > 1000) {
+            result = (this.source / 1000).toFixed(1) + " k";
+        }
+        return result;
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    toggleCount(event) {
+        this.selected = !this.selected;
+        if (this.selected) {
+            const /** @type {?} */ existing = this.getItem(this.item[this.key]);
+            if (!existing) {
+                this.addItem(this.item[this.key]);
+            }
+        }
+        else {
+            this.removeItem(this.item[this.key]);
+        }
+        this.onIntoComponentChange.emit({
+            item: this.item,
+            selected: this.selected,
+            action: this.thumbs
+        });
+    }
+}
+LikeComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'like-component',
+                template: `
+    <a
+        id='like-{{id}}'
+        tabindex="0"
+        class="like"
+        [class.selected]="selected"
+        (keyup)="keyup($event)"
+        (click)='toggleCount($event)'>
+        <span class="fa fa-thumbs-up" *ngIf="thumbsup && !selected" aria-hidden="true"></span>
+        <span class="fa fa-thumbs-up selected" *ngIf="thumbsup && selected" aria-hidden="true"></span>
+        <span class="fa fa-thumbs-down" *ngIf="!thumbsup && !selected" aria-hidden="true"></span>
+        <span class="fa fa-thumbs-down selected" *ngIf="!thumbsup && selected" aria-hidden="true"></span>
+        <span class="counts" *ngIf="showCount" [textContent]="formatterSource()"></span>
+    </a>`,
+                styles: [
+                    `
+        :host {display: table;position: relative}
+        .like {
+            cursor: pointer;
+        }
+        .like .fa {
+            margin: 0;
+        }
+        .like .fa.selected {
+            color: green;
+        }
+        `
+                ]
+            },] },
+];
+/** @nocollapse */
+LikeComponent.ctorParameters = () => [];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+class LastUpdateComponent {
+    /**
+     * @param {?} source
+     * @param {?} data
+     * @param {?} args
+     * @return {?}
+     */
+    transform(source, data, args) {
+        this.source = source;
+        this.showIcon = (args && args.length && args[0] === 'true');
+    }
+    /**
+     * @return {?}
+     */
+    formatDate() {
+        const /** @type {?} */ currentDate = new Date();
+        const /** @type {?} */ minute = 60000; // one minute
+        const /** @type {?} */ hour = 3600000; // one hour limit
+        const /** @type {?} */ day = 86400000; // 24 hours limit
+        const /** @type {?} */ week = 604800000; // 7 days limit
+        let /** @type {?} */ result = "";
+        let /** @type {?} */ diff = currentDate.getTime() - this.source.getTime();
+        if (diff <= minute) {
+            // up to a minute
+            result = "seconds ago";
+        }
+        else if (diff <= hour) {
+            // up to an hour
+            let /** @type {?} */ count = diff / minute;
+            if (count < 2) {
+                result = "a minute ago";
+            }
+            else {
+                result = count.toFixed(1) + " minutes ago";
+            }
+        }
+        else if (diff <= day) {
+            // up to a day
+            let /** @type {?} */ count = diff / hour;
+            if (count < 2) {
+                result = "an hour ago";
+            }
+            else {
+                result = count.toFixed(1) + " hours ago";
+            }
+        }
+        else if (diff <= week) {
+            // up to a week
+            let /** @type {?} */ count = diff / day;
+            if (count < 2) {
+                result = "a day ago";
+            }
+            else {
+                result = count.toFixed(1) + " days ago";
+            }
+        }
+        else if (diff <= (week * 4)) {
+            // up to a week
+            let /** @type {?} */ count = diff / day;
+            if (count < 2) {
+                result = "a month ago";
+            }
+            else {
+                result = count.toFixed(1) + " months ago";
+            }
+        }
+        else if (diff <= (week * 52)) {
+            // up to a week
+            let /** @type {?} */ count = diff / day;
+            if (count < 2) {
+                result = "a year ago";
+            }
+            else {
+                result = count.toFixed(1) + " years ago";
+            }
+        }
+        return result;
+    }
+}
+LastUpdateComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'lastupdate-component',
+                template: `
+    <span *ngIf="showIcon" class="fa fa-clock-o" aria-hidden="true"></span>
+    <span [textContent]="formatDate()"></span>
+    `,
+                styles: [
+                    `
+        :host {display: table;position: relative}
+        .fa {margin:0 5px 0 0}
+        `
+                ]
+            },] },
+];
+/** @nocollapse */
+LastUpdateComponent.ctorParameters = () => [];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 class ComponentPool {
     constructor() {
         this.registeredComponents = {};
@@ -1746,6 +1993,8 @@ class ComponentPool {
         this.registerComponent("checkbox", CheckboxComponent);
         this.registerComponent("select", SelectComponent);
         this.registerComponent("share", ShareComponent);
+        this.registerComponent("like", LikeComponent);
+        this.registerComponent("lastupdate", LastUpdateComponent);
     }
     /**
      * @param {?} name
@@ -2001,6 +2250,22 @@ class IntoDirective {
                 // share
                 result = this.transformComponent("share", content, this.intoId, this.intoName, data, args);
                 break;
+            case "like":
+                if (args.length > 3) {
+                    result = this.transformComponent("like", content, this.intoId, this.intoName, data, args[1], args[2], args[3]);
+                }
+                else {
+                    result = this.transformComponent("like", content, this.intoId, this.intoName, data, false, false, undefined);
+                }
+                break;
+            case "lastupdate":
+                if (args.length > 1) {
+                    result = this.transformComponent("lastupdate", content, this.intoId, this.intoName, data, args[1]);
+                }
+                else {
+                    result = this.transformComponent("lastupdate", content, this.intoId, this.intoName, data, false);
+                }
+                break;
             case "select":
                 // rating
                 result = this.transformComponent("select", content, this.intoId, this.intoName, data, "");
@@ -2078,7 +2343,10 @@ class IntoDirective {
      */
     transformComponent(type, content, id, name, data, ...args) {
         let /** @type {?} */ result;
-        if (typeof content === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
+        if (content === undefined) {
+            return "";
+        }
+        if (content instanceof Date || typeof content === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
             result = this.registeredComponentFor(type);
             if (result === null || result === undefined) {
                 console.error("Custom component '" + type + "' is not defined.");
@@ -2210,6 +2478,8 @@ IntoPipeModule.decorators = [
                     SelectComponent,
                     SpanComponent,
                     ShareComponent,
+                    LikeComponent,
+                    LastUpdateComponent,
                     JoinPipe,
                     InToPipe,
                     ImagePipe,
@@ -2260,7 +2530,9 @@ IntoPipeModule.decorators = [
                     RatingComponent,
                     SelectComponent,
                     SpanComponent,
-                    ShareComponent
+                    ShareComponent,
+                    LikeComponent,
+                    LastUpdateComponent
                 ],
                 entryComponents: [
                     AddressComponent,
@@ -2275,7 +2547,9 @@ IntoPipeModule.decorators = [
                     RatingComponent,
                     SelectComponent,
                     SpanComponent,
-                    ShareComponent
+                    ShareComponent,
+                    LikeComponent,
+                    LastUpdateComponent
                 ],
                 providers: [
                     JoinPipe,
@@ -2323,5 +2597,5 @@ IntoPipeModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, VideoPipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵj, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵi, JsonComponent as ɵf, LinkComponent as ɵg, RatingComponent as ɵh, SelectComponent as ɵk, ShareComponent as ɵm, SpanComponent as ɵl, VideoComponent as ɵe };
+export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, VideoPipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵj, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵi, JsonComponent as ɵf, LastUpdateComponent as ɵo, LikeComponent as ɵn, LinkComponent as ɵg, RatingComponent as ɵh, SelectComponent as ɵk, ShareComponent as ɵm, SpanComponent as ɵl, VideoComponent as ɵe };
 //# sourceMappingURL=into-pipes.js.map

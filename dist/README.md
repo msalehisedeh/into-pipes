@@ -13,6 +13,21 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 [Live Demo](https://into-pipes.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes) | [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
 
 
+# Version 1.5.0
+Added LIKE and LASTUPDATE formatters. With like/dislike, an event is triggered after user clicks on it. You will be responsile to catch the event and increment or decrement the count in your data source.
+
+```javascript
+EXPORTS
+	LikeComponent
+	LastUpdateComponent
+```
+
+| Format     | Examples             | Arguments                                                                                                  |
+|---------------------|---------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| like                | `like:true:true:id`                               | 1) flag to indicate if like counts should be displayed. 2) flag to show likes if set or dislikes otherwise. 3) Attribute in JSON oject with unique value to be used for traking likes. 4) Attribute in JSON oject with count of likes or dis-likes |
+| lastupdate          | `lastupdate:true`                                 | 1) flag to indicate if icon should be displayed on the side. |
+
+
 # Version 1.4.1
 Calling console.error() if applying a custom rule when the custom component for it is not registered.
 

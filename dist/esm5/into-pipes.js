@@ -1198,6 +1198,171 @@ ShareComponent.decorators = [
             },] },
 ];
 ShareComponent.ctorParameters = function () { return []; };
+var LikeComponent = /** @class */ (function () {
+    function LikeComponent() {
+        this.thumbs = "";
+        this.onIntoComponentChange = new EventEmitter();
+    }
+    LikeComponent.prototype.transform = function (source, data, args) {
+        this.source = source;
+        this.item = data;
+        this.showCount = (args && args.length && args[0] === 'true');
+        this.thumbsup = (args && args.length > 1 && args[1] === 'true');
+        this.key = (args && args.length > 2) ? args[2] : "";
+        this.thumbs = this.thumbsup ? "thumbs-up-items" : "thumbs-down-items";
+        this.selected = (this.getItem(this.item[this.key]) !== null);
+    };
+    LikeComponent.prototype.keyup = function (event) {
+        var code = event.which;
+        if (code === 13) {
+            event.target.click();
+        }
+    };
+    LikeComponent.prototype.addItem = function (id) {
+        var saved = localStorage.getItem(this.thumbs);
+        if (saved) {
+            var savedItems = JSON.parse(saved);
+            savedItems.push(id);
+            localStorage.setItem(this.thumbs, JSON.stringify(savedItems));
+        }
+        else {
+            localStorage.setItem(this.thumbs, JSON.stringify([id]));
+        }
+        this.source++;
+    };
+    LikeComponent.prototype.removeItem = function (id) {
+        var saved = localStorage.getItem(this.thumbs);
+        if (saved) {
+            var savedItems = JSON.parse(saved);
+            var i = savedItems.indexOf(id);
+            savedItems.splice(i, 1);
+            localStorage.setItem(this.thumbs, JSON.stringify(savedItems));
+            this.source--;
+        }
+    };
+    LikeComponent.prototype.getItem = function (id) {
+        var saved = localStorage.getItem(this.thumbs);
+        var found = null;
+        if (saved) {
+            var savedItems = JSON.parse(saved);
+            var i = savedItems.indexOf(id);
+            found = i < 0 ? null : savedItems[i];
+        }
+        return found;
+    };
+    LikeComponent.prototype.formatterSource = function () {
+        var result = "";
+        if (this.source > 1000) {
+            result = (this.source / 1000).toFixed(1) + " k";
+        }
+        return result;
+    };
+    LikeComponent.prototype.toggleCount = function (event) {
+        this.selected = !this.selected;
+        if (this.selected) {
+            var existing = this.getItem(this.item[this.key]);
+            if (!existing) {
+                this.addItem(this.item[this.key]);
+            }
+        }
+        else {
+            this.removeItem(this.item[this.key]);
+        }
+        this.onIntoComponentChange.emit({
+            item: this.item,
+            selected: this.selected,
+            action: this.thumbs
+        });
+    };
+    return LikeComponent;
+}());
+LikeComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'like-component',
+                template: "\n    <a\n        id='like-{{id}}'\n        tabindex=\"0\"\n        class=\"like\"\n        [class.selected]=\"selected\"\n        (keyup)=\"keyup($event)\"\n        (click)='toggleCount($event)'>\n        <span class=\"fa fa-thumbs-up\" *ngIf=\"thumbsup && !selected\" aria-hidden=\"true\"></span>\n        <span class=\"fa fa-thumbs-up selected\" *ngIf=\"thumbsup && selected\" aria-hidden=\"true\"></span>\n        <span class=\"fa fa-thumbs-down\" *ngIf=\"!thumbsup && !selected\" aria-hidden=\"true\"></span>\n        <span class=\"fa fa-thumbs-down selected\" *ngIf=\"!thumbsup && selected\" aria-hidden=\"true\"></span>\n        <span class=\"counts\" *ngIf=\"showCount\" [textContent]=\"formatterSource()\"></span>\n    </a>",
+                styles: [
+                    "\n        :host {display: table;position: relative}\n        .like {\n            cursor: pointer;\n        }\n        .like .fa {\n            margin: 0;\n        }\n        .like .fa.selected {\n            color: green;\n        }\n        "
+                ]
+            },] },
+];
+LikeComponent.ctorParameters = function () { return []; };
+var LastUpdateComponent = /** @class */ (function () {
+    function LastUpdateComponent() {
+    }
+    LastUpdateComponent.prototype.transform = function (source, data, args) {
+        this.source = source;
+        this.showIcon = (args && args.length && args[0] === 'true');
+    };
+    LastUpdateComponent.prototype.formatDate = function () {
+        var currentDate = new Date();
+        var minute = 60000;
+        var hour = 3600000;
+        var day = 86400000;
+        var week = 604800000;
+        var result = "";
+        var diff = currentDate.getTime() - this.source.getTime();
+        if (diff <= minute) {
+            result = "seconds ago";
+        }
+        else if (diff <= hour) {
+            var count = diff / minute;
+            if (count < 2) {
+                result = "a minute ago";
+            }
+            else {
+                result = count.toFixed(1) + " minutes ago";
+            }
+        }
+        else if (diff <= day) {
+            var count = diff / hour;
+            if (count < 2) {
+                result = "an hour ago";
+            }
+            else {
+                result = count.toFixed(1) + " hours ago";
+            }
+        }
+        else if (diff <= week) {
+            var count = diff / day;
+            if (count < 2) {
+                result = "a day ago";
+            }
+            else {
+                result = count.toFixed(1) + " days ago";
+            }
+        }
+        else if (diff <= (week * 4)) {
+            var count = diff / day;
+            if (count < 2) {
+                result = "a month ago";
+            }
+            else {
+                result = count.toFixed(1) + " months ago";
+            }
+        }
+        else if (diff <= (week * 52)) {
+            var count = diff / day;
+            if (count < 2) {
+                result = "a year ago";
+            }
+            else {
+                result = count.toFixed(1) + " years ago";
+            }
+        }
+        return result;
+    };
+    return LastUpdateComponent;
+}());
+LastUpdateComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'lastupdate-component',
+                template: "\n    <span *ngIf=\"showIcon\" class=\"fa fa-clock-o\" aria-hidden=\"true\"></span>\n    <span [textContent]=\"formatDate()\"></span>\n    ",
+                styles: [
+                    "\n        :host {display: table;position: relative}\n        .fa {margin:0 5px 0 0}\n        "
+                ]
+            },] },
+];
+LastUpdateComponent.ctorParameters = function () { return []; };
 var ComponentPool = /** @class */ (function () {
     function ComponentPool() {
         this.registeredComponents = {};
@@ -1215,6 +1380,8 @@ var ComponentPool = /** @class */ (function () {
         this.registerComponent("checkbox", CheckboxComponent);
         this.registerComponent("select", SelectComponent);
         this.registerComponent("share", ShareComponent);
+        this.registerComponent("like", LikeComponent);
+        this.registerComponent("lastupdate", LastUpdateComponent);
     }
     ComponentPool.prototype.registerComponent = function (name, component) {
         this.registeredComponents[name] = component;
@@ -1402,6 +1569,22 @@ var IntoDirective = /** @class */ (function () {
             case "share":
                 result = this.transformComponent("share", content, this.intoId, this.intoName, data, args);
                 break;
+            case "like":
+                if (args.length > 3) {
+                    result = this.transformComponent("like", content, this.intoId, this.intoName, data, args[1], args[2], args[3]);
+                }
+                else {
+                    result = this.transformComponent("like", content, this.intoId, this.intoName, data, false, false, undefined);
+                }
+                break;
+            case "lastupdate":
+                if (args.length > 1) {
+                    result = this.transformComponent("lastupdate", content, this.intoId, this.intoName, data, args[1]);
+                }
+                else {
+                    result = this.transformComponent("lastupdate", content, this.intoId, this.intoName, data, false);
+                }
+                break;
             case "select":
                 result = this.transformComponent("select", content, this.intoId, this.intoName, data, "");
                 break;
@@ -1468,7 +1651,10 @@ var IntoDirective = /** @class */ (function () {
             args[_i - 5] = arguments[_i];
         }
         var result;
-        if (typeof content === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
+        if (content === undefined) {
+            return "";
+        }
+        if (content instanceof Date || typeof content === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
             result = this.registeredComponentFor(type);
             if (result === null || result === undefined) {
                 console.error("Custom component '" + type + "' is not defined.");
@@ -1589,6 +1775,8 @@ IntoPipeModule.decorators = [
                     SelectComponent,
                     SpanComponent,
                     ShareComponent,
+                    LikeComponent,
+                    LastUpdateComponent,
                     JoinPipe,
                     InToPipe,
                     ImagePipe,
@@ -1639,7 +1827,9 @@ IntoPipeModule.decorators = [
                     RatingComponent,
                     SelectComponent,
                     SpanComponent,
-                    ShareComponent
+                    ShareComponent,
+                    LikeComponent,
+                    LastUpdateComponent
                 ],
                 entryComponents: [
                     AddressComponent,
@@ -1654,7 +1844,9 @@ IntoPipeModule.decorators = [
                     RatingComponent,
                     SelectComponent,
                     SpanComponent,
-                    ShareComponent
+                    ShareComponent,
+                    LikeComponent,
+                    LastUpdateComponent
                 ],
                 providers: [
                     JoinPipe,
@@ -1688,5 +1880,5 @@ IntoPipeModule.decorators = [
 ];
 IntoPipeModule.ctorParameters = function () { return []; };
 
-export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, VideoPipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵj, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵi, JsonComponent as ɵf, LinkComponent as ɵg, RatingComponent as ɵh, SelectComponent as ɵk, ShareComponent as ɵm, SpanComponent as ɵl, VideoComponent as ɵe };
+export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, VideoPipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CheckboxComponent as ɵj, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵi, JsonComponent as ɵf, LastUpdateComponent as ɵo, LikeComponent as ɵn, LinkComponent as ɵg, RatingComponent as ɵh, SelectComponent as ɵk, ShareComponent as ɵm, SpanComponent as ɵl, VideoComponent as ɵe };
 //# sourceMappingURL=into-pipes.js.map

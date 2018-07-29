@@ -21,6 +21,29 @@
       [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>
+    <td>Format number <b>into</b> like with option of showing like counts or not.</td>
+    <td>intoId="myLikes" intoName="like" [rawContent]="dataSet" [into]="'like:true:true:id'" [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span  intoId="myLikes" intoName="like"
+      [rawContent]="dataSet.likes" 
+      [intoData]="dataSet"
+      [into]="'like:true:true:id'" 
+      [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format number <b>into</b> dis-like with option of showing dis-like counts or not.</td>
+    <td>intoId="mydisLikes" intoName="like" [rawContent]="dataSet" [into]="'like:true:false:id'" [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span intoId="mydisLikes" intoName="like"
+      [rawContent]="dataSet.dislikes" 
+      [intoData]="dataSet"
+      [into]="'like:true:false:id'" 
+      [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format date <b>into</b> last update natural language text with option of showing icon.</td>
+    <td>[rawContent]="myLastUpdatedDate" [into]="'lastupdate:true'"</td>
+    <td><span [rawContent]="myLastUpdatedDate" [into]="'lastupdate:true'"></span></td>
+  </tr>
+  <tr>
     <td>Execute if else: for example show checkmark if <b>name = masoud</b> or show a bell icon if not.</td>
     <td>[innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"</td>
     <td><span [innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"></span></td>
@@ -154,5 +177,5 @@
 </table>
 
 <ul class="logger">
-  <li *ngFor="let x of events" [textContent]="x"></li>
+  <li *ngFor="let x of events" [textContent]="x | json"></li>
 </ul>
