@@ -53,6 +53,8 @@ export class CheckboxComponent implements PipeComponent {
 
   click(event) {
     const input = event.target;
+    event.stopPropagation();
+    event.preventDefault();
 
     if (this.source === this.ideal) {
       this.source = this.original;

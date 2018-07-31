@@ -103,7 +103,9 @@ export class LikeComponent implements PipeComponent {
       }
       toggleCount(event) {
         this.selected = !this.selected;
-    
+        event.stopPropagation();
+        event.preventDefault();
+        
         if (this.selected) {
           const existing = this.getItem(this.item[this.key]);
           if (!existing) {

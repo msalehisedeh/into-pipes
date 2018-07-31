@@ -1057,6 +1057,8 @@ var CheckboxComponent = /** @class */ (function () {
     CheckboxComponent.prototype.click = function (event) {
         var _this = this;
         var input = event.target;
+        event.stopPropagation();
+        event.preventDefault();
         if (this.source === this.ideal) {
             this.source = this.original;
         }
@@ -1281,6 +1283,8 @@ var LikeComponent = /** @class */ (function () {
     };
     LikeComponent.prototype.toggleCount = function (event) {
         this.selected = !this.selected;
+        event.stopPropagation();
+        event.preventDefault();
         if (this.selected) {
             var existing = this.getItem(this.item[this.key]);
             if (!existing) {

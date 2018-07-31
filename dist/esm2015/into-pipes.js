@@ -1468,6 +1468,8 @@ class CheckboxComponent {
      */
     click(event) {
         const /** @type {?} */ input = event.target;
+        event.stopPropagation();
+        event.preventDefault();
         if (this.source === this.ideal) {
             this.source = this.original;
         }
@@ -1851,6 +1853,8 @@ class LikeComponent {
      */
     toggleCount(event) {
         this.selected = !this.selected;
+        event.stopPropagation();
+        event.preventDefault();
         if (this.selected) {
             const /** @type {?} */ existing = this.getItem(this.item[this.key]);
             if (!existing) {
