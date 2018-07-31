@@ -14,17 +14,19 @@ import { PipeComponent } from '../interfaces/pipe.component';
         (blur)="blur($event)" 
         (keyup)='keyup($event)'>
     </span>
-    <span *ngIf='!editName && formatting'
+    <span #nameHolder
+        *ngIf='!editName && formatting'
         class='locked' 
         tabindex='0' 
-        (keydown)='keydown($event)'
+        (keyup)='keydown($event)'
         (click)="clickName($event)"
         [innerHTML]="source ? (source | into:formatting) : '&nbsp;'">
     </span>
-    <span *ngIf='!editName && !formatting'
+    <span #nameHolder
+        *ngIf='!editName && !formatting'
         class='locked' 
         tabindex='0' 
-        (keydown)='keydown($event)'
+        (keyup)='keydown($event)'
         (click)="clickName($event)"
         [innerHTML]="source ? source : '&nbsp;'">
     </span>
@@ -40,7 +42,7 @@ import { PipeComponent } from '../interfaces/pipe.component';
           -ms-user-select: none;
           user-select: none;
         }
-        input{
+        input {
           cursor: beam;
         }
         `
@@ -56,6 +58,12 @@ export class InputComponent implements PipeComponent {
   editName = false;
   oldValue: string;
 
+  @ViewChild("nameEditor")
+  nameEditor;
+
+  @ViewChild("nameHolder")
+  nameHolder
+
   @Output("onIntoComponentChange")
   onIntoComponentChange = new EventEmitter();
 
@@ -63,10 +71,10 @@ export class InputComponent implements PipeComponent {
 
   }
 
-  @ViewChild("nameEditor")
-  nameEditor;
-
   keyup(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
     const code = event.which;
     if (((code >= 48) && (code <= 90)) ||
         ((code >= 96) && (code <= 111)) ||
@@ -82,9 +90,19 @@ export class InputComponent implements PipeComponent {
           value: this.source
         });
       }
+      if (code === 13) {
+        setTimeout(()=>{
+          if (this.nameHolder) {
+            this.renderer.invokeElementMethod(this.nameHolder.nativeElement, "focus");
+          }
+        },66);
+      }
     }
   }
   blur(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
     this.editName = false;
     if (this.oldValue !== String(this.source)) {
       this.onIntoComponentChange.emit({
@@ -97,7 +115,9 @@ export class InputComponent implements PipeComponent {
 
   keydown(event) {
     const code = event.which;
-    console.log(code)
+    event.stopPropagation();
+    event.preventDefault();
+
     if ((code === 13) || (code === 9)) {
       this.renderer.invokeElementMethod(event.target, "click");
       setTimeout(()=>{

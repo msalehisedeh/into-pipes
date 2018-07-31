@@ -1296,6 +1296,8 @@ class InputComponent {
      * @return {?}
      */
     keyup(event) {
+        event.stopPropagation();
+        event.preventDefault();
         const /** @type {?} */ code = event.which;
         if (((code >= 48) && (code <= 90)) ||
             ((code >= 96) && (code <= 111)) ||
@@ -1312,6 +1314,13 @@ class InputComponent {
                     value: this.source
                 });
             }
+            if (code === 13) {
+                setTimeout(() => {
+                    if (this.nameHolder) {
+                        this.renderer.invokeElementMethod(this.nameHolder.nativeElement, "focus");
+                    }
+                }, 66);
+            }
         }
     }
     /**
@@ -1319,6 +1328,8 @@ class InputComponent {
      * @return {?}
      */
     blur(event) {
+        event.stopPropagation();
+        event.preventDefault();
         this.editName = false;
         if (this.oldValue !== String(this.source)) {
             this.onIntoComponentChange.emit({
@@ -1334,7 +1345,8 @@ class InputComponent {
      */
     keydown(event) {
         const /** @type {?} */ code = event.which;
-        console.log(code);
+        event.stopPropagation();
+        event.preventDefault();
         if ((code === 13) || (code === 9)) {
             this.renderer.invokeElementMethod(event.target, "click");
             setTimeout(() => {
@@ -1383,17 +1395,19 @@ InputComponent.decorators = [
         (blur)="blur($event)"
         (keyup)='keyup($event)'>
     </span>
-    <span *ngIf='!editName && formatting'
+    <span #nameHolder
+        *ngIf='!editName && formatting'
         class='locked'
         tabindex='0'
-        (keydown)='keydown($event)'
+        (keyup)='keydown($event)'
         (click)="clickName($event)"
         [innerHTML]="source ? (source | into:formatting) : '&nbsp;'">
     </span>
-    <span *ngIf='!editName && !formatting'
+    <span #nameHolder
+        *ngIf='!editName && !formatting'
         class='locked'
         tabindex='0'
-        (keydown)='keydown($event)'
+        (keyup)='keydown($event)'
         (click)="clickName($event)"
         [innerHTML]="source ? source : '&nbsp;'">
     </span>
@@ -1409,7 +1423,7 @@ InputComponent.decorators = [
           -ms-user-select: none;
           user-select: none;
         }
-        input{
+        input {
           cursor: beam;
         }
         `
@@ -1421,8 +1435,9 @@ InputComponent.ctorParameters = () => [
     { type: Renderer, },
 ];
 InputComponent.propDecorators = {
-    "onIntoComponentChange": [{ type: Output, args: ["onIntoComponentChange",] },],
     "nameEditor": [{ type: ViewChild, args: ["nameEditor",] },],
+    "nameHolder": [{ type: ViewChild, args: ["nameHolder",] },],
+    "onIntoComponentChange": [{ type: Output, args: ["onIntoComponentChange",] },],
 };
 
 /**
@@ -1466,10 +1481,10 @@ class CheckboxComponent {
         });
         if (this.useFont) {
             setTimeout(() => {
-                if (this.source === this.original && this.check) {
+                if (this.check) {
                     this.renderer.invokeElementMethod(this.check.nativeElement, "focus");
                 }
-                if (this.source === '' && this.uncheck) {
+                if (this.uncheck) {
                     this.renderer.invokeElementMethod(this.uncheck.nativeElement, "focus");
                 }
             }, 66);
@@ -1630,6 +1645,18 @@ class ShareComponent {
         };
     }
     /**
+     * @param {?} event
+     * @return {?}
+     */
+    keyup(event) {
+        const /** @type {?} */ code = event.which;
+        event.stopPropagation();
+        event.preventDefault();
+        if (code === 13) {
+            event.target.click();
+        }
+    }
+    /**
      * @param {?} source
      * @param {?} data
      * @param {?} args
@@ -1673,7 +1700,11 @@ ShareComponent.decorators = [
     { type: Component, args: [{
                 selector: 'share-component',
                 template: `
-    <a id='share-comment-{{id}}' class='share-item-tips' (click)='shouldDisplay = !shouldDisplay'>
+    <a id='share-comment-{{id}}'
+        tabindex="0"
+        class='share-item-tips'
+        (keyup)='keyup($event)'
+        (click)='shouldDisplay = !shouldDisplay'>
     <span class="fa fa-share-alt"></span>
     <span class="share">share</span>
     </a>
@@ -1699,6 +1730,7 @@ ShareComponent.decorators = [
         border: 1px solid #aaa;
         border-radius: 2px;
         background-color: #fff;
+        z-index: 2;
     }
     .tips .social-referal {
         display: flex;
@@ -1895,6 +1927,8 @@ class LastUpdateComponent {
         const /** @type {?} */ hour = 3600000; // one hour limit
         const /** @type {?} */ day = 86400000; // 24 hours limit
         const /** @type {?} */ week = 604800000; // 7 days limit
+        const /** @type {?} */ month = 604800000 * 4; // 7 days limit
+        const /** @type {?} */ year = 604800000 * 52; // 7 days limit
         let /** @type {?} */ result = "";
         let /** @type {?} */ diff = currentDate.getTime() - this.source.getTime();
         if (diff <= minute) {
@@ -1903,53 +1937,38 @@ class LastUpdateComponent {
         }
         else if (diff <= hour) {
             // up to an hour
-            let /** @type {?} */ count = diff / minute;
-            if (count < 2) {
-                result = "a minute ago";
-            }
-            else {
-                result = count.toFixed(1) + " minutes ago";
-            }
+            let /** @type {?} */ minutes = Math.floor(diff / minute);
+            let /** @type {?} */ seconds = Math.floor((diff - (minutes * minute)) / 1000);
+            result = (minutes < 2 ? "a minute" : minutes + " minutes ") + (seconds > 0 ? " and " + seconds + " seconds ago" : " ago");
         }
         else if (diff <= day) {
             // up to a day
-            let /** @type {?} */ count = diff / hour;
-            if (count < 2) {
-                result = "an hour ago";
-            }
-            else {
-                result = count.toFixed(1) + " hours ago";
-            }
+            let /** @type {?} */ hours = Math.floor(diff / hour);
+            let /** @type {?} */ minutes = Math.floor((diff - (hours * hour)) / minute);
+            result = (hours < 2 ? "an hour" : hours + " hours ") + (minutes > 0 ? " and " + minutes + " minutes ago" : " ago");
         }
         else if (diff <= week) {
             // up to a week
-            let /** @type {?} */ count = diff / day;
-            if (count < 2) {
-                result = "a day ago";
-            }
-            else {
-                result = count.toFixed(1) + " days ago";
-            }
+            let /** @type {?} */ days = Math.floor(diff / day);
+            let /** @type {?} */ hours = Math.floor((diff - (days * day)) / hour);
+            result = (days < 2 ? "a day" : days + " days ") + (hours > 0 ? " and " + hours + " hours ago" : " ago");
         }
-        else if (diff <= (week * 4)) {
-            // up to a week
-            let /** @type {?} */ count = diff / day;
-            if (count < 2) {
-                result = "a month ago";
-            }
-            else {
-                result = count.toFixed(1) + " months ago";
-            }
+        else if (diff <= month) {
+            // up to a month
+            let /** @type {?} */ weeks = Math.floor(diff / week);
+            let /** @type {?} */ days = Math.floor((diff - (weeks * week)) / day);
+            result = (weeks < 2 ? "a week" : weeks + " weeks ") + (days > 0 ? " and " + days + " days ago" : " ago");
         }
-        else if (diff <= (week * 52)) {
+        else if (diff <= year) {
             // up to a week
-            let /** @type {?} */ count = diff / day;
-            if (count < 2) {
-                result = "a year ago";
-            }
-            else {
-                result = count.toFixed(1) + " years ago";
-            }
+            let /** @type {?} */ months = Math.floor(diff / month);
+            let /** @type {?} */ weeks = Math.floor((diff - (months * month)) / week);
+            result = (months < 2 ? "a month" : months + " months ") + (weeks > 0 ? " and " + weeks + " weeks ago" : " ago");
+        }
+        else {
+            let /** @type {?} */ years = Math.floor(diff / year);
+            let /** @type {?} */ months = Math.floor((diff - (years * year)) / month);
+            result = (years < 2 ? "a year" : years + " years ") + (months > 0 ? " and " + months + " months ago" : " ago");
         }
         return result;
     }

@@ -66,10 +66,10 @@ export class CheckboxComponent implements PipeComponent {
     });
     if (this.useFont) {
       setTimeout(() => {
-        if (this.source === this.original && this.check) {
+        if (this.check) {
           this.renderer.invokeElementMethod(this.check.nativeElement, "focus");
         }
-        if (this.source === '' && this.uncheck) {
+        if (this.uncheck) {
           this.renderer.invokeElementMethod(this.uncheck.nativeElement, "focus");
         }
       },66);

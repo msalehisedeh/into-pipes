@@ -1,6 +1,6 @@
 {
   "name": "into-pipes",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -20,6 +20,7 @@
     "readable",
     "social share",
     "social like",
+    "social ranking",
     "reusable",
     "filter",
     "transformation",

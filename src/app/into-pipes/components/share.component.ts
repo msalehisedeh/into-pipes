@@ -4,7 +4,11 @@ import { PipeComponent } from '../interfaces/pipe.component';
 @Component({
     selector: 'share-component',
     template: `
-    <a id='share-comment-{{id}}' class='share-item-tips' (click)='shouldDisplay = !shouldDisplay'>
+    <a id='share-comment-{{id}}' 
+        tabindex="0" 
+        class='share-item-tips' 
+        (keyup)='keyup($event)'
+        (click)='shouldDisplay = !shouldDisplay'>
     <span class="fa fa-share-alt"></span>
     <span class="share">share</span>
     </a>
@@ -30,6 +34,7 @@ import { PipeComponent } from '../interfaces/pipe.component';
         border: 1px solid #aaa;
         border-radius: 2px;
         background-color: #fff;
+        z-index: 2;
     }
     .tips .social-referal {
         display: flex;
@@ -68,6 +73,16 @@ export class ShareComponent implements PipeComponent {
             title: 'share with '+ type
         }
     }
+    keyup(event) {
+        const code = event.which;
+        event.stopPropagation();
+        event.preventDefault();
+    
+        if (code === 13) {
+            event.target.click();
+        }
+    }
+    
 
     transform(source: any, data: any, args: any[]) {
 

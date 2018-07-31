@@ -12,74 +12,40 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 
 [Live Demo](https://into-pipes.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes) | [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
 
+# Fratures
+* Responsive
+* Formats your data to interactive component
+* ADA Compliant
 
-# Version 1.5.0
+
+# Revision History
+
+## varsion 1.6.0
+Fixed ADA related issue with input, checkbox, and share components.
+
+## Version 1.5.0
 Added LIKE and LASTUPDATE formatters. With like/dislike, an event is triggered after user clicks on it. You will be responsile to catch the event and increment or decrement the count in your data source.
 
-```javascript
-EXPORTS
-	LikeComponent
-	LastUpdateComponent
-```
-
-| Format     | Examples             | Arguments                                                                                                  |
-|---------------------|---------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| like                | `like:true:true:id`                               | 1) flag to indicate if like counts should be displayed. 2) flag to show likes if set or dislikes otherwise. 3) Attribute in JSON oject with unique value to be used for traking likes. 4) Attribute in JSON oject with count of likes or dis-likes |
-| lastupdate          | `lastupdate:true`                                 | 1) flag to indicate if icon should be displayed on the side. |
-
-
-# Version 1.4.1
+## Version 1.4.1
 Calling console.error() if applying a custom rule when the custom component for it is not registered.
 
-# Version 1.4.0
+## Version 1.4.0
 Added an interactive share social sites component.
 
-```javascript
-EXPORTS
-	ShareComponent
-```
-
-| Format     | Examples             | Arguments                                                                                                  |
-|------------|----------------------|------------------------------------------------------------------------------------------------------------|
-| share               | `share:facebook:linkedin:google:twitter`          | 1) list of any one of supported sites (facebook, linkedin, google, twitter, pinterest, digg, xing, get-pocket, stumbleupon) |
-
-
-# Version 1.3.8
+## Version 1.3.8
 Fixed the firing event on interactive input component. Event will fire after the input value is changed and a tab, return, or escape key is pressed. After the event is fired, input field will revert back to a plain text.
 
-# Version 1.3.8
+## Version 1.3.8
 Modified all pipe components to accept one more argument allowing you to have additional data when you are formatting data. Consider a case when you are formatting data in a table row. You may need to format based on some attributes from other columns and would need to have ability to access the data for the enite row.  By passing data to a **intoData** attribute, your custom component will have access to the data and you can gain great flexibility formatting a particular tabel cell. **NOTE:** Standard pipes will not have access to "intoData" object. If you have not created custom pipe components on previous vesions, you will have no issue upgrading to this vesion. However, if you have created custom components, you will have to take note of new parameter passed to your component (please pay attention to the 'PipeComponent' interface presented in this page).
 
-
-# Version 1.3.7
+## Version 1.3.7
 Compiled with AOT option and resolved issues.
 
-
-# Version 1.3.3
+## Version 1.3.3
 Added Video pipe... Now you can pipe a URL **into** video tag.
 
-```javascript
-EXPORTS
-	VideoPipe
-```
-
-| Format     | Examples             | Arguments                                                                                                  |
-|------------|----------------------|------------------------------------------------------------------------------------------------------------|
-| video               | `video:200px:auto:alt text` OR `video`          | 1) width, 2)height, 3) alternate text to be displayed |
-
-
-# Version 1.2.0
+## Version 1.2.0
 Fixed a few logic issues and added event emit to the directive. Added into select option. You are now able to pipe a value **into** a select tag. But you will need to register a service that knows how to provide select options for a given attribute. And this service has to implement PipeServiceComponent.
-
-```javascript
-EXPORTS
-    PipeServiceComponent
-    SelectComponent
-```
-
-| Format     | Examples             | Arguments                                                                                                  |
-|------------|----------------------|------------------------------------------------------------------------------------------------------------|
-| select     | `select`             |  No arguments. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
 
 
 Sample on the directive usage
@@ -117,49 +83,14 @@ export interface PipeServiceComponent {
 }
 ```
 
-# Version 1.1.0
+## Version 1.1.0
 Added ability for you to declare a custom pipe. You will need to create your own custom component for it and register the component as was explained on release 1.0.0.
 
 Also, updated custom component declaration process. You will need to make sure your component has id and name attributes as well as source attribute. also, if your component interacts with user actions and as a result its value is changed, you will need to emit event as i have updated the code sample for version 1.0.0.
 
-# Version 1.0.0
+## Version 1.0.0
 Added a directive to enable morphing values into form fields!! Provisions is in place if you wish to format the values into a custom field. For those to happen, you will need to create your component and register it.
 
-```javascript
-MODULE:
-    IntoPipeModule
-
-EXPORTS
-	InToPipe
-	IntoDirective
-
-	PipeComponent
-	ComponentPool
-
-	MaskPipe
-	MapPipe
-	LinkPipe
-	ImagePipe
-	PrependPipe
-	AppendPipe
-	WrapPipe
-	EmailPipe
-	RatingPipe
-	AddressPipe
-	JoinPipe
-	FontPipe
-	ValueOfPipe
-	SanitizeHtmlPipe
-	ConditionalPipe
-	
-DEPENDENCIES: 
-    "font-awesome": "^4.7.0"
-```
-
-| Format             | Examples             | Arguments                                   |
-|--------------------|----------------------|---------------------------------------------|
-| input              | `input:placeholder:formatting,`             |  1) place holder text or blank, 2) formatting rules for the value to be displayed when text field is not editable    |
-| checkbox           | `checkbox:idealvalue:useIcon`       |  1) the value for which checkbox should be checked, 2)if it is standard checkbox or should use fonts to display checked or not checked.  |
 
 ```javascript
 import { Component, Output, EventEmitter } from '@angular/core';
@@ -181,7 +112,7 @@ export class MyCustomInputComponent implements PipeComponent {
     @Output("onIntoComponentChange")
     onIntoComponentChange = new EventEmitter();
 
-    transform(source: any, args: any[]) {
+    transform(source: any, data: any, args: any[]) {
         this.source = source;
         // do some other stuff here...
     }
@@ -197,6 +128,7 @@ export class MyCustomInputComponent implements PipeComponent {
 ```
 
 Registering my custom component. You will have to make sure to add your custom component in NgModel of your application under declarations and entryComponents.
+
 ```javascript
 import { ComponentPool } from 'into-pipes';
 
@@ -218,37 +150,15 @@ Custom component registration API
 	registeredServiceForComponent(name): any
 ```
 
-You can still continue formatting with existing pipes using InTo directive.. however, Email, Address, Font, Image, JSON, Link, and Rating formatters will insert actual components in the end resulting html. This means in the next release, I can add interactions with these components and add editable date component to format and edit the values when user interacts with the fields.. To allow you to come up with nifty formatters that can interact with users, in future release, I will add possibility of customizing formatting tags as well ...
+You can still continue formatting with existing pipes using InTo directive. However, Email, Address, Font, Image, JSON, Link, and Rating formatters will insert actual components in the end resulting html. This means in the next release, I can add interactions with these components and add editable date component to format and edit the values when user interacts with the fields. To allow you to come up with nifty formatters that can interact with users, in future release, I will add possibility of customizing formatting tags as well.
 
-# Version 0.3.0
-Internally changed code to make sure if array is the source to be transformed, all items in the array are transformed.
-
-| Format             | Examples             | Arguments                                   |
-|--------------------|----------------------|---------------------------------------------|
-| join               | `join:,`             |  1) the characters used to jin the list     |
-| sanitizeHtml       | `sanitizeHtml`       |  NONE  (This pipe is not used by into pipe) |
+## Version 0.3.0
+Internally changed code to apply transformation to all items in the array if source is an array.
 
 
-# Version 0.2.2
-The following are available functionalities presented in this version. 
+## Version 0.2.2
+A new Conditional Pipe is added to display content based on condition applicable to the source value. 
 
-```javascript
-MODULE:
-    IntoPipeModule
-
-DEPENDENCIES: 
-    "font-awesome": "^4.7.0"
-```
-
-A new Conditional Pipe is added to make the whole thing come together. 
-
-The following formatters are added:
-
-**NOTE: For all of the pipes, if transforming object is an array, all elements in the array will be transformed and the resulting array will be returned. in case of conditional pipe, a resulting map will be returned.**
-
-| Format             | Examples                                                | Arguments                  |
-|--------------------|---------------------------------------------------------|----------------------------|
-| if                 | `'masoud' | into: "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\""` |  1)condition `=,!=,~=,<,>,~,!~,in` , 2)value to be evaluated, 3)action, 4)else action |
 
 ```javascript
 NOTE: 
@@ -260,64 +170,102 @@ NOTE:
         "in" is to get indexof value in the transforming object
 ```
 
-# Version 0.0.1
-The following are available functionalities presented in this version.
- 
+## Version 0.0.1
+
+font awesome dependency is added because few of the pipes are injecting nodes with font awesome names to create a better UI effects.
+
+In Addition code in "into" pipe is modified to allow for cascading pipes by escaping ':' character if is inside quotes. For example **date:"MM/dd/yyyy hh:ss"** will be parsed into an array argument of 
+**date, MM/dd/yyyy hh:ss**
+
+
+## Version 0.0.0
+Created Pipes.
+
+
+# Module,Pipes,  Components, and Directive
+
 ```javascript
 MODULE:
     IntoPipeModule
 
+EXPORTS
+    JoinPipe
+    InToPipe
+    ImagePipe
+    VideoPipe
+    LinkPipe
+    MaskPipe
+    MapPipe
+    PrependPipe
+    AppendPipe
+    WrapPipe
+    ValueOfPipe
+    EmailPipe
+    RatingPipe
+    FontPipe
+    ConditionalPipe
+    AddressPipe
+    SanitizeHtmlPipe
+
+    IntoDirective
+    ComponentPool
+
+    AddressComponent
+    EmailComponent
+    FontComponent
+    ImageComponent
+    VideoComponent
+    JsonComponent
+    LinkComponent
+    InputComponent
+    CheckboxComponent
+    RatingComponent
+    SelectComponent
+    SpanComponent
+    ShareComponent
+    LikeComponent
+    LastUpdateComponent
+	
 DEPENDENCIES: 
     "font-awesome": "^4.7.0"
 ```
-Dependency is added because few of the pipes are injecting nodes with font awesome names to create a better UI effects.
 
-In Addition code in "into" pipe is modified to allow for cascading pipes and escaping ':' character if is inside quotes. For example `date:"MM/dd/yyyy hh:ss"` will be parsed into an array argument of 
-`["date","MM/dd/yyyy hh:ss"]`
-
-The following formatters are added:
-
-**NOTE: For all of the pipes, if transforming object is an array, all elements in the array will be transformed and the resulting array will be returned.**
-
-| Format             | Examples                     | Arguments                   |
-|--------------------|------------------------------|-----------------------------|
-| email               | `email`                     | NONE                        |
-| address             | `address`                   | NONE                        |
-| rating              | `rating`                    | NONE                        |
-| font                | `font:fa fa-check:left:*`   | 1)class, 2)position (left,right,replace, 3) action (*:use content) |
-| valueof             | `valueof:key`               | 1) key to be used                           |
-
-# Version 0.0.0
-
-The following are available functionalities presented in this version. 
-
-```javascript
-MODULE:
-    IntoPipeModule
-
-DEPENDENCIES: 
-	Other than Angular standard Pipes and core angular libraries, NONE.
-```
-
-**NOTE: For all of the pipes, if transforming object is an array, all elements in the array will be transformed and the resulting array will be returned.**
+**NOTE: For all of the pipes, if transforming object is an array, all elements in the array will be transformed and the resulting array will be returned. in case of conditional pipe, a resulting map will be returned.**
 
 
-| Format              | Examples                                        | Arguments                  | 
-|---------------------|-------------------------------------------------|----------------------------|
-| mask                | `mask:4:*  OR mask:4`                           | 1) last # number of characters to mask, 2) masking character |
-| image               | `image:200px:auto:alt text` OR `image`          | 1) width, 2)height, 3) alternate text to be displayed |
-| link                | `link:text OR link`                             | 1)text to be displayed in the link |
-| map                 | `map:a;x/b;y/c;z`                               | 1)take a source as a key and returns value of key from the given map argument |
-| currency            | `currency:en_US or currency`                    | 1)local |
-| append              | `append:something`                              | 1)appending string |
-| prepend             | `prepend:something`                             | 1)pre-pending string |
-| wrap                | `wrap:something:something  OR wrap:something`   | 1)pre-pending string, 2)appending string. if appending string is not supplied, pre-pending string will be used. |
-| number              | `number:en_US:2   or number:en_US or number`    | 1)local, 2)decimal points |
-| date                | `date:en_US:MMDDYY OR date:MMDDYY`              | 1)local, 2)format |
-| json                | `json`                                          | NONE    |
-| slice               | `slice 5:12 OR slice 5`                         | 1)from index, 2)to index |
-| uppercase           | `uppercase`                                     | NONE    |
-| lowercase           | `lowecase`                                      | NONE    |
+| Format              | Examples                                          | Arguments                  | 
+|---------------------|---------------------------------------------------|----------------------------|
+| like                | `like:true:true:id`                               | 1) flag to indicate if like counts should be displayed. 2) flag to show likes or dislikes. 3) Attribute in JSON oject with unique value to be used for traking likes or dislikes. |
+| lastupdate          | `lastupdate:true`                                 | 1) flag to indicate if time icon should be displayed on the side. |
+| share               | `share:facebook:linkedin:google:twitter`          | 1) list of any one of supported sites (facebook, linkedin, google, twitter, pinterest, digg, xing, get-pocket, stumbleupon) |
+| video               | `video:200px:auto:alt text` OR `video`            | 1) width, 2)height, 3) alternate text to be displayed |
+| select              | `select`                                          |  No arguments. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
+| input               | `input:placeholder:formatting,`                   |  1) place holder text or blank, 2) formatting rules for the value to be displayed when text field is not editable    |
+| checkbox            | `checkbox:idealvalue:useIcon`                     |  1) the value for which checkbox should be checked, 2)if it is standard checkbox or should use fonts to display checked or not checked.  |
+| join                | `join:,`                                          |  1) the characters used to jin the list     |
+| sanitizeHtml        | `sanitizeHtml`                                    |  NONE  (This pipe is not used by into pipe) |
+| if                  | `'masoud' | into: "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\""` |  1)condition `=,!=,~=,<,>,~,!~,in` , 2)value to be evaluated, 3)action, 4)else action |
+| email               | `email`                                           | NONE                        |
+| address             | `address`                                         | NONE                        |
+| rating              | `rating`                                          | NONE                        |
+| font                | `font:fa fa-check:left:*`                         | 1)class, 2)position (left,right,replace, 3) action (*:use content) |
+| valueof             | `valueof:key`                                     | 1) key to be used                           |
+| mask                | `mask:4:*  OR mask:4`                             | 1) last # number of characters to mask, 2) masking character |
+| image               | `image:200px:auto:alt text` OR `image`            | 1) width, 2)height, 3) alternate text to be displayed |
+| link                | `link:text OR link`                               | 1)text to be displayed in the link |
+| map                 | `map:a;x/b;y/c;z`                                 | 1)take a source as a key and returns value of key from the given map argument |
+| currency            | `currency:en_US or currency`                      | 1)local |
+| append              | `append:something`                                | 1)appending string |
+| prepend             | `prepend:something`                               | 1)pre-pending string |
+| wrap                | `wrap:something:something  OR wrap:something`     | 1)pre-pending string, 2)appending string. if appending string is not supplied, pre-pending string will be used. |
+| number              | `number:en_US:2   or number:en_US or number`      | 1)local, 2)decimal points |
+| date                | `date:en_US:MMDDYY OR date:MMDDYY`                | 1)local, 2)format |
+| json                | `json`                                            | NONE    |
+| slice               | `slice 5:12 OR slice 5`                           | 1)from index, 2)to index |
+| uppercase           | `uppercase`                                       | NONE    |
+| lowercase           | `lowecase`                                        | NONE    |
+
+
 
 ![alt text](https://raw.githubusercontent.com/msalehisedeh/into-pipes/master/sample.png  "Commands and results")
 

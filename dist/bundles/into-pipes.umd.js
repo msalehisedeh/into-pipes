@@ -957,6 +957,9 @@ var InputComponent = /** @class */ (function () {
         this.onIntoComponentChange = new core.EventEmitter();
     }
     InputComponent.prototype.keyup = function (event) {
+        var _this = this;
+        event.stopPropagation();
+        event.preventDefault();
         var code = event.which;
         if (((code >= 48) && (code <= 90)) ||
             ((code >= 96) && (code <= 111)) ||
@@ -973,9 +976,18 @@ var InputComponent = /** @class */ (function () {
                     value: this.source
                 });
             }
+            if (code === 13) {
+                setTimeout(function () {
+                    if (_this.nameHolder) {
+                        _this.renderer.invokeElementMethod(_this.nameHolder.nativeElement, "focus");
+                    }
+                }, 66);
+            }
         }
     };
     InputComponent.prototype.blur = function (event) {
+        event.stopPropagation();
+        event.preventDefault();
         this.editName = false;
         if (this.oldValue !== String(this.source)) {
             this.onIntoComponentChange.emit({
@@ -988,7 +1000,8 @@ var InputComponent = /** @class */ (function () {
     InputComponent.prototype.keydown = function (event) {
         var _this = this;
         var code = event.which;
-        console.log(code);
+        event.stopPropagation();
+        event.preventDefault();
         if ((code === 13) || (code === 9)) {
             this.renderer.invokeElementMethod(event.target, "click");
             setTimeout(function () {
@@ -1018,9 +1031,9 @@ var InputComponent = /** @class */ (function () {
 InputComponent.decorators = [
     { type: core.Component, args: [{
                 selector: 'input-component',
-                template: "\n    <span *ngIf=\"editName\">\n    <input #nameEditor\n        type='text'\n        [id]=\"id\"\n        [name]=\"name\"\n        [value]=\"source\"\n        [placeholder]=\"placeholder\"\n        (blur)=\"blur($event)\"\n        (keyup)='keyup($event)'>\n    </span>\n    <span *ngIf='!editName && formatting'\n        class='locked'\n        tabindex='0'\n        (keydown)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? (source | into:formatting) : '&nbsp;'\">\n    </span>\n    <span *ngIf='!editName && !formatting'\n        class='locked'\n        tabindex='0'\n        (keydown)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? source : '&nbsp;'\">\n    </span>\n    ",
+                template: "\n    <span *ngIf=\"editName\">\n    <input #nameEditor\n        type='text'\n        [id]=\"id\"\n        [name]=\"name\"\n        [value]=\"source\"\n        [placeholder]=\"placeholder\"\n        (blur)=\"blur($event)\"\n        (keyup)='keyup($event)'>\n    </span>\n    <span #nameHolder\n        *ngIf='!editName && formatting'\n        class='locked'\n        tabindex='0'\n        (keyup)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? (source | into:formatting) : '&nbsp;'\">\n    </span>\n    <span #nameHolder\n        *ngIf='!editName && !formatting'\n        class='locked'\n        tabindex='0'\n        (keyup)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? source : '&nbsp;'\">\n    </span>\n    ",
                 styles: [
-                    "\n        .locked {\n          display: inline-block;\n          cursor: pointer;\n          min-width: 30px;\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n        input{\n          cursor: beam;\n        }\n        "
+                    "\n        .locked {\n          display: inline-block;\n          cursor: pointer;\n          min-width: 30px;\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n        input {\n          cursor: beam;\n        }\n        "
                 ]
             },] },
 ];
@@ -1028,8 +1041,9 @@ InputComponent.ctorParameters = function () { return [
     { type: core.Renderer, },
 ]; };
 InputComponent.propDecorators = {
-    "onIntoComponentChange": [{ type: core.Output, args: ["onIntoComponentChange",] },],
     "nameEditor": [{ type: core.ViewChild, args: ["nameEditor",] },],
+    "nameHolder": [{ type: core.ViewChild, args: ["nameHolder",] },],
+    "onIntoComponentChange": [{ type: core.Output, args: ["onIntoComponentChange",] },],
 };
 var CheckboxComponent = /** @class */ (function () {
     function CheckboxComponent(renderer) {
@@ -1058,10 +1072,10 @@ var CheckboxComponent = /** @class */ (function () {
         });
         if (this.useFont) {
             setTimeout(function () {
-                if (_this.source === _this.original && _this.check) {
+                if (_this.check) {
                     _this.renderer.invokeElementMethod(_this.check.nativeElement, "focus");
                 }
-                if (_this.source === '' && _this.uncheck) {
+                if (_this.uncheck) {
                     _this.renderer.invokeElementMethod(_this.uncheck.nativeElement, "focus");
                 }
             }, 66);
@@ -1156,6 +1170,14 @@ var ShareComponent = /** @class */ (function () {
             title: 'share with ' + type
         };
     };
+    ShareComponent.prototype.keyup = function (event) {
+        var code = event.which;
+        event.stopPropagation();
+        event.preventDefault();
+        if (code === 13) {
+            event.target.click();
+        }
+    };
     ShareComponent.prototype.transform = function (source, data, args) {
         var _this = this;
         this.source = source;
@@ -1195,8 +1217,8 @@ var ShareComponent = /** @class */ (function () {
 ShareComponent.decorators = [
     { type: core.Component, args: [{
                 selector: 'share-component',
-                template: "\n    <a id='share-comment-{{id}}' class='share-item-tips' (click)='shouldDisplay = !shouldDisplay'>\n    <span class=\"fa fa-share-alt\"></span>\n    <span class=\"share\">share</span>\n    </a>\n    <span id='share-comment-{{id}}-tips' class='tips' *ngIf='shouldDisplay'>\n      <span class='social-referal'>\n        <a *ngFor=\"let share of shareList\" [class]='share.icon' target='_blank' [href]='share.href'><span class='off-screen' [textContent]=\"share.title\"></span></a>\n      </span>\n    </span>\n",
-                styles: ["\n    :host {display: table;position: relative}\n    .share-item-tips {\n        cursor: pointer;\n    }\n    .share-item-tips .fa {\n        margin: 0;\n    }\n    .tips {\n        position: absolute;\n        display: flex;\n        flex-direction: row;\n        padding: 5px;\n        border: 1px solid #aaa;\n        border-radius: 2px;\n        background-color: #fff;\n    }\n    .tips .social-referal {\n        display: flex;\n        flex-direction: row;\n    }\n    .tips .social-referal .fa {\n        float: left;\n        padding: 2px 4px;\n        color: blue;\n        border: 1px solid #ccc;\n        border-radius: 4px;\n        text-decoration: none;\n        margin: 0 1px;\n        width: 20px;\n        text-align: center;\n    }\n    .tips .social-referal .fa:hover {\n        color: #fff;\n        background-color: blue;\n    }\n    "]
+                template: "\n    <a id='share-comment-{{id}}'\n        tabindex=\"0\"\n        class='share-item-tips'\n        (keyup)='keyup($event)'\n        (click)='shouldDisplay = !shouldDisplay'>\n    <span class=\"fa fa-share-alt\"></span>\n    <span class=\"share\">share</span>\n    </a>\n    <span id='share-comment-{{id}}-tips' class='tips' *ngIf='shouldDisplay'>\n      <span class='social-referal'>\n        <a *ngFor=\"let share of shareList\" [class]='share.icon' target='_blank' [href]='share.href'><span class='off-screen' [textContent]=\"share.title\"></span></a>\n      </span>\n    </span>\n",
+                styles: ["\n    :host {display: table;position: relative}\n    .share-item-tips {\n        cursor: pointer;\n    }\n    .share-item-tips .fa {\n        margin: 0;\n    }\n    .tips {\n        position: absolute;\n        display: flex;\n        flex-direction: row;\n        padding: 5px;\n        border: 1px solid #aaa;\n        border-radius: 2px;\n        background-color: #fff;\n        z-index: 2;\n    }\n    .tips .social-referal {\n        display: flex;\n        flex-direction: row;\n    }\n    .tips .social-referal .fa {\n        float: left;\n        padding: 2px 4px;\n        color: blue;\n        border: 1px solid #ccc;\n        border-radius: 4px;\n        text-decoration: none;\n        margin: 0 1px;\n        width: 20px;\n        text-align: center;\n    }\n    .tips .social-referal .fa:hover {\n        color: #fff;\n        background-color: blue;\n    }\n    "]
             },] },
 ];
 ShareComponent.ctorParameters = function () { return []; };
@@ -1301,55 +1323,42 @@ var LastUpdateComponent = /** @class */ (function () {
         var hour = 3600000;
         var day = 86400000;
         var week = 604800000;
+        var month = 604800000 * 4;
+        var year = 604800000 * 52;
         var result = "";
         var diff = currentDate.getTime() - this.source.getTime();
         if (diff <= minute) {
             result = "seconds ago";
         }
         else if (diff <= hour) {
-            var count = diff / minute;
-            if (count < 2) {
-                result = "a minute ago";
-            }
-            else {
-                result = count.toFixed(1) + " minutes ago";
-            }
+            var minutes = Math.floor(diff / minute);
+            var seconds = Math.floor((diff - (minutes * minute)) / 1000);
+            result = (minutes < 2 ? "a minute" : minutes + " minutes ") + (seconds > 0 ? " and " + seconds + " seconds ago" : " ago");
         }
         else if (diff <= day) {
-            var count = diff / hour;
-            if (count < 2) {
-                result = "an hour ago";
-            }
-            else {
-                result = count.toFixed(1) + " hours ago";
-            }
+            var hours = Math.floor(diff / hour);
+            var minutes = Math.floor((diff - (hours * hour)) / minute);
+            result = (hours < 2 ? "an hour" : hours + " hours ") + (minutes > 0 ? " and " + minutes + " minutes ago" : " ago");
         }
         else if (diff <= week) {
-            var count = diff / day;
-            if (count < 2) {
-                result = "a day ago";
-            }
-            else {
-                result = count.toFixed(1) + " days ago";
-            }
+            var days = Math.floor(diff / day);
+            var hours = Math.floor((diff - (days * day)) / hour);
+            result = (days < 2 ? "a day" : days + " days ") + (hours > 0 ? " and " + hours + " hours ago" : " ago");
         }
-        else if (diff <= (week * 4)) {
-            var count = diff / day;
-            if (count < 2) {
-                result = "a month ago";
-            }
-            else {
-                result = count.toFixed(1) + " months ago";
-            }
+        else if (diff <= month) {
+            var weeks = Math.floor(diff / week);
+            var days = Math.floor((diff - (weeks * week)) / day);
+            result = (weeks < 2 ? "a week" : weeks + " weeks ") + (days > 0 ? " and " + days + " days ago" : " ago");
         }
-        else if (diff <= (week * 52)) {
-            var count = diff / day;
-            if (count < 2) {
-                result = "a year ago";
-            }
-            else {
-                result = count.toFixed(1) + " years ago";
-            }
+        else if (diff <= year) {
+            var months = Math.floor(diff / month);
+            var weeks = Math.floor((diff - (months * month)) / week);
+            result = (months < 2 ? "a month" : months + " months ") + (weeks > 0 ? " and " + weeks + " weeks ago" : " ago");
+        }
+        else {
+            var years = Math.floor(diff / year);
+            var months = Math.floor((diff - (years * year)) / month);
+            result = (years < 2 ? "a year" : years + " years ") + (months > 0 ? " and " + months + " months ago" : " ago");
         }
         return result;
     };
