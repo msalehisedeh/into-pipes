@@ -11,5 +11,5 @@ export interface PipeComponent {
 }
 
 export interface PipeServiceComponent {
-	getDataFor(itemName, itemId);
+	getDataFor(name: string, id: string, item: any);
 }

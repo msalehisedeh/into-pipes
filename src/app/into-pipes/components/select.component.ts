@@ -37,7 +37,7 @@ export class SelectComponent implements PipeComponent {
 
   transform(source: any, data: any, args: any[]) {
     this.source= source;
-    this.options = this.service.getDataFor(this.name, this.id);
+    this.options = this.service.getDataFor(this.name, this.id, data);
   }
 }
 

@@ -1123,7 +1123,7 @@ var SelectComponent = /** @class */ (function () {
     };
     SelectComponent.prototype.transform = function (source, data, args) {
         this.source = source;
-        this.options = this.service.getDataFor(this.name, this.id);
+        this.options = this.service.getDataFor(this.name, this.id, data);
     };
     return SelectComponent;
 }());

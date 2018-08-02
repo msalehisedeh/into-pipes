@@ -5,7 +5,7 @@ import { PipeServiceComponent } from './into-pipes/interfaces/pipe.component';
 
 class myService implements PipeServiceComponent {
   
-  getDataFor(itemName, itemId) {
+  getDataFor(name, id, data) {
     return [
       'abc@gmail.com',
       'csd@gmail.com',

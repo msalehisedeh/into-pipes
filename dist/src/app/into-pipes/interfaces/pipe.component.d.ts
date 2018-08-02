@@ -8,5 +8,5 @@ export interface PipeComponent {
     transform(content: any, data: any, args?: any[]): any;
 }
 export interface PipeServiceComponent {
-    getDataFor(itemName: any, itemId: any): any;
+    getDataFor(name: string, id: string, item: any): any;
 }
