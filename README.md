@@ -20,6 +20,9 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 
 # Revision History
 
+## varsion 1.6.6
+internal fix on select transform to prevent event bubbling when clicked on or when changed selection.
+
 ## varsion 1.6.5
 Modified Select service interface to have the owner data set passed on to it.  Consider a case of displaying dropdowns in a table row. If one dropdown is for state and another for countries, then both dropdowns are interchangably depend on each other. As a result, the service representing dropdown has to have access to the data set for the entire row in order to return correct set of options for each dropdown item.
 

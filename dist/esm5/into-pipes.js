@@ -1111,7 +1111,13 @@ var SelectComponent = /** @class */ (function () {
         this.renderer = renderer;
         this.onIntoComponentChange = new EventEmitter();
     }
+    SelectComponent.prototype.click = function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    };
     SelectComponent.prototype.change = function (event) {
+        event.stopPropagation();
+        event.preventDefault();
         this.source = event.target.value;
         this.onIntoComponentChange.emit({
             id: this.id,
@@ -1128,7 +1134,7 @@ var SelectComponent = /** @class */ (function () {
 SelectComponent.decorators = [
     { type: Component, args: [{
                 selector: 'select-component',
-                template: "\n    <select tabindex=\"0\" (change)=\"change($event)\">\n        <option *ngFor=\"let x of options\" [selected]=\"source === x ? true : null\"  [value]=\"x\" [textContent]=\"x\"></option>\n    </select>\n    ",
+                template: "\n    <select tabindex=\"0\" (click)=\"click($event)\" (change)=\"change($event)\">\n        <option *ngFor=\"let x of options\" [selected]=\"source === x ? true : null\"  [value]=\"x\" [textContent]=\"x\"></option>\n    </select>\n    ",
                 styles: [
                     "\n        "
                 ]

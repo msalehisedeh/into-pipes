@@ -9,6 +9,7 @@ export declare class SelectComponent implements PipeComponent {
     service: PipeServiceComponent;
     onIntoComponentChange: EventEmitter<{}>;
     constructor(renderer: Renderer);
+    click(event: any): void;
     change(event: any): void;
     transform(source: any, data: any, args: any[]): void;
 }

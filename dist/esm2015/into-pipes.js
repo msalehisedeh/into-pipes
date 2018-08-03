@@ -1556,7 +1556,17 @@ class SelectComponent {
      * @param {?} event
      * @return {?}
      */
+    click(event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
     change(event) {
+        event.stopPropagation();
+        event.preventDefault();
         this.source = event.target.value;
         this.onIntoComponentChange.emit({
             id: this.id,
@@ -1579,7 +1589,7 @@ SelectComponent.decorators = [
     { type: Component, args: [{
                 selector: 'select-component',
                 template: `
-    <select tabindex="0" (change)="change($event)">
+    <select tabindex="0" (click)="click($event)" (change)="change($event)">
         <option *ngFor="let x of options" [selected]="source === x ? true : null"  [value]="x" [textContent]="x"></option>
     </select>
     `,

@@ -4,7 +4,7 @@ import { PipeComponent, PipeServiceComponent } from '../interfaces/pipe.componen
 @Component({
     selector: 'select-component',
     template: `
-    <select tabindex="0" (change)="change($event)">
+    <select tabindex="0" (click)="click($event)" (change)="change($event)">
         <option *ngFor="let x of options" [selected]="source === x ? true : null"  [value]="x" [textContent]="x"></option>
     </select>
     `,
@@ -26,7 +26,14 @@ export class SelectComponent implements PipeComponent {
 
   constructor(private renderer: Renderer) {}
 
+  click(event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
   change(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
     this.source = event.target.value;
     this.onIntoComponentChange.emit({
       id: this.id,
