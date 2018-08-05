@@ -27,6 +27,7 @@ export class AppComponent {
   threeFive = 3.5;
   events = [];
   myJson= {q:3,w:43,dw:6565};
+  myPickDate = new Date();
   myDate = "2018-03-10T01:01:20Z";
   myDateList = ["2018-03-10T01:01:20Z", "2011-02-12T01:01:20Z"];
   myDateFormat="date:\"MM/dd/yyyy hh:ss\"";

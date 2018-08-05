@@ -39,6 +39,24 @@
       [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>
+    <td>Format date <b>into</b> date with an interactive date picker.</td>
+    <td>
+      intoId="mycalendar" 
+      intoName="calendar"  
+      [rawContent]="myPickDate" 
+      [into]="'calendar:MM/dd/yyyy'"
+      [onComponentChange]="onComponentChange.bind(this)"
+    </td>
+    <td>
+      <span 
+        intoId="mycalendar" 
+        intoName="calendar" 
+        [rawContent]="myPickDate" 
+        [into]="'calendar:MM/dd/yyyy'"
+        [onComponentChange]="onComponentChange.bind(this)"></span>
+    </td>
+  </tr>
+  <tr>
     <td>Format date <b>into</b> last update natural language text with option of showing icon.</td>
     <td>[rawContent]="myLastUpdatedDate" [into]="'lastupdate:true'"</td>
     <td><span [rawContent]="myLastUpdatedDate" [into]="'lastupdate:true'"></span></td>

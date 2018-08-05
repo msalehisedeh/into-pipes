@@ -37,6 +37,7 @@ import { InputComponent } from './components/input.component';
 import { CheckboxComponent } from './components/checkbox.component';
 import { SelectComponent } from './components/select.component';
 import { ShareComponent } from './components/share.component';
+import { CalendarComponent } from './components/calendar.component';
 
 @NgModule({
   imports: [
@@ -57,6 +58,7 @@ import { ShareComponent } from './components/share.component';
     SpanComponent,
     ShareComponent,
     LikeComponent,
+    CalendarComponent,
     LastUpdateComponent,
     JoinPipe,
     InToPipe,
@@ -110,6 +112,7 @@ import { ShareComponent } from './components/share.component';
     SpanComponent,
     ShareComponent,
     LikeComponent,
+    CalendarComponent,
     LastUpdateComponent
   ],
   entryComponents: [
@@ -127,6 +130,7 @@ import { ShareComponent } from './components/share.component';
     SpanComponent,
     ShareComponent,
     LikeComponent,
+    CalendarComponent,
     LastUpdateComponent
   ],
   providers: [

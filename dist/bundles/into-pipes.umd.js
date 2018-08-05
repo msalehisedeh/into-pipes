@@ -1320,6 +1320,167 @@ LikeComponent.decorators = [
             },] },
 ];
 LikeComponent.ctorParameters = function () { return []; };
+var CalendarComponent = /** @class */ (function () {
+    function CalendarComponent(renderer) {
+        this.renderer = renderer;
+        this.showCalendar = false;
+        this.editName = false;
+        this.multiselect = false;
+        this.dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+        this.weeks = [];
+        this.selectedDays = [];
+        this.onIntoComponentChange = new core.EventEmitter();
+    }
+    CalendarComponent.prototype.keyup = function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+        var code = event.which;
+        if (code === 13) {
+            event.target.click();
+        }
+    };
+    CalendarComponent.prototype.popdatepicker = function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+        this.showCalendar = !this.showCalendar;
+    };
+    CalendarComponent.prototype.transform = function (source, data, args) {
+        var _this = this;
+        this.source = source;
+        this.currentDate = new Date();
+        this.origDate = new Date();
+        if (source instanceof Array) {
+            this.multiselect = true;
+            source.map(function (item) {
+                _this.selectedDays.push(new Date(item));
+            });
+        }
+        else {
+            this.multiselect = false;
+            this.selectedDays.push(new Date(this.source));
+        }
+        this.item = data;
+        this.generateCalendar();
+        this.formatting = args.length ? args[0] : "";
+    };
+    CalendarComponent.prototype.isSelected = function (date) {
+        var index = -1;
+        for (var i = 0; i < this.selectedDays.length; i++) {
+            var selectedDate = this.selectedDays[i];
+            if (this.isSameDay(date, selectedDate)) {
+                index = i;
+            }
+        }
+        return index > -1;
+    };
+    CalendarComponent.prototype.isSelectedMonth = function (date) {
+        return this.isSameMonth(date, this.currentDate);
+    };
+    CalendarComponent.prototype.toggleSelectedDates = function (day) {
+        var found = false;
+        if (this.multiselect) {
+            for (var i = 0; i < this.selectedDays.length; i++) {
+                var date = this.selectedDays[i];
+                if (this.isSameDay(day.date, date)) {
+                    this.selectedDays.splice(i, 1);
+                    found = true;
+                    day.selected = false;
+                    break;
+                }
+            }
+            if (!found) {
+                this.selectedDays.push(day.date);
+                day.selected = true;
+            }
+        }
+        else {
+            this.selectedDays = [day.date];
+            day.selected = true;
+        }
+    };
+    CalendarComponent.prototype.selectDate = function (day) {
+        this.origDate = day.date;
+        this.currentDate = day.date;
+        this.toggleSelectedDates(day);
+        this.selectedDays.sort(function (a, b) {
+            return a > b ? -1 : 1;
+        });
+        this.onIntoComponentChange.emit({
+            name: this.name,
+            value: this.selectedDays,
+            item: this.item
+        });
+        this.showCalendar = false;
+        this.generateCalendar();
+    };
+    CalendarComponent.prototype.prevMonth = function () {
+        this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, this.currentDate.getDate());
+        this.generateCalendar();
+    };
+    CalendarComponent.prototype.nextMonth = function () {
+        this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, this.currentDate.getDate());
+        this.generateCalendar();
+    };
+    CalendarComponent.prototype.prevYear = function () {
+        this.currentDate = new Date(this.currentDate.getFullYear() - 1, this.currentDate.getMonth(), this.currentDate.getDate());
+        this.generateCalendar();
+    };
+    CalendarComponent.prototype.nextYear = function () {
+        this.currentDate = new Date(this.currentDate.getFullYear() + 1, this.currentDate.getMonth(), this.currentDate.getDate());
+        this.generateCalendar();
+    };
+    CalendarComponent.prototype.generateCalendar = function () {
+        var dates = this.fillDates(this.currentDate);
+        var weeks = [];
+        while (dates.length > 0) {
+            weeks.push(dates.splice(0, 7));
+        }
+        this.weeks = weeks;
+    };
+    CalendarComponent.prototype.isSameDay = function (a, b) {
+        return a.getFullYear() === b.getFullYear() &&
+            a.getMonth() === b.getMonth() &&
+            a.getDate() === b.getDate();
+    };
+    CalendarComponent.prototype.isSameMonth = function (a, b) {
+        return a.getYear() === b.getYear() &&
+            a.getMonth() === b.getMonth();
+    };
+    CalendarComponent.prototype.fillDates = function (currentDate) {
+        var cm = new Date(currentDate);
+        var tm = new Date();
+        var firstDay = new Date(cm.getFullYear(), cm.getMonth(), 1);
+        var firstOfMonth = firstDay.getDay();
+        var firstDayOfGrid = new Date(firstDay.getFullYear(), firstDay.getMonth(), firstDay.getDate() - firstOfMonth);
+        var start = firstDayOfGrid.getDate();
+        var list = [];
+        for (var i = start; i < (start + 42); i++) {
+            var d = new Date(firstDayOfGrid.getFullYear(), firstDayOfGrid.getMonth(), i);
+            list.push({
+                today: this.isSameDay(tm, d),
+                selected: this.isSelected(d),
+                date: d
+            });
+        }
+        return list;
+    };
+    return CalendarComponent;
+}());
+CalendarComponent.decorators = [
+    { type: core.Component, args: [{
+                selector: 'calendar-component',
+                template: "\n    <span class=\"calendar-box\">\n      <span class=\"date\" [textContent]=\"origDate | date:formatting\"></span>\n      <a tabindex=\"0\" class=\"popper\" (keyup)=\"keyup($event)\" (click)=\"popdatepicker($event)\">\n          <span class=\"fa fa-calendar\" aria-hidden=\"true\"></span>\n          <span class=\"off-screen\">Pick a date</span>\n      </a>\n    </span>\n    <div class=\"calendar\" *ngIf=\"showCalendar\">\n\t\t<div class=\"calendar-navs\">\n\t\t\t<div class=\"month-nav\">\n                <button (click)=\"prevMonth()\">\n                    <span class=\"fa fa-chevron-left\"></span>\n                    <span class=\"off-screen\">Back a month</span>\n                </button>\n\t\t\t\t<span class=\"p4\">{{ currentDate | date:'MMMM' }}</span>\n                <button (click)=\"nextMonth()\">\n                    <span class=\"fa fa-chevron-right\"></span>\n                    <span class=\"off-screen\">Forward a month</span>\n                </button>\n\t\t\t</div>\n\t\t\t<div class=\"year-nav\">\n                <button (click)=\"prevYear()\">\n                    <span class=\"fa fa-chevron-left\"></span>\n                    <span class=\"off-screen\">Back a year</span>\n                </button>\n\t\t\t\t<span>{{ currentDate | date: 'yyyy' }}</span>\n                <button (click)=\"nextYear()\">\n                    <span class=\"fa fa-chevron-right\"></span>\n                    <span class=\"off-screen\">Forward a year</span>\n                </button>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"month-grid\">\n\t\t\t<div class=\"day-names\">\n\t\t\t\t<div *ngFor=\"let name of dayNames\" class=\"day-name p9\">{{ name }}</div>\n\t\t\t</div>\n\t\t\t<div class=\"weeks\">\n\t\t\t\t<div *ngFor=\"let week of weeks\" class=\"week\">\n\t\t\t\t\t<ng-container *ngFor=\"let day of week\">\n\t\t\t\t\t\t<div class=\"week-date disabled\" *ngIf=\"!isSelectedMonth(day.date)\">\n\t\t\t\t\t\t\t<span class=\"date-text\">{{ day.date.getDate() }}</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"week-date enabled\"\n                           *ngIf=\"isSelectedMonth(day.date)\"\n                           tabindex=\"0\"\n                           (keyup)=\"keyup($event)\"\n\t\t\t\t\t\t   (click)=\"selectDate(day)\"\n\t\t\t\t\t\t   [class.today]=\"day.today\"\n\t\t\t\t\t\t   [class.selected]=\"day.selected\">\n\t\t\t\t\t\t\t<span class=\"date-text\">{{ day.date.getDate() }}</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</ng-container>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n    ",
+                styles: [
+                    "\n        .calendar-box {\n          display: flex;\n          flex-direction: row;\n          cursor: default;\n          width: 100%;\n          display: inline-block;\n        }\n        .calendar-box date {flex: 1;}\n        .calendar-box .popper {cursor: pointer;flex: 0 0 15px}\n        .calendar {\n            display: table;\n            width: 210px;\n            position: absolute;\n            background-color: #fff;\n            z-index: 2;\n            border: 1px solid #ddd;\n            border-radius: 4px;\n        }\n        .calendar * {\n            box-sizing: border-box;\n        }\n        .calendar .calendar-navs {\n            background-color: whitesmoke;\n        }\n        .calendar .month-nav {\n            padding: 2px;\n            display: flex;\n            flex-direction: row;\n            justify-content: space-between;\n        }\n        .calendar .year-nav {\n            padding: 2px;\n            display: flex;\n            flex-direction: row;\n            justify-content: space-between;\n        }\n        .calendar .month-nav button,\n        .calendar .year-nav button {\n            border: 0;\n            background: transparent;\n            cursor: pointer;\n        }\n        .calendar .month-nav button:hover,\n        .calendar .year-nav button:hover {\n            color: red;\n        }\n        .calendar .month-grid .day-names {\n            display: flex;\n            flex-direction: row;\n            background: whitesmoke;\n            border-bottom-right-radius: 3px;\n            border-bottom-left-radius: 3px;\n        }\n        .calendar .month-grid .weeks {\n            display: flex;\n            flex-direction: column;\n        }\n        .calendar .month-grid .week {\n            display: flex;\n            flex-direction: row;\n        }\n        .calendar .month-grid .day-names {\n            border-top: 1px dotted #ddd;\n            border-bottom: 1px dashed #ddd;\n        }\n        .calendar .month-grid .week-date,\n        .calendar .month-grid .day-name {\n            text-align: center;\n            padding: 2px;\n            display: block;\n            width: 30px;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n        .calendar .month-grid .week-date {\n            height: 30px;\n            position: relative;\n            padding: 5px;\n        }\n        .calendar .month-grid .week-date .date-text {\n            font-size: 10px;\n            z-index: 10;\n        }\n        .calendar .month-grid .week-date::after {\n            content: '';\n            height: 24px;\n            width: 24px;\n            position: absolute;\n            top: 50%;\n            left: 50%;\n            transform: translate(-50%, -50%);\n            border-radius: 50%;\n            transition: background-color 150ms linear, color 150ms linear;\n            z-index: 1;\n        }\n        .calendar .month-grid .week-date.disabled {color: #aaa;}\n        .calendar .month-grid .week-date.enabled {\n            cursor: pointer;\n        }\n        .calendar .month-grid .week-date.enabled:focus {\n            outline: 0;\n        }\n        .calendar .month-grid .week-date.enabled:hover .date-text,\n        .calendar .month-grid .week-date.enabled:focus .date-text {\n            font-weight: bold;\n            color: blue;\n        }\n        .calendar .month-grid .week-date.enabled:hover::after,\n        .calendar .month-grid .week-date.enabled:focus::after {\n            background-color: whitesmoke;\n        }\n        .calendar .month-grid .week-date.selected .date-text {\n            color: #fff !important;\n        }\n        .calendar .month-grid .week-date.selected::after{\n            background-color: blue !important;\n        }\n        .calendar .month-grid .week-date.today::after {\n            background-color: lightblue;\n            font-weight: bold;\n            color: #fff;\n        }\n        "
+                ]
+            },] },
+];
+CalendarComponent.ctorParameters = function () { return [
+    { type: core.Renderer, },
+]; };
+CalendarComponent.propDecorators = {
+    "onIntoComponentChange": [{ type: core.Output, args: ["onIntoComponentChange",] },],
+};
 var LastUpdateComponent = /** @class */ (function () {
     function LastUpdateComponent() {
     }
@@ -1403,6 +1564,7 @@ var ComponentPool = /** @class */ (function () {
         this.registerComponent("share", ShareComponent);
         this.registerComponent("like", LikeComponent);
         this.registerComponent("lastupdate", LastUpdateComponent);
+        this.registerComponent("calendar", CalendarComponent);
     }
     ComponentPool.prototype.registerComponent = function (name, component) {
         this.registeredComponents[name] = component;
@@ -1797,6 +1959,7 @@ IntoPipeModule.decorators = [
                     SpanComponent,
                     ShareComponent,
                     LikeComponent,
+                    CalendarComponent,
                     LastUpdateComponent,
                     JoinPipe,
                     InToPipe,
@@ -1850,6 +2013,7 @@ IntoPipeModule.decorators = [
                     SpanComponent,
                     ShareComponent,
                     LikeComponent,
+                    CalendarComponent,
                     LastUpdateComponent
                 ],
                 entryComponents: [
@@ -1867,6 +2031,7 @@ IntoPipeModule.decorators = [
                     SpanComponent,
                     ShareComponent,
                     LikeComponent,
+                    CalendarComponent,
                     LastUpdateComponent
                 ],
                 providers: [
@@ -1922,13 +2087,14 @@ exports.IntoPipeModule = IntoPipeModule;
 exports.IntoDirective = IntoDirective;
 exports.ComponentPool = ComponentPool;
 exports.ɵa = AddressComponent;
+exports.ɵo = CalendarComponent;
 exports.ɵj = CheckboxComponent;
 exports.ɵb = EmailComponent;
 exports.ɵc = FontComponent;
 exports.ɵd = ImageComponent;
 exports.ɵi = InputComponent;
 exports.ɵf = JsonComponent;
-exports.ɵo = LastUpdateComponent;
+exports.ɵp = LastUpdateComponent;
 exports.ɵn = LikeComponent;
 exports.ɵg = LinkComponent;
 exports.ɵh = RatingComponent;

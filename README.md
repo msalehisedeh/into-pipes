@@ -20,6 +20,9 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 
 # Revision History
 
+## varsion 1.7.0
+Added date picker transformation code. I included and modified code snippet provided by [ben tedder](https://gist.github.com/bentedder/136fa7670a8a23617f91be4f9566f96b). Could not use his code directly, as I had to make many adjustments to make it fit within pipe environment.
+
 ## varsion 1.6.6
 internal fix on select transform to prevent event bubbling when clicked on or when changed selection.
 
@@ -241,6 +244,7 @@ DEPENDENCIES:
 
 | Format              | Examples                                          | Arguments                  | 
 |---------------------|---------------------------------------------------|----------------------------|
+| calendar            | `calendar:MM/dd/yyyy`                             | 1) date format. if the transformation source is an array of dates or date strings, the calendar will be multi-select calendar. Otherwise it will be a single select calendar.  |
 | like                | `like:true:true:id`                               | 1) flag to indicate if like counts should be displayed. 2) flag to show likes or dislikes. 3) Attribute in JSON oject with unique value to be used for traking likes or dislikes. |
 | lastupdate          | `lastupdate:true`                                 | 1) flag to indicate if time icon should be displayed on the side. |
 | share               | `share:facebook:linkedin:google:twitter`          | 1) list of any one of supported sites (facebook, linkedin, google, twitter, pinterest, digg, xing, get-pocket, stumbleupon) |
