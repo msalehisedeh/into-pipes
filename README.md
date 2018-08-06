@@ -17,6 +17,39 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 * Formats your data to interactive component
 * ADA Compliant
 
+| Format              | Description                                                                  | 
+|---------------------|------------------------------------------------------------------------------|
+| calendar            | For a given source, will provide interactive date picker. if the source is an array of dates or date strings, the date picker will be multi-select. Otherwise it will be a single select. When selecting a date, an event will be triggered. You will be responsile to catch the change event and update date(s) in your data source. |
+| like                | For a given source, will provide interactive like/dislike links. With like/dislike, an event is triggered after user clicks on it. You will be responsile to catch the event and increment or decrement the count in your data source. |
+| lastupdate          | For a given source, will provide a human readable elapsed time.               |
+| share               | For a given source, will provide social share buttons.                        |
+| video               | For a given source, will convert a link source into an interactive video tag. |
+| select              | For a given source, will provide a select options tag through special service that knows how to provide options based on supplied data. You will be responsile to catch the change event and update data in your data source.   |
+| input               | For a given source, will provide an interactive input tag that will become active when user clicks on it. Otherwise a plain text content will be displayed. You will be responsile to catch the change event and update data in your data source.   |
+| checkbox            | For a given source, will provide an interactive checkbox. You will be responsile to catch the change event and update date(s) in your data source. |
+| join                | For a given source array, will join array elements into one single delianated string.    |
+| sanitizeHtml        | Will bypass security checks agains CORS in a URL.                             |
+| if                  | Will execute transformation based on a if else logic.                         |
+| email               | Will format the source into a mail link.                                      |
+| address             | Will format an address structure into an standard address display.            |
+| rating              | For a given source, will provide ranking value of a source through stars.     |
+| font                | Will take a source into a font awesome representation.                        |
+| valueof             | Will travers through a JSON path and display its value.                       |
+| mask                | Will mask sensative characters.                                               |
+| image               | Will take a source URL into an image tag.                                     |
+| link                | Will transforn a source into a link tag.                                      |
+| map                 | Will conver a source URL into a map.                                          |
+| currency            | Will conver a source into a currency.                                         |
+| append              | Will append a string to source.                                               |
+| prepend             | Will prepend a string to source.                                              |
+| wrap                | Will wrap source with given strings.                                          |
+| number              | Will format a number into a formatted number.                                 |
+| date                | Will format the source date.                                                  |
+| json                | Will format JSON into readable source.                                        |
+| slice               | Will sock a certain data out of source.                                       |
+| uppercase           | Wil transform several strings ibto an html tag.                               |
+| lowercase           | Wil transform several strings ibto an html tag.                               |
+
 
 # Revision History
 

@@ -23,23 +23,23 @@ export interface CalendarDate {
     <div class="calendar" *ngIf="showCalendar">
 		<div class="calendar-navs">
 			<div class="month-nav">
-                <button (click)="prevMonth()">
+                <button (click)="prevMonth($event)">
                     <span class="fa fa-chevron-left"></span>
                     <span class="off-screen">Back a month</span>
                 </button>
 				<span class="p4">{{ currentDate | date:'MMMM' }}</span>
-                <button (click)="nextMonth()">
+                <button (click)="nextMonth($event)">
                     <span class="fa fa-chevron-right"></span>
                     <span class="off-screen">Forward a month</span>
                 </button>
 			</div>
 			<div class="year-nav">
-                <button (click)="prevYear()">
+                <button (click)="prevYear($event)">
                     <span class="fa fa-chevron-left"></span>
                     <span class="off-screen">Back a year</span>
                 </button>
 				<span>{{ currentDate | date: 'yyyy' }}</span>
-                <button (click)="nextYear()">
+                <button (click)="nextYear($event)">
                     <span class="fa fa-chevron-right"></span>
                     <span class="off-screen">Forward a year</span>
                 </button>
@@ -59,7 +59,7 @@ export interface CalendarDate {
                            *ngIf="isSelectedMonth(day.date)"
                            tabindex="0"
                            (keyup)="keyup($event)"
-						   (click)="selectDate(day)"
+						   (click)="selectDate($event, day)"
 						   [class.today]="day.today"
 						   [class.selected]="day.selected">
 							<span class="date-text">{{ day.date.getDate() }}</span>
@@ -293,7 +293,10 @@ export class CalendarComponent implements PipeComponent {
         day.selected = true;
       }
   }
-  selectDate(day: CalendarDate): void {
+  selectDate(event, day: CalendarDate): void {
+    event.stopPropagation();
+    event.preventDefault();
+
     this.origDate = day.date;
     this.currentDate = day.date;
     this.toggleSelectedDates( day );
@@ -311,22 +314,34 @@ export class CalendarComponent implements PipeComponent {
   }
 
   // actions from calendar
-  prevMonth(): void {
+  prevMonth(event): void {
+    event.stopPropagation();
+    event.preventDefault();
+
     this.currentDate = new Date(this.currentDate.getFullYear(),this.currentDate.getMonth()-1, this.currentDate.getDate());
     this.generateCalendar();
   }
 
-  nextMonth(): void {
+  nextMonth(event): void {
+    event.stopPropagation();
+    event.preventDefault();
+
     this.currentDate = new Date(this.currentDate.getFullYear(),this.currentDate.getMonth()+1, this.currentDate.getDate());
     this.generateCalendar();
   }
 
-  prevYear(): void {
+  prevYear(event): void {
+    event.stopPropagation();
+    event.preventDefault();
+
     this.currentDate = new Date(this.currentDate.getFullYear()-1,this.currentDate.getMonth(), this.currentDate.getDate());
     this.generateCalendar();
   }
 
-  nextYear(): void {
+  nextYear(event): void {
+    event.stopPropagation();
+    event.preventDefault();
+
     this.currentDate = new Date(this.currentDate.getFullYear()+1,this.currentDate.getMonth(), this.currentDate.getDate());
     this.generateCalendar();
   }

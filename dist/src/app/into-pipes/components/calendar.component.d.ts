@@ -28,11 +28,11 @@ export declare class CalendarComponent implements PipeComponent {
     isSelected(date: Date): boolean;
     isSelectedMonth(date: Date): boolean;
     toggleSelectedDates(day: CalendarDate): void;
-    selectDate(day: CalendarDate): void;
-    prevMonth(): void;
-    nextMonth(): void;
-    prevYear(): void;
-    nextYear(): void;
+    selectDate(event: any, day: CalendarDate): void;
+    prevMonth(event: any): void;
+    nextMonth(event: any): void;
+    prevYear(event: any): void;
+    nextYear(event: any): void;
     generateCalendar(): void;
     private isSameDay(a, b);
     private isSameMonth(a, b);
