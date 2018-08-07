@@ -4,7 +4,7 @@ import { PipeComponent, PipeServiceComponent } from '../interfaces/pipe.componen
 @Component({
     selector: 'select-component',
     template: `
-    <select tabindex="0" (click)="click($event)" (change)="change($event)">
+    <select tabindex="0" [multiple]="multiselect ? true:null" (click)="click($event)" (change)="change($event)">
         <option *ngFor="let x of options" [selected]="source === x ? true : null"  [value]="x" [textContent]="x"></option>
     </select>
     `,
@@ -15,10 +15,12 @@ import { PipeComponent, PipeServiceComponent } from '../interfaces/pipe.componen
 })
 export class SelectComponent implements PipeComponent {
 
+  data: any;
   source: string;
   options: string;
   id: string;
   name: string;
+  multiselect = false;
   service: PipeServiceComponent;
 
   @Output("onIntoComponentChange")
@@ -38,13 +40,16 @@ export class SelectComponent implements PipeComponent {
     this.onIntoComponentChange.emit({
       id: this.id,
       name: this.name,
-      value: this.source
+      value: this.source,
+      item: this.data
     });
   }
 
   transform(source: any, data: any, args: any[]) {
     this.source= source;
+    this.data = data;
     this.options = this.service.getDataFor(this.name, this.id, data);
+    this.multiselect = args.length ? args[0] === true : false;
   }
 }
 

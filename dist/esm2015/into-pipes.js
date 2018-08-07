@@ -1311,7 +1311,8 @@ class InputComponent {
                 this.onIntoComponentChange.emit({
                     id: this.id,
                     name: this.name,
-                    value: this.source
+                    value: this.source,
+                    item: this.data
                 });
             }
             if (code === 13) {
@@ -1335,7 +1336,8 @@ class InputComponent {
             this.onIntoComponentChange.emit({
                 id: this.id,
                 name: this.name,
-                value: this.source
+                value: this.source,
+                item: this.data
             });
         }
     }
@@ -1377,6 +1379,7 @@ class InputComponent {
      */
     transform(source, data, args) {
         this.source = source;
+        this.data = data;
         this.placeholder = args.length ? args[0] : "";
         this.formatting = args.length > 1 ? args[1] : "";
     }
@@ -1479,7 +1482,8 @@ class CheckboxComponent {
         this.onIntoComponentChange.emit({
             id: this.id,
             name: this.name,
-            value: this.source
+            value: this.source,
+            item: this.data
         });
         if (this.useFont) {
             setTimeout(() => {
@@ -1502,6 +1506,7 @@ class CheckboxComponent {
         this.ideal = args.length ? String(args[0]) : "";
         this.useFont = args.length > 1 ? Boolean(args[1]) : false;
         this.source = String(source);
+        this.data = data;
         this.original = this.source === this.ideal ? "" : source;
     }
 }
@@ -1550,6 +1555,7 @@ class SelectComponent {
      */
     constructor(renderer) {
         this.renderer = renderer;
+        this.multiselect = false;
         this.onIntoComponentChange = new EventEmitter();
     }
     /**
@@ -1571,7 +1577,8 @@ class SelectComponent {
         this.onIntoComponentChange.emit({
             id: this.id,
             name: this.name,
-            value: this.source
+            value: this.source,
+            item: this.data
         });
     }
     /**
@@ -1582,14 +1589,16 @@ class SelectComponent {
      */
     transform(source, data, args) {
         this.source = source;
+        this.data = data;
         this.options = this.service.getDataFor(this.name, this.id, data);
+        this.multiselect = args.length ? args[0] === true : false;
     }
 }
 SelectComponent.decorators = [
     { type: Component, args: [{
                 selector: 'select-component',
                 template: `
-    <select tabindex="0" (click)="click($event)" (change)="change($event)">
+    <select tabindex="0" [multiple]="multiselect ? true:null" (click)="click($event)" (change)="change($event)">
         <option *ngFor="let x of options" [selected]="source === x ? true : null"  [value]="x" [textContent]="x"></option>
     </select>
     `,
@@ -1786,12 +1795,12 @@ class LikeComponent {
      */
     transform(source, data, args) {
         this.source = source;
-        this.item = data;
+        this.data = data;
         this.showCount = (args && args.length && args[0] === 'true');
         this.thumbsup = (args && args.length > 1 && args[1] === 'true');
         this.key = (args && args.length > 2) ? args[2] : "";
         this.thumbs = this.thumbsup ? "thumbs-up-items" : "thumbs-down-items";
-        this.selected = (this.getItem(this.item[this.key]) !== null);
+        this.selected = (this.getItem(this.data[this.key]) !== null);
     }
     /**
      * @param {?} event
@@ -1866,16 +1875,19 @@ class LikeComponent {
         event.stopPropagation();
         event.preventDefault();
         if (this.selected) {
-            const /** @type {?} */ existing = this.getItem(this.item[this.key]);
+            const /** @type {?} */ existing = this.getItem(this.data[this.key]);
             if (!existing) {
-                this.addItem(this.item[this.key]);
+                this.addItem(this.data[this.key]);
             }
         }
         else {
-            this.removeItem(this.item[this.key]);
+            this.removeItem(this.data[this.key]);
         }
         this.onIntoComponentChange.emit({
-            item: this.item,
+            id: this.id,
+            name: this.name,
+            value: this.source,
+            item: this.data,
             selected: this.selected,
             action: this.thumbs
         });
@@ -2046,6 +2058,7 @@ class CalendarComponent {
             return a > b ? -1 : 1;
         });
         this.onIntoComponentChange.emit({
+            id: this.id,
             name: this.name,
             value: this.selectedDays,
             item: this.item
@@ -2728,8 +2741,12 @@ class IntoDirective {
                 }
                 break;
             case "select":
-                // rating
-                result = this.transformComponent("select", content, this.intoId, this.intoName, data, "");
+                if (args.length > 1) {
+                    result = this.transformComponent("select", content, this.intoId, this.intoName, data, args[1]);
+                }
+                else {
+                    result = this.transformComponent("select", content, this.intoId, this.intoName, data, false);
+                }
                 break;
             case "link":
                 // link:target:text or link:text or link

@@ -2,6 +2,7 @@ import { Renderer, EventEmitter } from '@angular/core';
 import { PipeComponent } from '../interfaces/pipe.component';
 export declare class InputComponent implements PipeComponent {
     private renderer;
+    data: any;
     source: string;
     id: string;
     name: string;

@@ -50,6 +50,7 @@ import { PipeComponent } from '../interfaces/pipe.component';
 })
 export class InputComponent implements PipeComponent {
 
+  data: any;
   source: string;
   id: string;
   name: string;
@@ -87,7 +88,8 @@ export class InputComponent implements PipeComponent {
         this.onIntoComponentChange.emit({
           id: this.id,
           name: this.name,
-          value: this.source
+          value: this.source,
+          item: this.data
         });
       }
       if (code === 13) {
@@ -108,7 +110,8 @@ export class InputComponent implements PipeComponent {
       this.onIntoComponentChange.emit({
         id: this.id,
         name: this.name,
-        value: this.source
+        value: this.source,
+        item: this.data
       });
     }
   }
@@ -140,6 +143,7 @@ export class InputComponent implements PipeComponent {
 
   transform(source: any, data: any, args: any[]) {
     this.source= source;
+    this.data = data;
     this.placeholder= args.length ? args[0] : "";
     this.formatting = args.length > 1 ? args[1] : "";
   }

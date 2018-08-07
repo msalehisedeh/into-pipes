@@ -53,6 +53,9 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 
 # Revision History
 
+## varsion 1.8.0
+Made all interactive components emit the same `{id, name, value, item}` event. However, select component will spew two more `selected, action` attributes.
+
 ## varsion 1.7.0
 Added date picker transformation code. I included and modified code snippet provided by [ben tedder](https://gist.github.com/bentedder/136fa7670a8a23617f91be4f9566f96b). Could not use his code directly, as I had to make many adjustments to make it fit within pipe environment.
 
@@ -282,7 +285,7 @@ DEPENDENCIES:
 | lastupdate          | `lastupdate:true`                                 | 1) flag to indicate if time icon should be displayed on the side. |
 | share               | `share:facebook:linkedin:google:twitter`          | 1) list of any one of supported sites (facebook, linkedin, google, twitter, pinterest, digg, xing, get-pocket, stumbleupon) |
 | video               | `video:200px:auto:alt text` OR `video`            | 1) width, 2)height, 3) alternate text to be displayed |
-| select              | `select`                                          |  No arguments. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
+| select              | `select:true` OR `select`                         |  1) if it is multiselect. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
 | input               | `input:placeholder:formatting,`                   |  1) place holder text or blank, 2) formatting rules for the value to be displayed when text field is not editable    |
 | checkbox            | `checkbox:idealvalue:useIcon`                     |  1) the value for which checkbox should be checked, 2)if it is standard checkbox or should use fonts to display checked or not checked.  |
 | join                | `join:,`                                          |  1) the characters used to jin the list     |

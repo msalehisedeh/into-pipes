@@ -3,7 +3,7 @@ import { PipeComponent } from '../interfaces/pipe.component';
 export declare class LikeComponent implements PipeComponent {
     source: any;
     id: string;
-    item: any;
+    data: any;
     name: string;
     showCount: boolean;
     thumbsup: boolean;

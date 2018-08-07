@@ -305,6 +305,7 @@ export class CalendarComponent implements PipeComponent {
         return a > b ? -1 : 1;
     });
     this.onIntoComponentChange.emit({
+        id: this.id,
         name: this.name,
         value: this.selectedDays,
         item: this.item

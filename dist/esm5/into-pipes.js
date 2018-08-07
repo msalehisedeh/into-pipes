@@ -971,7 +971,8 @@ var InputComponent = /** @class */ (function () {
                 this.onIntoComponentChange.emit({
                     id: this.id,
                     name: this.name,
-                    value: this.source
+                    value: this.source,
+                    item: this.data
                 });
             }
             if (code === 13) {
@@ -991,7 +992,8 @@ var InputComponent = /** @class */ (function () {
             this.onIntoComponentChange.emit({
                 id: this.id,
                 name: this.name,
-                value: this.source
+                value: this.source,
+                item: this.data
             });
         }
     };
@@ -1021,6 +1023,7 @@ var InputComponent = /** @class */ (function () {
     };
     InputComponent.prototype.transform = function (source, data, args) {
         this.source = source;
+        this.data = data;
         this.placeholder = args.length ? args[0] : "";
         this.formatting = args.length > 1 ? args[1] : "";
     };
@@ -1068,7 +1071,8 @@ var CheckboxComponent = /** @class */ (function () {
         this.onIntoComponentChange.emit({
             id: this.id,
             name: this.name,
-            value: this.source
+            value: this.source,
+            item: this.data
         });
         if (this.useFont) {
             setTimeout(function () {
@@ -1085,6 +1089,7 @@ var CheckboxComponent = /** @class */ (function () {
         this.ideal = args.length ? String(args[0]) : "";
         this.useFont = args.length > 1 ? Boolean(args[1]) : false;
         this.source = String(source);
+        this.data = data;
         this.original = this.source === this.ideal ? "" : source;
     };
     return CheckboxComponent;
@@ -1109,6 +1114,7 @@ CheckboxComponent.propDecorators = {
 var SelectComponent = /** @class */ (function () {
     function SelectComponent(renderer) {
         this.renderer = renderer;
+        this.multiselect = false;
         this.onIntoComponentChange = new EventEmitter();
     }
     SelectComponent.prototype.click = function (event) {
@@ -1122,19 +1128,22 @@ var SelectComponent = /** @class */ (function () {
         this.onIntoComponentChange.emit({
             id: this.id,
             name: this.name,
-            value: this.source
+            value: this.source,
+            item: this.data
         });
     };
     SelectComponent.prototype.transform = function (source, data, args) {
         this.source = source;
+        this.data = data;
         this.options = this.service.getDataFor(this.name, this.id, data);
+        this.multiselect = args.length ? args[0] === true : false;
     };
     return SelectComponent;
 }());
 SelectComponent.decorators = [
     { type: Component, args: [{
                 selector: 'select-component',
-                template: "\n    <select tabindex=\"0\" (click)=\"click($event)\" (change)=\"change($event)\">\n        <option *ngFor=\"let x of options\" [selected]=\"source === x ? true : null\"  [value]=\"x\" [textContent]=\"x\"></option>\n    </select>\n    ",
+                template: "\n    <select tabindex=\"0\" [multiple]=\"multiselect ? true:null\" (click)=\"click($event)\" (change)=\"change($event)\">\n        <option *ngFor=\"let x of options\" [selected]=\"source === x ? true : null\"  [value]=\"x\" [textContent]=\"x\"></option>\n    </select>\n    ",
                 styles: [
                     "\n        "
                 ]
@@ -1235,12 +1244,12 @@ var LikeComponent = /** @class */ (function () {
     }
     LikeComponent.prototype.transform = function (source, data, args) {
         this.source = source;
-        this.item = data;
+        this.data = data;
         this.showCount = (args && args.length && args[0] === 'true');
         this.thumbsup = (args && args.length > 1 && args[1] === 'true');
         this.key = (args && args.length > 2) ? args[2] : "";
         this.thumbs = this.thumbsup ? "thumbs-up-items" : "thumbs-down-items";
-        this.selected = (this.getItem(this.item[this.key]) !== null);
+        this.selected = (this.getItem(this.data[this.key]) !== null);
     };
     LikeComponent.prototype.keyup = function (event) {
         var code = event.which;
@@ -1292,16 +1301,19 @@ var LikeComponent = /** @class */ (function () {
         event.stopPropagation();
         event.preventDefault();
         if (this.selected) {
-            var existing = this.getItem(this.item[this.key]);
+            var existing = this.getItem(this.data[this.key]);
             if (!existing) {
-                this.addItem(this.item[this.key]);
+                this.addItem(this.data[this.key]);
             }
         }
         else {
-            this.removeItem(this.item[this.key]);
+            this.removeItem(this.data[this.key]);
         }
         this.onIntoComponentChange.emit({
-            item: this.item,
+            id: this.id,
+            name: this.name,
+            value: this.source,
+            item: this.data,
             selected: this.selected,
             action: this.thumbs
         });
@@ -1406,6 +1418,7 @@ var CalendarComponent = /** @class */ (function () {
             return a > b ? -1 : 1;
         });
         this.onIntoComponentChange.emit({
+            id: this.id,
             name: this.name,
             value: this.selectedDays,
             item: this.item
@@ -1777,7 +1790,12 @@ var IntoDirective = /** @class */ (function () {
                 }
                 break;
             case "select":
-                result = this.transformComponent("select", content, this.intoId, this.intoName, data, "");
+                if (args.length > 1) {
+                    result = this.transformComponent("select", content, this.intoId, this.intoName, data, args[1]);
+                }
+                else {
+                    result = this.transformComponent("select", content, this.intoId, this.intoName, data, false);
+                }
                 break;
             case "link":
                 if (args.length > 2) {

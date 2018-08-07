@@ -26,6 +26,7 @@ import { PipeComponent } from '../interfaces/pipe.component';
 })
 export class CheckboxComponent implements PipeComponent {
 
+  data: any;
   source: string;
   original: string;
   ideal: string;
@@ -64,7 +65,8 @@ export class CheckboxComponent implements PipeComponent {
     this.onIntoComponentChange.emit({
       id: this.id,
       name: this.name,
-      value: this.source
+      value: this.source,
+      item: this.data
     });
     if (this.useFont) {
       setTimeout(() => {
@@ -82,6 +84,7 @@ export class CheckboxComponent implements PipeComponent {
     this.ideal= args.length ? String(args[0]) : "";
     this.useFont= args.length > 1 ? Boolean(args[1]) : false;
     this.source= String(source);
+    this.data = data;
     this.original= this.source === this.ideal ? "" : source;
   }
 }

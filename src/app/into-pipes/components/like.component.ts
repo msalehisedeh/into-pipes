@@ -35,7 +35,7 @@ import { PipeComponent } from '../interfaces/pipe.component';
 export class LikeComponent implements PipeComponent {
     source: any;
     id: string;
-    item: any;
+    data: any;
 	name: string;
     showCount: boolean;
     thumbsup: boolean;
@@ -46,12 +46,12 @@ export class LikeComponent implements PipeComponent {
 
     transform(source: any, data: any, args: any[]) {
         this.source = source;
-        this.item = data;
+        this.data = data;
         this.showCount = (args && args.length && args[0] === 'true');
         this.thumbsup = (args && args.length > 1 && args[1] === 'true');
         this.key = (args && args.length > 2) ? args[2] : "";
         this.thumbs = this.thumbsup ? "thumbs-up-items" : "thumbs-down-items";
-        this.selected = (this.getItem(this.item[this.key]) !== null);
+        this.selected = (this.getItem(this.data[this.key]) !== null);
       }
     keyup(event) {
         const code = event.which;
@@ -107,17 +107,20 @@ export class LikeComponent implements PipeComponent {
         event.preventDefault();
         
         if (this.selected) {
-          const existing = this.getItem(this.item[this.key]);
+          const existing = this.getItem(this.data[this.key]);
           if (!existing) {
-            this.addItem(this.item[this.key]);
+            this.addItem(this.data[this.key]);
           }
         } else {
-          this.removeItem(this.item[this.key]);
+          this.removeItem(this.data[this.key]);
         }
         this.onIntoComponentChange.emit({
-          item: this.item,
-          selected: this.selected,
-          action: this.thumbs
+            id: this.id,
+            name: this.name,
+            value: this.source,
+            item: this.data,
+            selected: this.selected,
+            action: this.thumbs
         });
       }
     }
