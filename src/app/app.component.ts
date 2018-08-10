@@ -16,6 +16,18 @@ class myService implements PipeServiceComponent {
   }
 }
 
+class GroupService implements PipeServiceComponent {
+  
+  getDataFor(name, id, data) {
+    return [
+      {label: 'orange', value: 'orange'},
+      {label: 'red', value: 'red'},
+      {label: 'green', value: 'green'},
+      {label: 'blue', value: 'blue'}
+    ];
+  }
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -57,6 +69,7 @@ export class AppComponent {
 
   constructor(private pool: ComponentPool) {
     this.pool.registerServiceForComponent("select", new myService());
+    this.pool.registerServiceForComponent("inputgroup", new GroupService());
   }
 
   onComponentChange(event) {

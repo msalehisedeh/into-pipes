@@ -2449,6 +2449,104 @@ LastUpdateComponent.ctorParameters = () => [];
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+class InputGroupComponent {
+    /**
+     * @param {?} renderer
+     */
+    constructor(renderer) {
+        this.renderer = renderer;
+        this.onIntoComponentChange = new EventEmitter();
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    click(event) {
+        event.stopPropagation();
+        if (this.type === 'radio') {
+            this.source = event.target.value;
+        }
+        else {
+            const /** @type {?} */ i = this.source.indexOf(event.target.value);
+            if (event.target.checked) {
+                if (i < 0) {
+                    this.source.push(event.target.value);
+                }
+            }
+            else {
+                this.source.splice(i, 1);
+            }
+        }
+        this.onIntoComponentChange.emit({
+            id: this.id,
+            name: this.name,
+            value: this.source,
+            item: this.data
+        });
+    }
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    isSelected(item) {
+        const /** @type {?} */ xitem = item.value ? item.value : item;
+        if (this.type === 'radio') {
+            return xitem === this.source;
+        }
+        let /** @type {?} */ found = false;
+        this.source.map((x) => {
+            if (xitem === x) {
+                found = true;
+            }
+        });
+        return found;
+    }
+    /**
+     * @param {?} source
+     * @param {?} data
+     * @param {?} args
+     * @return {?}
+     */
+    transform(source, data, args) {
+        this.source = source;
+        this.data = data;
+        this.options = this.service.getDataFor(this.name, this.id, data);
+        this.type = (source instanceof Array) ? 'checkbox' : 'radio';
+    }
+}
+InputGroupComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'input-group-component',
+                template: `
+    <span class="input-group-item" *ngFor="let x of options; let i = index">
+        <input
+            [type]="type"
+            [id]="name + i"
+            [name]="name + (type === 'radio' ? '' : i)"
+            [value]="x.value ? x.value : x"
+            [checked]="isSelected(x)"
+            (click)="click($event)"/>
+        <label [for]="name + i" [textContent]="x.label ? x.label : x"></label>
+    </span>
+    `,
+                styles: [
+                    `
+        `
+                ]
+            },] },
+];
+/** @nocollapse */
+InputGroupComponent.ctorParameters = () => [
+    { type: Renderer, },
+];
+InputGroupComponent.propDecorators = {
+    "onIntoComponentChange": [{ type: Output, args: ["onIntoComponentChange",] },],
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 class ComponentPool {
     constructor() {
         this.registeredComponents = {};
@@ -2469,6 +2567,7 @@ class ComponentPool {
         this.registerComponent("like", LikeComponent);
         this.registerComponent("lastupdate", LastUpdateComponent);
         this.registerComponent("calendar", CalendarComponent);
+        this.registerComponent("inputgroup", InputGroupComponent);
     }
     /**
      * @param {?} name
@@ -2748,6 +2847,14 @@ class IntoDirective {
                     result = this.transformComponent("select", content, this.intoId, this.intoName, data, false);
                 }
                 break;
+            case "inputgroup":
+                if (args.length > 1) {
+                    result = this.transformComponent("inputgroup", content, this.intoId, this.intoName, data, args[1]);
+                }
+                else {
+                    result = this.transformComponent("inputgroup", content, this.intoId, this.intoName, data, "radio");
+                }
+                break;
             case "link":
                 // link:target:text or link:text or link
                 if (args.length > 2) {
@@ -2959,6 +3066,7 @@ IntoPipeModule.decorators = [
                     LikeComponent,
                     CalendarComponent,
                     LastUpdateComponent,
+                    InputGroupComponent,
                     JoinPipe,
                     InToPipe,
                     ImagePipe,
@@ -3012,7 +3120,8 @@ IntoPipeModule.decorators = [
                     ShareComponent,
                     LikeComponent,
                     CalendarComponent,
-                    LastUpdateComponent
+                    LastUpdateComponent,
+                    InputGroupComponent
                 ],
                 entryComponents: [
                     AddressComponent,
@@ -3030,7 +3139,8 @@ IntoPipeModule.decorators = [
                     ShareComponent,
                     LikeComponent,
                     CalendarComponent,
-                    LastUpdateComponent
+                    LastUpdateComponent,
+                    InputGroupComponent
                 ],
                 providers: [
                     JoinPipe,
@@ -3078,5 +3188,5 @@ IntoPipeModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, VideoPipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CalendarComponent as ɵo, CheckboxComponent as ɵj, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputComponent as ɵi, JsonComponent as ɵf, LastUpdateComponent as ɵp, LikeComponent as ɵn, LinkComponent as ɵg, RatingComponent as ɵh, SelectComponent as ɵk, ShareComponent as ɵm, SpanComponent as ɵl, VideoComponent as ɵe };
+export { InToPipe, MaskPipe, MapPipe, LinkPipe, ImagePipe, VideoPipe, PrependPipe, AppendPipe, WrapPipe, EmailPipe, RatingPipe, AddressPipe, JoinPipe, FontPipe, ValueOfPipe, SanitizeHtmlPipe, ConditionalPipe, IntoPipeModule, IntoDirective, ComponentPool, AddressComponent as ɵa, CalendarComponent as ɵo, CheckboxComponent as ɵj, EmailComponent as ɵb, FontComponent as ɵc, ImageComponent as ɵd, InputGroupComponent as ɵq, InputComponent as ɵi, JsonComponent as ɵf, LastUpdateComponent as ɵp, LikeComponent as ɵn, LinkComponent as ɵg, RatingComponent as ɵh, SelectComponent as ɵk, ShareComponent as ɵm, SpanComponent as ɵl, VideoComponent as ɵe };
 //# sourceMappingURL=into-pipes.js.map

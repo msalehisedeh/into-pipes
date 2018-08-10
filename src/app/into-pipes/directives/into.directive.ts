@@ -256,6 +256,13 @@ export class IntoDirective implements OnInit, OnDestroy {
                     result = this.transformComponent("select", content, this.intoId, this.intoName,  data, false);
                 }
                 break;
+            case "inputgroup" : 
+                if (args.length > 1) {
+                    result = this.transformComponent("inputgroup", content, this.intoId, this.intoName,  data, args[1]);
+                } else {
+                    result = this.transformComponent("inputgroup", content, this.intoId, this.intoName,  data, "radio");
+                }
+                break;
             case "link" : 
                 // link:target:text or link:text or link
                 if (args.length > 2) {

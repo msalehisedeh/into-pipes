@@ -22,6 +22,7 @@ import {SanitizeHtmlPipe} from './pipes/sanitizeHtml.pipe';
 import {IntoDirective} from './directives/into.directive'
 import { ComponentPool } from './injectables/component.pool';
 
+import { InputGroupComponent } from './components/input-group.component';
 import { SpanComponent } from './components/span.component';
 import { AddressComponent } from './components/address.component';
 import { EmailComponent } from './components/email.component';
@@ -60,6 +61,7 @@ import { CalendarComponent } from './components/calendar.component';
     LikeComponent,
     CalendarComponent,
     LastUpdateComponent,
+    InputGroupComponent,
     JoinPipe,
     InToPipe,
     ImagePipe,
@@ -113,7 +115,8 @@ import { CalendarComponent } from './components/calendar.component';
     ShareComponent,
     LikeComponent,
     CalendarComponent,
-    LastUpdateComponent
+    LastUpdateComponent,
+    InputGroupComponent
   ],
   entryComponents: [
     AddressComponent,
@@ -131,7 +134,8 @@ import { CalendarComponent } from './components/calendar.component';
     ShareComponent,
     LikeComponent,
     CalendarComponent,
-    LastUpdateComponent
+    LastUpdateComponent,
+    InputGroupComponent
   ],
   providers: [
     JoinPipe,

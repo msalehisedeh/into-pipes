@@ -82,6 +82,16 @@
     <td><span [rawContent]="'xyz@gmail.com'" [into]="'email'"></span></td>
   </tr>
   <tr>
+    <td>Format a source <b>into</b> a list of radio options</td>
+    <td>[rawContent]="'red'" 
+      [into]="'inputgroup'" intoName="group1" intoId="group1" 
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span 
+      [rawContent]="'red'" intoName="group1" intoId="group1" 
+      [into]="'inputgroup'" 
+      [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
     <td>Format list of email addresses <b>into</b> a select list</td>
     <td>[rawContent]="'xyz@gmail.com'" 
       [into]="'select'" intoName="select1" intoId="select1" 

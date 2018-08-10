@@ -21,10 +21,11 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 |---------------------|------------------------------------------------------------------------------|
 | calendar            | For a given source, will provide interactive date picker. if the source is an array of dates or date strings, the date picker will be multi-select. Otherwise it will be a single select. When selecting a date, an event will be triggered. You will be responsile to catch the change event and update date(s) in your data source. |
 | like                | For a given source, will provide interactive like/dislike links. With like/dislike, an event is triggered after user clicks on it. You will be responsile to catch the event and increment or decrement the count in your data source. |
-| lastupdate          | For a given source, will provide a human readable elapsed time.               |
+| lastupdate          | For a given source, will provide a natural larguage human readable elapsed time.               |
 | share               | For a given source, will provide social share buttons.                        |
 | video               | For a given source, will convert a link source into an interactive video tag. |
 | select              | For a given source, will provide a select options tag through special service that knows how to provide options based on supplied data. You will be responsile to catch the change event and update data in your data source.   |
+| inputgroup          | For a given source, will provide a list of radio or checkbox tags through special service that knows how to provide options based on supplied data. If the source is a list, options are checkbox. Otherwise, options are radio buttons. You will be responsile to catch the change event and update data in your data source.   |
 | input               | For a given source, will provide an interactive input tag that will become active when user clicks on it. Otherwise a plain text content will be displayed. You will be responsile to catch the change event and update data in your data source.   |
 | checkbox            | For a given source, will provide an interactive checkbox. You will be responsile to catch the change event and update date(s) in your data source. |
 | join                | For a given source array, will join array elements into one single delianated string.    |
@@ -45,15 +46,18 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 | wrap                | Will wrap source with given strings.                                          |
 | number              | Will format a number into a formatted number.                                 |
 | date                | Will format the source date.                                                  |
-| json                | Will format JSON into readable source.                                        |
-| slice               | Will sock a certain data out of source.                                       |
-| uppercase           | Wil transform several strings ibto an html tag.                               |
-| lowercase           | Wil transform several strings ibto an html tag.                               |
+| json                | Will format JSON into read-able source.                                       |
+| slice               | Will suck a  portion of source out of it.                                     |
+| uppercase           | Will uppercase the source.                               |
+| lowercase           | Will lowercase the source.                               |
 
 
 # Revision History
 
 ## varsion 1.8.0
+Added inputgroup transformation. Sometimes, you need to display a range of options in radio buttons or checkbox buttons.  If the source is a list, options are displayed in checkbox list. otherwise, the list will be radio buttons. 
+
+## varsion 1.7.5
 Made all interactive components emit the same `{id, name, value, item}` event. However, select component will spew two more `selected, action` attributes.
 
 ## varsion 1.7.0
@@ -286,6 +290,7 @@ DEPENDENCIES:
 | share               | `share:facebook:linkedin:google:twitter`          | 1) list of any one of supported sites (facebook, linkedin, google, twitter, pinterest, digg, xing, get-pocket, stumbleupon) |
 | video               | `video:200px:auto:alt text` OR `video`            | 1) width, 2)height, 3) alternate text to be displayed |
 | select              | `select:true` OR `select`                         |  1) if it is multiselect. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
+| inputgroup          | `inputgroup`                                      |  NONE. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
 | input               | `input:placeholder:formatting,`                   |  1) place holder text or blank, 2) formatting rules for the value to be displayed when text field is not editable    |
 | checkbox            | `checkbox:idealvalue:useIcon`                     |  1) the value for which checkbox should be checked, 2)if it is standard checkbox or should use fonts to display checked or not checked.  |
 | join                | `join:,`                                          |  1) the characters used to jin the list     |

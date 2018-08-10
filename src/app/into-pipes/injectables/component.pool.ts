@@ -22,6 +22,7 @@ import { ShareComponent } from '../components/share.component';
 import { LikeComponent } from '../components/like.component';
 import { CalendarComponent } from '../components/calendar.component';
 import { LastUpdateComponent } from '../components/lastupdate.component';
+import { InputGroupComponent } from '../components/input-group.component';
 
 @Injectable()
 export class ComponentPool {
@@ -45,6 +46,7 @@ export class ComponentPool {
 		this.registerComponent("like", LikeComponent);
 		this.registerComponent("lastupdate", LastUpdateComponent);
 		this.registerComponent("calendar", CalendarComponent);
+		this.registerComponent("inputgroup", InputGroupComponent);
 	}
   
 	registerComponent (name, component: any) {

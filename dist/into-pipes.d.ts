@@ -8,6 +8,7 @@ export { CheckboxComponent as ɵj } from './src/app/into-pipes/components/checkb
 export { EmailComponent as ɵb } from './src/app/into-pipes/components/email.component';
 export { FontComponent as ɵc } from './src/app/into-pipes/components/font.component';
 export { ImageComponent as ɵd } from './src/app/into-pipes/components/image.component';
+export { InputGroupComponent as ɵq } from './src/app/into-pipes/components/input-group.component';
 export { InputComponent as ɵi } from './src/app/into-pipes/components/input.component';
 export { JsonComponent as ɵf } from './src/app/into-pipes/components/json.component';
 export { LastUpdateComponent as ɵp } from './src/app/into-pipes/components/lastupdate.component';
