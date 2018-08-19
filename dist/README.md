@@ -4,9 +4,11 @@ Have you ever wanted transforms values in different parts of your application in
 This library provides few Angular4 pipes that are all used by a single **InTo** pipe component/directive. **InTo** will determine how the object value should be formatted based on meta-data formatting rules?
 Moreover, **"InTo"** can be customized by adding custom formatters **into** it!!
 
-**Please Note:** If you decide to use the **InTo** pipes instead of the directive, you need to make sure you will pipe the result **into** sanitizeHtml.
+**Note:** If you decide to use the **InTo** pipes instead of the directive, you need to make sure you will pipe the result **into** sanitizeHtml.
 
-**Please Note:** When you create tags and insert them **into** DOM at runtime through **InTo** Pipes, angular will not be able to enforce CSS rules on the tags. In that case the workaround is to use **::ng-deep** in your CSS. For example, if img tage is created through image pipe under a DIV with class "something", then you need to declare attributes in `::ng-deep .something img{ }` in order to have control over img tag.
+**Note:** When you create tags and insert them **into** DOM at runtime through **InTo** Pipes, angular will not be able to enforce CSS rules on the tags. In that case the workaround is to use **::ng-deep** in your CSS. For example, if img tage is created through image pipe under a DIV with class "something", then you need to declare attributes in `::ng-deep .something img{ }` in order to have control over img tag.
+
+**Note:** Starting from version 2.0.0, this library is compatible with Angular 6+.
 
 You are definitely welcome to submit additional pipes and formatting rules to this library and I will gladly incorporate your ideas **InTo** this project. Add your comments an requests through the link provided below.
 
@@ -53,6 +55,9 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 
 
 # Revision History
+
+## varsion 1.8.0
+Updated dependencies to become compatible with Angular 6+.
 
 ## varsion 1.8.0
 Added inputgroup transformation. Sometimes, you need to display a range of options in radio buttons or checkbox buttons.  If the source is a list, options are displayed in checkbox list. otherwise, the list will be radio buttons. 

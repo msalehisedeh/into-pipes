@@ -4,7 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class MaskPipe {
     /**
@@ -14,8 +14,10 @@ class MaskPipe {
      * @return {?}
      */
     maskString(item, visibleDigits, maskWith) {
-        const /** @type {?} */ maskedSection = item ? item.slice(0, -visibleDigits) : "";
-        const /** @type {?} */ visibleSection = item ? item.slice(-visibleDigits) : "";
+        /** @type {?} */
+        const maskedSection = item ? item.slice(0, -visibleDigits) : "";
+        /** @type {?} */
+        const visibleSection = item ? item.slice(-visibleDigits) : "";
         return item ? maskedSection.replace(/./g, maskWith) + visibleSection : "";
     }
     /**
@@ -25,7 +27,8 @@ class MaskPipe {
      * @return {?}
      */
     maskArray(items, visibleDigits, maskWith) {
-        const /** @type {?} */ result = [];
+        /** @type {?} */
+        const result = [];
         items.map((item) => {
             result.push(this.maskString(item, visibleDigits, maskWith));
         });
@@ -37,8 +40,10 @@ class MaskPipe {
      * @return {?}
      */
     transform(source, ...args) {
-        const /** @type {?} */ visibleDigits = (args && args.length) ? args[0] : 4;
-        const /** @type {?} */ maskWith = args.length > 1 ? args[1] : '*';
+        /** @type {?} */
+        const visibleDigits = (args && args.length) ? args[0] : 4;
+        /** @type {?} */
+        const maskWith = args.length > 1 ? args[1] : '*';
         if ((typeof source === "string") || !(source instanceof Array)) {
             return this.maskString(source, visibleDigits, maskWith);
         }
@@ -48,12 +53,10 @@ class MaskPipe {
 MaskPipe.decorators = [
     { type: Pipe, args: [{ name: 'mask' },] },
 ];
-/** @nocollapse */
-MaskPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class MapPipe {
     /**
@@ -62,7 +65,8 @@ class MapPipe {
      * @return {?}
      */
     valuesFor(list, map) {
-        const /** @type {?} */ result = [];
+        /** @type {?} */
+        const result = [];
         list.map((key) => {
             if (map[key]) {
                 result.push(map[key]);
@@ -75,10 +79,13 @@ class MapPipe {
      * @return {?}
      */
     geMapping(mapping) {
+        /** @type {?} */
         if (mapping.trim) {
-            const /** @type {?} */ map = {};
+            /** @type {?} */
+            const map = {};
             mapping.split('/').map((key) => {
-                const /** @type {?} */ x = key.split(';');
+                /** @type {?} */
+                const x = key.split(';');
                 map[x[0]] = x[1];
             });
             mapping = map;
@@ -91,7 +98,8 @@ class MapPipe {
      * @return {?}
      */
     transform(source, ...args) {
-        const /** @type {?} */ map = this.geMapping((args && args.length) ? args[0] : "");
+        /** @type {?} */
+        const map = this.geMapping((args && args.length) ? args[0] : "");
         return ((typeof source === "string") || !(source instanceof Array)) ?
             map[source] :
             this.valuesFor(source, map);
@@ -100,12 +108,10 @@ class MapPipe {
 MapPipe.decorators = [
     { type: Pipe, args: [{ name: 'map' },] },
 ];
-/** @nocollapse */
-MapPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class ValueOfPipe {
     /**
@@ -122,7 +128,8 @@ class ValueOfPipe {
      * @return {?}
      */
     valueOfMultiple(sources, key) {
-        const /** @type {?} */ result = [];
+        /** @type {?} */
+        const result = [];
         sources.map((source) => {
             result.push(this.valueOfSingle(source, key));
         });
@@ -143,12 +150,10 @@ class ValueOfPipe {
 ValueOfPipe.decorators = [
     { type: Pipe, args: [{ name: 'valueof' },] },
 ];
-/** @nocollapse */
-ValueOfPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class LinkPipe {
     /**
@@ -159,9 +164,12 @@ class LinkPipe {
      */
     stringToLink(source, target, title) {
         if (!title || !title.length) {
-            const /** @type {?} */ q = source.indexOf("?");
-            const /** @type {?} */ t = q < 0 ? source : source.substring(0, q);
-            const /** @type {?} */ d = t.lastIndexOf("/");
+            /** @type {?} */
+            const q = source.indexOf("?");
+            /** @type {?} */
+            const t = q < 0 ? source : source.substring(0, q);
+            /** @type {?} */
+            const d = t.lastIndexOf("/");
             title = d < 0 ? t : t.substring(d + 1);
         }
         return "<a href='" + source + "' target='" + target + "'>" + title + "</a>";
@@ -173,7 +181,8 @@ class LinkPipe {
      * @return {?}
      */
     arrayToImagLink(sources, target, title) {
-        const /** @type {?} */ result = [];
+        /** @type {?} */
+        const result = [];
         sources.map((source) => {
             result.push(this.stringToLink(source, target, ""));
         });
@@ -185,8 +194,10 @@ class LinkPipe {
      * @return {?}
      */
     transform(source, ...args) {
-        const /** @type {?} */ target = (args && args.length) ? args[0] : "";
-        const /** @type {?} */ title = (args && args.length > 1) ? args[1] : "";
+        /** @type {?} */
+        const target = (args && args.length) ? args[0] : "";
+        /** @type {?} */
+        const title = (args && args.length > 1) ? args[1] : "";
         if ((typeof source === "string") || !(source instanceof Array)) {
             return this.stringToLink(source, target, title);
         }
@@ -196,12 +207,10 @@ class LinkPipe {
 LinkPipe.decorators = [
     { type: Pipe, args: [{ name: 'link' },] },
 ];
-/** @nocollapse */
-LinkPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class ImagePipe {
     /**
@@ -213,9 +222,12 @@ class ImagePipe {
      */
     stringToImage(source, width, height, alt) {
         if (!alt || !alt.length) {
-            const /** @type {?} */ q = source.indexOf("?");
-            const /** @type {?} */ t = q < 0 ? source : source.substring(0, q);
-            const /** @type {?} */ d = t.lastIndexOf("/");
+            /** @type {?} */
+            const q = source.indexOf("?");
+            /** @type {?} */
+            const t = q < 0 ? source : source.substring(0, q);
+            /** @type {?} */
+            const d = t.lastIndexOf("/");
             alt = d < 0 ? t : t.substring(d + 1);
         }
         return "<img src=\'" + source + "\' style=\'" + width + height + "\' title=\'" + alt + "\' />";
@@ -228,7 +240,8 @@ class ImagePipe {
      * @return {?}
      */
     arrayToImage(sources, width, height, alt) {
-        const /** @type {?} */ result = [];
+        /** @type {?} */
+        const result = [];
         sources.map((source) => {
             result.push(this.stringToImage(source, width, height, alt));
         });
@@ -240,9 +253,12 @@ class ImagePipe {
      * @return {?}
      */
     transform(source, ...args) {
-        const /** @type {?} */ width = (args && args.length) ? "width: " + args[0] + ";" : "";
-        const /** @type {?} */ height = (args && args.length > 1) ? "height: " + args[1] + ";" : "";
-        const /** @type {?} */ alt = (args && args.length > 2) ? args[2] : "";
+        /** @type {?} */
+        const width = (args && args.length) ? "width: " + args[0] + ";" : "";
+        /** @type {?} */
+        const height = (args && args.length > 1) ? "height: " + args[1] + ";" : "";
+        /** @type {?} */
+        const alt = (args && args.length > 2) ? args[2] : "";
         if ((typeof source === "string") || !(source instanceof Array)) {
             return this.stringToImage(source, width, height, alt);
         }
@@ -252,12 +268,10 @@ class ImagePipe {
 ImagePipe.decorators = [
     { type: Pipe, args: [{ name: 'image' },] },
 ];
-/** @nocollapse */
-ImagePipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class VideoPipe {
     /**
@@ -269,9 +283,12 @@ class VideoPipe {
      */
     stringToVideo(source, width, height, alt) {
         if (!alt || !alt.length) {
-            const /** @type {?} */ q = source.indexOf("?");
-            const /** @type {?} */ t = q < 0 ? source : source.substring(0, q);
-            const /** @type {?} */ d = t.lastIndexOf("/");
+            /** @type {?} */
+            const q = source.indexOf("?");
+            /** @type {?} */
+            const t = q < 0 ? source : source.substring(0, q);
+            /** @type {?} */
+            const d = t.lastIndexOf("/");
             alt = d < 0 ? t : t.substring(d + 1);
         }
         return "<video src=\'" + source + "\' style=\'" + width + height + "\' title=\'" + alt + "\'  controls=\'true\' />";
@@ -284,7 +301,8 @@ class VideoPipe {
      * @return {?}
      */
     arrayToVideo(sources, width, height, alt) {
-        const /** @type {?} */ result = [];
+        /** @type {?} */
+        const result = [];
         sources.map((source) => {
             result.push(this.stringToVideo(source, width, height, alt));
         });
@@ -296,9 +314,12 @@ class VideoPipe {
      * @return {?}
      */
     transform(source, ...args) {
-        const /** @type {?} */ width = (args && args.length) ? "width: " + args[0] + ";" : "";
-        const /** @type {?} */ height = (args && args.length > 1) ? "height: " + args[1] + ";" : "";
-        const /** @type {?} */ alt = (args && args.length > 2) ? args[2] : "";
+        /** @type {?} */
+        const width = (args && args.length) ? "width: " + args[0] + ";" : "";
+        /** @type {?} */
+        const height = (args && args.length > 1) ? "height: " + args[1] + ";" : "";
+        /** @type {?} */
+        const alt = (args && args.length > 2) ? args[2] : "";
         if ((typeof source === "string") || !(source instanceof Array)) {
             return this.stringToVideo(source, width, height, alt);
         }
@@ -308,12 +329,10 @@ class VideoPipe {
 VideoPipe.decorators = [
     { type: Pipe, args: [{ name: 'video' },] },
 ];
-/** @nocollapse */
-VideoPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class PrependPipe {
     /**
@@ -322,12 +341,14 @@ class PrependPipe {
      * @return {?}
      */
     transform(source, ...args) {
-        const /** @type {?} */ key = ((args && args.length) ? args[0] : "");
+        /** @type {?} */
+        const key = ((args && args.length) ? args[0] : "");
         if ((typeof source === "string") || !(source instanceof Array)) {
             return key + source;
         }
         else {
-            const /** @type {?} */ result = [];
+            /** @type {?} */
+            const result = [];
             source.map((item) => {
                 result.push(key + item);
             });
@@ -338,12 +359,10 @@ class PrependPipe {
 PrependPipe.decorators = [
     { type: Pipe, args: [{ name: 'prepend' },] },
 ];
-/** @nocollapse */
-PrependPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class AppendPipe {
     /**
@@ -352,12 +371,14 @@ class AppendPipe {
      * @return {?}
      */
     transform(source, ...args) {
-        const /** @type {?} */ key = ((args && args.length) ? args[0] : "");
+        /** @type {?} */
+        const key = ((args && args.length) ? args[0] : "");
         if ((typeof source === "string") || !(source instanceof Array)) {
             return source + key;
         }
         else {
-            const /** @type {?} */ result = [];
+            /** @type {?} */
+            const result = [];
             source.map((item) => {
                 result.push(item + key);
             });
@@ -368,12 +389,10 @@ class AppendPipe {
 AppendPipe.decorators = [
     { type: Pipe, args: [{ name: 'append' },] },
 ];
-/** @nocollapse */
-AppendPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class WrapPipe {
     /**
@@ -382,15 +401,19 @@ class WrapPipe {
      * @return {?}
      */
     transform(source, ...args) {
-        const /** @type {?} */ pre = (args && args.length) ? args[0] : "";
-        const /** @type {?} */ post = pre.length ?
+        /** @type {?} */
+        const pre = (args && args.length) ? args[0] : "";
+        /** @type {?} */
+        const post = pre.length ?
             (args.length > 1 ? args[1] : "") : pre;
-        const /** @type {?} */ key = ((args && args.length) ? args[0] : "");
+        /** @type {?} */
+        const key = ((args && args.length) ? args[0] : "");
         if ((typeof source === "string") || !(source instanceof Array)) {
             return pre + source + post;
         }
         else {
-            const /** @type {?} */ result = [];
+            /** @type {?} */
+            const result = [];
             source.map((item) => {
                 result.push(pre + item + post);
             });
@@ -401,12 +424,10 @@ class WrapPipe {
 WrapPipe.decorators = [
     { type: Pipe, args: [{ name: 'wrap' },] },
 ];
-/** @nocollapse */
-WrapPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class EmailPipe {
     /**
@@ -426,7 +447,8 @@ class EmailPipe {
             return this.emailFromString(source);
         }
         else {
-            const /** @type {?} */ result = [];
+            /** @type {?} */
+            const result = [];
             source.map((item) => {
                 result.push(this.emailFromString(item));
             });
@@ -437,12 +459,10 @@ class EmailPipe {
 EmailPipe.decorators = [
     { type: Pipe, args: [{ name: 'email' },] },
 ];
-/** @nocollapse */
-EmailPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class RatingPipe {
     /**
@@ -450,10 +470,13 @@ class RatingPipe {
      * @return {?}
      */
     rateString(source) {
-        const /** @type {?} */ value = parseInt(source, 10);
-        const /** @type {?} */ float = parseFloat(source);
-        let /** @type {?} */ x = "<span class='rating'>";
-        for (let /** @type {?} */ i = 0; i < value; i++) {
+        /** @type {?} */
+        const value = parseInt(source, 10);
+        /** @type {?} */
+        const float = parseFloat(source);
+        /** @type {?} */
+        let x = "<span class='rating'>";
+        for (let i = 0; i < value; i++) {
             x += "<span class='fa fa-star' aria-hidden='true'></span>";
         }
         if (float !== value) {
@@ -472,7 +495,8 @@ class RatingPipe {
             return this.rateString(source);
         }
         else {
-            const /** @type {?} */ result = [];
+            /** @type {?} */
+            const result = [];
             source.map((item) => {
                 result.push(this.rateString(item));
             });
@@ -483,12 +507,10 @@ class RatingPipe {
 RatingPipe.decorators = [
     { type: Pipe, args: [{ name: 'raiting' },] },
 ];
-/** @nocollapse */
-RatingPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class AddressPipe {
     /**
@@ -496,7 +518,8 @@ class AddressPipe {
      * @return {?}
      */
     addressFromString(source) {
-        let /** @type {?} */ url = "https://maps.google.com/?q=" +
+        /** @type {?} */
+        let url = "https://maps.google.com/?q=" +
             source.street + ", " + source.city + ", " + source.zipcode + "&ie=UTF-8";
         url = url.replace("\\s+", "+");
         return "<span class='address'><span>" + source.street + ", " + source.suite + "</span>" +
@@ -513,7 +536,8 @@ class AddressPipe {
             return this.addressFromString(source);
         }
         else {
-            const /** @type {?} */ result = [];
+            /** @type {?} */
+            const result = [];
             source.map((item) => {
                 result.push(this.addressFromString(item));
             });
@@ -524,12 +548,10 @@ class AddressPipe {
 AddressPipe.decorators = [
     { type: Pipe, args: [{ name: 'address' },] },
 ];
-/** @nocollapse */
-AddressPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class JoinPipe {
     /**
@@ -542,7 +564,8 @@ class JoinPipe {
             return source.join(args[0]);
         }
         else {
-            const /** @type {?} */ result = [];
+            /** @type {?} */
+            const result = [];
             Object.keys(source).map((key) => {
                 result.push(source[key]);
             });
@@ -553,12 +576,10 @@ class JoinPipe {
 JoinPipe.decorators = [
     { type: Pipe, args: [{ name: 'join' },] },
 ];
-/** @nocollapse */
-JoinPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class FontPipe {
     /**
@@ -579,15 +600,20 @@ class FontPipe {
      * @return {?}
      */
     transform(source, ...args) {
-        const /** @type {?} */ font = args.length ? "<span class=\'" + args[0] + "\' aria-hidden='true'></span>" : "";
-        const /** @type {?} */ location = args.length > 1 ? args[1] : "";
-        const /** @type {?} */ action = args.length > 2 ? args[2].toLowerCase() : "";
-        const /** @type {?} */ content = action === "*" ? source : ("replace" === action.toLowerCase() ? "" : source);
+        /** @type {?} */
+        const font = args.length ? "<span class=\'" + args[0] + "\' aria-hidden='true'></span>" : "";
+        /** @type {?} */
+        const location = args.length > 1 ? args[1] : "";
+        /** @type {?} */
+        const action = args.length > 2 ? args[2].toLowerCase() : "";
+        /** @type {?} */
+        const content = action === "*" ? source : ("replace" === action.toLowerCase() ? "" : source);
         if ((typeof content === "string") || !(content instanceof Array)) {
             return this.fontFromString(font, location, action, content);
         }
         else {
-            const /** @type {?} */ result = [];
+            /** @type {?} */
+            const result = [];
             source.map((item) => {
                 result.push(this.fontFromString(font, location, action, item));
             });
@@ -598,12 +624,10 @@ class FontPipe {
 FontPipe.decorators = [
     { type: Pipe, args: [{ name: 'email' },] },
 ];
-/** @nocollapse */
-FontPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class ConditionalPipe {
     /**
@@ -615,7 +639,8 @@ class ConditionalPipe {
      * @return {?}
      */
     conditionFromString(content, acondition, value, action, altAction) {
-        let /** @type {?} */ result = "";
+        /** @type {?} */
+        let result = "";
         switch (acondition) {
             case "=":
                 result = content === value ? action : altAction;
@@ -656,15 +681,20 @@ class ConditionalPipe {
      * @return {?}
      */
     transform(source, ...args) {
-        const /** @type {?} */ acondition = args.length ? args[0] : "";
-        const /** @type {?} */ value = args.length > 1 ? args[1] : "";
-        const /** @type {?} */ action = args.length > 2 ? args[2] : "";
-        const /** @type {?} */ altAction = args.length > 3 ? args[3] : "";
+        /** @type {?} */
+        const acondition = args.length ? args[0] : "";
+        /** @type {?} */
+        const value = args.length > 1 ? args[1] : "";
+        /** @type {?} */
+        const action = args.length > 2 ? args[2] : "";
+        /** @type {?} */
+        const altAction = args.length > 3 ? args[3] : "";
         if ((typeof source === "string") || !(source instanceof Array)) {
             return this.conditionFromString(source, acondition, value, action, altAction);
         }
         else {
-            const /** @type {?} */ result = {};
+            /** @type {?} */
+            const result = {};
             source.map((item) => {
                 result[item] = this.conditionFromString(item, acondition, value, action, altAction);
             });
@@ -675,12 +705,10 @@ class ConditionalPipe {
 ConditionalPipe.decorators = [
     { type: Pipe, args: [{ name: 'if' },] },
 ];
-/** @nocollapse */
-ConditionalPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class InToPipe {
     /**
@@ -689,7 +717,8 @@ class InToPipe {
      * @return {?}
      */
     transform(content, list) {
-        let /** @type {?} */ result = content;
+        /** @type {?} */
+        let result = content;
         list.split("|").map((item) => {
             result = this._transform(result, this.split(item));
         });
@@ -708,16 +737,19 @@ class InToPipe {
      * @return {?}
      */
     _transform(content, args) {
-        let /** @type {?} */ result = content;
+        /** @type {?} */
+        let result = content;
         switch (args[0]) {
             case "slice":
-                // slice 5:12 OR slice 5
-                let /** @type {?} */ start = parseInt(args[1], 10);
-                let /** @type {?} */ end = undefined;
+                /** @type {?} */
+                let start = parseInt(args[1], 10);
+                /** @type {?} */
+                let end = undefined;
                 if (args.length > 2) {
                     end = parseInt(args[2], 10);
                 }
-                const /** @type {?} */ slicer = new SlicePipe();
+                /** @type {?} */
+                const slicer = new SlicePipe();
                 if ((typeof content === "string") || !(content instanceof Array)) {
                     result = end ? slicer.transform(content, start, end) : slicer.transform(content, start);
                 }
@@ -729,14 +761,16 @@ class InToPipe {
                 }
                 break;
             case "number":
-                // number:en_US:2   or number:en_US or number
-                let /** @type {?} */ numLocal = "en_US";
-                let /** @type {?} */ numDecimal = undefined;
+                /** @type {?} */
+                let numLocal = "en_US";
+                /** @type {?} */
+                let numDecimal = undefined;
                 if (args.length > 2) {
                     numLocal = args[1];
                     numDecimal = args[2];
                 }
-                const /** @type {?} */ decimaler = new DecimalPipe(numLocal);
+                /** @type {?} */
+                const decimaler = new DecimalPipe(numLocal);
                 if ((typeof content === "string") || !(content instanceof Array)) {
                     result = numDecimal ? decimaler.transform(content, numDecimal) : decimaler.transform(content);
                 }
@@ -748,11 +782,14 @@ class InToPipe {
                 }
                 break;
             case "if":
-                // if:=:true:fa fa-check:fa fa-bell
-                const /** @type {?} */ acondition = args.length > 1 ? args[1] : "";
-                const /** @type {?} */ value = args.length > 2 ? args[2] : "";
-                const /** @type {?} */ action = args.length > 3 ? args[3] : "";
-                const /** @type {?} */ altAction = args.length > 4 ? args[4] : "";
+                /** @type {?} */
+                const acondition = args.length > 1 ? args[1] : "";
+                /** @type {?} */
+                const value = args.length > 2 ? args[2] : "";
+                /** @type {?} */
+                const action = args.length > 3 ? args[3] : "";
+                /** @type {?} */
+                const altAction = args.length > 4 ? args[4] : "";
                 result = new ConditionalPipe().transform(content, acondition, value, action, altAction);
                 if (typeof result === "string") {
                     result = result[0] === '"' ? result.substring(1, result.length - 1) : result;
@@ -764,8 +801,8 @@ class InToPipe {
                 result = new FontPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "");
                 break;
             case "currency":
-                // currency:en_US or currency
-                const /** @type {?} */ cp = new CurrencyPipe(args.length > 1 ? args[1] : "en_US");
+                /** @type {?} */
+                const cp = new CurrencyPipe(args.length > 1 ? args[1] : "en_US");
                 if ((typeof content === "string") || !(content instanceof Array)) {
                     result = cp.transform(content);
                 }
@@ -805,15 +842,18 @@ class InToPipe {
                 result = new MapPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "date":
-                // date:en_US:MMddyy OR date:\"MM/dd/yyyy hh:ss\"
+                /** @type {?} */
                 
-                let /** @type {?} */ dateLocal = "en_US";
-                let /** @type {?} */ dateFormat = args[1];
+                /** @type {?} */
+                let dateLocal = "en_US";
+                /** @type {?} */
+                let dateFormat = args[1];
                 if (args.length > 2) {
                     dateLocal = args[1];
                     dateFormat = args[2];
                 }
-                const /** @type {?} */ dater = new DatePipe(dateLocal);
+                /** @type {?} */
+                const dater = new DatePipe(dateLocal);
                 if ((typeof content === "string") || !(content instanceof Array)) {
                     result = dater.transform(content);
                 }
@@ -825,8 +865,8 @@ class InToPipe {
                 }
                 break;
             case "json":
-                // json
-                const /** @type {?} */ jcp = new JsonPipe();
+                /** @type {?} */
+                const jcp = new JsonPipe();
                 if ((typeof content === "string") || !(content instanceof Array)) {
                     result = jcp.transform(content);
                 }
@@ -842,8 +882,8 @@ class InToPipe {
                 result = new JoinPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "uppercase":
-                // uppercase
-                const /** @type {?} */ ucp = new UpperCasePipe();
+                /** @type {?} */
+                const ucp = new UpperCasePipe();
                 if ((typeof content === "string") || !(content instanceof Array)) {
                     result = ucp.transform(content);
                 }
@@ -855,8 +895,8 @@ class InToPipe {
                 }
                 break;
             case "lowercase":
-                // lowercase
-                const /** @type {?} */ lcp = new LowerCasePipe();
+                /** @type {?} */
+                const lcp = new LowerCasePipe();
                 if ((typeof content === "string") || !(content instanceof Array)) {
                     result = lcp.transform(content);
                 }
@@ -932,12 +972,10 @@ class InToPipe {
 InToPipe.decorators = [
     { type: Pipe, args: [{ name: 'into' },] },
 ];
-/** @nocollapse */
-InToPipe.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class SanitizeHtmlPipe {
     /**
@@ -961,12 +999,12 @@ SanitizeHtmlPipe.decorators = [
 ];
 /** @nocollapse */
 SanitizeHtmlPipe.ctorParameters = () => [
-    { type: DomSanitizer, },
+    { type: DomSanitizer }
 ];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class AddressComponent {
     /**
@@ -979,7 +1017,8 @@ class AddressComponent {
         this.source = source;
         this.addr1 = source.street + ', ' + source.suite;
         this.addr2 = source.city + ', ' + source.zipcode;
-        const /** @type {?} */ x = "https://maps.google.com/?q=" + source.street + ", " + this.addr2 + "&ie=UTF-8";
+        /** @type {?} */
+        const x = "https://maps.google.com/?q=" + source.street + ", " + this.addr2 + "&ie=UTF-8";
         this.url = x.replace("\\s+", "+");
     }
 }
@@ -990,7 +1029,7 @@ AddressComponent.decorators = [
     <span class="address">
         <span [textContent]="addr1"></span>
         <span [textContent]="addr2"></span>
-    </span>
+    </span> 
     <a [href]="url" class="google-map">
         <span class="fa fa-map-marker" aria-hidden="true"></span>
         <span class="off-screen">View in google map</span>
@@ -1017,12 +1056,10 @@ AddressComponent.decorators = [
                 ]
             },] },
 ];
-/** @nocollapse */
-AddressComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class EmailComponent {
     /**
@@ -1049,12 +1086,10 @@ EmailComponent.decorators = [
                 ]
             },] },
 ];
-/** @nocollapse */
-EmailComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class FontComponent {
     /**
@@ -1067,7 +1102,8 @@ class FontComponent {
         this.source = source;
         this.font = args[0];
         this.location = args.length > 1 ? args[1] : "left";
-        const /** @type {?} */ action = args.length > 2 ? args[2].toLowerCase() : "";
+        /** @type {?} */
+        const action = args.length > 2 ? args[2].toLowerCase() : "";
         this.content = action === "*" ? source : ("replace" === action.toLowerCase() ? "" : source);
     }
 }
@@ -1088,12 +1124,10 @@ FontComponent.decorators = [
                 ]
             },] },
 ];
-/** @nocollapse */
-FontComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class ImageComponent {
     /**
@@ -1109,9 +1143,12 @@ class ImageComponent {
         this.alt = (args && args.length > 2) ? args[2] : "";
         if ((typeof source === "string") || !(source instanceof Array)) {
             if (!this.alt || !this.alt.length) {
-                const /** @type {?} */ q = source.indexOf("?");
-                const /** @type {?} */ t = q < 0 ? source : source.substring(0, q);
-                const /** @type {?} */ d = t.lastIndexOf("/");
+                /** @type {?} */
+                const q = source.indexOf("?");
+                /** @type {?} */
+                const t = q < 0 ? source : source.substring(0, q);
+                /** @type {?} */
+                const d = t.lastIndexOf("/");
                 this.alt = d < 0 ? t : t.substring(d + 1);
             }
         }
@@ -1124,12 +1161,10 @@ ImageComponent.decorators = [
                 styles: [``]
             },] },
 ];
-/** @nocollapse */
-ImageComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class VideoComponent {
     /**
@@ -1145,9 +1180,12 @@ class VideoComponent {
         this.alt = (args && args.length > 2) ? args[2] : "";
         if ((typeof source === "string") || !(source instanceof Array)) {
             if (!this.alt || !this.alt.length) {
-                const /** @type {?} */ q = source.indexOf("?");
-                const /** @type {?} */ t = q < 0 ? source : source.substring(0, q);
-                const /** @type {?} */ d = t.lastIndexOf("/");
+                /** @type {?} */
+                const q = source.indexOf("?");
+                /** @type {?} */
+                const t = q < 0 ? source : source.substring(0, q);
+                /** @type {?} */
+                const d = t.lastIndexOf("/");
                 this.alt = d < 0 ? t : t.substring(d + 1);
             }
         }
@@ -1160,12 +1198,10 @@ VideoComponent.decorators = [
                 styles: [``]
             },] },
 ];
-/** @nocollapse */
-VideoComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class JsonComponent {
     /**
@@ -1189,18 +1225,16 @@ JsonComponent.decorators = [
             font-family: monospace;
             padding: 5px;
             white-space: pre-wrap;
-            unicode-bidi: embed;
+            unicode-bidi: embed;        
         }
         `
                 ]
             },] },
 ];
-/** @nocollapse */
-JsonComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class LinkComponent {
     /**
@@ -1214,9 +1248,12 @@ class LinkComponent {
         this.target = (args && args.length) ? args[0] : "";
         this.title = (args && args.length > 1) ? args[1] : "";
         if (!this.title || !this.title.length) {
-            const /** @type {?} */ q = source.indexOf("?");
-            const /** @type {?} */ t = q < 0 ? source : source.substring(0, q);
-            const /** @type {?} */ d = t.lastIndexOf("/");
+            /** @type {?} */
+            const q = source.indexOf("?");
+            /** @type {?} */
+            const t = q < 0 ? source : source.substring(0, q);
+            /** @type {?} */
+            const d = t.lastIndexOf("/");
             this.title = d < 0 ? t : t.substring(d + 1);
         }
     }
@@ -1231,12 +1268,10 @@ LinkComponent.decorators = [
                 ]
             },] },
 ];
-/** @nocollapse */
-LinkComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class RatingComponent {
     constructor() {
@@ -1249,10 +1284,12 @@ class RatingComponent {
      * @return {?}
      */
     transform(source, data, args) {
+        /** @type {?} */
         this.float = parseFloat(source);
         this.source = source;
-        const /** @type {?} */ size = parseInt(source, 10);
-        for (let /** @type {?} */ i = 0; i < size; i++) {
+        /** @type {?} */
+        const size = parseInt(source, 10);
+        for (let i = 0; i < size; i++) {
             this.value.push(i);
         }
     }
@@ -1275,12 +1312,10 @@ RatingComponent.decorators = [
                 ]
             },] },
 ];
-/** @nocollapse */
-RatingComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class InputComponent {
     /**
@@ -1298,7 +1333,8 @@ class InputComponent {
     keyup(event) {
         event.stopPropagation();
         event.preventDefault();
-        const /** @type {?} */ code = event.which;
+        /** @type {?} */
+        const code = event.which;
         if (((code >= 48) && (code <= 90)) ||
             ((code >= 96) && (code <= 111)) ||
             ((code == 32) || (code == 8)) ||
@@ -1346,7 +1382,8 @@ class InputComponent {
      * @return {?}
      */
     keydown(event) {
-        const /** @type {?} */ code = event.which;
+        /** @type {?} */
+        const code = event.which;
         event.stopPropagation();
         event.preventDefault();
         if ((code === 13) || (code === 9)) {
@@ -1390,26 +1427,26 @@ InputComponent.decorators = [
                 template: `
     <span *ngIf="editName">
     <input #nameEditor
-        type='text'
+        type='text' 
         [id]="id"
         [name]="name"
         [value]="source"
         [placeholder]="placeholder"
-        (blur)="blur($event)"
+        (blur)="blur($event)" 
         (keyup)='keyup($event)'>
     </span>
     <span #nameHolder
         *ngIf='!editName && formatting'
-        class='locked'
-        tabindex='0'
+        class='locked' 
+        tabindex='0' 
         (keyup)='keydown($event)'
         (click)="clickName($event)"
         [innerHTML]="source ? (source | into:formatting) : '&nbsp;'">
     </span>
     <span #nameHolder
         *ngIf='!editName && !formatting'
-        class='locked'
-        tabindex='0'
+        class='locked' 
+        tabindex='0' 
         (keyup)='keydown($event)'
         (click)="clickName($event)"
         [innerHTML]="source ? source : '&nbsp;'">
@@ -1421,7 +1458,7 @@ InputComponent.decorators = [
           display: inline-block;
           cursor: pointer;
           min-width: 30px;
-          -webkit-user-select: none;
+          -webkit-user-select: none;       
           -moz-user-select: none;
           -ms-user-select: none;
           user-select: none;
@@ -1435,17 +1472,17 @@ InputComponent.decorators = [
 ];
 /** @nocollapse */
 InputComponent.ctorParameters = () => [
-    { type: Renderer, },
+    { type: Renderer }
 ];
 InputComponent.propDecorators = {
-    "nameEditor": [{ type: ViewChild, args: ["nameEditor",] },],
-    "nameHolder": [{ type: ViewChild, args: ["nameHolder",] },],
-    "onIntoComponentChange": [{ type: Output, args: ["onIntoComponentChange",] },],
+    nameEditor: [{ type: ViewChild, args: ["nameEditor",] }],
+    nameHolder: [{ type: ViewChild, args: ["nameHolder",] }],
+    onIntoComponentChange: [{ type: Output, args: ["onIntoComponentChange",] }]
 };
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class CheckboxComponent {
     /**
@@ -1460,7 +1497,8 @@ class CheckboxComponent {
      * @return {?}
      */
     keyup(event) {
-        const /** @type {?} */ code = event.which;
+        /** @type {?} */
+        const code = event.which;
         if (code === 13) {
             this.renderer.invokeElementMethod(event.target, "click");
         }
@@ -1470,7 +1508,8 @@ class CheckboxComponent {
      * @return {?}
      */
     click(event) {
-        const /** @type {?} */ input = event.target;
+        /** @type {?} */
+        const input = event.target;
         event.stopPropagation();
         event.preventDefault();
         if (this.source === this.ideal) {
@@ -1518,11 +1557,11 @@ CheckboxComponent.decorators = [
       <span *ngIf="source === ideal" #check tabindex="0" class="fa fa-check" (keyup)="keyup($event)" (click)="click($event)"></span>
       <span *ngIf="source !== ideal" #uncheck tabindex="0" class="fa fa-close" (keyup)="keyup($event)" (click)="click($event)"></span>
     </span>
-    <input *ngIf="!useFont"
-            type="checkbox"
-            tabindex="0"
-            [value]="source"
-            [checked]="source===ideal ? true : null"
+    <input *ngIf="!useFont" 
+            type="checkbox" 
+            tabindex="0" 
+            [value]="source" 
+            [checked]="source===ideal ? true : null" 
             (keyup)="keyup($event)"
             (click)="click($event)" />
     `,
@@ -1537,17 +1576,17 @@ CheckboxComponent.decorators = [
 ];
 /** @nocollapse */
 CheckboxComponent.ctorParameters = () => [
-    { type: Renderer, },
+    { type: Renderer }
 ];
 CheckboxComponent.propDecorators = {
-    "check": [{ type: ViewChild, args: ["check",] },],
-    "uncheck": [{ type: ViewChild, args: ["uncheck",] },],
-    "onIntoComponentChange": [{ type: Output, args: ["onIntoComponentChange",] },],
+    check: [{ type: ViewChild, args: ["check",] }],
+    uncheck: [{ type: ViewChild, args: ["uncheck",] }],
+    onIntoComponentChange: [{ type: Output, args: ["onIntoComponentChange",] }]
 };
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class SelectComponent {
     /**
@@ -1610,15 +1649,15 @@ SelectComponent.decorators = [
 ];
 /** @nocollapse */
 SelectComponent.ctorParameters = () => [
-    { type: Renderer, },
+    { type: Renderer }
 ];
 SelectComponent.propDecorators = {
-    "onIntoComponentChange": [{ type: Output, args: ["onIntoComponentChange",] },],
+    onIntoComponentChange: [{ type: Output, args: ["onIntoComponentChange",] }]
 };
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class SpanComponent {
     /**
@@ -1641,12 +1680,10 @@ SpanComponent.decorators = [
                 ]
             },] },
 ];
-/** @nocollapse */
-SpanComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class ShareComponent {
     constructor() {
@@ -1670,7 +1707,8 @@ class ShareComponent {
      * @return {?}
      */
     keyup(event) {
-        const /** @type {?} */ code = event.which;
+        /** @type {?} */
+        const code = event.which;
         event.stopPropagation();
         event.preventDefault();
         if (code === 13) {
@@ -1685,7 +1723,8 @@ class ShareComponent {
      */
     transform(source, data, args) {
         this.source = source;
-        const /** @type {?} */ list = (args[0] instanceof Array) ? args[0] : args;
+        /** @type {?} */
+        const list = (args[0] instanceof Array) ? args[0] : args;
         list.map((arg) => {
             if (arg === 'facebook') {
                 this.shareList.push(this.shareInfo('facebook', 'http://www.facebook.com/sharer.php?u=' + source));
@@ -1721,9 +1760,9 @@ ShareComponent.decorators = [
     { type: Component, args: [{
                 selector: 'share-component',
                 template: `
-    <a id='share-comment-{{id}}'
-        tabindex="0"
-        class='share-item-tips'
+    <a id='share-comment-{{id}}' 
+        tabindex="0" 
+        class='share-item-tips' 
         (keyup)='keyup($event)'
         (click)='shouldDisplay = !shouldDisplay'>
     <span class="fa fa-share-alt"></span>
@@ -1775,12 +1814,10 @@ ShareComponent.decorators = [
     `]
             },] },
 ];
-/** @nocollapse */
-ShareComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class LikeComponent {
     constructor() {
@@ -1807,7 +1844,8 @@ class LikeComponent {
      * @return {?}
      */
     keyup(event) {
-        const /** @type {?} */ code = event.which;
+        /** @type {?} */
+        const code = event.which;
         if (code === 13) {
             event.target.click();
         }
@@ -1817,9 +1855,11 @@ class LikeComponent {
      * @return {?}
      */
     addItem(id) {
-        const /** @type {?} */ saved = localStorage.getItem(this.thumbs);
+        /** @type {?} */
+        const saved = localStorage.getItem(this.thumbs);
         if (saved) {
-            const /** @type {?} */ savedItems = JSON.parse(saved);
+            /** @type {?} */
+            const savedItems = JSON.parse(saved);
             savedItems.push(id);
             localStorage.setItem(this.thumbs, JSON.stringify(savedItems));
         }
@@ -1833,10 +1873,13 @@ class LikeComponent {
      * @return {?}
      */
     removeItem(id) {
-        const /** @type {?} */ saved = localStorage.getItem(this.thumbs);
+        /** @type {?} */
+        const saved = localStorage.getItem(this.thumbs);
         if (saved) {
-            const /** @type {?} */ savedItems = JSON.parse(saved);
-            const /** @type {?} */ i = savedItems.indexOf(id);
+            /** @type {?} */
+            const savedItems = JSON.parse(saved);
+            /** @type {?} */
+            const i = savedItems.indexOf(id);
             savedItems.splice(i, 1);
             localStorage.setItem(this.thumbs, JSON.stringify(savedItems));
             this.source--;
@@ -1847,11 +1890,15 @@ class LikeComponent {
      * @return {?}
      */
     getItem(id) {
-        const /** @type {?} */ saved = localStorage.getItem(this.thumbs);
-        let /** @type {?} */ found = null;
+        /** @type {?} */
+        const saved = localStorage.getItem(this.thumbs);
+        /** @type {?} */
+        let found = null;
         if (saved) {
-            const /** @type {?} */ savedItems = JSON.parse(saved);
-            const /** @type {?} */ i = savedItems.indexOf(id);
+            /** @type {?} */
+            const savedItems = JSON.parse(saved);
+            /** @type {?} */
+            const i = savedItems.indexOf(id);
             found = i < 0 ? null : savedItems[i];
         }
         return found;
@@ -1860,7 +1907,8 @@ class LikeComponent {
      * @return {?}
      */
     formatterSource() {
-        let /** @type {?} */ result = this.source;
+        /** @type {?} */
+        let result = this.source;
         if (this.source > 1000) {
             result = (this.source / 1000).toFixed(1) + " k";
         }
@@ -1875,7 +1923,8 @@ class LikeComponent {
         event.stopPropagation();
         event.preventDefault();
         if (this.selected) {
-            const /** @type {?} */ existing = this.getItem(this.data[this.key]);
+            /** @type {?} */
+            const existing = this.getItem(this.data[this.key]);
             if (!existing) {
                 this.addItem(this.data[this.key]);
             }
@@ -1897,12 +1946,12 @@ LikeComponent.decorators = [
     { type: Component, args: [{
                 selector: 'like-component',
                 template: `
-    <a
-        id='like-{{id}}'
-        tabindex="0"
-        class="like"
-        [class.selected]="selected"
-        (keyup)="keyup($event)"
+    <a 
+        id='like-{{id}}' 
+        tabindex="0" 
+        class="like" 
+        [class.selected]="selected" 
+        (keyup)="keyup($event)" 
         (click)='toggleCount($event)'>
         <span class="fa fa-thumbs-up" *ngIf="thumbsup && !selected" aria-hidden="true"></span>
         <span class="fa fa-thumbs-up selected" *ngIf="thumbsup && selected" aria-hidden="true"></span>
@@ -1926,12 +1975,10 @@ LikeComponent.decorators = [
                 ]
             },] },
 ];
-/** @nocollapse */
-LikeComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @record
@@ -1958,7 +2005,8 @@ class CalendarComponent {
     keyup(event) {
         event.stopPropagation();
         event.preventDefault();
-        const /** @type {?} */ code = event.which;
+        /** @type {?} */
+        const code = event.which;
         if (code === 13) {
             event.target.click();
         }
@@ -2001,9 +2049,11 @@ class CalendarComponent {
      * @return {?}
      */
     isSelected(date) {
-        let /** @type {?} */ index = -1;
-        for (let /** @type {?} */ i = 0; i < this.selectedDays.length; i++) {
-            const /** @type {?} */ selectedDate = this.selectedDays[i];
+        /** @type {?} */
+        let index = -1;
+        for (let i = 0; i < this.selectedDays.length; i++) {
+            /** @type {?} */
+            const selectedDate = this.selectedDays[i];
             if (this.isSameDay(date, selectedDate)) {
                 index = i;
             }
@@ -2022,10 +2072,12 @@ class CalendarComponent {
      * @return {?}
      */
     toggleSelectedDates(day) {
-        let /** @type {?} */ found = false;
+        /** @type {?} */
+        let found = false;
         if (this.multiselect) {
-            for (let /** @type {?} */ i = 0; i < this.selectedDays.length; i++) {
-                const /** @type {?} */ date = this.selectedDays[i];
+            for (let i = 0; i < this.selectedDays.length; i++) {
+                /** @type {?} */
+                const date = this.selectedDays[i];
                 if (this.isSameDay(day.date, date)) {
                     this.selectedDays.splice(i, 1);
                     found = true;
@@ -2110,8 +2162,10 @@ class CalendarComponent {
      * @return {?}
      */
     generateCalendar() {
-        const /** @type {?} */ dates = this.fillDates(this.currentDate);
-        const /** @type {?} */ weeks = [];
+        /** @type {?} */
+        const dates = this.fillDates(this.currentDate);
+        /** @type {?} */
+        const weeks = [];
         while (dates.length > 0) {
             weeks.push(dates.splice(0, 7));
         }
@@ -2141,15 +2195,23 @@ class CalendarComponent {
      * @return {?}
      */
     fillDates(currentDate) {
-        const /** @type {?} */ cm = new Date(currentDate);
-        const /** @type {?} */ tm = new Date();
-        const /** @type {?} */ firstDay = new Date(cm.getFullYear(), cm.getMonth(), 1);
-        const /** @type {?} */ firstOfMonth = firstDay.getDay();
-        const /** @type {?} */ firstDayOfGrid = new Date(firstDay.getFullYear(), firstDay.getMonth(), firstDay.getDate() - firstOfMonth);
-        const /** @type {?} */ start = firstDayOfGrid.getDate();
-        const /** @type {?} */ list = [];
-        for (let /** @type {?} */ i = start; i < (start + 42); i++) {
-            const /** @type {?} */ d = new Date(firstDayOfGrid.getFullYear(), firstDayOfGrid.getMonth(), i);
+        /** @type {?} */
+        const cm = new Date(currentDate);
+        /** @type {?} */
+        const tm = new Date();
+        /** @type {?} */
+        const firstDay = new Date(cm.getFullYear(), cm.getMonth(), 1);
+        /** @type {?} */
+        const firstOfMonth = firstDay.getDay();
+        /** @type {?} */
+        const firstDayOfGrid = new Date(firstDay.getFullYear(), firstDay.getMonth(), firstDay.getDate() - firstOfMonth);
+        /** @type {?} */
+        const start = firstDayOfGrid.getDate();
+        /** @type {?} */
+        const list = [];
+        for (let i = start; i < (start + 42); i++) {
+            /** @type {?} */
+            const d = new Date(firstDayOfGrid.getFullYear(), firstDayOfGrid.getMonth(), i);
             list.push({
                 today: this.isSameDay(tm, d),
                 selected: this.isSelected(d),
@@ -2351,15 +2413,15 @@ CalendarComponent.decorators = [
 ];
 /** @nocollapse */
 CalendarComponent.ctorParameters = () => [
-    { type: Renderer, },
+    { type: Renderer }
 ];
 CalendarComponent.propDecorators = {
-    "onIntoComponentChange": [{ type: Output, args: ["onIntoComponentChange",] },],
+    onIntoComponentChange: [{ type: Output, args: ["onIntoComponentChange",] }]
 };
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class LastUpdateComponent {
     /**
@@ -2376,52 +2438,68 @@ class LastUpdateComponent {
      * @return {?}
      */
     formatDate() {
-        const /** @type {?} */ currentDate = new Date();
-        const /** @type {?} */ minute = 60000; // one minute
-        const /** @type {?} */ hour = 3600000; // one hour limit
-        const /** @type {?} */ day = 86400000; // 24 hours limit
-        const /** @type {?} */ week = 604800000; // 7 days limit
-        const /** @type {?} */ month = 604800000 * 4; // 7 days limit
-        const /** @type {?} */ year = 604800000 * 52; // 7 days limit
-        let /** @type {?} */ result = "";
-        let /** @type {?} */ diff = currentDate.getTime() - this.source.getTime();
-        if (diff <= minute) {
+        /** @type {?} */
+        const currentDate = new Date();
+        /** @type {?} */
+        const minute = 60000;
+        /** @type {?} */
+        const hour = 3600000;
+        /** @type {?} */
+        const day = 86400000;
+        /** @type {?} */
+        const week = 604800000;
+        /** @type {?} */
+        const month = 604800000 * 4;
+        /** @type {?} */
+        const year = 604800000 * 52;
+        /** @type {?} */
+        let result = "";
+        /** @type {?} */
+        let diff = currentDate.getTime() - this.source.getTime();
+        if (diff <= minute) { // up to a minute
             // up to a minute
             result = "seconds ago";
         }
-        else if (diff <= hour) {
-            // up to an hour
-            let /** @type {?} */ minutes = Math.floor(diff / minute);
-            let /** @type {?} */ seconds = Math.floor((diff - (minutes * minute)) / 1000);
+        else if (diff <= hour) { // up to an hour
+            /** @type {?} */
+            let minutes = Math.floor(diff / minute);
+            /** @type {?} */
+            let seconds = Math.floor((diff - (minutes * minute)) / 1000);
             result = (minutes < 2 ? "a minute" : minutes + " minutes ") + (seconds > 0 ? " and " + seconds + " seconds ago" : " ago");
         }
-        else if (diff <= day) {
-            // up to a day
-            let /** @type {?} */ hours = Math.floor(diff / hour);
-            let /** @type {?} */ minutes = Math.floor((diff - (hours * hour)) / minute);
+        else if (diff <= day) { // up to a day
+            /** @type {?} */
+            let hours = Math.floor(diff / hour);
+            /** @type {?} */
+            let minutes = Math.floor((diff - (hours * hour)) / minute);
             result = (hours < 2 ? "an hour" : hours + " hours ") + (minutes > 0 ? " and " + minutes + " minutes ago" : " ago");
         }
-        else if (diff <= week) {
-            // up to a week
-            let /** @type {?} */ days = Math.floor(diff / day);
-            let /** @type {?} */ hours = Math.floor((diff - (days * day)) / hour);
+        else if (diff <= week) { // up to a week
+            /** @type {?} */
+            let days = Math.floor(diff / day);
+            /** @type {?} */
+            let hours = Math.floor((diff - (days * day)) / hour);
             result = (days < 2 ? "a day" : days + " days ") + (hours > 0 ? " and " + hours + " hours ago" : " ago");
         }
-        else if (diff <= month) {
-            // up to a month
-            let /** @type {?} */ weeks = Math.floor(diff / week);
-            let /** @type {?} */ days = Math.floor((diff - (weeks * week)) / day);
+        else if (diff <= month) { // up to a month
+            /** @type {?} */
+            let weeks = Math.floor(diff / week);
+            /** @type {?} */
+            let days = Math.floor((diff - (weeks * week)) / day);
             result = (weeks < 2 ? "a week" : weeks + " weeks ") + (days > 0 ? " and " + days + " days ago" : " ago");
         }
-        else if (diff <= year) {
-            // up to a week
-            let /** @type {?} */ months = Math.floor(diff / month);
-            let /** @type {?} */ weeks = Math.floor((diff - (months * month)) / week);
+        else if (diff <= year) { // up to a week
+            /** @type {?} */
+            let months = Math.floor(diff / month);
+            /** @type {?} */
+            let weeks = Math.floor((diff - (months * month)) / week);
             result = (months < 2 ? "a month" : months + " months ") + (weeks > 0 ? " and " + weeks + " weeks ago" : " ago");
         }
         else {
-            let /** @type {?} */ years = Math.floor(diff / year);
-            let /** @type {?} */ months = Math.floor((diff - (years * year)) / month);
+            /** @type {?} */
+            let years = Math.floor(diff / year);
+            /** @type {?} */
+            let months = Math.floor((diff - (years * year)) / month);
             result = (years < 2 ? "a year" : years + " years ") + (months > 0 ? " and " + months + " months ago" : " ago");
         }
         return result;
@@ -2442,12 +2520,10 @@ LastUpdateComponent.decorators = [
                 ]
             },] },
 ];
-/** @nocollapse */
-LastUpdateComponent.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class InputGroupComponent {
     /**
@@ -2467,7 +2543,8 @@ class InputGroupComponent {
             this.source = event.target.value;
         }
         else {
-            const /** @type {?} */ i = this.source.indexOf(event.target.value);
+            /** @type {?} */
+            const i = this.source.indexOf(event.target.value);
             if (event.target.checked) {
                 if (i < 0) {
                     this.source.push(event.target.value);
@@ -2489,11 +2566,13 @@ class InputGroupComponent {
      * @return {?}
      */
     isSelected(item) {
-        const /** @type {?} */ xitem = item.value ? item.value : item;
+        /** @type {?} */
+        const xitem = item.value ? item.value : item;
         if (this.type === 'radio') {
             return xitem === this.source;
         }
-        let /** @type {?} */ found = false;
+        /** @type {?} */
+        let found = false;
         this.source.map((x) => {
             if (xitem === x) {
                 found = true;
@@ -2519,11 +2598,11 @@ InputGroupComponent.decorators = [
                 selector: 'input-group-component',
                 template: `
     <span class="input-group-item" *ngFor="let x of options; let i = index">
-        <input
-            [type]="type"
-            [id]="name + i"
-            [name]="name + (type === 'radio' ? '' : i)"
-            [value]="x.value ? x.value : x"
+        <input 
+            [type]="type" 
+            [id]="name + i" 
+            [name]="name + (type === 'radio' ? '' : i)" 
+            [value]="x.value ? x.value : x" 
             [checked]="isSelected(x)"
             (click)="click($event)"/>
         <label [for]="name + i" [textContent]="x.label ? x.label : x"></label>
@@ -2537,15 +2616,15 @@ InputGroupComponent.decorators = [
 ];
 /** @nocollapse */
 InputGroupComponent.ctorParameters = () => [
-    { type: Renderer, },
+    { type: Renderer }
 ];
 InputGroupComponent.propDecorators = {
-    "onIntoComponentChange": [{ type: Output, args: ["onIntoComponentChange",] },],
+    onIntoComponentChange: [{ type: Output, args: ["onIntoComponentChange",] }]
 };
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class ComponentPool {
     constructor() {
@@ -2622,7 +2701,7 @@ ComponentPool.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class IntoDirective {
     /**
@@ -2652,16 +2731,19 @@ class IntoDirective {
      * @return {?}
      */
     _transform(content, args, data) {
-        let /** @type {?} */ result = content;
+        /** @type {?} */
+        let result = content;
         switch (args[0]) {
             case "slice":
-                // slice 5:12 OR slice 5
-                let /** @type {?} */ start = parseInt(args[1], 10);
-                let /** @type {?} */ end = undefined;
+                /** @type {?} */
+                let start = parseInt(args[1], 10);
+                /** @type {?} */
+                let end = undefined;
                 if (args.length > 2) {
                     end = parseInt(args[2], 10);
                 }
-                const /** @type {?} */ slicer = new SlicePipe();
+                /** @type {?} */
+                const slicer = new SlicePipe();
                 if ((typeof content === "string") || !(content instanceof Array)) {
                     result = end ? slicer.transform(content, start, end) : slicer.transform(content, start);
                 }
@@ -2673,14 +2755,16 @@ class IntoDirective {
                 }
                 break;
             case "number":
-                // number:en_US:2   or number:en_US or number
-                let /** @type {?} */ numLocal = "en_US";
-                let /** @type {?} */ numDecimal = undefined;
+                /** @type {?} */
+                let numLocal = "en_US";
+                /** @type {?} */
+                let numDecimal = undefined;
                 if (args.length > 2) {
                     numLocal = args[1];
                     numDecimal = args[2];
                 }
-                const /** @type {?} */ decimaler = new DecimalPipe(numLocal);
+                /** @type {?} */
+                const decimaler = new DecimalPipe(numLocal);
                 if ((typeof content === "string") || !(content instanceof Array)) {
                     result = numDecimal ? decimaler.transform(content, numDecimal) : decimaler.transform(content);
                 }
@@ -2692,8 +2776,8 @@ class IntoDirective {
                 }
                 break;
             case "currency":
-                // currency:en_US or currency
-                const /** @type {?} */ cp = new CurrencyPipe(args.length > 1 ? args[1] : "en_US");
+                /** @type {?} */
+                const cp = new CurrencyPipe(args.length > 1 ? args[1] : "en_US");
                 if ((typeof content === "string") || !(content instanceof Array)) {
                     result = cp.transform(content);
                 }
@@ -2721,15 +2805,18 @@ class IntoDirective {
                 result = new MapPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "date":
-                // date:en_US:MMddyy OR date:\"MM/dd/yyyy hh:ss\"
+                /** @type {?} */
                 
-                let /** @type {?} */ dateLocal = "en_US";
-                let /** @type {?} */ dateFormat = args[1];
+                /** @type {?} */
+                let dateLocal = "en_US";
+                /** @type {?} */
+                let dateFormat = args[1];
                 if (args.length > 2) {
                     dateLocal = args[1];
                     dateFormat = args[2];
                 }
-                const /** @type {?} */ dater = new DatePipe(dateLocal);
+                /** @type {?} */
+                const dater = new DatePipe(dateLocal);
                 if ((typeof content === "string") || !(content instanceof Array)) {
                     result = dater.transform(content);
                 }
@@ -2741,8 +2828,8 @@ class IntoDirective {
                 }
                 break;
             case "uppercase":
-                // uppercase
-                const /** @type {?} */ ucp = new UpperCasePipe();
+                /** @type {?} */
+                const ucp = new UpperCasePipe();
                 if ((typeof content === "string") || !(content instanceof Array)) {
                     result = ucp.transform(content);
                 }
@@ -2754,8 +2841,8 @@ class IntoDirective {
                 }
                 break;
             case "lowercase":
-                // lowercase
-                const /** @type {?} */ lcp = new LowerCasePipe();
+                /** @type {?} */
+                const lcp = new LowerCasePipe();
                 if ((typeof content === "string") || !(content instanceof Array)) {
                     result = lcp.transform(content);
                 }
@@ -2783,11 +2870,14 @@ class IntoDirective {
                 result = new ValueOfPipe().transform(content, args.length > 1 ? args[1] : "");
                 break;
             case "if":
-                // if:=:true:fa fa-check:fa fa-bell
-                const /** @type {?} */ acondition = args.length > 1 ? args[1] : "";
-                const /** @type {?} */ value = args.length > 2 ? args[2] : "";
-                const /** @type {?} */ action = args.length > 3 ? args[3] : "";
-                const /** @type {?} */ altAction = args.length > 4 ? args[4] : "";
+                /** @type {?} */
+                const acondition = args.length > 1 ? args[1] : "";
+                /** @type {?} */
+                const value = args.length > 2 ? args[2] : "";
+                /** @type {?} */
+                const action = args.length > 3 ? args[3] : "";
+                /** @type {?} */
+                const altAction = args.length > 4 ? args[4] : "";
                 result = new ConditionalPipe().transform(content, acondition, value, action, altAction);
                 if (typeof result === "string") {
                     result = result[0] === '"' ? result.substring(1, result.length - 1) : result;
@@ -2910,7 +3000,7 @@ class IntoDirective {
                 try {
                     result = this.transformComponent(args[0], content, this.intoId, this.intoName, data, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : "", args.length > 3 ? args[3] : "", args.length > 4 ? args[4] : "", args.length > 5 ? args[5] : "");
                 }
-                catch (/** @type {?} */ x) {
+                catch (x) {
                     console.error(x);
                 }
                 break;
@@ -2927,7 +3017,8 @@ class IntoDirective {
      * @return {?}
      */
     transformComponent(type, content, id, name, data, ...args) {
-        let /** @type {?} */ result;
+        /** @type {?} */
+        let result;
         if (content === undefined) {
             return "";
         }
@@ -2947,14 +3038,16 @@ class IntoDirective {
             }
         }
         else if (content instanceof Array) {
-            let /** @type {?} */ counter = 0;
+            /** @type {?} */
+            let counter = 0;
             result = content;
             content.map((source) => {
                 if (typeof source === "string" ||
                     typeof content === "number" ||
                     typeof content === "boolean" ||
                     Object.keys(content).length) {
-                    const /** @type {?} */ sx = this.registeredComponentFor(type);
+                    /** @type {?} */
+                    const sx = this.registeredComponentFor(type);
                     if (sx === null || sx === undefined) {
                         console.error("Custom component '" + type + "' is not defined.");
                     }
@@ -2977,12 +3070,17 @@ class IntoDirective {
      * @return {?}
      */
     registeredComponentFor(name) {
-        const /** @type {?} */ component = this.pool.registeredComponent(name);
-        let /** @type {?} */ result = null;
+        /** @type {?} */
+        const component = this.pool.registeredComponent(name);
+        /** @type {?} */
+        let result = null;
         if (component) {
-            let /** @type {?} */ componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
-            const /** @type {?} */ componentRef = this.viewRef.createComponent(componentFactory);
-            const /** @type {?} */ domElem = /** @type {?} */ ((/** @type {?} */ (componentRef.hostView)).rootNodes[0]);
+            /** @type {?} */
+            let componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
+            /** @type {?} */
+            const componentRef = this.viewRef.createComponent(componentFactory);
+            /** @type {?} */
+            const domElem = /** @type {?} */ ((/** @type {?} */ (componentRef.hostView)).rootNodes[0]);
             this.el.nativeElement.appendChild(domElem);
             result = (/** @type {?} */ (componentRef.instance));
         }
@@ -2993,7 +3091,8 @@ class IntoDirective {
      */
     ngOnInit() {
         if (this.into || this.rawContent) {
-            let /** @type {?} */ result = this.rawContent;
+            /** @type {?} */
+            let result = this.rawContent;
             if (this.into) {
                 this.into.split("|").map((item) => {
                     result = this._transform(result, this.split(item), this.intoData);
@@ -3024,23 +3123,23 @@ IntoDirective.decorators = [
 ];
 /** @nocollapse */
 IntoDirective.ctorParameters = () => [
-    { type: ViewContainerRef, },
-    { type: ElementRef, },
-    { type: ComponentPool, },
-    { type: ComponentFactoryResolver, },
+    { type: ViewContainerRef },
+    { type: ElementRef },
+    { type: ComponentPool },
+    { type: ComponentFactoryResolver }
 ];
 IntoDirective.propDecorators = {
-    "rawContent": [{ type: Input, args: ["rawContent",] },],
-    "intoId": [{ type: Input, args: ["intoId",] },],
-    "intoName": [{ type: Input, args: ["intoName",] },],
-    "intoData": [{ type: Input, args: ["intoData",] },],
-    "into": [{ type: Input, args: ["into",] },],
-    "onComponentChange": [{ type: Input, args: ["onComponentChange",] },],
+    rawContent: [{ type: Input, args: ["rawContent",] }],
+    intoId: [{ type: Input, args: ["intoId",] }],
+    intoName: [{ type: Input, args: ["intoName",] }],
+    intoData: [{ type: Input, args: ["intoData",] }],
+    into: [{ type: Input, args: ["into",] }],
+    onComponentChange: [{ type: Input, args: ["onComponentChange",] }]
 };
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class IntoPipeModule {
 }
@@ -3172,17 +3271,15 @@ IntoPipeModule.decorators = [
                 schemas: [CUSTOM_ELEMENTS_SCHEMA]
             },] },
 ];
-/** @nocollapse */
-IntoPipeModule.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * Generated bundle index. Do not edit.

@@ -1,17 +1,13 @@
 {
   "name": "into-pipes",
-  "version": "1.8.0",
+  "version": "2.0.0",
   "license": "MIT",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "lint": "ng lint",
-    "packagr": "ng-packagr -p ng-package.json"
-  },
   "private": false,
   "keywords": [
+    "Angular 2+",
     "Angular 4+",
+    "Angular 5+",
+    "Angular 6+",
     "pipe",
     "format",
     "customizable",
@@ -24,6 +20,7 @@
     "date picker",
     "reusable",
     "filter",
+    "transform",
     "transformation",
     "through",
     "plugin",
@@ -32,18 +29,19 @@
     "best"
   ],
   "dependencies": {
-    "@angular/common": "^5.0.0 || ^4.0.0 || ^2.0.0",
-    "@angular/compiler": "^5.0.0 || ^4.0.0 || ^2.0.0",
-    "@angular/core": "^5.0.0 || ^4.0.0 || ^2.0.0",
+    "@angular/common": "^6.0.0 || ^5.0.0 || ^4.0.0 || ^2.0.0",
+    "@angular/compiler": "^6.0.0 || ^5.0.0 || ^4.0.0 || ^2.0.0",
+    "@angular/core": "^6.0.0 || ^5.0.0 || ^4.0.0 || ^2.0.0",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "zone.js": "^0.8.14",
-    "tslib": "^1.7.1"
+    "tslib": "^1.9.0"
   },
   "devDependencies": {
     "@angular/cli": "^1.6.7",
-    "@angular/compiler-cli": "^5.0.0 || ^4.0.0 || ^2.0.0",
-    "@angular/platform-browser": "^5.2.9",
+    "@angular/compiler-cli": "^6.0.0 || ^5.0.0 || ^4.0.0 || ^2.0.0",
+    "@angular/platform-browser": "^6.0.0 || ^5.0.0 || ^4.0.0 || ^2.0.0",
+    "rxjs": "^6.2.2",
     "@types/node": "^6.0.60",
     "codelyzer": "^3.2.0",
     "ng-packagr": "^2.0.0",

@@ -34,7 +34,7 @@ export declare class CalendarComponent implements PipeComponent {
     prevYear(event: any): void;
     nextYear(event: any): void;
     generateCalendar(): void;
-    private isSameDay(a, b);
-    private isSameMonth(a, b);
+    private isSameDay;
+    private isSameMonth;
     fillDates(currentDate: Date): CalendarDate[];
 }

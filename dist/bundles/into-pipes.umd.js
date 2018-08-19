@@ -1,6 +1,6 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/platform-browser')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/platform-browser'], factory) :
+	typeof define === 'function' && define.amd ? define('into-pipes', ['exports', '@angular/core', '@angular/common', '@angular/platform-browser'], factory) :
 	(factory((global['into-pipes'] = {}),global.ng.core,global.ng.common,global.ng.platformBrowser));
 }(this, (function (exports,core,common,platformBrowser) { 'use strict';
 
@@ -37,7 +37,6 @@ var MaskPipe = /** @class */ (function () {
 MaskPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'mask' },] },
 ];
-MaskPipe.ctorParameters = function () { return []; };
 var MapPipe = /** @class */ (function () {
     function MapPipe() {
     }
@@ -76,7 +75,6 @@ var MapPipe = /** @class */ (function () {
 MapPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'map' },] },
 ];
-MapPipe.ctorParameters = function () { return []; };
 var ValueOfPipe = /** @class */ (function () {
     function ValueOfPipe() {
     }
@@ -106,7 +104,6 @@ var ValueOfPipe = /** @class */ (function () {
 ValueOfPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'valueof' },] },
 ];
-ValueOfPipe.ctorParameters = function () { return []; };
 var LinkPipe = /** @class */ (function () {
     function LinkPipe() {
     }
@@ -144,7 +141,6 @@ var LinkPipe = /** @class */ (function () {
 LinkPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'link' },] },
 ];
-LinkPipe.ctorParameters = function () { return []; };
 var ImagePipe = /** @class */ (function () {
     function ImagePipe() {
     }
@@ -183,7 +179,6 @@ var ImagePipe = /** @class */ (function () {
 ImagePipe.decorators = [
     { type: core.Pipe, args: [{ name: 'image' },] },
 ];
-ImagePipe.ctorParameters = function () { return []; };
 var VideoPipe = /** @class */ (function () {
     function VideoPipe() {
     }
@@ -222,7 +217,6 @@ var VideoPipe = /** @class */ (function () {
 VideoPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'video' },] },
 ];
-VideoPipe.ctorParameters = function () { return []; };
 var PrependPipe = /** @class */ (function () {
     function PrependPipe() {
     }
@@ -248,7 +242,6 @@ var PrependPipe = /** @class */ (function () {
 PrependPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'prepend' },] },
 ];
-PrependPipe.ctorParameters = function () { return []; };
 var AppendPipe = /** @class */ (function () {
     function AppendPipe() {
     }
@@ -274,7 +267,6 @@ var AppendPipe = /** @class */ (function () {
 AppendPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'append' },] },
 ];
-AppendPipe.ctorParameters = function () { return []; };
 var WrapPipe = /** @class */ (function () {
     function WrapPipe() {
     }
@@ -302,7 +294,6 @@ var WrapPipe = /** @class */ (function () {
 WrapPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'wrap' },] },
 ];
-WrapPipe.ctorParameters = function () { return []; };
 var EmailPipe = /** @class */ (function () {
     function EmailPipe() {
     }
@@ -331,7 +322,6 @@ var EmailPipe = /** @class */ (function () {
 EmailPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'email' },] },
 ];
-EmailPipe.ctorParameters = function () { return []; };
 var RatingPipe = /** @class */ (function () {
     function RatingPipe() {
     }
@@ -370,7 +360,6 @@ var RatingPipe = /** @class */ (function () {
 RatingPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'raiting' },] },
 ];
-RatingPipe.ctorParameters = function () { return []; };
 var AddressPipe = /** @class */ (function () {
     function AddressPipe() {
     }
@@ -404,7 +393,6 @@ var AddressPipe = /** @class */ (function () {
 AddressPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'address' },] },
 ];
-AddressPipe.ctorParameters = function () { return []; };
 var JoinPipe = /** @class */ (function () {
     function JoinPipe() {
     }
@@ -429,7 +417,6 @@ var JoinPipe = /** @class */ (function () {
 JoinPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'join' },] },
 ];
-JoinPipe.ctorParameters = function () { return []; };
 var FontPipe = /** @class */ (function () {
     function FontPipe() {
     }
@@ -464,7 +451,6 @@ var FontPipe = /** @class */ (function () {
 FontPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'email' },] },
 ];
-FontPipe.ctorParameters = function () { return []; };
 var ConditionalPipe = /** @class */ (function () {
     function ConditionalPipe() {
     }
@@ -530,7 +516,6 @@ var ConditionalPipe = /** @class */ (function () {
 ConditionalPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'if' },] },
 ];
-ConditionalPipe.ctorParameters = function () { return []; };
 var InToPipe = /** @class */ (function () {
     function InToPipe() {
     }
@@ -748,7 +733,6 @@ var InToPipe = /** @class */ (function () {
 InToPipe.decorators = [
     { type: core.Pipe, args: [{ name: 'into' },] },
 ];
-InToPipe.ctorParameters = function () { return []; };
 var SanitizeHtmlPipe = /** @class */ (function () {
     function SanitizeHtmlPipe(_sanitizer) {
         this._sanitizer = _sanitizer;
@@ -764,7 +748,7 @@ SanitizeHtmlPipe.decorators = [
             },] },
 ];
 SanitizeHtmlPipe.ctorParameters = function () { return [
-    { type: platformBrowser.DomSanitizer, },
+    { type: platformBrowser.DomSanitizer }
 ]; };
 var AddressComponent = /** @class */ (function () {
     function AddressComponent() {
@@ -781,13 +765,12 @@ var AddressComponent = /** @class */ (function () {
 AddressComponent.decorators = [
     { type: core.Component, args: [{
                 selector: 'address-component',
-                template: "\n    <span class=\"address\">\n        <span [textContent]=\"addr1\"></span>\n        <span [textContent]=\"addr2\"></span>\n    </span>\n    <a [href]=\"url\" class=\"google-map\">\n        <span class=\"fa fa-map-marker\" aria-hidden=\"true\"></span>\n        <span class=\"off-screen\">View in google map</span>\n    </a>\n    ",
+                template: "\n    <span class=\"address\">\n        <span [textContent]=\"addr1\"></span>\n        <span [textContent]=\"addr2\"></span>\n    </span> \n    <a [href]=\"url\" class=\"google-map\">\n        <span class=\"fa fa-map-marker\" aria-hidden=\"true\"></span>\n        <span class=\"off-screen\">View in google map</span>\n    </a>\n    ",
                 styles: [
                     ".address {\n            display: inline-block;\n            float: left;\n        }\n        .google-map {\n            display: inline-block;\n            float: left;\n        }\n        .fa {\n            color: #f00;\n            margin: 0 3px;\n        }\n        .off-screen {\n            position: absolute;\n            left: -999em;\n        }\n        "
                 ]
             },] },
 ];
-AddressComponent.ctorParameters = function () { return []; };
 var EmailComponent = /** @class */ (function () {
     function EmailComponent() {
     }
@@ -805,7 +788,6 @@ EmailComponent.decorators = [
                 ]
             },] },
 ];
-EmailComponent.ctorParameters = function () { return []; };
 var FontComponent = /** @class */ (function () {
     function FontComponent() {
     }
@@ -827,7 +809,6 @@ FontComponent.decorators = [
                 ]
             },] },
 ];
-FontComponent.ctorParameters = function () { return []; };
 var ImageComponent = /** @class */ (function () {
     function ImageComponent() {
     }
@@ -854,7 +835,6 @@ ImageComponent.decorators = [
                 styles: [""]
             },] },
 ];
-ImageComponent.ctorParameters = function () { return []; };
 var VideoComponent = /** @class */ (function () {
     function VideoComponent() {
     }
@@ -881,7 +861,6 @@ VideoComponent.decorators = [
                 styles: [""]
             },] },
 ];
-VideoComponent.ctorParameters = function () { return []; };
 var JsonComponent = /** @class */ (function () {
     function JsonComponent() {
     }
@@ -895,11 +874,10 @@ JsonComponent.decorators = [
                 selector: 'json-component',
                 template: "<span class=\"json-view\" [textContent]=\"source | json\"></span>",
                 styles: [
-                    ".json-view {\n            display: inline-block;\n            float: left;\n            font-family: monospace;\n            padding: 5px;\n            white-space: pre-wrap;\n            unicode-bidi: embed;\n        }\n        "
+                    ".json-view {\n            display: inline-block;\n            float: left;\n            font-family: monospace;\n            padding: 5px;\n            white-space: pre-wrap;\n            unicode-bidi: embed;        \n        }\n        "
                 ]
             },] },
 ];
-JsonComponent.ctorParameters = function () { return []; };
 var LinkComponent = /** @class */ (function () {
     function LinkComponent() {
     }
@@ -925,7 +903,6 @@ LinkComponent.decorators = [
                 ]
             },] },
 ];
-LinkComponent.ctorParameters = function () { return []; };
 var RatingComponent = /** @class */ (function () {
     function RatingComponent() {
         this.value = [];
@@ -949,7 +926,6 @@ RatingComponent.decorators = [
                 ]
             },] },
 ];
-RatingComponent.ctorParameters = function () { return []; };
 var InputComponent = /** @class */ (function () {
     function InputComponent(renderer) {
         this.renderer = renderer;
@@ -1034,19 +1010,19 @@ var InputComponent = /** @class */ (function () {
 InputComponent.decorators = [
     { type: core.Component, args: [{
                 selector: 'input-component',
-                template: "\n    <span *ngIf=\"editName\">\n    <input #nameEditor\n        type='text'\n        [id]=\"id\"\n        [name]=\"name\"\n        [value]=\"source\"\n        [placeholder]=\"placeholder\"\n        (blur)=\"blur($event)\"\n        (keyup)='keyup($event)'>\n    </span>\n    <span #nameHolder\n        *ngIf='!editName && formatting'\n        class='locked'\n        tabindex='0'\n        (keyup)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? (source | into:formatting) : '&nbsp;'\">\n    </span>\n    <span #nameHolder\n        *ngIf='!editName && !formatting'\n        class='locked'\n        tabindex='0'\n        (keyup)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? source : '&nbsp;'\">\n    </span>\n    ",
+                template: "\n    <span *ngIf=\"editName\">\n    <input #nameEditor\n        type='text' \n        [id]=\"id\"\n        [name]=\"name\"\n        [value]=\"source\"\n        [placeholder]=\"placeholder\"\n        (blur)=\"blur($event)\" \n        (keyup)='keyup($event)'>\n    </span>\n    <span #nameHolder\n        *ngIf='!editName && formatting'\n        class='locked' \n        tabindex='0' \n        (keyup)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? (source | into:formatting) : '&nbsp;'\">\n    </span>\n    <span #nameHolder\n        *ngIf='!editName && !formatting'\n        class='locked' \n        tabindex='0' \n        (keyup)='keydown($event)'\n        (click)=\"clickName($event)\"\n        [innerHTML]=\"source ? source : '&nbsp;'\">\n    </span>\n    ",
                 styles: [
-                    "\n        .locked {\n          display: inline-block;\n          cursor: pointer;\n          min-width: 30px;\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n        input {\n          cursor: beam;\n        }\n        "
+                    "\n        .locked {\n          display: inline-block;\n          cursor: pointer;\n          min-width: 30px;\n          -webkit-user-select: none;       \n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n        input {\n          cursor: beam;\n        }\n        "
                 ]
             },] },
 ];
 InputComponent.ctorParameters = function () { return [
-    { type: core.Renderer, },
+    { type: core.Renderer }
 ]; };
 InputComponent.propDecorators = {
-    "nameEditor": [{ type: core.ViewChild, args: ["nameEditor",] },],
-    "nameHolder": [{ type: core.ViewChild, args: ["nameHolder",] },],
-    "onIntoComponentChange": [{ type: core.Output, args: ["onIntoComponentChange",] },],
+    nameEditor: [{ type: core.ViewChild, args: ["nameEditor",] }],
+    nameHolder: [{ type: core.ViewChild, args: ["nameHolder",] }],
+    onIntoComponentChange: [{ type: core.Output, args: ["onIntoComponentChange",] }]
 };
 var CheckboxComponent = /** @class */ (function () {
     function CheckboxComponent(renderer) {
@@ -1099,19 +1075,19 @@ var CheckboxComponent = /** @class */ (function () {
 CheckboxComponent.decorators = [
     { type: core.Component, args: [{
                 selector: 'checkbox-component',
-                template: "\n    <span *ngIf=\"useFont\" class=\"check-font\">\n      <span *ngIf=\"source === ideal\" #check tabindex=\"0\" class=\"fa fa-check\" (keyup)=\"keyup($event)\" (click)=\"click($event)\"></span>\n      <span *ngIf=\"source !== ideal\" #uncheck tabindex=\"0\" class=\"fa fa-close\" (keyup)=\"keyup($event)\" (click)=\"click($event)\"></span>\n    </span>\n    <input *ngIf=\"!useFont\"\n            type=\"checkbox\"\n            tabindex=\"0\"\n            [value]=\"source\"\n            [checked]=\"source===ideal ? true : null\"\n            (keyup)=\"keyup($event)\"\n            (click)=\"click($event)\" />\n    ",
+                template: "\n    <span *ngIf=\"useFont\" class=\"check-font\">\n      <span *ngIf=\"source === ideal\" #check tabindex=\"0\" class=\"fa fa-check\" (keyup)=\"keyup($event)\" (click)=\"click($event)\"></span>\n      <span *ngIf=\"source !== ideal\" #uncheck tabindex=\"0\" class=\"fa fa-close\" (keyup)=\"keyup($event)\" (click)=\"click($event)\"></span>\n    </span>\n    <input *ngIf=\"!useFont\" \n            type=\"checkbox\" \n            tabindex=\"0\" \n            [value]=\"source\" \n            [checked]=\"source===ideal ? true : null\" \n            (keyup)=\"keyup($event)\"\n            (click)=\"click($event)\" />\n    ",
                 styles: [
                     "\n        .check-font {\n          cursor: pointer;\n        }\n        "
                 ]
             },] },
 ];
 CheckboxComponent.ctorParameters = function () { return [
-    { type: core.Renderer, },
+    { type: core.Renderer }
 ]; };
 CheckboxComponent.propDecorators = {
-    "check": [{ type: core.ViewChild, args: ["check",] },],
-    "uncheck": [{ type: core.ViewChild, args: ["uncheck",] },],
-    "onIntoComponentChange": [{ type: core.Output, args: ["onIntoComponentChange",] },],
+    check: [{ type: core.ViewChild, args: ["check",] }],
+    uncheck: [{ type: core.ViewChild, args: ["uncheck",] }],
+    onIntoComponentChange: [{ type: core.Output, args: ["onIntoComponentChange",] }]
 };
 var SelectComponent = /** @class */ (function () {
     function SelectComponent(renderer) {
@@ -1152,10 +1128,10 @@ SelectComponent.decorators = [
             },] },
 ];
 SelectComponent.ctorParameters = function () { return [
-    { type: core.Renderer, },
+    { type: core.Renderer }
 ]; };
 SelectComponent.propDecorators = {
-    "onIntoComponentChange": [{ type: core.Output, args: ["onIntoComponentChange",] },],
+    onIntoComponentChange: [{ type: core.Output, args: ["onIntoComponentChange",] }]
 };
 var SpanComponent = /** @class */ (function () {
     function SpanComponent() {
@@ -1174,7 +1150,6 @@ SpanComponent.decorators = [
                 ]
             },] },
 ];
-SpanComponent.ctorParameters = function () { return []; };
 var ShareComponent = /** @class */ (function () {
     function ShareComponent() {
         this.shouldDisplay = false;
@@ -1234,11 +1209,10 @@ var ShareComponent = /** @class */ (function () {
 ShareComponent.decorators = [
     { type: core.Component, args: [{
                 selector: 'share-component',
-                template: "\n    <a id='share-comment-{{id}}'\n        tabindex=\"0\"\n        class='share-item-tips'\n        (keyup)='keyup($event)'\n        (click)='shouldDisplay = !shouldDisplay'>\n    <span class=\"fa fa-share-alt\"></span>\n    <span class=\"share\">share</span>\n    </a>\n    <span id='share-comment-{{id}}-tips' class='tips' *ngIf='shouldDisplay'>\n      <span class='social-referal'>\n        <a *ngFor=\"let share of shareList\" [class]='share.icon' target='_blank' [href]='share.href'><span class='off-screen' [textContent]=\"share.title\"></span></a>\n      </span>\n    </span>\n",
+                template: "\n    <a id='share-comment-{{id}}' \n        tabindex=\"0\" \n        class='share-item-tips' \n        (keyup)='keyup($event)'\n        (click)='shouldDisplay = !shouldDisplay'>\n    <span class=\"fa fa-share-alt\"></span>\n    <span class=\"share\">share</span>\n    </a>\n    <span id='share-comment-{{id}}-tips' class='tips' *ngIf='shouldDisplay'>\n      <span class='social-referal'>\n        <a *ngFor=\"let share of shareList\" [class]='share.icon' target='_blank' [href]='share.href'><span class='off-screen' [textContent]=\"share.title\"></span></a>\n      </span>\n    </span>\n",
                 styles: ["\n    :host {display: table;position: relative}\n    .share-item-tips {\n        cursor: pointer;\n    }\n    .share-item-tips .fa {\n        margin: 0;\n    }\n    .tips {\n        position: absolute;\n        display: flex;\n        flex-direction: row;\n        padding: 5px;\n        border: 1px solid #aaa;\n        border-radius: 2px;\n        background-color: #fff;\n        z-index: 2;\n    }\n    .tips .social-referal {\n        display: flex;\n        flex-direction: row;\n    }\n    .tips .social-referal .fa {\n        float: left;\n        padding: 2px 4px;\n        color: blue;\n        border: 1px solid #ccc;\n        border-radius: 4px;\n        text-decoration: none;\n        margin: 0 1px;\n        width: 20px;\n        text-align: center;\n    }\n    .tips .social-referal .fa:hover {\n        color: #fff;\n        background-color: blue;\n    }\n    "]
             },] },
 ];
-ShareComponent.ctorParameters = function () { return []; };
 var LikeComponent = /** @class */ (function () {
     function LikeComponent() {
         this.thumbs = "";
@@ -1325,13 +1299,12 @@ var LikeComponent = /** @class */ (function () {
 LikeComponent.decorators = [
     { type: core.Component, args: [{
                 selector: 'like-component',
-                template: "\n    <a\n        id='like-{{id}}'\n        tabindex=\"0\"\n        class=\"like\"\n        [class.selected]=\"selected\"\n        (keyup)=\"keyup($event)\"\n        (click)='toggleCount($event)'>\n        <span class=\"fa fa-thumbs-up\" *ngIf=\"thumbsup && !selected\" aria-hidden=\"true\"></span>\n        <span class=\"fa fa-thumbs-up selected\" *ngIf=\"thumbsup && selected\" aria-hidden=\"true\"></span>\n        <span class=\"fa fa-thumbs-down\" *ngIf=\"!thumbsup && !selected\" aria-hidden=\"true\"></span>\n        <span class=\"fa fa-thumbs-down selected\" *ngIf=\"!thumbsup && selected\" aria-hidden=\"true\"></span>\n        <span class=\"counts\" *ngIf=\"showCount\" [textContent]=\"formatterSource()\"></span>\n    </a>",
+                template: "\n    <a \n        id='like-{{id}}' \n        tabindex=\"0\" \n        class=\"like\" \n        [class.selected]=\"selected\" \n        (keyup)=\"keyup($event)\" \n        (click)='toggleCount($event)'>\n        <span class=\"fa fa-thumbs-up\" *ngIf=\"thumbsup && !selected\" aria-hidden=\"true\"></span>\n        <span class=\"fa fa-thumbs-up selected\" *ngIf=\"thumbsup && selected\" aria-hidden=\"true\"></span>\n        <span class=\"fa fa-thumbs-down\" *ngIf=\"!thumbsup && !selected\" aria-hidden=\"true\"></span>\n        <span class=\"fa fa-thumbs-down selected\" *ngIf=\"!thumbsup && selected\" aria-hidden=\"true\"></span>\n        <span class=\"counts\" *ngIf=\"showCount\" [textContent]=\"formatterSource()\"></span>\n    </a>",
                 styles: [
                     "\n        :host {display: table;position: relative}\n        .like {\n            cursor: pointer;\n        }\n        .like .fa {\n            margin: 0;\n        }\n        .like .fa.selected {\n            color: green;\n        }\n        "
                 ]
             },] },
 ];
-LikeComponent.ctorParameters = function () { return []; };
 var CalendarComponent = /** @class */ (function () {
     function CalendarComponent(renderer) {
         this.renderer = renderer;
@@ -1499,10 +1472,10 @@ CalendarComponent.decorators = [
             },] },
 ];
 CalendarComponent.ctorParameters = function () { return [
-    { type: core.Renderer, },
+    { type: core.Renderer }
 ]; };
 CalendarComponent.propDecorators = {
-    "onIntoComponentChange": [{ type: core.Output, args: ["onIntoComponentChange",] },],
+    onIntoComponentChange: [{ type: core.Output, args: ["onIntoComponentChange",] }]
 };
 var LastUpdateComponent = /** @class */ (function () {
     function LastUpdateComponent() {
@@ -1567,7 +1540,6 @@ LastUpdateComponent.decorators = [
                 ]
             },] },
 ];
-LastUpdateComponent.ctorParameters = function () { return []; };
 var InputGroupComponent = /** @class */ (function () {
     function InputGroupComponent(renderer) {
         this.renderer = renderer;
@@ -1620,17 +1592,17 @@ var InputGroupComponent = /** @class */ (function () {
 InputGroupComponent.decorators = [
     { type: core.Component, args: [{
                 selector: 'input-group-component',
-                template: "\n    <span class=\"input-group-item\" *ngFor=\"let x of options; let i = index\">\n        <input\n            [type]=\"type\"\n            [id]=\"name + i\"\n            [name]=\"name + (type === 'radio' ? '' : i)\"\n            [value]=\"x.value ? x.value : x\"\n            [checked]=\"isSelected(x)\"\n            (click)=\"click($event)\"/>\n        <label [for]=\"name + i\" [textContent]=\"x.label ? x.label : x\"></label>\n    </span>\n    ",
+                template: "\n    <span class=\"input-group-item\" *ngFor=\"let x of options; let i = index\">\n        <input \n            [type]=\"type\" \n            [id]=\"name + i\" \n            [name]=\"name + (type === 'radio' ? '' : i)\" \n            [value]=\"x.value ? x.value : x\" \n            [checked]=\"isSelected(x)\"\n            (click)=\"click($event)\"/>\n        <label [for]=\"name + i\" [textContent]=\"x.label ? x.label : x\"></label>\n    </span>\n    ",
                 styles: [
                     "\n        "
                 ]
             },] },
 ];
 InputGroupComponent.ctorParameters = function () { return [
-    { type: core.Renderer, },
+    { type: core.Renderer }
 ]; };
 InputGroupComponent.propDecorators = {
-    "onIntoComponentChange": [{ type: core.Output, args: ["onIntoComponentChange",] },],
+    onIntoComponentChange: [{ type: core.Output, args: ["onIntoComponentChange",] }]
 };
 var ComponentPool = /** @class */ (function () {
     function ComponentPool() {
@@ -2022,18 +1994,18 @@ IntoDirective.decorators = [
             },] },
 ];
 IntoDirective.ctorParameters = function () { return [
-    { type: core.ViewContainerRef, },
-    { type: core.ElementRef, },
-    { type: ComponentPool, },
-    { type: core.ComponentFactoryResolver, },
+    { type: core.ViewContainerRef },
+    { type: core.ElementRef },
+    { type: ComponentPool },
+    { type: core.ComponentFactoryResolver }
 ]; };
 IntoDirective.propDecorators = {
-    "rawContent": [{ type: core.Input, args: ["rawContent",] },],
-    "intoId": [{ type: core.Input, args: ["intoId",] },],
-    "intoName": [{ type: core.Input, args: ["intoName",] },],
-    "intoData": [{ type: core.Input, args: ["intoData",] },],
-    "into": [{ type: core.Input, args: ["into",] },],
-    "onComponentChange": [{ type: core.Input, args: ["onComponentChange",] },],
+    rawContent: [{ type: core.Input, args: ["rawContent",] }],
+    intoId: [{ type: core.Input, args: ["intoId",] }],
+    intoName: [{ type: core.Input, args: ["intoName",] }],
+    intoData: [{ type: core.Input, args: ["intoData",] }],
+    into: [{ type: core.Input, args: ["into",] }],
+    onComponentChange: [{ type: core.Input, args: ["onComponentChange",] }]
 };
 var IntoPipeModule = /** @class */ (function () {
     function IntoPipeModule() {
@@ -2168,7 +2140,6 @@ IntoPipeModule.decorators = [
                 schemas: [core.CUSTOM_ELEMENTS_SCHEMA]
             },] },
 ];
-IntoPipeModule.ctorParameters = function () { return []; };
 
 exports.InToPipe = InToPipe;
 exports.MaskPipe = MaskPipe;
