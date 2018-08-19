@@ -56,7 +56,7 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 
 # Revision History
 
-## varsion 1.8.0
+## varsion 2.0.0
 Updated dependencies to become compatible with Angular 6+.
 
 ## varsion 1.8.0
@@ -294,11 +294,11 @@ DEPENDENCIES:
 | lastupdate          | `lastupdate:true`                                 | 1) flag to indicate if time icon should be displayed on the side. |
 | share               | `share:facebook:linkedin:google:twitter`          | 1) list of any one of supported sites (facebook, linkedin, google, twitter, pinterest, digg, xing, get-pocket, stumbleupon) |
 | video               | `video:200px:auto:alt text` OR `video`            | 1) width, 2)height, 3) alternate text to be displayed |
-| select              | `select:true` OR `select`                         |  1) if it is multiselect. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
+| select              | `select:true` OR `select`                         |  1) if it is multi-select. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
 | inputgroup          | `inputgroup`                                      |  NONE. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
 | input               | `input:placeholder:formatting,`                   |  1) place holder text or blank, 2) formatting rules for the value to be displayed when text field is not editable    |
 | checkbox            | `checkbox:idealvalue:useIcon`                     |  1) the value for which checkbox should be checked, 2)if it is standard checkbox or should use fonts to display checked or not checked.  |
-| join                | `join:,`                                          |  1) the characters used to jin the list     |
+| join                | `join:,`                                          |  1) the characters used to join the list     |
 | sanitizeHtml        | `sanitizeHtml`                                    |  NONE  (This pipe is not used by into pipe) |
 | if                  | `'masoud' | into: "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\""` |  1)condition `=,!=,~=,<,>,~,!~,in` , 2)value to be evaluated, 3)action, 4)else action |
 | email               | `email`                                           | NONE                        |
