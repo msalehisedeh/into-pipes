@@ -4,10 +4,6 @@
     "entryFile": "public_api.ts"
   },
   "whitelistedNonPeerDependencies": [
-    "angular",
-    "font-awesome",
-    "zone",
-    "tslib",
-    "core-js"
+    "font-awesome"
   ]
 }
