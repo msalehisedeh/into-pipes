@@ -1,6 +1,6 @@
 {
-  "name": "into-pipes",
-  "version": "2.0.1",
+  "name": "@sedeh/into-pipes",
+  "version": "2.1.1",
   "license": "MIT",
   "private": false,
   "keywords": [
@@ -29,30 +29,37 @@
     "best"
   ],
   "dependencies": {
-    "@angular/common": "^6.0.0 || ^5.0.0 || ^4.0.0 || ^2.0.0",
-    "@angular/compiler": "^6.0.0 || ^5.0.0 || ^4.0.0 || ^2.0.0",
-    "@angular/core": "^6.0.0 || ^5.0.0 || ^4.0.0 || ^2.0.0",
-    "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
-    "zone.js": "^0.8.14",
     "tslib": "^1.9.0"
   },
   "devDependencies": {
-    "@angular/cli": "^1.6.7",
-    "@angular/compiler-cli": "^6.0.0 || ^5.0.0 || ^4.0.0 || ^2.0.0",
-    "@angular/platform-browser": "^6.0.0 || ^5.0.0 || ^4.0.0 || ^2.0.0",
-    "rxjs": "^6.2.2",
+    "@angular/common": "^6.0.0",
+    "@angular/compiler": "^6.0.0",
+    "@angular/core": "^6.0.0",
+    "@angular/platform-browser": "^6.0.0",
+    "@angular/platform-browser-dynamic": "^6.0.0",
+    "@angular-devkit/build-angular": "~0.12.2",
+    "@angular/cli": "^6.2.6",
+    "@angular/compiler-cli": "^6.0.0",
     "@types/node": "^6.0.60",
-    "codelyzer": "^3.2.0",
-    "ng-packagr": "^2.0.0",
-    "protractor": "^5.1.2",
-    "ts-node": "^3.2.0",
-    "tslint": "^5.7.0",
-    "typescript": "^2.4.2"
+    "core-js": "^2.5.4",
+    "zone.js": "^0.8.26",
+    "rxjs": "^6.2.2",
+    "codelyzer": "~4.5.0",
+    "ng-packagr": "^4.4.0",
+    "protractor": "~5.4.2",
+    "ts-node": "~5.0.1",
+    "tslint": "~5.7.0",
+    "typescript": "~2.7.2"
   },
-  "main": "bundles/into-pipes.umd.js",
-  "module": "esm5/into-pipes.js",
-  "es2015": "esm2015/into-pipes.js",
-  "typings": "into-pipes.d.ts",
-  "metadata": "into-pipes.metadata.json"
+  "main": "bundles/sedeh-into-pipes.umd.js",
+  "module": "fesm5/sedeh-into-pipes.js",
+  "es2015": "fesm2015/sedeh-into-pipes.js",
+  "esm5": "esm5/sedeh-into-pipes.js",
+  "esm2015": "esm2015/sedeh-into-pipes.js",
+  "fesm5": "fesm5/sedeh-into-pipes.js",
+  "fesm2015": "fesm2015/sedeh-into-pipes.js",
+  "typings": "sedeh-into-pipes.d.ts",
+  "metadata": "sedeh-into-pipes.metadata.json",
+  "sideEffects": false
 }

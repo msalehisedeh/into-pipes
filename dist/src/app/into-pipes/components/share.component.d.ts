@@ -7,7 +7,7 @@ export declare class ShareComponent implements PipeComponent {
     name: string;
     shareList: any[];
     onIntoComponentChange: EventEmitter<any>;
-    private shareInfo;
+    private shareInfo(type, address);
     keyup(event: any): void;
     transform(source: any, data: any, args: any[]): void;
 }
