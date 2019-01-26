@@ -10,7 +10,9 @@ import { PipeComponent } from '../interfaces/pipe.component';
     </a>
     `,
     styles: [
-        ``
+        `
+        :host:hover .fa-envelope{color: #fabdab;}
+        `
     ]
 })
 export class EmailComponent implements PipeComponent {

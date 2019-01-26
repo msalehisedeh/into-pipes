@@ -14,22 +14,11 @@ import { PipeComponent } from '../interfaces/pipe.component';
     </a>
     `,
     styles: [
-        `.address {
-            display: inline-block;
-            float: left;
-        }
-        .google-map {
-            display: inline-block;
-            float: left;
-        }
-        .fa {
-            color: #f00;
-            margin: 0 3px;
-        }
-        .off-screen {
-            position: absolute;
-            left: -999em;
-        }
+        `.address {display: inline-block;float: left;}
+        .google-map {display: inline-block;float: left;}
+        .fa {color: #f00;margin: 0 3px;}
+        .off-screen {position: absolute;left: -999em;}
+        :host a:hover .fa-map-marker{color: #fabdab;}
         `
     ]
 })

@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { ComponentPool } from './into-pipes/injectables/component.pool';
 import { PipeServiceComponent } from './into-pipes/interfaces/pipe.component';
@@ -44,7 +44,7 @@ export class AppComponent {
   myDateList = ["2018-03-10T01:01:20Z", "2011-02-12T01:01:20Z"];
   myDateFormat="date:\"MM/dd/yyyy hh:ss\"";
   theURL = "https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?h=350&auto=compress&cs=tinysrgb";
-  videoURL = "http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_5mb.mp4";
+  videoURL = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4";
 
   myConditionalLogic = "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\"";
   myConditionalThreeFive = "if:>:3:\"font:fa fa-check:replace\":\"font:fa fa-bell:replace\"";

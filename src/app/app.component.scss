@@ -16,6 +16,7 @@ table{
     border: 1px solid #598ec3;
     border-collapse: separate;
     border-spacing: 0;
+    width:100%;
 
     th {
         background-color: #598ec3;
@@ -27,6 +28,7 @@ table{
         color: #444;
         border: 1px solid #598ec3;
         padding: 1px 5px;
+        vertical-align: top;
 
         ::ng-deep .off-screen {
             position: absolute;

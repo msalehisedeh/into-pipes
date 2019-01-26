@@ -1,6 +1,6 @@
 {
   "name": "@sedeh/into-pipes",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -11,9 +11,6 @@
   },
   "private": false,
   "keywords": [
-    "Angular 2+",
-    "Angular 4+",
-    "Angular 5+",
     "Angular 6+",
     "pipe",
     "format",
@@ -44,7 +41,7 @@
     "@angular/core": "^6.0.0",
     "@angular/platform-browser": "^6.0.0",
     "@angular/platform-browser-dynamic": "^6.0.0",
-    "@angular-devkit/build-angular": "~0.12.2",
+    "@angular-devkit/build-angular": "~0.12.3",
     "@angular/cli": "^6.2.6",
     "@angular/compiler-cli": "^6.0.0",
     "@types/node": "^6.0.60",

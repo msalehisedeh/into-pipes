@@ -26,6 +26,7 @@ import { InputGroupComponent } from './components/input-group.component';
 import { SpanComponent } from './components/span.component';
 import { AddressComponent } from './components/address.component';
 import { EmailComponent } from './components/email.component';
+import { PhoneComponent } from './components/phone.component';
 import { FontComponent } from './components/font.component';
 import { ImageComponent } from './components/image.component';
 import { VideoComponent } from './components/video.component';
@@ -47,6 +48,7 @@ import { CalendarComponent } from './components/calendar.component';
   declarations: [
     AddressComponent,
     EmailComponent,
+    PhoneComponent,
     FontComponent,
     ImageComponent,
     VideoComponent,
@@ -102,6 +104,7 @@ import { CalendarComponent } from './components/calendar.component';
     IntoDirective,
     AddressComponent,
     EmailComponent,
+    PhoneComponent,
     FontComponent,
     ImageComponent,
     VideoComponent,
@@ -121,6 +124,7 @@ import { CalendarComponent } from './components/calendar.component';
   entryComponents: [
     AddressComponent,
     EmailComponent,
+    PhoneComponent,
     FontComponent,
     ImageComponent,
     VideoComponent,

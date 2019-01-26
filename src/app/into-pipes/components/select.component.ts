@@ -1,4 +1,4 @@
-import { Component, ViewChild, Renderer, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { PipeComponent, PipeServiceComponent } from '../interfaces/pipe.component';
 
 @Component({
@@ -26,7 +26,7 @@ export class SelectComponent implements PipeComponent {
   @Output("onIntoComponentChange")
   onIntoComponentChange = new EventEmitter();
 
-  constructor(private renderer: Renderer) {}
+  constructor() {}
 
   click(event) {
     event.stopPropagation();

@@ -1,4 +1,4 @@
-import { Component, ViewChild, Renderer, Output, EventEmitter } from '@angular/core';
+import { Component, Renderer, Output, EventEmitter } from '@angular/core';
 import { PipeComponent, PipeServiceComponent } from '../interfaces/pipe.component';
 
 @Component({

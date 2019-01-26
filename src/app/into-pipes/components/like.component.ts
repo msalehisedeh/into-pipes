@@ -20,15 +20,11 @@ import { PipeComponent } from '../interfaces/pipe.component';
     styles: [
         `
         :host {display: table;position: relative}
-        .like {
-            cursor: pointer;
-        }
-        .like .fa {
-            margin: 0;
-        }
-        .like .fa.selected {
-            color: green;
-        }
+        .like {cursor: pointer;}
+        .like .counts{margin-left: 5px;}
+        .like .fa {margin: 0;}
+        .like .fa.selected {color: green;}
+        .like:hover, .like:hover .fa, .like:hover .fa.selected{color: #fabdab;}
         `
     ]
 })
@@ -60,7 +56,7 @@ export class LikeComponent implements PipeComponent {
           event.target.click();
         }
     }
-    private addItem(id) {
+    private addItem(id: string) {
         const saved = localStorage.getItem(this.thumbs);
         if (saved) {
           const savedItems = JSON.parse(saved);
@@ -71,7 +67,7 @@ export class LikeComponent implements PipeComponent {
         }
         this.source ++;
     }
-    private removeItem(id) {
+    private removeItem(id: string) {
         const saved = localStorage.getItem(this.thumbs);
         if (saved) {
           const savedItems = JSON.parse(saved);
@@ -82,7 +78,7 @@ export class LikeComponent implements PipeComponent {
           this.source --;
         }
     }
-    private getItem(id) {
+    private getItem(id: string) {
         const saved = localStorage.getItem(this.thumbs);
         let found = null;
     

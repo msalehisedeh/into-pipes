@@ -1,13 +1,9 @@
 
-import {
-    Injectable,
-    Injector
-} from '@angular/core';
-
-import { PipeComponent } from '../interfaces/pipe.component';
+import { Injectable } from '@angular/core';
 
 import { AddressComponent } from '../components/address.component';
 import { EmailComponent } from '../components/email.component';
+import { PhoneComponent } from '../components/phone.component';
 import { FontComponent } from '../components/font.component';
 import { ImageComponent } from '../components/image.component';
 import { VideoComponent } from '../components/video.component';
@@ -33,6 +29,7 @@ export class ComponentPool {
 		this.registerComponent("span", SpanComponent);
 		this.registerComponent("address", AddressComponent);
 		this.registerComponent("email", EmailComponent);
+		this.registerComponent("phone", PhoneComponent);
 		this.registerComponent("font", FontComponent);
 		this.registerComponent("image", ImageComponent);
 		this.registerComponent("video", VideoComponent);
@@ -49,23 +46,23 @@ export class ComponentPool {
 		this.registerComponent("inputgroup", InputGroupComponent);
 	}
   
-	registerComponent (name, component: any) {
+	registerComponent (name: string, component: any) {
 		this.registeredComponents[name] = component;
 	}
-	removeComponent (name) {
+	removeComponent (name: string) {
 		delete this.registeredComponents[name];
 	}
-	registeredComponent(name) {
+	registeredComponent(name: string) {
 		return this.registeredComponents[name];
 	}
 
-	registerServiceForComponent (name, service: any) {
+	registerServiceForComponent (name: string, service: any) {
 		this.registeredServices[name] = service;
 	}
-	removeServiceForComponent (name) {
+	removeServiceForComponent (name: string) {
 		delete this.registeredServices[name];
 	}
-	registeredServiceForComponent(name): any {
+	registeredServiceForComponent(name: string): any {
 		return this.registeredServices[name];
 	}
 }

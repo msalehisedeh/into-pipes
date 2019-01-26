@@ -26,7 +26,6 @@ export class RatingComponent implements PipeComponent {
 	onIntoComponentChange: EventEmitter<any>;
 
     transform(source: any, data: any, args: any[]) {
-        const number = typeof source === "number" ? String(source) : source;
         this.float = parseFloat(source);
         this.source = source;
         const size = parseInt(source, 10);

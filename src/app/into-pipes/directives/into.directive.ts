@@ -3,9 +3,7 @@ import {
     ViewContainerRef,
     ElementRef,
     Input,
-    Output,
     OnInit,
-    OnDestroy,
 	ComponentFactoryResolver,
     ComponentRef,
     EmbeddedViewRef
@@ -15,7 +13,6 @@ import {
     DatePipe,
     CurrencyPipe,
     DecimalPipe,
-    JsonPipe,
     SlicePipe,
     UpperCasePipe,
     LowerCasePipe
@@ -32,12 +29,11 @@ import {JoinPipe} from '../pipes/join.pipe';
 
 import { PipeComponent } from '../interfaces/pipe.component';
 import { ComponentPool } from '../injectables/component.pool';
-import { EventEmitter } from 'events';
 
 @Directive({
     selector: '[into]'
 })
-export class IntoDirective implements OnInit, OnDestroy {
+export class IntoDirective implements OnInit {
     
     @Input("rawContent")
     rawContent: string;
@@ -65,7 +61,7 @@ export class IntoDirective implements OnInit, OnDestroy {
     ) {
     }
     
-    private split(item) {
+    private split(item: string) {
         return item.trim().match(/(?=\S)[^"\:]*(?:"[^\\"]*(?:\\[\:\S][^\\"]*)*"[^"\:]*)*/g).filter((x)=>x.length);
     }
     
@@ -138,7 +134,7 @@ export class IntoDirective implements OnInit, OnDestroy {
                 break;
             case "date" : 
                 // date:en_US:MMddyy OR date:\"MM/dd/yyyy hh:ss\"
-                const date = ((typeof content === "string") || !(content instanceof Array)) ? new Date(content) : content;
+                // const date = ((typeof content === "string") || !(content instanceof Array)) ? new Date(content) : content;
                 let dateLocal = "en_US";
                 let dateFormat= args[1];
                 if (args.length > 2) {
@@ -222,6 +218,15 @@ export class IntoDirective implements OnInit, OnDestroy {
             case "email" : 
                 // email
                 result = this.transformComponent("email", content, this.intoId, this.intoName,  data, ""); 
+                break;
+            case "phone" : 
+                if (args.length > 2) {
+                    result = this.transformComponent("phone", content, this.intoId, this.intoName,  data, args[1], args[2]); 
+                } else if (args.length > 1) {
+                    result = this.transformComponent("phone", content, this.intoId, this.intoName,  data, args[1], false); 
+                } else {
+                    result = this.transformComponent("phone", content, this.intoId, this.intoName,  data, false, false); 
+                }
                 break;
             case "address" : 
                 // address
@@ -405,9 +410,5 @@ export class IntoDirective implements OnInit, OnDestroy {
                 });
             }
         }
-    }
-    
-    ngOnDestroy() {
-       
     }
 }

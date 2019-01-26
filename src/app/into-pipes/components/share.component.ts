@@ -20,12 +20,11 @@ import { PipeComponent } from '../interfaces/pipe.component';
 `,
     styles: [`
     :host {display: table;position: relative}
-    .share-item-tips {
-        cursor: pointer;
-    }
-    .share-item-tips .fa {
-        margin: 0;
-    }
+    .share-item-tips {cursor: pointer;}
+    .share-item-tips:hover {color: #fabdab;}
+    .share-item-tips .fa {margin: 0;}
+    .share-item-tips:hover .fa{color: #fabdab;}
+    .share-item-tips .share{margin-left: 5px;}
     .tips {
         position: absolute;
         display: flex;

@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({ name: 'raiting' })
 export class RatingPipe implements PipeTransform {
     rateString(source) {
-        const number = typeof source === "number" ? String(source) : source;
         const value = parseInt(source, 10);
         const float = parseFloat(source);
 

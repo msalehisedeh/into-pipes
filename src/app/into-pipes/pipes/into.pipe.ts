@@ -139,7 +139,7 @@ transform(content: any, list: string): any {
             break;
         case "date" : 
             // date:en_US:MMddyy OR date:\"MM/dd/yyyy hh:ss\"
-            const date = ((typeof content === "string") || !(content instanceof Array)) ? new Date(content) : content;
+            // const date = ((typeof content === "string") || !(content instanceof Array)) ? new Date(content) : content;
             let dateLocal = "en_US";
             let dateFormat= args[1];
             if (args.length > 2) {

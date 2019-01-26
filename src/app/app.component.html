@@ -7,12 +7,12 @@
 
 <table>
   <tr>
-    <th>Action</th><th>Code</th><th>result</th>
+    <th width="300px">Action</th><th>Code</th><th>result</th>
   </tr>
   <tr>
     <td>Format a URL of specific content <b>into</b> a Media Share link of specified websites.</td>
-    <td>[rawContent]="'http://thiswebsite.com/thispage/thisarticle'" 
-      [into]="'share:facebook:linkedin:google:twitter'" intoId="myshare" intoName="share"
+    <td>[rawContent]="'http://thiswebsite.com/thispage/thisarticle'" <br/>
+      [into]="'share:facebook:linkedin:google:twitter'"<br/>intoId="myshare" intoName="share"<br/>
       [onComponentChange]="onComponentChange.bind(this)"
     </td>
     <td><span [rawContent]="'http://thiswebsite.com/thispage/thisarticle'" 
@@ -22,7 +22,10 @@
   </tr>
   <tr>
     <td>Format number <b>into</b> like with option of showing like counts or not.</td>
-    <td>intoId="myLikes" intoName="like" [rawContent]="dataSet" [into]="'like:true:true:id'" [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td>[rawContent]="dataSet"<br/>
+      [into]="'like:true:true:id'"<br/>
+      intoId="myLikes" intoName="like" <br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span  intoId="myLikes" intoName="like"
       [rawContent]="dataSet.likes" 
       [intoData]="dataSet"
@@ -31,7 +34,10 @@
   </tr>
   <tr>
     <td>Format number <b>into</b> dis-like with option of showing dis-like counts or not.</td>
-    <td>intoId="mydisLikes" intoName="like" [rawContent]="dataSet" [into]="'like:true:false:id'" [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td>[rawContent]="dataSet"<br/>
+      [into]="'like:true:false:id'"<br/>
+      intoId="mydisLikes" intoName="like" <br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span intoId="mydisLikes" intoName="like"
       [rawContent]="dataSet.dislikes" 
       [intoData]="dataSet"
@@ -41,10 +47,9 @@
   <tr>
     <td>Format date <b>into</b> date with an interactive date picker.</td>
     <td>
-      intoId="mycalendar" 
-      intoName="calendar"  
-      [rawContent]="myPickDate" 
-      [into]="'calendar:MM/dd/yyyy'"
+      [rawContent]="myPickDate" <br/>
+      [into]="'calendar:MM/dd/yyyy'"<br/>
+      intoId="mycalendar"  intoName="calendar"  <br/>
       [onComponentChange]="onComponentChange.bind(this)"
     </td>
     <td>
@@ -58,7 +63,7 @@
   </tr>
   <tr>
     <td>Format date <b>into</b> last update natural language text with option of showing icon.</td>
-    <td>[rawContent]="myLastUpdatedDate" [into]="'lastupdate:true'"</td>
+    <td>[rawContent]="myLastUpdatedDate"<br/>[into]="'lastupdate:true'"</td>
     <td><span [rawContent]="myLastUpdatedDate" [into]="'lastupdate:true'"></span></td>
   </tr>
   <tr>
@@ -82,9 +87,19 @@
     <td><span [rawContent]="'xyz@gmail.com'" [into]="'email'"></span></td>
   </tr>
   <tr>
+    <td>Format phone number <b>into</b> a formatted phone link</td>
+    <td>[rawContent]="'+1 976 888 7645 3454'" [into]="'phone:true:true'"</td>
+    <td><span [rawContent]="'+1 976 888 7645 3454'" [into]="'phone:true:true'"></span></td>
+  </tr>
+  <tr>
+    <td>Format phone number <b>into</b> a formatted phone number</td>
+    <td>[rawContent]="'+1 976 888 7645 3454'" [into]="'phone:false:true'"</td>
+    <td><span [rawContent]="'+1 976 888 7645 3454'" [into]="'phone:false:true'"></span></td>
+  </tr>
+  <tr>
     <td>Format a source <b>into</b> a list of radio options</td>
-    <td>[rawContent]="'red'" 
-      [into]="'inputgroup'" intoName="group1" intoId="group1" 
+    <td>[rawContent]="'red'" <br/>
+      [into]="'inputgroup'" intoName="group1" intoId="group1" <br/>
       [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span 
       [rawContent]="'red'" intoName="group1" intoId="group1" 
@@ -93,8 +108,8 @@
   </tr>
   <tr>
     <td>Format list of email addresses <b>into</b> a select list</td>
-    <td>[rawContent]="'xyz@gmail.com'" 
-      [into]="'select'" intoName="select1" intoId="select1" 
+    <td>[rawContent]="'xyz@gmail.com'" <br/>
+      [into]="'select'" intoName="select1" intoId="select1" <br/>
       [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span 
       [rawContent]="'xyz@gmail.com'" intoName="select1" intoId="select1" 
@@ -142,7 +157,10 @@
   </tr>
   <tr>
     <td>Mask number and add a checkmark icon</td>
-    <td> [rawContent]="'3423423422'" [into]="'input:enter number:mask | font:fa fa-check:replace:*'" [intoId]="threeFive" [intoName]="threeFive"</td>
+    <td> [rawContent]="'3423423422'"<br/>
+      [into]="'input:enter number:mask | font:fa fa-check:replace:*'"<br/>
+      [intoId]="threeFive"<br/>
+      [intoName]="threeFive"</td>
     <td><span 
       [rawContent]="'3423423422'" 
       [into]="'input:enter number:mask | font:fa fa-check:replace:*'" 
@@ -151,7 +169,9 @@
   </tr>
   <tr>
     <td>Format value <b>into</b> an interactive checkbox</td>
-    <td> [rawContent]="'yes'" [into]="'checkbox:yes:true'" intoId="mycheckbox" intoName="mycheckbox"
+    <td> [rawContent]="'yes'"<br/>
+      [into]="'checkbox:yes:true'"<br/>
+      intoId="mycheckbox" intoName="mycheckbox"<br/>
         [onComponentChange]="onComponentChange.bind(this)"
     </td>
     <td><span 
@@ -196,7 +216,7 @@
   </tr>
   <tr>
     <td>Format the URL <b>into</b> a video tag</td>
-    <td>[rawContent]="videoURL"  [into]="'video:200px:auto:alt text'" 
+    <td>[rawContent]="videoURL" <br/>[into]="'video:200px:auto:alt text'"<br/> 
       [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span [rawContent]="videoURL" 
        [into]="'video:200px:auto:alt text'"

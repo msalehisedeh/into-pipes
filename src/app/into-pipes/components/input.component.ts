@@ -41,10 +41,12 @@ import { PipeComponent } from '../interfaces/pipe.component';
           -moz-user-select: none;
           -ms-user-select: none;
           user-select: none;
+          border: 1px solid transparent;
         }
         input {
           cursor: beam;
         }
+        :host .locked:hover{border: 1px solid #fabdab;}
         `
     ]
 })

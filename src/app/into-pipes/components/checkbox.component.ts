@@ -18,9 +18,8 @@ import { PipeComponent } from '../interfaces/pipe.component';
     `,
     styles: [
         `
-        .check-font {
-          cursor: pointer;
-        }
+        .check-font:hover{color: #fabdab;}
+        .check-font {cursor: pointer;}
         `
     ]
 })
