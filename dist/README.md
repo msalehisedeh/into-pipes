@@ -5,7 +5,7 @@ This library provides few Angular pipes that are all used by a single **InTo** p
 Moreover, **"InTo"** can be customized by adding custom formatters **into** it!!
 
 **Note:** If you decide to use the **InTo** pipes instead of the directive, you need to make sure you will pipe the result **into** sanitizeHtml.
-**Note:** When you create tags and insert them **into** DOM at runtime through **InTo** Pipes, angular will not be able to enforce CSS rules on the tags. In that case the workaround is to use **::ng-deep** in your CSS. For example, if img tage is created through image pipe under a DIV with class "something", then you need to declare attributes in `::ng-deep .something img{ }` in order to have control over img tag.
+**Note:** When you create tags and insert them **into** DOM at runtime through **InTo** Pipes, angular will not be able to enforce CSS rules on the tags. In that case the workaround is to use **::ng-deep** in your CSS. For example, if img tag is created through image pipe under a DIV with class "something", then you need to declare attributes in `::ng-deep .something img{ }` in order to have control over img tag.
 **Note:** Starting from version 2.0.0, this library is compatible with Angular 6+.
 
 **NOTE:** Starting with version 2.1.1 you need to import this library through @sedeh/into-pipes.
@@ -49,6 +49,7 @@ EXPORTS
 
     AddressComponent
     EmailComponent
+    PhoneComponent
     FontComponent
     ImageComponent
     VideoComponent
@@ -94,13 +95,14 @@ export interface PipeServiceComponent {
 | share               | For a given source, will provide social share buttons.                                      |
 | video               | For a given source, will convert a link source into an interactive video tag.               |
 | select              | For a given source, will provide a select options tag through special service that knows how to provide options based on supplied data. You will be responsible to catch the change event and update data in your data source.   |
-| inputgroup          | For a given source, will provide a list of radio or check-box tags through special service that knows how to provide options based on supplied data. If the source is a list, options are checkbox. Otherwise, options are radio buttons. You will be responsible to catch the change event and update data in your data source.   |
+| inputgroup          | For a given source, will provide a list of radio or check-box tags through special service that knows how to provide options based on supplied data. If the source is a list, options are check-box. Otherwise, options are radio buttons. You will be responsible to catch the change event and update data in your data source.   |
 | input               | For a given source, will provide an interactive input tag that will become active when user clicks on it. Otherwise a plain text content will be displayed. You will be responsible to catch the change event and update data in your data source.   |
 | checkbox            | For a given source, will provide an interactive check-box. You will be responsible to catch the change event and update date(s) in your data source. |
 | join                | For a given source array, will join array elements into one single delineated string.       |
 | sanitizeHtml        | Will bypass security checks against CORS in a URL.                                          |
 | if                  | Will execute transformation based on a if else logic.                                       |
 | email               | Will format the source into a mail link.                                                    |
+| phone               | Will format a phone number and display it in standard way.                                  |
 | address             | Will format an address structure into an standard address display.                          |
 | rating              | For a given source, will provide ranking value of a source through stars.                   |
 | font                | Will take a source into a font awesome representation.                                      |
@@ -149,6 +151,7 @@ NOTE:
 | sanitizeHtml        | `sanitizeHtml`                                    |  NONE (This pipe is not used by into pipe) |
 | if                  | `'masoud' | into: "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\""` |  1)condition `=,!=,~=,<,>,~,!~,in` , 2)value to be evaluated, 3)action, 4)else action |
 | email               | `email`                                           | NONE                                     |
+| phone               | `phone`                                           | 1) In a Link or not, 2) format or not   |
 | address             | `address`                                         | NONE                                     |
 | rating              | `rating`                                          | NONE                                     |
 | font                | `font:fa fa-check:left:*`                         | 1)class, 2)position (left,right,replace, 3) action (*:use content) |
@@ -256,6 +259,7 @@ constructor(private pool:ComponentPool) {
 
 | Version | Description                                                                                              |
 |---------|----------------------------------------------------------------------------------------------------------|
+| 2.1.2   | Enhanced interactive component by displaying hover interaction. Added phone pipe.                        |
 | 2.1.1   | Updated dependencies.                                                                                    |
 | 2.1.0   | It was brought to my attention that some users have trouble using my components in their angular 6 environment. Since I had only updated few dependencies when moved to Angular 6, I am thinking dependencies are causing issues. So, for this release, I am updating all dependencies to what Angular 6 applications are expecting to have. Please let me know if this is fixing or not fixing any issues you are facing. |
 | 2.0.0   | Updated dependencies to become compatible with Angular 6+.                                               |
@@ -264,7 +268,7 @@ constructor(private pool:ComponentPool) {
 | 1.7.0   | Added date picker transformation code. I included and modified code snippet provided by [Ben Tedder](https://gist.github.com/bentedder/136fa7670a8a23617f91be4f9566f96b). Could not use his code directly, as I had to make many adjustments to make it fit within pipe environment. |
 | 1.6.6   | internal fix on select transform to prevent event bubbling when clicked on or when changed selection.    |
 | 1.6.5   | Modified Select service interface to have the owner data set passed on to it.  Consider a case of displaying drop-downs in a table row. If one drop-down is for state and another for countries, then both drop-downs are interchangeably depend on each other. As a result, the service representing drop-down has to have access to the data set for the entire row in order to return correct set of options for each drop-down item. |
-| 1.6.0   | Fixed ADA related issue with input, checkbox, and share components.                                      |
+| 1.6.0   | Fixed ADA related issue with input, check-box, and share components.                                     |
 | 1.5.0   | Added LIKE and LASTUPDATE formatters. With like/dislike, an event is triggered after user clicks on it. You will be responsible to catch the event and increment or decrement the count in your data source. |
 | 1.4.1   | Calling console.error() if applying a custom rule when the custom component for it is not registered.    |
 | 1.4.0   | Added an interactive share social sites component.                                                       |
