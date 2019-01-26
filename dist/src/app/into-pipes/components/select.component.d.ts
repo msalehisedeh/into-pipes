@@ -1,7 +1,6 @@
-import { Renderer, EventEmitter } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { PipeComponent, PipeServiceComponent } from '../interfaces/pipe.component';
 export declare class SelectComponent implements PipeComponent {
-    private renderer;
     data: any;
     source: string;
     options: string;
@@ -10,7 +9,7 @@ export declare class SelectComponent implements PipeComponent {
     multiselect: boolean;
     service: PipeServiceComponent;
     onIntoComponentChange: EventEmitter<{}>;
-    constructor(renderer: Renderer);
+    constructor();
     click(event: any): void;
     change(event: any): void;
     transform(source: any, data: any, args: any[]): void;
