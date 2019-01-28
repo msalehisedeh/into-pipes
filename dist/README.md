@@ -24,6 +24,8 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 ```javascript
 MODULE:
     IntoPipeModule
+    CommonComponentsModule
+    CommonPipesModule
 
 EXPORTS
     JoinPipe
@@ -259,7 +261,8 @@ constructor(private pool:ComponentPool) {
 
 | Version | Description                                                                                              |
 |---------|----------------------------------------------------------------------------------------------------------|
-| 2.1.2   | Enhanced interactive component by displaying hover interaction. Added phone pipe.                        |
+| 2.1.3   | Fixed display issues and re-organized the libray in hope of breaking it into peaces to allow you take only the parts you need out of this library and avoid the whole thing taking up space when not needed. Now you should be able to import only `CommonPipesModule` if you do not need directive or components.|
+| 2.1.2   | Enhanced interactive component by displaying hover interaction. Added phone pipe.             |
 | 2.1.1   | Updated dependencies.                                                                                    |
 | 2.1.0   | It was brought to my attention that some users have trouble using my components in their angular 6 environment. Since I had only updated few dependencies when moved to Angular 6, I am thinking dependencies are causing issues. So, for this release, I am updating all dependencies to what Angular 6 applications are expecting to have. Please let me know if this is fixing or not fixing any issues you are facing. |
 | 2.0.0   | Updated dependencies to become compatible with Angular 6+.                                               |
