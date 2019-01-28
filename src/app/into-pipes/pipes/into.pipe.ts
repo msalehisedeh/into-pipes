@@ -19,6 +19,7 @@ import {VideoPipe} from './video.pipe';
 import {PrependPipe} from './prepend.pipe';
 import {AppendPipe} from './append.pipe';
 import {WrapPipe} from './wrap.pipe';
+import {PhonePipe} from './phone.pipe';
 import {EmailPipe} from './email.pipe';
 import {RatingPipe} from './rating.pipe';
 import {AddressPipe} from './address.pipe';
@@ -117,9 +118,13 @@ transform(content: any, list: string): any {
             // append:something
             result = new AppendPipe().transform(content, args.length > 1 ? args[1] : ""); 
             break;
-        case "prepend" : 
+            case "prepend" : 
             // prepend:something
             result = new PrependPipe().transform(content, args.length > 1 ? args[1] : ""); 
+            break;
+        case "phone" : 
+            // prepend:something
+            result = new PhonePipe().transform(content, args.length > 1 ? args[1]==='true' : false, args.length > 2 ? args[2] === 'true' : false); 
             break;
         case "email" : 
             // email

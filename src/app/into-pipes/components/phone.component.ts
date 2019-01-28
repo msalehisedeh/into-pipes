@@ -15,6 +15,7 @@ import { PipeComponent } from '../interfaces/pipe.component';
     `,
     styles: [
         `
+        :host {display:table;float:left;min-height: 23px}
         :host a:hover .fa-phone{color: #fabdab;}
         `
     ]
@@ -39,9 +40,8 @@ export class PhoneComponent implements PipeComponent {
         if (result.length === 10) {
             result = '+1 ' + result + ';ext=' + result;
         } else if (result.length > 10) {
-            const ext = (10 - result.length);
-            const b = result.slice(0, ext);
-            const e = result.slice(ext);
+            const b = result.slice(0, 10);
+            const e = result.slice(10);
             result = '+1' + b + ';ext=' + e;
         }
         return result;
@@ -56,11 +56,10 @@ export class PhoneComponent implements PipeComponent {
             if (result.length === 10) {
                 result = '+1 ' + result.replace(/(\d{3})(\d{3})(\d{4})/, "($1)$2-$3"); 
             } else if (result.length > 10) {
-                const ext = (10 - result.length);
-                const b = result.slice(0, ext);
-                const e = result.slice(ext);
+                const b = result.slice(0, 10);
+                const e = result.slice(10);
                 result = '+1 ' + b.replace(/(\d{3})(\d{3})(\d{4})/, "($1)$2-$3"); 
-                result+= (b + ' ext. ' + e);
+                result+= (' ext. ' + e);
             }
         }
         return result;

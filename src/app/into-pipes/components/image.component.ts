@@ -4,7 +4,9 @@ import { PipeComponent } from '../interfaces/pipe.component';
 @Component({
     selector: 'image-component',
     template: `<img [src]="source" [style.width]="width" [style.height]="height" [title]="alt" />`,
-    styles: [``]
+    styles: [`
+    :host {display:table;float:left;min-height: 23px}
+    `]
 })
 export class ImageComponent implements PipeComponent {
     source: string;

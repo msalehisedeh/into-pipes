@@ -10,7 +10,9 @@ import { PipeComponent } from '../interfaces/pipe.component';
         <span *ngIf="location === 'replace'" [class]="font" aria-hidden='true'></span>
     `,
     styles: [
-        `span span {
+        `
+        :host {display:table;float:left;min-height: 23px}
+        span span {
             float: left;
         }
         `

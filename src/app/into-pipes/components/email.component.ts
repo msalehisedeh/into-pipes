@@ -11,6 +11,7 @@ import { PipeComponent } from '../interfaces/pipe.component';
     `,
     styles: [
         `
+        :host {display:table;float:left;min-height: 23px}
         :host:hover .fa-envelope{color: #fabdab;}
         `
     ]

@@ -11,7 +11,9 @@ import { PipeComponent } from '../interfaces/pipe.component';
     <span class='rate-value' [textContent]="source"></span>
     `,
     styles: [
-        `.rating {
+        `
+        :host {display:table;float:left;min-height: 23px}
+        .rating {
             display: inline-block;
         }
         `

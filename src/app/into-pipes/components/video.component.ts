@@ -4,7 +4,9 @@ import { PipeComponent } from '../interfaces/pipe.component';
 @Component({
     selector: 'video-component',
     template: `<video [src]="source" [style.width]="width" [style.height]="height" controls="true" [title]="alt"></video>`,
-    styles: [``]
+    styles: [`
+    :host {display:table;float:left;min-height: 23px}
+    `]
 })
 export class VideoComponent implements PipeComponent {
     source: string;

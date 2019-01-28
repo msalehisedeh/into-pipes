@@ -5,7 +5,9 @@ import { PipeComponent } from '../interfaces/pipe.component';
     selector: 'json-component',
     template: `<span class="json-view" [textContent]="source | json"></span>`,
     styles: [
-        `.json-view {
+        `
+        :host {display:table;float:left;min-height: 23px}
+        .json-view {
             display: inline-block;
             float: left;
             font-family: monospace;

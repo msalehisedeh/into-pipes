@@ -10,9 +10,8 @@ export class AddressPipe implements PipeTransform {
                         source.street + ", " + source.city + ", " + source.zipcode +"&ie=UTF-8";
         url = url.replace("\\s+", "+");
 
-        return "<span class='address'><span>" + source.street + ", " + source.suite + "</span>" +
-        "<span> " + source.city +", " + source.zipcode + "</span>" + 
-        "</span> <a href=\'" + url + "\' class='google-map'><span class='fa fa-map-marker' aria-hidden='true'></span><span class='off-screen'>View in google map</span></a>";
+        return "<a href=\'" + url + "\' class='google-map'><span class='fa fa-map-marker' aria-hidden='true'></span><span class='off-screen'>View in google map</span><span class='address'>" + source.street + ", " + source.suite + "</span>" +
+        "<span class='address'> " + source.city +", " + source.zipcode + "</span></a>";
     }
     transform(source: any, ...args: any[]): any {
         if ((typeof source === "string") || !(source instanceof Array)) {

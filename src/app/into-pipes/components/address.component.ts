@@ -4,21 +4,21 @@ import { PipeComponent } from '../interfaces/pipe.component';
 @Component({
     selector: 'address-component',
     template: `
-    <span class="address">
-        <span [textContent]="addr1"></span>
-        <span [textContent]="addr2"></span>
-    </span> 
     <a [href]="url" class="google-map">
         <span class="fa fa-map-marker" aria-hidden="true"></span>
         <span class="off-screen">View in google map</span>
+        <span class="address" [textContent]="addr1"></span>
+        <span class="address" [textContent]="addr2"></span>
     </a>
     `,
     styles: [
-        `.address {display: inline-block;float: left;}
-        .google-map {display: inline-block;float: left;}
-        .fa {color: #f00;margin: 0 3px;}
+        `.address {float: left;margin-right: 4px;}
+        .google-map {float: left;margin-right: 4px;}
+        .fa {float:left;color: #f00;margin: 0 3px;}
         .off-screen {position: absolute;left: -999em;}
         :host a:hover .fa-map-marker{color: #fabdab;}
+        :host span{float-left;}
+        :host {display: table;float:left;min-height: 23px}
         `
     ]
 })

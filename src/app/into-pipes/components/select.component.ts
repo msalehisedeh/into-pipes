@@ -10,6 +10,7 @@ import { PipeComponent, PipeServiceComponent } from '../interfaces/pipe.componen
     `,
     styles: [
         `
+        :host {display:table;float:left;min-height: 23px}
         `
     ]
 })

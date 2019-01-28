@@ -18,6 +18,7 @@ import { PipeComponent } from '../interfaces/pipe.component';
     `,
     styles: [
         `
+        :host {display:table;float:left;min-height: 23px}
         .check-font:hover{color: #fabdab;}
         .check-font {cursor: pointer;}
         `

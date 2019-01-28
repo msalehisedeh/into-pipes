@@ -6,6 +6,7 @@ import { PipeComponent } from '../interfaces/pipe.component';
     template: `<a [href]="source" [target]="target" [textContent]="title"></a>`,
     styles: [
         `
+        :host {display:table;float:left;min-height: 23px}
         `
     ]
 })

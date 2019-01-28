@@ -72,6 +72,7 @@ export interface CalendarDate {
     `,
     styles: [
         `
+        :host {display:table;float:left;min-height: 23px}
         .popper:hover .fa-calendar{color: #fabdab;}
         .calendar-box {
           display: flex;

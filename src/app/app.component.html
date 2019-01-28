@@ -4,6 +4,10 @@
     Welcome to {{ title }}!
   </h1>
 </div>
+<div class="resources">
+    <a href="https://www.npmjs.com/package/@sedeh/into-pipes">npm install @sedeh/into-pipes</a>
+    <p>Tested On Safari, Chrome, Mozilla, and IE11 browsers.</p>
+</div>
 
 <table>
   <tr>
@@ -93,8 +97,8 @@
   </tr>
   <tr>
     <td>Format phone number <b>into</b> a formatted phone number</td>
-    <td>[rawContent]="'+1 976 888 7645 3454'" [into]="'phone:false:true'"</td>
-    <td><span [rawContent]="'+1 976 888 7645 3454'" [into]="'phone:false:true'"></span></td>
+    <td>[innerHTML]="'+1 976 888 7645 3454' | into:'phone:false:true' | sanitizeHtml"</td>
+    <td><span [innerHTML]="'+1 976 888 7645 3454' | into:'phone:false:true' | sanitizeHtml"></span></td>
   </tr>
   <tr>
     <td>Format a source <b>into</b> a list of radio options</td>
