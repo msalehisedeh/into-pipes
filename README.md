@@ -250,7 +250,7 @@ export class MyApplicationModule {
 
 ```
 
-### Sample registration for select pipe
+### Sample registration for a service to be used by a pipe component
 
 ```javascript
 	// You will have to make sure to add your custom service in NgModel of your 
@@ -261,7 +261,7 @@ export class MyApplicationModule {
 ```
 
 
-### Sample creating a Custom pipe
+### Sample creating a Custom pipe component
 
 ```javascript
 import { Component, Output, EventEmitter } from '@angular/core';
@@ -309,13 +309,61 @@ constructor(private pool:ComponentPool) {
     this.pool.registerComponent("input", MyCustomInputComponent);
 }
 ```
+### Sample creating a Custom pipe
+
+```javascript
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({ name: 'donifty' })
+export class MyCustomPipe implements PipeTransform {
+    static transformationMethod() {
+		// lambda is not allowed on static methods. 
+		// you need to declare function() and return it.
+		// classical function declarations only.
+        const x = function (content: any, args: string[], callback?: any, data?: any) {
+            // append:something
+            return new MyCustomPipe().transform(content, args.length > 1 ? args[1] : ""); 
+        };
+        return x;
+    }
+    transform(source: any, ...args: any[]): any {    
+        const key = ((args && args.length) ? args[0] : "");
+        if ((typeof source === "string") || !(source instanceof Array)) {
+            // do something
+			return doSomething(source);
+        } else {
+            const result = [];
+            source.map((item) => {
+                result.push(doSomething(item));
+            });
+            return result;
+        } 
+    }
+	private doSomething(item) {
+		return stringSomeString;
+	}
+}
+
+// You will then need to register your pipe
+constructor(private pool: ComponentPool) {
+    pool.registerPipeTransformation('donifty', MyCustomPipe.transformationMethod());
+}
+```
 
 ### Custom component registration API
 ```javascript
+	// register a pipe
+	registerPipeTransformation (name: string, pipe: any)
+	registeredForPipeTransformationNamed(key: string)
+	registeredPipeTransformation(key: string, content: any, args: string[], callback?: any, data?: any)
+	removePipeTransformation (key: string)
+
+	// register a pipe component
 	registerComponent (name, component: any)
 	removeComponent (name)
 	registeredComponent(name): any
 
+	// register a service to be accessed by a pipe component
 	registerServiceForComponent (name, service: any)
 	removeServiceForComponent (name)
 	registeredServiceForComponent(name): any
@@ -325,6 +373,7 @@ constructor(private pool:ComponentPool) {
 
 | Version | Description                                                                                              |
 |---------|----------------------------------------------------------------------------------------------------------|
+| 2.2.8   | Updated documentation.                                                                                   |
 | 2.2.7   | Added table pipe. This is a crude table display. If you want a fully fledged interactive table, you should go for @sedeh/flexible-table. |
 | 2.2.6   | Added key events to interactive pipes for a better ADA complacency. Added event trapping on all interactive components and updated existing event handling of audio / video with detailed track information. |
 | 2.2.5   | Audio pipe was not able to handle array of references.                                                   |
@@ -370,14 +419,24 @@ constructor(private pool:ComponentPool) {
 ```javascript
   threeFive = 3.5;
   myJson= {q:3,w:43,dw:6565};
+  myPickDate = new Date();
   myDate = "2018-03-10T01:01:20Z";
   myDateList = ["2018-03-10T01:01:20Z", "2011-02-12T01:01:20Z"];
   myDateFormat="date:\"MM/dd/yyyy hh:ss\"";
   theURL = "https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?h=350&auto=compress&cs=tinysrgb";
+  videoURL = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4";
+  audioURL = "https://google.github.io/tacotron/publications/tacotron2/demos/gan_or_vae.wav";
 
   myConditionalLogic = "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\"";
   myConditionalThreeFive = "if:>:3:\"font:fa fa-check:replace\":\"font:fa fa-bell:replace\"";
 
+  myLastUpdatedDate = new Date(Date.now() - 640000);
+
+  dataSet = {
+    id: 3453453453,
+    likes: 10,
+    dislikes: 5
+  }
   myaddress = {
     "street": "Kulas Light",
     "suite": "Apt. 556",
