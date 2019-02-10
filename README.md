@@ -4,6 +4,8 @@ Have you ever wanted to transform values in different parts of your application 
 This library provides few Angular pipes that are all used by a single **InTo** pipe component/directive. **InTo** will determine how the object value should be formatted based on meta-data formatting rules!!
 Moreover, **"InTo"** can be customized by adding custom formatters **into** it!!
 
+Most of all this library is now truly extendible allowing you to include any portion of it as you see it fit for your application!! You can use all pipes and components that are available, or pick and choose only from those that you want to use in your application without adding un-necessary components which could contribute to your application size. (for details of how it can be done, read more.)
+
 **Note:** If you decide to use the **InTo** pipes instead of the directive, you need to make sure you will pipe the result **into** sanitizeHtml.
 **Note:** When you create tags and insert them **into** DOM at runtime through **InTo** Pipes, angular will not be able to enforce CSS rules on the tags. In that case the workaround is to use **::ng-deep** in your CSS. For example, if img tag is created through image pipe under a DIV with class "something", then you need to declare attributes in `::ng-deep .something img{ }` in order to have control over img tag.
 **Note:** Starting from version 2.0.0, this library is compatible with Angular 6+.
@@ -18,20 +20,42 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 * Responsive
 * Formats your data to interactive component
 * ADA Compliant
+* Extendible
 
 ## Dependencies and Components
 
 ```javascript
 MODULE:
-    IntoPipeModule
-    CommonComponentsModule
     CommonPipesModule
+    IntoPipeModule
+    AddressIntoPipeModule
+    AudioIntoPipeModule
+    CalendarIntoPipeModule
+    CheckboxIntoPipeModule
+    EmailIntoPipeModule
+    FontIntoPipeModule
+    ImageIntoPipeModule
+    InputIntoPipeModule
+    InputGroupIntoPipeModule
+    JsonIntoPipeModule
+    LastUpdateIntoPipeModule
+    LikeIntoPipeModule
+    LinkIntoPipeModule
+    PhoneIntoPipeModule
+    RatingIntoPipeModule
+    SelectIntoPipeModule
+    ShareIntoPipeModule
+    SpanIntoPipeModule
+	TableIntoPipeModule
+    VideoIntoPipeModule
 
 EXPORTS
     JoinPipe
     InToPipe
     ImagePipe
+    AudioPipe
     VideoPipe
+	TablePipe
     LinkPipe
     MaskPipe
     MapPipe
@@ -39,6 +63,7 @@ EXPORTS
     AppendPipe
     WrapPipe
     ValueOfPipe
+    PhonePipe
     EmailPipe
     RatingPipe
     FontPipe
@@ -54,6 +79,8 @@ EXPORTS
     PhoneComponent
     FontComponent
     ImageComponent
+    AudioComponent
+	TableComponent
     VideoComponent
     JsonComponent
     LinkComponent
@@ -95,7 +122,9 @@ export interface PipeServiceComponent {
 | like                | For a given source, will provide interactive like/dislike links. With like/dislike, an event is triggered after user clicks on it. You will be responsible to catch the event and increment or decrement the count in your data source. |
 | lastupdate          | For a given source, will provide a natural language human readable elapsed time.            |
 | share               | For a given source, will provide social share buttons.                                      |
+| audio               | For a given source, will convert a link source into an interactive audio tag.               |
 | video               | For a given source, will convert a link source into an interactive video tag.               |
+| table               | For a given source, will convert source into an table tag.                                  |
 | select              | For a given source, will provide a select options tag through special service that knows how to provide options based on supplied data. You will be responsible to catch the change event and update data in your data source.   |
 | inputgroup          | For a given source, will provide a list of radio or check-box tags through special service that knows how to provide options based on supplied data. If the source is a list, options are check-box. Otherwise, options are radio buttons. You will be responsible to catch the change event and update data in your data source.   |
 | input               | For a given source, will provide an interactive input tag that will become active when user clicks on it. Otherwise a plain text content will be displayed. You will be responsible to catch the change event and update data in your data source.   |
@@ -138,13 +167,15 @@ NOTE:
 
 **NOTE: For all of the pipes, if transforming object is an array, all elements in the array will be transformed and the resulting array will be returned. in case of conditional pipe, a resulting map will be returned.**
 
-| Format              | Examples                                          | Arguments                               | 
-|---------------------|---------------------------------------------------|-----------------------------------------|
+| Format              | Examples                                          | Arguments                                | 
+|---------------------|---------------------------------------------------|------------------------------------------|
 | calendar            | `calendar:MM/dd/yyyy`                             | 1) date format. if the transformation source is an array of dates or date strings, the calendar will be multi-select calendar. Otherwise it will be a single select calendar.  |
 | like                | `like:true:true:id`                               | 1) flag to indicate if like counts should be displayed. 2) flag to show likes or dislikes. 3) Attribute in JSON object with unique value to be used for tracking likes or dislikes. |
 | lastupdate          | `lastupdate:true`                                 | 1) flag to indicate if time icon should be displayed on the side. |
 | share               | `share:facebook:linkedin:google:twitter`          | 1) list of any one of supported sites (facebook, linkedin, google, twitter, pinterest, digg, xing, get-pocket, stumbleupon) |
+| audio               | `audio`                                           | NONE                                     |
 | video               | `video:200px:auto:alt text` OR `video`            | 1) width, 2)height, 3) alternate text to be displayed |
+| table               | `table:id:caption` OR `table`                     | 1) id, 2) caption                        |
 | select              | `select:true` OR `select`                         |  1) if it is multi-select. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
 | inputgroup          | `inputgroup`                                      |  NONE. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
 | input               | `input:placeholder:formatting,`                   |  1) place holder text or blank, 2) formatting rules for the value to be displayed when text field is not editable    |
@@ -152,9 +183,9 @@ NOTE:
 | join                | `join:,`                                          |  1) the characters used to join the list |
 | sanitizeHtml        | `sanitizeHtml`                                    |  NONE (This pipe is not used by into pipe) |
 | if                  | `'masoud' | into: "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\""` |  1)condition `=,!=,~=,<,>,~,!~,in` , 2)value to be evaluated, 3)action, 4)else action |
-| email               | `email`                                           | NONE                                     |
-| phone               | `phone`                                           | 1) In a Link or not, 2) format or not   |
-| address             | `address`                                         | NONE                                     |
+| email               | `email:showlink`                                  | 1) In a Link or not                      |
+| phone               | `phone`                                           | 1) In a Link or not, 2) format or not    |
+| address             | `address:showlink:poplink`                        | 1) In a Link or not, 2) should google map be viewed on the same page or pop a new page for it. |
 | rating              | `rating`                                          | NONE                                     |
 | font                | `font:fa fa-check:left:*`                         | 1)class, 2)position (left,right,replace, 3) action (*:use content) |
 | valueof             | `valueof:key`                                     | 1) key to be used                        |
@@ -184,6 +215,39 @@ NOTE:
         [intoData]="{x:'something',y:'whatever'}"
         [rawContent]="item.ssn"
         [onComponentChange]="onTableCellEdit.bind(this)"></td>
+```
+
+### Sample on how to import parts of this library
+
+```javascript
+    // lets say you only want video and audio pipes and nothing else
+    // then **instead of importing IntoPipeModule**, you would need to 
+    // only import the following:
+@NgModule({
+  imports: [
+    ...
+    CommonPipesModule.forRoot(),   // absolutely necessary
+    AudioIntoPipeModule.forRoot(), // as needed
+    VideoIntoPipeModule.forRoot(), // as needed
+    ...
+  ],
+  declarations: [
+      ...
+  ],
+  exports: [
+      ...
+  ],
+  entryComponents: [
+      ...
+  ],
+  providers: [
+      ...
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+export class MyApplicationModule {
+}
+
 ```
 
 ### Sample registration for select pipe
@@ -261,8 +325,18 @@ constructor(private pool:ComponentPool) {
 
 | Version | Description                                                                                              |
 |---------|----------------------------------------------------------------------------------------------------------|
-| 2.1.3   | Fixed display issues and re-organized the libray in hope of breaking it into peaces to allow you take only the parts you need out of this library and avoid the whole thing taking up space when not needed. Now you should be able to import only `CommonPipesModule` if you do not need directive or components.|
-| 2.1.2   | Enhanced interactive component by displaying hover interaction. Added phone pipe.             |
+| 2.2.7   | Added table pipe. This is a crude table display. If you want a fully fledged interactive table, you should go for @sedeh/flexible-table. |
+| 2.2.6   | Added key events to interactive pipes for a better ADA complacency. Added event trapping on all interactive components and updated existing event handling of audio / video with detailed track information. |
+| 2.2.5   | Audio pipe was not able to handle array of references.                                                   |
+| 2.2.4   | Was missing exports of some components.                                                                  |
+| 2.2.3   | NPM was not able to find this document. Re-deploying it again.                                           |
+| 2.2.2   | Was missing exports of some components.                                                                  |
+| 2.2.1   | Had issue running version 2.2.0 on stackblitz.                                                           |
+| 2.2.0   | Revamped internal structure to make this library truly extendible. You can now take all pipes or components or selectively pick those that you need for your application and prevent your application size growing for components that you would not need in your application. |
+| 2.1.5   | Updated documentation.                                                                                   |
+| 2.1.4   | Did a clean up of CSS code to display adequate spaces between things. Added options to address and email to be displayed with or without link. Added audio pipe. |
+| 2.1.3   | Fixed display issues and re-organized the library in hope of breaking it into smaller chunks to allow you take only the parts you need out of this library and avoid the whole thing taking up space when not needed. Now you should be able to import only `CommonPipesModule` if you do not need directive or components.|
+| 2.1.2   | Enhanced interactive component by displaying hover interaction. Added phone pipe.                        |
 | 2.1.1   | Updated dependencies.                                                                                    |
 | 2.1.0   | It was brought to my attention that some users have trouble using my components in their angular 6 environment. Since I had only updated few dependencies when moved to Angular 6, I am thinking dependencies are causing issues. So, for this release, I am updating all dependencies to what Angular 6 applications are expecting to have. Please let me know if this is fixing or not fixing any issues you are facing. |
 | 2.0.0   | Updated dependencies to become compatible with Angular 6+.                                               |

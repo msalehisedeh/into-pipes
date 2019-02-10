@@ -1,0 +1,8 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ */
+export { ShareComponent } from './share.component';
+export { ShareIntoPipeModule } from './share-pipe.module';
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoi4oCMaW5kZXguanMiLCJzb3VyY2VSb290Ijoibmc6Ly9Ac2VkZWgvaW50by1waXBlcy8iLCJzb3VyY2VzIjpbInNyYy9hcHAvaW50by1waXBlcy9zaGFyZS/igIxpbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O0FBQ0EsT0FBTyxFQUFFLGNBQWMsRUFBRSxNQUFNLG1CQUFtQixDQUFDO0FBQ25ELE9BQU8sRUFBRSxtQkFBbUIsRUFBRSxNQUFNLHFCQUFxQixDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiXHJcbmV4cG9ydCB7IFNoYXJlQ29tcG9uZW50IH0gZnJvbSAnLi9zaGFyZS5jb21wb25lbnQnO1xyXG5leHBvcnQgeyBTaGFyZUludG9QaXBlTW9kdWxlIH0gZnJvbSAnLi9zaGFyZS1waXBlLm1vZHVsZSc7XHJcblxyXG4iXX0=

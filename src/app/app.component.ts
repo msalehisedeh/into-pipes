@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { ComponentPool } from './into-pipes/injectables/component.pool';
-import { PipeServiceComponent } from './into-pipes/interfaces/pipe.component';
+import { ComponentPool } from './into-pipes/common/component.pool';
+import { PipeServiceComponent } from './into-pipes/common/pipe.component';
 
 class myService implements PipeServiceComponent {
   
@@ -45,6 +45,7 @@ export class AppComponent {
   myDateFormat="date:\"MM/dd/yyyy hh:ss\"";
   theURL = "https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?h=350&auto=compress&cs=tinysrgb";
   videoURL = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4";
+  audioURL = "https://google.github.io/tacotron/publications/tacotron2/demos/gan_or_vae.wav";
 
   myConditionalLogic = "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\"";
   myConditionalThreeFive = "if:>:3:\"font:fa fa-check:replace\":\"font:fa fa-bell:replace\"";

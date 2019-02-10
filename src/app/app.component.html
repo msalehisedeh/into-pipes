@@ -87,13 +87,18 @@
   </tr>
   <tr>
     <td>Format email address <b>into</b> an email link</td>
-    <td>[rawContent]="'xyz@gmail.com'" [into]="'email'"</td>
-    <td><span [rawContent]="'xyz@gmail.com'" [into]="'email'"></span></td>
+    <td>[rawContent]="'xyz@gmail.com'" [into]="'email:true'" [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="'xyz@gmail.com'" [into]="'email'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format content <b>into</b> uppercase content</td>
+    <td>[innerHTML]="'xyz@gmail.com' | into:'email:false' | sanitizeHtml"</td>
+    <td><span [innerHTML]="'xyz@gmail.com' | into:'email:false' | sanitizeHtml"></span></td>
   </tr>
   <tr>
     <td>Format phone number <b>into</b> a formatted phone link</td>
-    <td>[rawContent]="'+1 976 888 7645 3454'" [into]="'phone:true:true'"</td>
-    <td><span [rawContent]="'+1 976 888 7645 3454'" [into]="'phone:true:true'"></span></td>
+    <td>[rawContent]="'+1 976 888 7645 3454'" [into]="'phone:true:true'" [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="'+1 976 888 7645 3454'" [into]="'phone:true:true'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>
     <td>Format phone number <b>into</b> a formatted phone number</td>
@@ -121,8 +126,13 @@
   </tr>
   <tr>
     <td>Display address with a marker icon</td>
-    <td>[rawContent]="myaddress" [into]="'address'"</td>
-    <td><span [rawContent]="myaddress" [into]="'address'"></span></td>
+    <td>[rawContent]="myaddress" [into]="'address:true:true'" [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="myaddress" [into]="'address'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format content <b>into</b> uppercase content</td>
+    <td>[innerHTML]="myaddress | into:'address:false' | sanitizeHtml"</td>
+    <td><span [innerHTML]="myaddress | into:'address:false' | sanitizeHtml"></span></td>
   </tr>
   <tr>
     <td>Format date</td>
@@ -163,6 +173,7 @@
     <td>Mask number and add a checkmark icon</td>
     <td> [rawContent]="'3423423422'"<br/>
       [into]="'input:enter number:mask | font:fa fa-check:replace:*'"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"<br/>
       [intoId]="threeFive"<br/>
       [intoName]="threeFive"</td>
     <td><span 
@@ -204,27 +215,55 @@
     <td><span [rawContent]="myJson"  [into]="'json'"></span></td>
   </tr>
   <tr>
+    <td>Display json</td>
+    <td>[rawContent]="myJson"  [into]="'table:myJsonId:My JSON Items'"</td>
+    <td><span [rawContent]="myJson"  [into]="'table:myJsonId:My JSON Items'"></span></td>
+  </tr>
+  <tr>
+    <td>Display json With Pipe</td>
+    <td>[innerHTML]="myJson | into: 'table:myJsonId:My JSON Items' | sanitizeHtml"</td>
+    <td><span [innerHTML]="myJson | into: 'table:myJsonId:My JSON Items' | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
     <td>Traverse <b>into</b> JSON Object and display value of "dw" attribute</td>
     <td>[innerHTML]="myJson | into:'valueof:dw' | sanitizeHtml"</td>
     <td><span [innerHTML]="myJson | into:'valueof:dw' | sanitizeHtml"></span></td>
   </tr>
   <tr>
     <td>Format the URL <b>into</b> a link</td>
-    <td>[rawContent]="theURL" [into]="'link'"</td>
-    <td><span [rawContent]="theURL" [into]="'link'"></span></td>
+    <td>[rawContent]="theURL" [into]="'link:true'" [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="theURL" [into]="'link:true'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>
     <td>Format the URL <b>into</b> an image tag</td>
-    <td>[rawContent]="theURL"  [into]="'image:200px:auto:alt text'"</td>
-    <td><span [rawContent]="theURL"  [into]="'image:200px:auto:alt text'"></span></td>
+    <td>[rawContent]="theURL"  [into]="'image:200px:auto:alt text'" [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="theURL"
+        [into]="'image:200px:auto:alt text'" 
+        [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>
     <td>Format the URL <b>into</b> a video tag</td>
     <td>[rawContent]="videoURL" <br/>[into]="'video:200px:auto:alt text'"<br/> 
+      intoName="video 1" intoId="video1" 
       [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span [rawContent]="videoURL" 
        [into]="'video:200px:auto:alt text'"
+       intoName="video 1" intoId="video1" 
        [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format the URL <b>into</b> a audio tag</td>
+    <td>[rawContent]="audioURL" <br/>[into]="'audio'"<br/> 
+        intoName="audio 1" intoId="audio1" 
+        [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="audioURL" [into]="'audio'"
+      intoName="audio 1" intoId="audio1" 
+      [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format the URL <b>into</b> a audio tag</td>
+    <td>[innerHTML]="audioURL | into:'audio' | sanitizeHtml"</td>
+    <td><span [innerHTML]="audioURL | into:'audio' | sanitizeHtml"></span></td>
   </tr>
 </table>
 

@@ -1,0 +1,8 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ */
+export { InputGroupComponent } from './input-group.component';
+export { InputGroupIntoPipeModule } from './inputgroup-pipe.module';
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoi4oCMaW5kZXguanMiLCJzb3VyY2VSb290Ijoibmc6Ly9Ac2VkZWgvaW50by1waXBlcy8iLCJzb3VyY2VzIjpbInNyYy9hcHAvaW50by1waXBlcy9pbnB1dGdyb3VwL+KAjGluZGV4LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7QUFDQSxPQUFPLEVBQUUsbUJBQW1CLEVBQUUsTUFBTSx5QkFBeUIsQ0FBQztBQUM5RCxPQUFPLEVBQUUsd0JBQXdCLEVBQUUsTUFBTSwwQkFBMEIsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIlxyXG5leHBvcnQgeyBJbnB1dEdyb3VwQ29tcG9uZW50IH0gZnJvbSAnLi9pbnB1dC1ncm91cC5jb21wb25lbnQnO1xyXG5leHBvcnQgeyBJbnB1dEdyb3VwSW50b1BpcGVNb2R1bGUgfSBmcm9tICcuL2lucHV0Z3JvdXAtcGlwZS5tb2R1bGUnO1xyXG5cclxuIl19
