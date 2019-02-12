@@ -47,6 +47,7 @@ MODULE:
     ShareIntoPipeModule
     SpanIntoPipeModule
 	TableIntoPipeModule
+	TextIntoPipeModule
     VideoIntoPipeModule
 
 EXPORTS
@@ -81,6 +82,7 @@ EXPORTS
     ImageComponent
     AudioComponent
 	TableComponent
+	TextComponent
     VideoComponent
     JsonComponent
     LinkComponent
@@ -128,6 +130,7 @@ export interface PipeServiceComponent {
 | select              | For a given source, will provide a select options tag through special service that knows how to provide options based on supplied data. You will be responsible to catch the change event and update data in your data source.   |
 | inputgroup          | For a given source, will provide a list of radio or check-box tags through special service that knows how to provide options based on supplied data. If the source is a list, options are check-box. Otherwise, options are radio buttons. You will be responsible to catch the change event and update data in your data source.   |
 | input               | For a given source, will provide an interactive input tag that will become active when user clicks on it. Otherwise a plain text content will be displayed. You will be responsible to catch the change event and update data in your data source.   |
+| text                | For a given source, will provide an interactive text area tag that will become active when user clicks on it. Otherwise a plain text content will be displayed. You will be responsible to catch the change event and update data in your data source.   |
 | checkbox            | For a given source, will provide an interactive check-box. You will be responsible to catch the change event and update date(s) in your data source. |
 | join                | For a given source array, will join array elements into one single delineated string.       |
 | sanitizeHtml        | Will bypass security checks against CORS in a URL.                                          |
@@ -179,6 +182,7 @@ NOTE:
 | select              | `select:true` OR `select`                         |  1) if it is multi-select. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
 | inputgroup          | `inputgroup`                                      |  NONE. Except it requires implementation of PipeServiceComponent registered with  ComponentPool    |
 | input               | `input:placeholder:formatting,`                   |  1) place holder text or blank, 2) formatting rules for the value to be displayed when text field is not editable    |
+| text                | `text:4:100:true,`                                |  1) rows, 2) max limits, 3) show counter    |
 | checkbox            | `checkbox:idealvalue:useIcon`                     |  1) the value for which check-box should be checked, 2)if it is standard check-box or should use fonts to display checked or not checked.  |
 | join                | `join:,`                                          |  1) the characters used to join the list |
 | sanitizeHtml        | `sanitizeHtml`                                    |  NONE (This pipe is not used by into pipe) |
@@ -373,6 +377,7 @@ constructor(private pool: ComponentPool) {
 
 | Version | Description                                                                                              |
 |---------|----------------------------------------------------------------------------------------------------------|
+| 2.2.9   | Added text pipe.                                                                                         |
 | 2.2.8   | Updated documentation.                                                                                   |
 | 2.2.7   | Added table pipe. This is a crude table display. If you want a fully fledged interactive table, you should go for @sedeh/flexible-table. |
 | 2.2.6   | Added key events to interactive pipes for a better ADA complacency. Added event trapping on all interactive components and updated existing event handling of audio / video with detailed track information. |

@@ -17,6 +17,7 @@ export * from './rating/‌index';
 export * from './select/‌index';
 export * from './share/‌index';
 export * from './span/‌index';
+export * from './text/‌index';
 export * from './table/‌index';
 export * from './video/‌index';
 export * from './common/‌index';

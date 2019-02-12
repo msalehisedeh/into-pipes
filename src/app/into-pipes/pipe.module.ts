@@ -22,6 +22,7 @@ import { SelectIntoPipeModule } from './select/select-pipe.module';
 import { ShareIntoPipeModule } from './share/share-pipe.module';
 import { SpanIntoPipeModule } from './span/span-pipe.module';
 import { TableIntoPipeModule } from './table/table-pipe.module';
+import { TextIntoPipeModule } from './text/text-pipe.module';
 import { VideoIntoPipeModule } from './video/video-pipe.module';
 
 @NgModule({
@@ -47,6 +48,7 @@ import { VideoIntoPipeModule } from './video/video-pipe.module';
     ShareIntoPipeModule.forRoot(),
     SpanIntoPipeModule.forRoot(),
     TableIntoPipeModule.forRoot(),
+    TextIntoPipeModule.forRoot(),
     VideoIntoPipeModule.forRoot()
   ],
   declarations: [],
@@ -72,6 +74,7 @@ import { VideoIntoPipeModule } from './video/video-pipe.module';
     SpanIntoPipeModule,
     TableIntoPipeModule,
     TableIntoPipeModule,
+    TextIntoPipeModule,
     VideoIntoPipeModule
   ],
   entryComponents: [],

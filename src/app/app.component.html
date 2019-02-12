@@ -183,6 +183,19 @@
       [intoName]="threeFive"></span></td>
   </tr>
   <tr>
+    <td>text with counter</td>
+    <td> [rawContent]="'this is a test for a large text input.'"<br/>
+      [into]="'text:4:100:true'"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"<br/>
+      intoId="textId"<br/>
+      intoName="myText"</td>
+    <td><span 
+      [rawContent]="'this is a test for a large text input.'" 
+      [into]="'text:4:100:true'" 
+      intoId="textId" [onComponentChange]="onComponentChange.bind(this)"
+      intoName="myText"></span></td>
+  </tr>
+  <tr>
     <td>Format value <b>into</b> an interactive checkbox</td>
     <td> [rawContent]="'yes'"<br/>
       [into]="'checkbox:yes:true'"<br/>

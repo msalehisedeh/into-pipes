@@ -2,39 +2,33 @@ import { Component, ViewChild, Renderer, Output, EventEmitter } from '@angular/c
 import { PipeComponent } from '../common/pipe.component';
 
 @Component({
-    selector: 'input-component',
+    selector: 'text-component',
     template: `
-    <span *ngIf="editName">
-    <input #nameEditor
-        type='text' 
+    <span class="text-wrapper" *ngIf="editName">
+      <textarea #nameEditor
         [id]="id"
         [name]="name"
         [value]="source"
-        [placeholder]="placeholder"
+        [attr.maxlength]="limit ? limit : null"
+        [rows]="rows"
         (blur)="blur($event)" 
-        (keyup)='keyup($event)'>
+        (keyup)='keyup($event)'></textarea>
+      <span *ngIf="counter" class="counter" 
+        [textContent]="limit ? (limit - source.length) + ' remaining' : source.length + ' typed'"></span>
     </span>
     <span #nameHolder
-        *ngIf='!editName && formatting'
+        *ngIf='!editName'
         class='locked' 
         tabindex='0' 
-        (keyup)='keydown($event)'
-        (click)="clickName($event)"
-        [innerHTML]="source ? (source | into:formatting) : '&nbsp;'">
-    </span>
-    <span #nameHolder
-        *ngIf='!editName && !formatting'
-        class='locked' 
-        tabindex='0' 
-        (keyup)='keydown($event)'
-        (click)="clickName($event)"
-        [innerHTML]="source ? source : '&nbsp;'">
+        (click)='click($event)'
+        (keyup)='focus($event)'
+        [innerHTML]="source">
     </span>
     `,
     styles: [
         `
         .locked {
-          display: inline-block;
+          display: table;
           cursor: pointer;
           min-width: 30px;
           -webkit-user-select: none;       
@@ -43,23 +37,23 @@ import { PipeComponent } from '../common/pipe.component';
           user-select: none;
           border: 1px solid transparent;
         }
-        input {
-          cursor: beam;
-        }
-        :host {display:table;float:left;min-height: 23px}
+        .text-wrapper{box-sizing: border-box;display:table;width: 100%;}
+        .text-wrapper textarea {box-sizing: border-box;display:block;cursor: beam;width: 100%;}
+        .counter{display: table;float:right;color: #ddd;}
+        :host {box-sizing: border-box;width: 100%;display:table;float:left;min-height: 23px}
         :host .locked:hover{border: 1px solid #fabdab;}
         `
     ]
 })
-export class InputComponent implements PipeComponent {
+export class TextComponent implements PipeComponent {
 
-  data: any;
   source: string;
   id: string;
   name: string;
-  placeholder: string;
-  formatting:string;
+  rows = 4;
+  limit = 0;
   editName = false;
+  counter = false;
   oldValue: string;
 
   @ViewChild("nameEditor")
@@ -74,37 +68,38 @@ export class InputComponent implements PipeComponent {
   constructor(private renderer: Renderer) {
 
   }
-
-  keyup(event) {
-    event.stopPropagation();
-    event.preventDefault();
-
+  keyup(event: any) {    
     const code = event.which;
-    if (((code >= 48) && (code <= 90)) ||
-        ((code >= 96) && (code <= 111)) ||
-        ((code == 32) || (code == 8)) ||
+    if ((code === 48) || (code === 8)) {
+      this.source = event.target.value;
+    } else if (((code > 48) && (code <= 90)) ||
+        ((code >= 96) && (code <= 111)) || (code == 32) ||
         ((code >= 186) && (code <= 222))) {
-          this.source = event.target.value;
+          if (!this.limit || this.source.length < this.limit) {
+            this.source = event.target.value;
+          }
     } else if ((code === 13) || (code === 9) || (code === 27) ) {
       this.editName = false;
+
       if (this.oldValue !== String(this.source)) {
         this.onIntoComponentChange.emit({
           id: this.id,
           name: this.name,
           value: this.source,
-          item: this.data
+          item: this.oldValue
         });
+        this.oldValue = String(this.source);
       }
       if (code === 13) {
         setTimeout(()=>{
           if (this.nameHolder) {
             this.renderer.invokeElementMethod(this.nameHolder.nativeElement, "focus");
           }
-        },66);
+        },99);
       }
     }
   }
-  blur(event) {
+  blur(event: any) {
     event.stopPropagation();
     event.preventDefault();
 
@@ -114,41 +109,35 @@ export class InputComponent implements PipeComponent {
         id: this.id,
         name: this.name,
         value: this.source,
-        item: this.data
+        item: this.oldValue
       });
+      this.oldValue = String(this.source);
     }
   }
-
-  keydown(event) {
+  focus(event: any) {
     const code = event.which;
-    event.stopPropagation();
-    event.preventDefault();
-
-    if ((code === 13) || (code === 9)) {
-      this.renderer.invokeElementMethod(event.target, "click");
-      setTimeout(()=>{
-        if (this.nameEditor) {
-          this.renderer.invokeElementMethod(this.nameEditor.nativeElement, "focus");
-        }
-      },66);
-		}
+    if (code === 13) {
+      event.target.click();
+    }
   }
-
-  clickName(event: any) {
+  click(event: any) {
     event.stopPropagation();
     event.preventDefault();
+  
     this.editName = true;
-    this.oldValue = String(this.source);
-    setTimeout(() => {
-      this.renderer.invokeElementMethod(this.nameEditor.nativeElement, "focus");
-    },66);
-  }
+    setTimeout(()=>{
+      if (this.nameEditor) {
+        this.renderer.invokeElementMethod(this.nameEditor.nativeElement, "focus");
+      }
+    },99);
+}
 
   transform(source: any, data: any, args: any[]) {
-    this.source= source;
-    this.data = data;
-    this.placeholder= args.length ? args[0] : "";
-    this.formatting = args.length > 1 ? args[1] : "";
+    this.source = source;
+    this.oldValue = source;
+    this.rows = args.length ? args[0] : 4;
+    this.limit = args.length > 1 ? args[1] : 0;
+    this.counter = args.length > 2 ? args[2] : false;
   }
 }
 
