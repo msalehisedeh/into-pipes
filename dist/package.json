@@ -1,6 +1,6 @@
 {
   "name": "@sedeh/into-pipes",
-  "version": "2.2.9",
+  "version": "2.2.11",
   "license": "MIT",
   "private": false,
   "keywords": [
@@ -19,6 +19,7 @@
     "audio pipe",
     "Email pipe",
     "table pipe",
+    "text pipe",
     "phone pipe",
     "image pipe",
     "calendar pipe",

@@ -377,6 +377,8 @@ constructor(private pool: ComponentPool) {
 
 | Version | Description                                                                                              |
 |---------|----------------------------------------------------------------------------------------------------------|
+| 2.2.11  | Updated CSS to manage text area.                                                                         |
+| 2.2.10  | Added minimum with to view area for text pipe when it is empty.                                          |
 | 2.2.9   | Added text pipe.                                                                                         |
 | 2.2.8   | Updated documentation.                                                                                   |
 | 2.2.7   | Added table pipe. This is a crude table display. If you want a fully fledged interactive table, you should go for @sedeh/flexible-table. |

@@ -28,9 +28,10 @@ import { PipeComponent } from '../common/pipe.component';
     styles: [
         `
         .locked {
-          display: table;
+          display: block;
           cursor: pointer;
-          min-width: 30px;
+          min-height: 23px;
+          min-width: 33px;
           -webkit-user-select: none;       
           -moz-user-select: none;
           -ms-user-select: none;
@@ -40,7 +41,7 @@ import { PipeComponent } from '../common/pipe.component';
         .text-wrapper{box-sizing: border-box;display:table;width: 100%;}
         .text-wrapper textarea {box-sizing: border-box;display:block;cursor: beam;width: 100%;}
         .counter{display: table;float:right;color: #ddd;}
-        :host {box-sizing: border-box;width: 100%;display:table;float:left;min-height: 23px}
+        :host {box-sizing: border-box;width: 100%;display:table;float:left;min-height: 23px;min-width: 33px;}
         :host .locked:hover{border: 1px solid #fabdab;}
         `
     ]
