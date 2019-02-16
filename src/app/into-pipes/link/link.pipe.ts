@@ -8,7 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class LinkPipe implements PipeTransform {
     static transformationMethod() {
         const x = function  (content: any, args: string[], callback?: any, data?: any) {
-            // link:target:text or link:text or link
+            // link:target:text:hover
             if (args.length > 2) {
                 return new LinkPipe().transform(content, args[1], args[2]);
             } else if (args.length > 1) {

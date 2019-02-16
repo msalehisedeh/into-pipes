@@ -18,6 +18,7 @@ import { LikeIntoPipeModule } from './like/like-pipe.module';
 import { LinkIntoPipeModule } from './link/link-pipe.module';
 import { PhoneIntoPipeModule } from './phone/phone-pipe.module';
 import { RatingIntoPipeModule } from './rating/rating-pipe.module';
+import { NoticeIntoPipeModule } from './notice/notice-pipe.module';
 import { SelectIntoPipeModule } from './select/select-pipe.module';
 import { ShareIntoPipeModule } from './share/share-pipe.module';
 import { SpanIntoPipeModule } from './span/span-pipe.module';
@@ -44,6 +45,7 @@ import { VideoIntoPipeModule } from './video/video-pipe.module';
     LinkIntoPipeModule.forRoot(),
     PhoneIntoPipeModule.forRoot(),
     RatingIntoPipeModule.forRoot(),
+    NoticeIntoPipeModule.forRoot(),
     SelectIntoPipeModule.forRoot(),
     ShareIntoPipeModule.forRoot(),
     SpanIntoPipeModule.forRoot(),
@@ -69,6 +71,7 @@ import { VideoIntoPipeModule } from './video/video-pipe.module';
     LinkIntoPipeModule,
     PhoneIntoPipeModule,
     RatingIntoPipeModule,
+    NoticeIntoPipeModule,
     SelectIntoPipeModule,
     ShareIntoPipeModule,
     SpanIntoPipeModule,

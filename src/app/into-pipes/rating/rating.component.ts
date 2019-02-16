@@ -1,10 +1,13 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, HostListener } from '@angular/core';
 import { PipeComponent } from '../common/pipe.component';
 
 @Component({
     selector: 'rating-component',
     template: `
-    <span class='rating'>
+    <span class='rating' *ngIf="singleStar">
+        <span class='fa fa-star' aria-hidden='true'></span>
+    </span>
+    <span class='rating' *ngIf="!singleStar">
         <span class='fa fa-star' aria-hidden='true' *ngFor="let x of value"></span>
         <span class='fa fa-star-half' aria-hidden='true' *ngIf="float != value"></span>
     </span>
@@ -12,7 +15,7 @@ import { PipeComponent } from '../common/pipe.component';
     `,
     styles: [
         `
-        :host {display:table;float:left;min-height: 23px}
+        :host {display:table;float:left;min-height: 23px;cursor:pointer}
         .rating {
             display: inline-block;
         }
@@ -22,13 +25,24 @@ import { PipeComponent } from '../common/pipe.component';
 export class RatingComponent implements PipeComponent {
     source: string;
 	id: string;
-	name: string;
+    name: string;
+    singleStar = false;
     value: any[] = [];
     float: any;
-	onIntoComponentChange: EventEmitter<any>;
+	onIntoComponentChange = new EventEmitter();
 
+    @HostListener('click',[])
+    click() {
+        this.onIntoComponentChange.emit({
+            id: this.id,
+            name: this.name,
+            value: this.source,
+            item: 'rating'
+        })
+    }
     transform(source: any, data: any, args: any[]) {
         this.float = parseFloat(source);
+        this.singleStar = args.length ? (args[0] === 'true') : false;
         this.source = source;
         const size = parseInt(source, 10);
         for(let i = 0; i < size; i++) {

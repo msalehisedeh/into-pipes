@@ -49,6 +49,17 @@
       [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>
+    <td>Display number <b>into</b> number of unread mesages.</td>
+    <td>[rawContent]="5"<br/>
+      [into]="'notice:You have unread messages'"<br/>
+      intoId="myAlerts" intoName="alerts" <br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span intoId="myAlerts" intoName="alerts"
+      [rawContent]="5" 
+      [into]="'notice:You have unread messages'" 
+      [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
     <td>Format date <b>into</b> date with an interactive date picker.</td>
     <td>
       [rawContent]="myPickDate" <br/>
@@ -82,8 +93,11 @@
   </tr>
   <tr>
     <td>Format 3.5 <b>into</b> stars rating representation</td>
-    <td>[rawContent]="'3.5'" [into]="'rating'"</td>
-    <td><span [rawContent]="'3.5'" [into]="'rating'"></span></td>
+    <td>[rawContent]="'3.5'"<br/>
+      [into]="'rating'" intoName="myRating" intoId="myRating"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="'3.5'" [into]="'rating'"intoName="myRating" intoId="myRating"
+        [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>
     <td>Format email address <b>into</b> an email link</td>
@@ -173,9 +187,9 @@
     <td>Mask number and add a checkmark icon</td>
     <td> [rawContent]="'3423423422'"<br/>
       [into]="'input:enter number:mask | font:fa fa-check:replace:*'"<br/>
-      [onComponentChange]="onComponentChange.bind(this)"<br/>
       [intoId]="threeFive"<br/>
-      [intoName]="threeFive"</td>
+      [intoName]="threeFive"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span 
       [rawContent]="'3423423422'" 
       [into]="'input:enter number:mask | font:fa fa-check:replace:*'" 
@@ -186,9 +200,9 @@
     <td>text with counter</td>
     <td> [rawContent]="'this is a test for a large text input.'"<br/>
       [into]="'text:4:100:true'"<br/>
-      [onComponentChange]="onComponentChange.bind(this)"<br/>
       intoId="textId"<br/>
-      intoName="myText"</td>
+      intoName="myText"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span 
       [rawContent]="'this is a test for a large text input.'" 
       [into]="'text:4:100:true'" 
@@ -244,20 +258,26 @@
   </tr>
   <tr>
     <td>Format the URL <b>into</b> a link</td>
-    <td>[rawContent]="theURL" [into]="'link:true'" [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span [rawContent]="theURL" [into]="'link:true'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
+    <td>[rawContent]="theURL"<br/>
+       [into]="'link:true:my image:true'"<br/>
+       intoName="myImageLink" intoId="myImageLink"<br/>
+        [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="theURL" [into]="'link:true:my image:true'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>
     <td>Format the URL <b>into</b> an image tag</td>
-    <td>[rawContent]="theURL"  [into]="'image:200px:auto:alt text'" [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td>[rawContent]="theURL"<br/>
+      [into]="'image:200px:auto:alt text:6'"<br/>
+      intoName="myImage" intoId="myImage"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span [rawContent]="theURL"
-        [into]="'image:200px:auto:alt text'" 
+        [into]="'image:200px:auto:alt text:6'" intoName="myImage" intoId="myImage"
         [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>
     <td>Format the URL <b>into</b> a video tag</td>
     <td>[rawContent]="videoURL" <br/>[into]="'video:200px:auto:alt text'"<br/> 
-      intoName="video 1" intoId="video1" 
+      intoName="video 1" intoId="video1"<br/>
       [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span [rawContent]="videoURL" 
        [into]="'video:200px:auto:alt text'"
@@ -267,7 +287,7 @@
   <tr>
     <td>Format the URL <b>into</b> a audio tag</td>
     <td>[rawContent]="audioURL" <br/>[into]="'audio'"<br/> 
-        intoName="audio 1" intoId="audio1" 
+        intoName="audio 1" intoId="audio1" <br/>
         [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span [rawContent]="audioURL" [into]="'audio'"
       intoName="audio 1" intoId="audio1" 

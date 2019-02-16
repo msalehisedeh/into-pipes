@@ -1,6 +1,6 @@
 {
   "name": "@sedeh/into-pipes",
-  "version": "2.2.11",
+  "version": "2.3.1",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -18,6 +18,8 @@
     "extendible",
     "pipeline",
     "readable",
+    "if pipe",
+    "conditional pipe",
     "social share pipe",
     "social like pipe",
     "social ranking pipe",
@@ -29,6 +31,7 @@
     "text pipe",
     "phone pipe",
     "image pipe",
+    "notice pipe",
     "calendar pipe",
     "address pipe",
     "reusable",

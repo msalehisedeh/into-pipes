@@ -28,6 +28,7 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 MODULE:
     CommonPipesModule
     IntoPipeModule
+
     AddressIntoPipeModule
     AudioIntoPipeModule
     CalendarIntoPipeModule
@@ -41,6 +42,7 @@ MODULE:
     LastUpdateIntoPipeModule
     LikeIntoPipeModule
     LinkIntoPipeModule
+    NoticeIntoPipeModule
     PhoneIntoPipeModule
     RatingIntoPipeModule
     SelectIntoPipeModule
@@ -51,49 +53,51 @@ MODULE:
     VideoIntoPipeModule
 
 EXPORTS
-    JoinPipe
-    InToPipe
-    ImagePipe
+    AddressPipe
+    AppendPipe
     AudioPipe
-    VideoPipe
-	TablePipe
+    ConditionalPipe
+    EmailPipe
+    FontPipe
+    ImagePipe
+    InToPipe
+    JoinPipe
     LinkPipe
     MaskPipe
     MapPipe
-    PrependPipe
-    AppendPipe
-    WrapPipe
-    ValueOfPipe
+    NoticePipe
     PhonePipe
-    EmailPipe
+    PrependPipe
     RatingPipe
-    FontPipe
-    ConditionalPipe
-    AddressPipe
     SanitizeHtmlPipe
+	TablePipe
+    ValueOfPipe
+    VideoPipe
+    WrapPipe
 
     IntoDirective
     ComponentPool
 
     AddressComponent
+    AudioComponent
+    CheckboxComponent
     EmailComponent
-    PhoneComponent
     FontComponent
     ImageComponent
-    AudioComponent
+    InputComponent
+    JsonComponent
+    LastUpdateComponent
+    LikeComponent
+    LinkComponent
+    NoticeComponent
+    PhoneComponent
+    RatingComponent
+    SelectComponent
+    ShareComponent
+    SpanComponent
 	TableComponent
 	TextComponent
     VideoComponent
-    JsonComponent
-    LinkComponent
-    InputComponent
-    CheckboxComponent
-    RatingComponent
-    SelectComponent
-    SpanComponent
-    ShareComponent
-    LikeComponent
-    LastUpdateComponent
 	
 DEPENDENCIES: 
     "font-awesome": "^4.7.0"
@@ -131,6 +135,7 @@ export interface PipeServiceComponent {
 | inputgroup          | For a given source, will provide a list of radio or check-box tags through special service that knows how to provide options based on supplied data. If the source is a list, options are check-box. Otherwise, options are radio buttons. You will be responsible to catch the change event and update data in your data source.   |
 | input               | For a given source, will provide an interactive input tag that will become active when user clicks on it. Otherwise a plain text content will be displayed. You will be responsible to catch the change event and update data in your data source.   |
 | text                | For a given source, will provide an interactive text area tag that will become active when user clicks on it. Otherwise a plain text content will be displayed. You will be responsible to catch the change event and update data in your data source.   |
+| Notice              | For a given source, will provide a notice / notification reminder. You will be responsible to catch the change event and update data in your data source.   |
 | checkbox            | For a given source, will provide an interactive check-box. You will be responsible to catch the change event and update date(s) in your data source. |
 | join                | For a given source array, will join array elements into one single delineated string.       |
 | sanitizeHtml        | Will bypass security checks against CORS in a URL.                                          |
@@ -190,12 +195,13 @@ NOTE:
 | email               | `email:showlink`                                  | 1) In a Link or not                      |
 | phone               | `phone`                                           | 1) In a Link or not, 2) format or not    |
 | address             | `address:showlink:poplink`                        | 1) In a Link or not, 2) should google map be viewed on the same page or pop a new page for it. |
-| rating              | `rating`                                          | NONE                                     |
+| rating              | `rating:true` OR `rating`                         | 1) show count with single star                                     |
+| notice              | `notice:message` OR `notice`                      | 1) show hover message                                     |
 | font                | `font:fa fa-check:left:*`                         | 1)class, 2)position (left,right,replace, 3) action (*:use content) |
 | valueof             | `valueof:key`                                     | 1) key to be used                        |
 | mask                | `mask:4:*  OR mask:4`                             | 1) last # number of characters to mask, 2) masking character |
-| image               | `image:200px:auto:alt text` OR `image`            | 1) width, 2)height, 3) alternate text to be displayed |
-| link                | `link:text OR link`                               | 1)text to be displayed in the link       |
+| image               | `image:200px:auto:alt text:6` OR `image`          | 1) width, 2)height, 3) alternate text to be displayed, 4) optional magnify by number on hover available only for intoDiretive |
+| link                | `link:target:text:pop-hover`| 1)on click target - blank if none, 2) text to be displayed in the link - blank if none, 3) hover pop a viewer - optional and available only on inTo directive       |
 | map                 | `map:a;x/b;y/c;z`                                 | 1)take a source as a key and returns value of key from the given map argument |
 | currency            | `currency:en_US or currency`                      | 1)local                                  |
 | append              | `append:something`                                | 1)appending string                       |
@@ -377,6 +383,9 @@ constructor(private pool: ComponentPool) {
 
 | Version | Description                                                                                              |
 |---------|----------------------------------------------------------------------------------------------------------|
+| 2.3.1   | added zoom on hover for image pipe. |
+| 2.3.0   | Added notice pipe. allowing link to pop image on hover. allowing rating click to issue event and optionally show only one star. |
+| 2.2.12  | Updated angular code.                                                                         |
 | 2.2.11  | Updated CSS to manage text area.                                                                         |
 | 2.2.10  | Added minimum with to view area for text pipe when it is empty.                                          |
 | 2.2.9   | Added text pipe.                                                                                         |
