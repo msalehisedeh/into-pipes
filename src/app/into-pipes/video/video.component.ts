@@ -4,7 +4,11 @@ import { PipeComponent } from '../common/pipe.component';
 @Component({
     selector: 'video-component',
     template: `
-    <video controls="true" 
+    <video tabindex="0"
+        (focus)="updateControls($event)"
+        (mouseenter)="updateControls($event)"
+        (mouseleave)="resetControls($event)"
+        (keyup)="keyup($event)"
         (playing)="change($event)"
         (ended)="change($event)"
         (pause)="change($event)"
@@ -20,6 +24,8 @@ import { PipeComponent } from '../common/pipe.component';
     `]
 })
 export class VideoComponent implements PipeComponent {
+    hasControls = true;
+    hoverPlay = false;
     source: string;
 	id: string;
 	name: string;
@@ -34,6 +40,8 @@ export class VideoComponent implements PipeComponent {
         this.width = (args && args.length) ? args[0] : "";
         this.height = (args && args.length > 1) ? args[1] : "";
         this.alt = (args && args.length > 2) ? args[2] : "";
+        this.hasControls = (args && args.length > 3) ? (args[3] === 'true') : true;
+        this.hoverPlay = (args && args.length > 4) ? (args[4] === 'true') : false;
 
         if ((typeof source === "string") || !(source instanceof Array)) {
             if(!this.alt || !this.alt.length) {
@@ -41,6 +49,32 @@ export class VideoComponent implements PipeComponent {
                 const t = q < 0 ? source : source.substring(0, q);
                 const d = t.lastIndexOf("/");
                 this.alt = d < 0 ? t : t.substring(d+1);
+            }
+        }
+    }
+    updateControls(event: any) {
+        if (this.hasControls) {
+            event.target.setAttribute('controls','true');
+        }
+        if (this.hoverPlay) {
+            event.target.play();
+        }
+    }
+    resetControls(event: any) {
+        if (this.hoverPlay && this.isPlaying(event.target)) {
+            event.target.pause();
+        }
+    }
+    private isPlaying(video: any) {
+        return !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
+    }
+    keyup(event: any) {
+        const code = event.which;
+        if (code === 13) {
+            if (this.isPlaying(event.target)) {
+                event.target.pause();
+            } else {
+                event.target.play();
             }
         }
     }

@@ -87,6 +87,7 @@ export class TextComponent implements PipeComponent {
           id: this.id,
           name: this.name,
           value: this.source,
+          type: 'change',
           item: this.oldValue
         });
         this.oldValue = String(this.source);
@@ -110,16 +111,14 @@ export class TextComponent implements PipeComponent {
         id: this.id,
         name: this.name,
         value: this.source,
+        type: 'blur',
         item: this.oldValue
       });
       this.oldValue = String(this.source);
     }
   }
   focus(event: any) {
-    const code = event.which;
-    if (code === 13) {
-      event.target.click();
-    }
+    this.click(event);
   }
   click(event: any) {
     event.stopPropagation();

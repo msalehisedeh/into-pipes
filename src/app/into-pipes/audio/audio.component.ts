@@ -5,6 +5,7 @@ import { PipeComponent } from '../common/pipe.component';
     selector: 'audio-component',
     template: `
     <audio [src]="source" 
+        (keyup)="keyup($event)"
         (playing)="change($event)"
         (ended)="change($event)"
         (pause)="change($event)"
@@ -25,8 +26,20 @@ export class AudioComponent implements PipeComponent {
         this.source = source;
     }
 
+    private isPlaying(audio: any) {
+        return !!(audio.currentTime > 0 && !audio.paused && !audio.ended && audio.readyState > 2);
+    }
+    keyup(event: any) {
+        const code = event.which;
+        if (code === 13) {
+            if (this.isPlaying(event.target)) {
+                event.target.pause();
+            } else {
+                event.target.play();
+            }
+        }
+    }
     change(event: any) {
-        console.log(event)
         this.onIntoComponentChange.emit({
             id: this.id,
             name: this.name,

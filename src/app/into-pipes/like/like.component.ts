@@ -49,7 +49,7 @@ export class LikeComponent implements PipeComponent {
         this.thumbs = this.thumbsup ? "thumbs-up-items" : "thumbs-down-items";
         this.selected = (this.getItem(this.data[this.key]) !== null);
       }
-    keyup(event) {
+    keyup(event: any) {
         const code = event.which;
     
         if (code === 13) {
@@ -97,7 +97,7 @@ export class LikeComponent implements PipeComponent {
           }
           return result;
       }
-      toggleCount(event) {
+      toggleCount(event: any) {
         this.selected = !this.selected;
         event.stopPropagation();
         event.preventDefault();
@@ -114,6 +114,7 @@ export class LikeComponent implements PipeComponent {
             id: this.id,
             name: this.name,
             value: this.source,
+            type: "change",
             item: this.data,
             selected: this.selected,
             action: this.thumbs

@@ -257,7 +257,7 @@
     <td><span [innerHTML]="myJson | into:'valueof:dw' | sanitizeHtml"></span></td>
   </tr>
   <tr>
-    <td>Format the URL <b>into</b> a link</td>
+    <td>Format the URL <b>into</b> a link with a hover pop</td>
     <td>[rawContent]="theURL"<br/>
        [into]="'link:true:my image:true'"<br/>
        intoName="myImageLink" intoId="myImageLink"<br/>
@@ -267,11 +267,31 @@
   <tr>
     <td>Format the URL <b>into</b> an image tag</td>
     <td>[rawContent]="theURL"<br/>
-      [into]="'image:200px:auto:alt text:6'"<br/>
+      [into]="'image:200px:auto:alt text'"<br/>
       intoName="myImage" intoId="myImage"<br/>
       [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span [rawContent]="theURL"
-        [into]="'image:200px:auto:alt text:6'" intoName="myImage" intoId="myImage"
+        [into]="'image:200px:auto:alt text'" intoName="myImage" intoId="myImage"
+        [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format the URL <b>into</b> an image tag with hover pop on top</td>
+    <td>[rawContent]="theURL"<br/>
+      [into]="'image:200px:auto:alt text:3:top'"<br/>
+      intoName="myImagePop" intoId="myImagePop"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="theURL"
+        [into]="'image:200px:auto:alt text:3:left'" intoName="myImagePop" intoId="myImagePop"
+        [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format the URL <b>into</b> an image tag with a zoom on hover</td>
+    <td>[rawContent]="theURL"<br/>
+      [into]="'image:200px:auto:alt text:6'"<br/>
+      intoName="myImageZoom" intoId="myImageZoom"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="theURL"
+        [into]="'image:200px:auto:alt text:6'" intoName="myImageZoom" intoId="myImageZoom"
         [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>

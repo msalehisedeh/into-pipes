@@ -15,7 +15,7 @@ import { PipeComponent } from '../common/pipe.component';
     styles: [
         `
         :host {display:table;float:left;min-height: 23px; position:relative}
-        :host img{z-index:2;border:2px solid;box-shadow: 3px 3px 3px #999;display:table;float:left;min-height: 23px; width: 250px;top: 22px;position:absolute}
+        :host img{z-index:2;border:2px solid;box-shadow: 3px 3px 3px #999;display:table;float:left;min-height: 23px; width: 250px;top: 22px;position:absolute;border-radius: 4px}
         `
     ]
 })
@@ -57,6 +57,7 @@ export class LinkComponent implements PipeComponent {
             id: this.id,
             name: this.name,
             value: this.source,
+            type: "click",
             item: event.type
         });
     }

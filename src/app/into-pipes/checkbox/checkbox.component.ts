@@ -1,4 +1,4 @@
-import { Component, ViewChild, Renderer, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { PipeComponent } from '../common/pipe.component';
 
 @Component({
@@ -44,16 +44,14 @@ export class CheckboxComponent implements PipeComponent {
   @Output("onIntoComponentChange")
   onIntoComponentChange = new EventEmitter();
 
-  constructor(private renderer: Renderer) {}
-
-  keyup(event) {
+  keyup(event: any) {
     const code = event.which;
     if (code === 13) {
-      this.renderer.invokeElementMethod(event.target, "click");
+      event.target.click();
 		}
   }
 
-  click(event) {
+  click(event: any) {
     const input = event.target;
     event.stopPropagation();
     event.preventDefault();
@@ -67,15 +65,16 @@ export class CheckboxComponent implements PipeComponent {
       id: this.id,
       name: this.name,
       value: this.source,
+      type: "check",
       item: this.data
     });
     if (this.useFont) {
       setTimeout(() => {
         if (this.check) {
-          this.renderer.invokeElementMethod(this.check.nativeElement, "focus");
+          this.check.nativeElement.focus();
         }
         if (this.uncheck) {
-          this.renderer.invokeElementMethod(this.uncheck.nativeElement, "focus");
+          this.uncheck.nativeElement.focus();
         }
       },66);
     }

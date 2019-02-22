@@ -79,6 +79,7 @@ export class PhoneComponent implements PipeComponent {
             id: this.id,
             name: this.name,
             value: this.source,
+            type: 'click',
             item: event.type
         });
     }

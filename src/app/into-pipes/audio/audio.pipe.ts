@@ -13,10 +13,10 @@ export class AudioPipe implements PipeTransform {
         return x;
     }
 
-    stringToAudio(source) {
+    stringToAudio(source: any) {
         return "<audio src=\'"+source+"\' controls=\'true\' />";
     }
-    arrayToAudio(sources) {
+    arrayToAudio(sources: any) {
         const result = [];
         sources.map((source) => {
             result.push(this.stringToAudio(source));

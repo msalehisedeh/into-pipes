@@ -75,7 +75,7 @@ export class InputComponent implements PipeComponent {
 
   }
 
-  keyup(event) {
+  keyup(event: any) {
     event.stopPropagation();
     event.preventDefault();
 
@@ -92,6 +92,7 @@ export class InputComponent implements PipeComponent {
           id: this.id,
           name: this.name,
           value: this.source,
+          type: "change",
           item: this.data
         });
       }
@@ -104,7 +105,7 @@ export class InputComponent implements PipeComponent {
       }
     }
   }
-  blur(event) {
+  blur(event: any) {
     event.stopPropagation();
     event.preventDefault();
 
@@ -119,7 +120,7 @@ export class InputComponent implements PipeComponent {
     }
   }
 
-  keydown(event) {
+  keydown(event: any) {
     const code = event.which;
     event.stopPropagation();
     event.preventDefault();

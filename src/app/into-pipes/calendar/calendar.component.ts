@@ -225,7 +225,7 @@ export class CalendarComponent implements PipeComponent {
 
   }
 
-  keyup(event) {
+  keyup(event: any) {
     event.stopPropagation();
     event.preventDefault();
 
@@ -234,7 +234,7 @@ export class CalendarComponent implements PipeComponent {
         event.target.click();
     }
   }
-  popdatepicker(event) {
+  popdatepicker(event: any) {
     event.stopPropagation();
     event.preventDefault();
 
@@ -296,7 +296,7 @@ export class CalendarComponent implements PipeComponent {
         day.selected = true;
       }
   }
-  selectDate(event, day: CalendarDate): void {
+  selectDate(event: any, day: CalendarDate): void {
     event.stopPropagation();
     event.preventDefault();
 
@@ -311,6 +311,7 @@ export class CalendarComponent implements PipeComponent {
         id: this.id,
         name: this.name,
         value: this.selectedDays,
+        type: "select",
         item: this.item
     });
     this.showCalendar = false;
@@ -318,7 +319,7 @@ export class CalendarComponent implements PipeComponent {
   }
 
   // actions from calendar
-  prevMonth(event): void {
+  prevMonth(event: any): void {
     event.stopPropagation();
     event.preventDefault();
 
@@ -326,7 +327,7 @@ export class CalendarComponent implements PipeComponent {
     this.generateCalendar();
   }
 
-  nextMonth(event): void {
+  nextMonth(event: any): void {
     event.stopPropagation();
     event.preventDefault();
 
@@ -334,7 +335,7 @@ export class CalendarComponent implements PipeComponent {
     this.generateCalendar();
   }
 
-  prevYear(event): void {
+  prevYear(event: any): void {
     event.stopPropagation();
     event.preventDefault();
 
@@ -342,7 +343,7 @@ export class CalendarComponent implements PipeComponent {
     this.generateCalendar();
   }
 
-  nextYear(event): void {
+  nextYear(event: any): void {
     event.stopPropagation();
     event.preventDefault();
 
@@ -364,7 +365,7 @@ export class CalendarComponent implements PipeComponent {
             a.getMonth() === b.getMonth() && 
             a.getDate() === b.getDate();
     }
-    private isSameMonth(a, b) {
+    private isSameMonth(a: any, b: any) {
         return a.getYear() === b.getYear() && 
             a.getMonth() === b.getMonth();
     }

@@ -11,7 +11,7 @@ import { PipeComponent, PipeServiceComponent } from '../common/pipe.component';
             [name]="name + (type === 'radio' ? '' : i)" 
             [value]="x.value ? x.value : x" 
             [checked]="isSelected(x)"
-            (click)="click($event)"/>
+            (focus)="focused($event)"/>
         <label [for]="name + i" [textContent]="x.label ? x.label : x"></label>
     </span>
     `,
@@ -36,9 +36,9 @@ export class InputGroupComponent implements PipeComponent {
 
   constructor(private renderer: Renderer) {}
 
-  click(event) {
+  focused(event:any) {
     event.stopPropagation();
-
+    event.preventDefault();
     if (this.type === 'radio') {
       this.source = event.target.value;
     } else {
@@ -56,10 +56,11 @@ export class InputGroupComponent implements PipeComponent {
       id: this.id,
       name: this.name,
       value: this.source,
+      type: "select",
       item: this.data
     });
   }
-  isSelected(item) {
+  isSelected(item: any) {
     const xitem = item.value ? item.value : item;
     if (this.type === 'radio') {
       return xitem === this.source;

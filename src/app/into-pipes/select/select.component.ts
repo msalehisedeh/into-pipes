@@ -4,8 +4,14 @@ import { PipeComponent, PipeServiceComponent } from '../common/pipe.component';
 @Component({
     selector: 'select-component',
     template: `
-    <select tabindex="0" [multiple]="multiselect ? true:null" (click)="click($event)" (change)="change($event)">
-        <option *ngFor="let x of options" [selected]="source === x ? true : null"  [value]="x" [textContent]="x"></option>
+    <select tabindex="0" 
+      [multiple]="multiselect ? true:null" 
+      (click)="click($event)" 
+      (change)="change($event)">
+        <option *ngFor="let x of options" 
+          [selected]="source === x ? true : null"  
+          [value]="x" 
+          [textContent]="x"></option>
     </select>
     `,
     styles: [
@@ -29,11 +35,11 @@ export class SelectComponent implements PipeComponent {
 
   constructor() {}
 
-  click(event) {
+  click(event: any) {
     event.stopPropagation();
     event.preventDefault();
   }
-  change(event) {
+  change(event: any) {
     event.stopPropagation();
     event.preventDefault();
 
@@ -42,6 +48,7 @@ export class SelectComponent implements PipeComponent {
       id: this.id,
       name: this.name,
       value: this.source,
+      type: 'change',
       item: this.data
     });
   }

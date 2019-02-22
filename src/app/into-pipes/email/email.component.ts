@@ -46,6 +46,7 @@ export class EmailComponent implements PipeComponent {
             id: this.id,
             name: this.name,
             value: this.source,
+            type: "mail-to",
             item: event.type
         });
     }

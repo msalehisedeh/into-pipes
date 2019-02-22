@@ -5,7 +5,7 @@ import { PipeComponent } from '../common/pipe.component';
     selector: 'lastupdate-component',
     template: `
     <span *ngIf="showIcon" class="fa fa-clock-o" aria-hidden="true"></span>
-    <span [textContent]="formatDate()"></span>
+    <span>{{formatDate()}}</span>
     `,
     styles: [
         `

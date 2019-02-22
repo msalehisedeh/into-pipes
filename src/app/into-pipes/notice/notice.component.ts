@@ -32,14 +32,27 @@ export class NoticeComponent implements PipeComponent {
     float: any;
     onIntoComponentChange = new EventEmitter();
     
-    constructor(private el: ElementRef){}
+    constructor(private el: ElementRef){
+        el.nativeElement.setAttribute('tabindex','0');
+    }
 
+    @HostListener('keyup',['$event'])
+    keyup(event: any) {
+        const code = event.which;
+        event.stopPropagation();
+        event.preventDefault();
+    
+        if (code === 13) {
+            event.target.click();
+        }
+    }
     @HostListener('click',[])
     click() {
         this.onIntoComponentChange.emit({
             id: this.id,
             name: this.name,
             value: this.source,
+            type: 'click',
             item: 'notice'
         })
     }

@@ -76,7 +76,7 @@ export class ShareComponent implements PipeComponent {
             title: 'share with '+ type
         }
     }
-    keyup(event) {
+    keyup(event: any) {
         const code = event.which;
         event.stopPropagation();
         event.preventDefault();
@@ -99,6 +99,7 @@ export class ShareComponent implements PipeComponent {
             id: this.id,
             name: this.name,
             value: 'Share options',
+            type: 'share',
             item: this.shouldDisplay ? 'open' : 'close'
         });
     }  
