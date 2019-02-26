@@ -1,6 +1,6 @@
 {
   "name": "@sedeh/into-pipes",
-  "version": "2.3.6",
+  "version": "2.3.8",
   "license": "MIT",
   "scripts": {
     "ng": "ng",

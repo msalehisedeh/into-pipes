@@ -661,14 +661,16 @@ constructor(private pool: ComponentPool) {
 
 | Version |                                                                                                          |
 |---------|----------------------------------------------------------------------------------------------------------|
-| 2.3.6   | Unified attribute names in emitted events. Added keyboard handling for video and audio tags.  |
+| 2.3.8   | Fixing read me file to show on nmp site.                                                                 |
+| 2.3.7   | Added one more keyboard handling for video.                                                              |
+| 2.3.6   | Unified attribute names in emitted events. Added keyboard handling for video and audio tags.             |
 | 2.3.5   | Updated documentation.                                                                                   |
 | 2.3.4   | Updated documentation.                                                                                   |
-| 2.3.3   | Realized I am missing some key event handling for input group, notice, rating, and text pipes. |
+| 2.3.3   | Realized I am missing some key event handling for input group, notice, rating, and text pipes.           |
 | 2.3.2   | added pop on hover for image pipe. if zoom is set, you can have magnified image poped out or stay within the image boundaries. |
-| 2.3.1   | added zoom on hover for image pipe to view the magnified image on hover within the image boundaries. |
+| 2.3.1   | added zoom on hover for image pipe to view the magnified image on hover within the image boundaries.     |
 | 2.3.0   | Added notice pipe. allowing link to pop image on hover. allowing rating click to issue event and optionally show only one star. |
-| 2.2.12  | Updated angular code.                                                                         |
+| 2.2.12  | Updated angular code.                                                                                    |
 | 2.2.11  | Updated CSS to manage text area.                                                                         |
 | 2.2.10  | Added minimum with to view area for text pipe when it is empty.                                          |
 | 2.2.9   | Added text pipe.                                                                                         |

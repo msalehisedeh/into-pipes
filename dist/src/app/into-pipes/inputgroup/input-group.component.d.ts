@@ -11,7 +11,7 @@ export declare class InputGroupComponent implements PipeComponent {
     service: PipeServiceComponent;
     onIntoComponentChange: EventEmitter<{}>;
     constructor(renderer: Renderer);
-    click(event: any): void;
+    focused(event: any): void;
     isSelected(item: any): boolean;
     transform(source: any, data: any, args: any[]): void;
 }

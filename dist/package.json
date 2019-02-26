@@ -1,6 +1,6 @@
 {
   "name": "@sedeh/into-pipes",
-  "version": "2.2.11",
+  "version": "2.3.8",
   "license": "MIT",
   "private": false,
   "keywords": [
@@ -11,6 +11,8 @@
     "extendible",
     "pipeline",
     "readable",
+    "if pipe",
+    "conditional pipe",
     "social share pipe",
     "social like pipe",
     "social ranking pipe",
@@ -22,6 +24,7 @@
     "text pipe",
     "phone pipe",
     "image pipe",
+    "notice pipe",
     "calendar pipe",
     "address pipe",
     "reusable",
@@ -50,7 +53,7 @@
     "@types/node": "^6.0.60",
     "core-js": "^2.5.4",
     "zone.js": "^0.8.26",
-    "rxjs": "^6.2.2",
+    "rxjs": "6.2.2",
     "codelyzer": "~4.5.0",
     "ng-packagr": "^4.4.0",
     "protractor": "~5.4.2",

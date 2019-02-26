@@ -6,7 +6,7 @@ import { PipeComponent } from '../common/pipe.component';
     template: `
     <audio [src]="source" 
         (keyup)="keyup($event)"
-        (playing)="change($event)"
+        (play)="change($event)"
         (ended)="change($event)"
         (pause)="change($event)"
         (seeked)="change($event)"
