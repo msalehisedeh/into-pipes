@@ -6,7 +6,7 @@ Moreover, **"InTo"** can be customized by adding custom formatters **into** it!!
 
 Most of all this library is now truly extendible allowing you to include any portion of it as you see it fit for your application!! You can use all pipes and components that are available, or pick and choose only from those that you want to use in your application without adding un-necessary components which could contribute to your application size. (for details of how it can be done, read more.)
 
-**Note:** If you want interactive pipes, you should use into pipe directive in order to have fully ADA comploeent component and get the benefit of keyboard events handled by into components. If you decide to use the **InTo** pipes instead of the directive, depending on the browser, you may not have keyboard event access to the shadow dom of interactive html tags. In addition, you need to make sure you will pipe the result **into** sanitizeHtml.
+**Note:** If you want interactive pipes, you should use into pipe directive in order to have fully ADA compliant component and get the benefit of keyboard events handled by into components. If you decide to use the **InTo** pipes instead of the directive, depending on the browser, you may not have keyboard event access to the shadow dom of interactive html tags. In addition, you need to make sure you will pipe the result **into** sanitizeHtml.
 
 **Note:** When you create tags and insert them **into** DOM at runtime through **InTo** Pipes, angular will not be able to enforce CSS rules on the tags. In that case the workaround is to use **::ng-deep** in your CSS. For example, if img tag is created through image pipe under a DIV with class "something", then you need to declare attributes in `::ng-deep .something img{ }` in order to have control over img tag.
 **Note:** Starting from version 2.0.0, this library is compatible with Angular 6+.
@@ -661,13 +661,15 @@ constructor(private pool: ComponentPool) {
 
 | Version |                                                                                                          |
 |---------|----------------------------------------------------------------------------------------------------------|
-| 2.3.8   | Fixing read me file to show on nmp site.                                                                 |
+| 2.3.11  | Reduced min heigh applied to pipe components.                                                            |
+| 2.3.10  | Looks like I copied wrong file for calendar fixed code to my deployment directory.                       |
+| 2.3.9   | Fixed calendar component to show selected date on initial display.                                       |
 | 2.3.7   | Added one more keyboard handling for video.                                                              |
 | 2.3.6   | Unified attribute names in emitted events. Added keyboard handling for video and audio tags.             |
 | 2.3.5   | Updated documentation.                                                                                   |
 | 2.3.4   | Updated documentation.                                                                                   |
 | 2.3.3   | Realized I am missing some key event handling for input group, notice, rating, and text pipes.           |
-| 2.3.2   | added pop on hover for image pipe. if zoom is set, you can have magnified image poped out or stay within the image boundaries. |
+| 2.3.2   | added pop on hover for image pipe. if zoom is set, you can have magnified image popped out or stay within the image boundaries. |
 | 2.3.1   | added zoom on hover for image pipe to view the magnified image on hover within the image boundaries.     |
 | 2.3.0   | Added notice pipe. allowing link to pop image on hover. allowing rating click to issue event and optionally show only one star. |
 | 2.2.12  | Updated angular code.                                                                                    |

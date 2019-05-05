@@ -19,7 +19,7 @@ import { PipeComponent } from '../common/pipe.component';
     </a>`,
     styles: [
         `
-        :host {display:table;float:left;min-height: 23px;position: relative}
+        :host {display:table;float:left;min-height: 20px;position: relative}
         .like {cursor: pointer;}
         .like .counts{margin-left: 5px;}
         .like .fa {margin: 0;}

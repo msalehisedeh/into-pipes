@@ -28,7 +28,7 @@ import { PipeComponent } from '../common/pipe.component';
         .off-screen {position: absolute;left: -999em;}
         :host a:hover .fa-map-marker{color: #fabdab;}
         :host span{float-left;}
-        :host {display: table;float:left;min-height: 23px}
+        :host {display: table;float:left;min-height: 20px}
         `
     ]
 })

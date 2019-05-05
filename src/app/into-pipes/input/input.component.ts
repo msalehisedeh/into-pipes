@@ -46,7 +46,7 @@ import { PipeComponent } from '../common/pipe.component';
         input {
           cursor: beam;
         }
-        :host {display:table;float:left;min-height: 23px}
+        :host {display:table;float:left;min-height: 20px}
         :host .locked:hover{border: 1px solid #fabdab;}
         `
     ]

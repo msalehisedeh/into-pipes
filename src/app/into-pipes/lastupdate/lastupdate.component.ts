@@ -9,7 +9,7 @@ import { PipeComponent } from '../common/pipe.component';
     `,
     styles: [
         `
-        :host {display:table;float:left;min-height: 23px;position: relative}
+        :host {display:table;float:left;min-height: 20px;position: relative}
         .fa {margin:0 5px 0 0}
         `
     ]

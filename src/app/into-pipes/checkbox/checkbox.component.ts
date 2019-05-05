@@ -19,7 +19,7 @@ import { PipeComponent } from '../common/pipe.component';
     styles: [
         `
         :host .check-font .fa{margin: 0 5px}
-        :host {display:table;float:left;min-height: 23px}
+        :host {display:table;float:left;min-height: 20px}
         .check-font:hover{color: #fabdab;}
         .check-font {cursor: pointer;}
         `

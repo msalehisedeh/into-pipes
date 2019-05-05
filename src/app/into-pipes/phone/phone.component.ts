@@ -15,7 +15,7 @@ import { PipeComponent } from '../common/pipe.component';
     `,
     styles: [
         `
-        :host {display:table;float:left;min-height: 23px}
+        :host {display:table;float:left;min-height: 20px}
         :host a:hover .fa-phone{color: #fabdab;}
         :host .fa{margin: 0 5px;}
         `

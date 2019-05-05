@@ -13,7 +13,7 @@ import { PipeComponent } from '../common/pipe.component';
         (error)="change($event)"
         controls="true">Your browser does not support the audio element.</audio>`,
     styles: [`
-    :host {display:table;float:left;min-height: 23px}
+    :host {display:table;float:left;min-height: 20px}
     `]
 })
 export class AudioComponent implements PipeComponent {
