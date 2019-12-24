@@ -4,6 +4,6 @@ export declare class InToPipe implements PipeTransform {
     private pool;
     constructor(pool: ComponentPool);
     transform(content: any, list: string): any;
-    private split(item);
-    private _transform(content, args);
+    private split;
+    private _transform;
 }

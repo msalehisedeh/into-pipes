@@ -1,36 +1,26 @@
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
- */
+import * as tslib_1 from "tslib";
+/*
+* Takes care of problem with security precausions that strip out certain characters
+* from end result of your requests.
+* code taken from https://stackoverflow.com/questions/39681163/angular-2-sanitizing-html-stripped-some-content-with-div-id-this-is-bug-or-fe
+*/
 import { Pipe } from "@angular/core";
-import { DomSanitizer } from '@angular/platform-browser';
-export class SanitizeHtmlPipe {
-    /**
-     * @param {?} _sanitizer
-     */
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+let SanitizeHtmlPipe = class SanitizeHtmlPipe {
     constructor(_sanitizer) {
         this._sanitizer = _sanitizer;
     }
-    /**
-     * @param {?} v
-     * @return {?}
-     */
     transform(v) {
         return this._sanitizer.bypassSecurityTrustHtml(v);
     }
-}
-SanitizeHtmlPipe.decorators = [
-    { type: Pipe, args: [{
-                name: 'sanitizeHtml'
-            },] }
-];
-/** @nocollapse */
+};
 SanitizeHtmlPipe.ctorParameters = () => [
     { type: DomSanitizer }
 ];
-if (false) {
-    /** @type {?} */
-    SanitizeHtmlPipe.prototype._sanitizer;
-}
-
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2FuaXRpemVIdG1sLnBpcGUuanMiLCJzb3VyY2VSb290Ijoibmc6Ly9Ac2VkZWgvaW50by1waXBlcy8iLCJzb3VyY2VzIjpbInNyYy9hcHAvaW50by1waXBlcy9jb21tb24vc2FuaXRpemVIdG1sLnBpcGUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OztBQUtBLE9BQU8sRUFBRSxJQUFJLEVBQWlCLE1BQU0sZUFBZSxDQUFDO0FBQ3BELE9BQU8sRUFBRSxZQUFZLEVBQVksTUFBTSwyQkFBMkIsQ0FBQztBQUtuRSxNQUFNOzs7O0lBRUosWUFBb0IsVUFBdUI7UUFBdkIsZUFBVSxHQUFWLFVBQVUsQ0FBYTtLQUMxQzs7Ozs7SUFFRCxTQUFTLENBQUMsQ0FBUTtRQUNoQixNQUFNLENBQUMsSUFBSSxDQUFDLFVBQVUsQ0FBQyx1QkFBdUIsQ0FBQyxDQUFDLENBQUMsQ0FBQztLQUNuRDs7O1lBVkYsSUFBSSxTQUFDO2dCQUNKLElBQUksRUFBRSxjQUFjO2FBQ3JCOzs7O1lBSlEsWUFBWSIsInNvdXJjZXNDb250ZW50IjpbIi8qXHJcbiogVGFrZXMgY2FyZSBvZiBwcm9ibGVtIHdpdGggc2VjdXJpdHkgcHJlY2F1c2lvbnMgdGhhdCBzdHJpcCBvdXQgY2VydGFpbiBjaGFyYWN0ZXJzIFxyXG4qIGZyb20gZW5kIHJlc3VsdCBvZiB5b3VyIHJlcXVlc3RzLlxyXG4qIGNvZGUgdGFrZW4gZnJvbSBodHRwczovL3N0YWNrb3ZlcmZsb3cuY29tL3F1ZXN0aW9ucy8zOTY4MTE2My9hbmd1bGFyLTItc2FuaXRpemluZy1odG1sLXN0cmlwcGVkLXNvbWUtY29udGVudC13aXRoLWRpdi1pZC10aGlzLWlzLWJ1Zy1vci1mZVxyXG4qL1xyXG5pbXBvcnQgeyBQaXBlLCBQaXBlVHJhbnNmb3JtIH0gZnJvbSBcIkBhbmd1bGFyL2NvcmVcIjtcclxuaW1wb3J0IHsgRG9tU2FuaXRpemVyLCBTYWZlSHRtbCB9IGZyb20gJ0Bhbmd1bGFyL3BsYXRmb3JtLWJyb3dzZXInO1xyXG5cclxuQFBpcGUoe1xyXG4gIG5hbWU6ICdzYW5pdGl6ZUh0bWwnXHJcbn0pXHJcbmV4cG9ydCBjbGFzcyBTYW5pdGl6ZUh0bWxQaXBlIGltcGxlbWVudHMgUGlwZVRyYW5zZm9ybSB7XHJcblxyXG4gIGNvbnN0cnVjdG9yKHByaXZhdGUgX3Nhbml0aXplcjpEb21TYW5pdGl6ZXIpIHtcclxuICB9XHJcblxyXG4gIHRyYW5zZm9ybSh2OnN0cmluZyk6U2FmZUh0bWwge1xyXG4gICAgcmV0dXJuIHRoaXMuX3Nhbml0aXplci5ieXBhc3NTZWN1cml0eVRydXN0SHRtbCh2KTtcclxuICB9XHJcbn0iXX0=
+SanitizeHtmlPipe = tslib_1.__decorate([
+    Pipe({
+        name: 'sanitizeHtml'
+    })
+], SanitizeHtmlPipe);
+export { SanitizeHtmlPipe };
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2FuaXRpemVIdG1sLnBpcGUuanMiLCJzb3VyY2VSb290Ijoibmc6Ly9Ac2VkZWgvaW50by1waXBlcy8iLCJzb3VyY2VzIjpbInNyYy9hcHAvaW50by1waXBlcy9jb21tb24vc2FuaXRpemVIdG1sLnBpcGUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IjtBQUFBOzs7O0VBSUU7QUFDRixPQUFPLEVBQUUsSUFBSSxFQUFpQixNQUFNLGVBQWUsQ0FBQztBQUNwRCxPQUFPLEVBQUUsWUFBWSxFQUFFLFFBQVEsRUFBRSxNQUFNLDJCQUEyQixDQUFDO0FBS25FLElBQWEsZ0JBQWdCLEdBQTdCLE1BQWEsZ0JBQWdCO0lBRTNCLFlBQW9CLFVBQXVCO1FBQXZCLGVBQVUsR0FBVixVQUFVLENBQWE7SUFDM0MsQ0FBQztJQUVELFNBQVMsQ0FBQyxDQUFRO1FBQ2hCLE9BQU8sSUFBSSxDQUFDLFVBQVUsQ0FBQyx1QkFBdUIsQ0FBQyxDQUFDLENBQUMsQ0FBQztJQUNwRCxDQUFDO0NBQ0YsQ0FBQTs7WUFOZ0MsWUFBWTs7QUFGaEMsZ0JBQWdCO0lBSDVCLElBQUksQ0FBQztRQUNKLElBQUksRUFBRSxjQUFjO0tBQ3JCLENBQUM7R0FDVyxnQkFBZ0IsQ0FRNUI7U0FSWSxnQkFBZ0IiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxyXG4qIFRha2VzIGNhcmUgb2YgcHJvYmxlbSB3aXRoIHNlY3VyaXR5IHByZWNhdXNpb25zIHRoYXQgc3RyaXAgb3V0IGNlcnRhaW4gY2hhcmFjdGVycyBcclxuKiBmcm9tIGVuZCByZXN1bHQgb2YgeW91ciByZXF1ZXN0cy5cclxuKiBjb2RlIHRha2VuIGZyb20gaHR0cHM6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvMzk2ODExNjMvYW5ndWxhci0yLXNhbml0aXppbmctaHRtbC1zdHJpcHBlZC1zb21lLWNvbnRlbnQtd2l0aC1kaXYtaWQtdGhpcy1pcy1idWctb3ItZmVcclxuKi9cclxuaW1wb3J0IHsgUGlwZSwgUGlwZVRyYW5zZm9ybSB9IGZyb20gXCJAYW5ndWxhci9jb3JlXCI7XHJcbmltcG9ydCB7IERvbVNhbml0aXplciwgU2FmZUh0bWwgfSBmcm9tICdAYW5ndWxhci9wbGF0Zm9ybS1icm93c2VyJztcclxuXHJcbkBQaXBlKHtcclxuICBuYW1lOiAnc2FuaXRpemVIdG1sJ1xyXG59KVxyXG5leHBvcnQgY2xhc3MgU2FuaXRpemVIdG1sUGlwZSBpbXBsZW1lbnRzIFBpcGVUcmFuc2Zvcm0ge1xyXG5cclxuICBjb25zdHJ1Y3Rvcihwcml2YXRlIF9zYW5pdGl6ZXI6RG9tU2FuaXRpemVyKSB7XHJcbiAgfVxyXG5cclxuICB0cmFuc2Zvcm0odjpzdHJpbmcpOlNhZmVIdG1sIHtcclxuICAgIHJldHVybiB0aGlzLl9zYW5pdGl6ZXIuYnlwYXNzU2VjdXJpdHlUcnVzdEh0bWwodik7XHJcbiAgfVxyXG59Il19

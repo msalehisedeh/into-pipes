@@ -22,13 +22,19 @@ import { PipeComponent } from '../common/pipe.component';
     </span>
     `,
     styles: [
-        `.address {float: left;margin-right: 4px;}
-        .google-map {float: left;margin-right: 4px;}
-        .fa {float:left;color: #f00;margin: 0 5px;}
-        .off-screen {position: absolute;left: -999em;}
+        `:host .address {float: left;margin-right: 4px;}
+        :host .google-map {float: left;margin-right: 4px;}
+        :host .fa {float:left;color: #f00;margin: 0 5px;}
+        :host .off-screen {position: absolute;left: -999em;}
         :host a:hover .fa-map-marker{color: #fabdab;}
         :host span{float-left;}
-        :host {display: table;float:left;min-height: 20px}
+        :host {display: table;float:left;min-height: 23px}
+        @media print {
+            :host {
+                text-decoration: none;
+            }
+            :host .fa-map-marker {display: none;}
+        }
         `
     ]
 })

@@ -5,20 +5,26 @@ import { PipeComponent, PipeServiceComponent } from '../common/pipe.component';
     selector: 'input-group-component',
     template: `
     <span class="input-group-item" *ngFor="let x of options; let i = index">
-        <input 
-            [type]="type" 
-            [id]="name + i" 
-            [name]="name + (type === 'radio' ? '' : i)" 
-            [value]="x.value ? x.value : x" 
-            [checked]="isSelected(x)"
-            (focus)="focused($event)"/>
-        <label [for]="name + i" [textContent]="x.label ? x.label : x"></label>
+    <input 
+      [type]="type" 
+      [id]="name + i" 
+      [name]="name + (type === 'radio' ? '' : i)" 
+      [value]="x.value ? x.value : x" 
+      [checked]="isSelected(x)"
+      (focus)="focused($event)"/>
+    <label [for]="name + i" [textContent]="x.label ? x.label : x"></label>
     </span>
+    <span class="selected-value" [textContent]="source"></span>
     `,
     styles: [
-        `
-        :host {display:table;float:left;min-height: 20px}
-        `
+      `
+      :host {display:table;float:left;min-height: 23px}
+      :host .selected-value {display:none}
+      @media print {
+        :host .selected-value {display: block;}
+        :host .input-group-item {display: none;}
+      }
+      `
     ]
 })
 export class InputGroupComponent implements PipeComponent {

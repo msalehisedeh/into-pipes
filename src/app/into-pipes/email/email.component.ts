@@ -15,9 +15,14 @@ import { PipeComponent } from '../common/pipe.component';
     `,
     styles: [
         `
-        :host {display:table;float:left;min-height: 20px}
+        :host {display:table;float:left;min-height: 23px}
         :host:hover .fa-envelope{color: #fabdab;}
         :host .fa{margin: 0 5px;}
+        @media print {
+            :host a { text-decoration: none;}
+            :host a .fa-envelope {display: none;}
+            :host .fa-envelope {display: none;}
+        }
         `
     ]
 })

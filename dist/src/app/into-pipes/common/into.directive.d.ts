@@ -12,9 +12,9 @@ export declare class IntoDirective implements OnInit {
     into: string;
     onComponentChange: (event: any) => void;
     constructor(viewRef: ViewContainerRef, el: ElementRef, pool: ComponentPool, componentFactoryResolver: ComponentFactoryResolver);
-    private split(item);
-    private _transform(content, args, data);
-    private transformComponent(type, content, id, name, data, ...args);
-    private registeredComponentFor(name);
+    private split;
+    private _transform;
+    private transformComponent;
+    private registeredComponentFor;
     ngOnInit(): void;
 }

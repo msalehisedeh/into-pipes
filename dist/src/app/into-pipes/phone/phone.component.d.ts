@@ -6,7 +6,7 @@ export declare class PhoneComponent implements PipeComponent {
     name: string;
     isLink: boolean;
     formatting: boolean;
-    onIntoComponentChange: EventEmitter<{}>;
+    onIntoComponentChange: EventEmitter<any>;
     transform(source: any, data: any, args: any[]): void;
     normalizeSource(): string;
     formattedSource(): string;

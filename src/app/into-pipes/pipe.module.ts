@@ -22,9 +22,11 @@ import { NoticeIntoPipeModule } from './notice/notice-pipe.module';
 import { SelectIntoPipeModule } from './select/select-pipe.module';
 import { ShareIntoPipeModule } from './share/share-pipe.module';
 import { SpanIntoPipeModule } from './span/span-pipe.module';
+import { SwitchIntoPipeModule } from './switch/switch-pipe.module';
 import { TableIntoPipeModule } from './table/table-pipe.module';
 import { TextIntoPipeModule } from './text/text-pipe.module';
 import { VideoIntoPipeModule } from './video/video-pipe.module';
+import { SliderIntoPipeModule } from './slider/slider-pipe.module';
 
 @NgModule({
   imports: [
@@ -48,7 +50,9 @@ import { VideoIntoPipeModule } from './video/video-pipe.module';
     NoticeIntoPipeModule.forRoot(),
     SelectIntoPipeModule.forRoot(),
     ShareIntoPipeModule.forRoot(),
+    SliderIntoPipeModule.forRoot(),
     SpanIntoPipeModule.forRoot(),
+    SwitchIntoPipeModule.forRoot(),
     TableIntoPipeModule.forRoot(),
     TextIntoPipeModule.forRoot(),
     VideoIntoPipeModule.forRoot()
@@ -74,7 +78,9 @@ import { VideoIntoPipeModule } from './video/video-pipe.module';
     NoticeIntoPipeModule,
     SelectIntoPipeModule,
     ShareIntoPipeModule,
+    SliderIntoPipeModule,
     SpanIntoPipeModule,
+    SwitchIntoPipeModule,
     TableIntoPipeModule,
     TableIntoPipeModule,
     TextIntoPipeModule,

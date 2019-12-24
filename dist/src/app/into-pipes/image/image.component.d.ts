@@ -11,7 +11,7 @@ export declare class ImageComponent implements PipeComponent {
     width: string;
     height: string;
     alt: string;
-    onIntoComponentChange: EventEmitter<{}>;
+    onIntoComponentChange: EventEmitter<any>;
     enter(event: any): void;
     hoverOut(event: any): void;
     hoverViewPort(event: any): void;

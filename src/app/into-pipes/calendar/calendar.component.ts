@@ -72,7 +72,7 @@ export interface CalendarDate {
     `,
     styles: [
         `
-        :host {display:table;float:left;min-height: 20px}
+        :host {display:table;float:left;min-height: 23px}
         .popper .fa-calendar{display: inline-block;margin: 0 5px}
         .popper:hover .fa-calendar{color: #fabdab}
         .calendar-box {
@@ -198,6 +198,11 @@ export interface CalendarDate {
             font-weight: bold;
             color: #fff;
         }
+        @media print {
+            .calendar-box .popper {
+                display: none;
+            }
+        }
         `
     ]
 })
@@ -244,21 +249,18 @@ export class CalendarComponent implements PipeComponent {
   transform(source: any, data: any, args: any[]) {
     this.source= source;
     this.currentDate = new Date();
+    this.origDate = new Date();
 
     if (source instanceof Array) {
         this.multiselect = true;
         source.map( (item) => {
             this.selectedDays.push(new Date(item));
         })
-        this.origDate = this.selectedDays.length ? this.selectedDays[0] : new Date();
     } else {
-        this.origDate = new Date(this.source);
         this.multiselect = false;
-        this.selectedDays.push(this.origDate);
+        this.selectedDays.push(new Date(this.source));
     }
     this.item = data;
-    this.currentDate.setFullYear(this.origDate.getFullYear());
-    this.currentDate.setMonth(this.origDate.getMonth());
     this.generateCalendar();
     this.formatting= args.length ? args[0] : "";
   }

@@ -14,8 +14,13 @@ import { PipeComponent } from '../common/pipe.component';
         <img *ngIf='poped' [src]='source' />`,
     styles: [
         `
-        :host {display:table;float:left;min-height: 20px; position:relative}
-        :host img{z-index:2;border:2px solid;box-shadow: 3px 3px 3px #999;display:table;float:left;min-height: 20px; width: 250px;top: 22px;position:absolute;border-radius: 4px}
+        :host {display:table;float:left;min-height: 23px; position:relative}
+        :host img{z-index:2;border:2px solid;box-shadow: 3px 3px 3px #999;display:table;float:left;min-height: 23px; width: 250px;top: 22px;position:absolute;border-radius: 4px}
+        @media print {
+            :host a {
+                text-decoration: none;
+            }
+        }
         `
     ]
 })

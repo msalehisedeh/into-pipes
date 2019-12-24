@@ -8,7 +8,7 @@ export declare class SelectComponent implements PipeComponent {
     name: string;
     multiselect: boolean;
     service: PipeServiceComponent;
-    onIntoComponentChange: EventEmitter<{}>;
+    onIntoComponentChange: EventEmitter<any>;
     constructor();
     click(event: any): void;
     change(event: any): void;

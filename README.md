@@ -1,12 +1,15 @@
 # Welcome to InTo Pipes!
 
 Have you ever wanted to transform values in different parts of your application into interactive objects without writing a single line of code? 
-This library provides few Angular pipes that are all used by a single **InTo** pipe component/directive. **InTo** will determine how the object value should be formatted based on meta-data formatting rules!!
-Moreover, **"InTo"** can be customized by adding custom formatters **into** it!!
 
-Most of all this library is now truly extendible allowing you to include any portion of it as you see it fit for your application!! You can use all pipes and components that are available, or pick and choose only from those that you want to use in your application without adding un-necessary components which could contribute to your application size. (for details of how it can be done, read more.)
+This library provides few Angular pipes that are all used by an **InTo** pipe or directive. 
 
-**Note:** If you want interactive pipes, you should use into pipe directive in order to have fully ADA compliant component and get the benefit of keyboard events handled by into components. If you decide to use the **InTo** pipes instead of the directive, depending on the browser, you may not have keyboard event access to the shadow dom of interactive html tags. In addition, you need to make sure you will pipe the result **into** sanitizeHtml.
+**InTo** will determine how the object value should be formatted based with meta-data formatting rules!!
+Moreover, **"InTo"** can be customized by adding custom formatters **into** it!
+
+Most of all, this library is truly extendible. It is allowing you to include any portion of it as you see fit for your application!! You can use all pipes and components that are available, or pick and choose only from those that you want to use in your application without adding un-necessary components which could contribute to your application size. (for details of how it can be done, read more.)
+
+**Note:** If you want interactive pipes, you should use into pipe directive in order to have fully ADA compliant component and get the benefit of keyboard events handled by into components. If you decide to use the **InTo** pipes instead of the directive. In addition, you need to make sure you will pipe the result **into** sanitizeHtml.
 
 **Note:** When you create tags and insert them **into** DOM at runtime through **InTo** Pipes, angular will not be able to enforce CSS rules on the tags. In that case the workaround is to use **::ng-deep** in your CSS. For example, if img tag is created through image pipe under a DIV with class "something", then you need to declare attributes in `::ng-deep .something img{ }` in order to have control over img tag.
 **Note:** Starting from version 2.0.0, this library is compatible with Angular 6+.
@@ -15,7 +18,7 @@ Most of all this library is now truly extendible allowing you to include any por
 
 You are definitely welcome to submit additional pipes and formatting rules to this library and I will gladly incorporate your ideas **InTo** this project. Add your comments an requests through the link provided below.
 
-[Live Demo](https://into-pipes.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
+[Live Demo](https://into-pipe.stackblitz.io) | [Source code](https://github.com/msalehisedeh/into-pipes/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
 
 ## Features
 * Responsive
@@ -24,11 +27,12 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 * Extendible
 
 ## Dependencies and Components
+ALL modules for specific pipes and components are exported. To pick and choos, CommonPipesModule has to be imported; and on top of that any one of the modules  can be imported in your application as needed. 
 
 ```javascript
 MODULE:
-    CommonPipesModule // Required by independent pipes.
-    IntoPipeModule    // Imports CommonPipesModule and all independent pipes
+    CommonPipesModule // Required if you want to pick and choose from different modules.
+    IntoPipeModule    // Imports all modules and pipes
 
 EXPORTS from CommonPipesModule
     InToPipe
@@ -36,7 +40,7 @@ EXPORTS from CommonPipesModule
     PipeComponent
     PipeServiceComponent
     ComponentPool
-	
+    
 DEPENDENCIES: 
     "font-awesome": "^4.7.0"
 ```
@@ -57,8 +61,22 @@ export interface PipeServiceComponent {
 	getDataFor(name, id, data);
 }
 ```
+## Directive 
 
-## Module, Pipes, Components, and Directive
+| Attribute  | Description                                                      |
+|------------|------------------------------------------------------------------|
+| rawContent | Raw data to be operated on.                                      |
+| intoId     | Id to be used for the component in use.                          |
+| intoName   | name for the component in use.                                   |
+| intoData   | data to be operated on.                                          |
+| into       | Type of InTo operation to be executed.                           |
+
+
+| Event             | Description                                               |
+|-------------------|-----------------------------------------------------------|
+| onComponentChange | fired when pipe component change happen through user interaction. |
+
+## Module, Pipes, and Components
 
 **NOTE: For all of the pipes, if transforming object is an array, all elements in the array will be transformed and the resulting array will be returned. in case of conditional pipe, a resulting map will be returned.**
 
@@ -70,10 +88,12 @@ export interface PipeServiceComponent {
 | Exports    | AddressIntoPipeModule, AddressComponent, AddressPipe             |
 | Depends On | CommonPipesModule                                                |
 | Description| Will format an address structure into an standard address display. |
-| Examples   | [rawContent]="myaddress" [into]="'address:true:true'" intoName="my-address-directive" intoId="my-address-id" [onComponentChange]="onComponentChange.bind(this)" |
-| Examples   | `myaddress | into:'address:true:true'`                           |
 | Options    | 1) In a Link or not                                              |
 |            | 2) should google map be viewed on the same page or pop a new page for it.  |
+| Example 1  | [rawContent]="myaddress" intoId="my-address-id"                  |
+|            | [into]="'address:true:true'" intoName="my-address-directive"     |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
+| Examples 2 | `myaddress | into:'address:true:true'`                           |
 
 
 ### Audio Pipe
@@ -82,9 +102,11 @@ export interface PipeServiceComponent {
 | Exports    | AudioIntoPipeModule, AudioComponent, AudioPipe                   |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will convert a link source into an interactive audio tag. |
-| Examples   | [rawContent]="myAudioUrl" [into]="'audio'" intoName="my-audio-directive" intoId="my-audio-id" [onComponentChange]="onComponentChange.bind(this)" |
-| Examples   | `myAudioUrl | into:audio`                                        |
 | Options    | NONE                                                             |
+| Example 1  | [rawContent]="myAudioUrl" [into]="'audio'"                       |
+|            | intoName="my-audio-directive" intoId="my-audio-id"               |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
+| Example 2  | `myAudioUrl | into:audio`                                        |
 
 
 ### Calendar Pipe
@@ -93,8 +115,10 @@ export interface PipeServiceComponent {
 | Exports    | CalendarIntoPipeModule, CalendarComponent                        |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will provide interactive date picker. if the source is an array of dates or date strings, the date picker will be multi-select. Otherwise it will be a single select. When selecting a date, an event will be triggered. You will be responsible to catch the change event and update date(s) in your data source. |
-| Examples   | [rawContent]="myPickDate" [into]="'calendar:MM/dd/yyyy'" intoId="my-calendar-id" intoName="my-calendar-directive" [onComponentChange]="onComponentChange.bind(this)" |
 | Options    | 1) date format. if the transformation source is an array of dates or date strings, the calendar will be multi-select calendar. Otherwise it will be a single select calendar. |
+| Example 1  | [rawContent]="myPickDate" [into]="'calendar:MM/dd/yyyy'"         |
+|            | intoId="my-calendar-id" intoName="my-calendar-directive"         |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
 ### Checkbox Pipe
@@ -103,8 +127,12 @@ export interface PipeServiceComponent {
 | Exports    | CheckboxIntoPipeModule, CheckComponent                           |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will provide an interactive check-box. You will be responsible to catch the change event and update date(s) in your data source. |
-| Examples   | [rawContent]="'yes'" [into]="'checkbox:yes:true'" intoName="my-checkbox-directive" intoId="my-checkbox-id" [onComponentChange]="onComponentChange.bind(this)" |
-| Options    | 1) the value for which check-box should be checked, 2)if it is standard check-box or should use fonts to display checked or not checked. |
+| Options    | 1) the value for which check-box should be checked               |
+|            | 2)if it is standard check-box or should use fonts to display checked or not checked. |
+|            | 3) if to show it as switch on / off.                             |
+| Example 1  | [rawContent]="'yes'" [into]="'checkbox:yes:true'"                |
+|            | intoName="my-checkbox-directive" intoId="my-checkbox-id"         |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
 ### Email Pipe
@@ -113,9 +141,11 @@ export interface PipeServiceComponent {
 | Exports    | EmailIntoPipeModule, EmailComponent, EmailPipe                   |
 | Depends On | CommonPipesModule                                                |
 | Description| Will format the source into a mail link.                         |
-| Examples   | [rawContent]="myEmailAddress" [into]="'email:true'" intoName="my-email-directive" intoId="my-email-id" [onComponentChange]="onComponentChange.bind(this)" |
-| Examples   | `myEmailAddress |  into:'email:false'`                           |
 | Options    | 1) In a Link or not                                              |
+| Example 1  | [rawContent]="myEmailAddress" [into]="'email:true'"              |
+|            | intoName="my-email-directive" intoId="my-email-id"               |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
+| Example 2  | `myEmailAddress |  into:'email:false'`                           |
 
 
 ### Font Awesome Pipe
@@ -124,11 +154,13 @@ export interface PipeServiceComponent {
 | Exports    | FontIntoPipeModule, FontComponent, FontPipe                      |
 | Depends On | CommonPipesModule                                                |
 | Description| Will take a source into a font awesome representation.           |
-| Examples   | [rawContent]="'3423423422'" [into]="'font:fa fa-check:replace:*'" intoId="my-awesome-id"  intoName="my-awesome-directive" [onComponentChange]="onComponentChange.bind(this)" |
-| Examples   | `myValue | into:'font:fa fa-check:left:*'`                       |
 | Options    | 1) class                                                         |
 |            | 2) position (left,right,replace                                  |
 |            | 3) action (*:use content)                                        |
+| Example 1  | [rawContent]="'3423423422'" [into]="'font:fa fa-check:replace:*'"|
+|            | intoId="my-awesome-id"  intoName="my-awesome-directive"          |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
+| Example 2  | `myValue | into:'font:fa fa-check:left:*'`                       |
 
 
 ### Image Display Pipe
@@ -137,13 +169,15 @@ export interface PipeServiceComponent {
 | Exports    | ImageIntoPipeModule, ImageComponent, ImagePipe                   |
 | Depends On | CommonPipesModule                                                |
 | Description| Will take a source URL into an image tag. If zoom is set, you can have magnified image popped out or stay within the image boundaries. |
-| Examples   | [rawContent]="myImageUrl" [into]="'image:200px:auto:alt text:6:true'" intoName="my-image-directive" intoId="my-image-id" [onComponentChange]="onComponentChange.bind(this)" |
-| Examples   | `myImageUrl | into:'image:width:height:alt text:magnify:pop-hover'` |
 | Options    | 1) optional width                                                |
 |            | 2) optional height                                               |
 |            | 3) optional alternate text to be displayed                       |
 |            | 4) optional magnify by number on hover available only for intoDiretive  |
 |            | 5) optional pop on hover (top, left, right, bottom)              |
+| Example 1  | [rawContent]="myImageUrl" [into]="'image:200px:auto:alt          |
+|            | text:6:true'" intoName="my-image-directive" intoId="my-image-id" |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
+| Example 2  | `myImageUrl | into:'image:width:height:alt text:magnify:pop-hover'` |
 
 
 ### Input Pipe
@@ -152,9 +186,11 @@ export interface PipeServiceComponent {
 | Exports    | InputIntoPipeModule, InputComponent                              |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will provide an interactive input tag that will become active when user clicks on it. Otherwise a plain text content will be displayed. You will be responsible to catch the change event and update data in your data source. Interactive input component will fire event after the input value is changed and a tab, return, or escape key is pressed. After the event is fired, input field will revert back to a plain text. |
-| Examples   | rawContent]="'red'" [into]="'input:enter number:mask'" intoName="input-directive" intoId="input-id" [onComponentChange]="onComponentChange.bind(this)" |
 | Options    | 1) place holder text or blank                                    |
 |            | 2) formatting rules for the value to be displayed when text field is not editable |
+| Example 2  | [into]="'input:enter number:mask'" rawContent]="'red'"           |
+|            | intoName="input-directive" intoId="input-id"                     |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
 ### Input Group Pipe
@@ -163,8 +199,10 @@ export interface PipeServiceComponent {
 | Exports    | InputGroupIntoPipeModule, InputGroupComponent                    |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will provide a list of radio or check-box tags through special service that knows how to provide options based on supplied data. If the source is a list, options are check-box. Otherwise, options are radio buttons. You will be responsible to catch the change event and update data in your data source. |
-| Examples   | [rawContent]="'red'" [into]="'inputgroup'" intoName="group1-directive" intoId="group1-id" [onComponentChange]="onComponentChange.bind(this)" |
 | Options    | NONE. Requires implementation of PipeServiceComponent registered with  ComponentPool |
+| Example 2  | [rawContent]="'red'" [into]="'inputgroup'"                       |
+|            | intoName="group1-directive" intoId="group1-id"                   |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
 ### JSON Format Pipe
@@ -173,8 +211,8 @@ export interface PipeServiceComponent {
 | Exports    | JsonIntoPipeModule, JsonComponent                                |
 | Depends On | CommonPipesModule                                                |
 | Description| Will format JSON into read-able source.                          |
-| Examples   | [rawContent]="myJson"  [into]="'json'"                           |
 | Options    | NONE                                                             |
+| Example 1  | [rawContent]="myJson"  [into]="'json'"                           |
 
 
 ### Last Update Pipe
@@ -183,8 +221,8 @@ export interface PipeServiceComponent {
 | Exports    | LastUpdateIntoPipeModule, LastUpdateComponent                    |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will provide a natural language human readable elapsed time. |
-| Examples   | [rawContent]="myLastUpdatedDate" [into]="'lastupdate:true'"      |
-| Options    | 1) flag to indicate if time icon should be displayed on the side. |
+| Options    | 1) flag to indicate if time icon should be displayed on the side.|
+| Example 1  | [rawContent]="myLastUpdatedDate" [into]="'lastupdate:true'"      |
 
 
 ### Social Like Pipe
@@ -193,10 +231,12 @@ export interface PipeServiceComponent {
 | Exports    | LikeIntoPipeModule, LikeComponent                                |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will provide interactive like/dislike links. With like/dislike, an event is triggered after user clicks on it. You will be responsible to catch the event and increment or decrement the count in your data source. |
-| Examples   | [rawContent]="dataSet.likes" [intoData]="dataSet" [into]="'like:true:true:id'" intoId="myLikes" intoName="like" [onComponentChange]="onComponentChange.bind(this)"  |
 | Options    | 1) optional flag to indicate if like counts should be displayed. |
 |            | 2) optional flag to show likes or dislikes.                      |
 |            | 3) Attribute in JSON object with unique value to be used for tracking likes or dislikes. |
+| Example 1  | [rawContent]="dataSet.likes" [intoData]="dataSet"                |
+|            | [into]="'like:true:true:id'" intoId="myLikes" intoName="like"    |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
 ### Link Pipe
@@ -205,11 +245,13 @@ export interface PipeServiceComponent {
 | Exports    | LinkIntoPipeModule, LinkComponent, LinkPipe                      |
 | Depends On | CommonPipesModule                                                |
 | Description| Will transform a source into a link tag.                         |
-| Examples   | [rawContent]="myLinkUrl" [into]="'link:true:my image:true'" intoName="my-link-directive" intoId="my-link-id" [onComponentChange]="onComponentChange.bind(this)" |
-| Examples   | `myLinkUrl | into:'link:_top:my image'`                          |
 | Options    | 1) on click target - blank if none                               |
 |            | 2) text to be displayed in the link - blank if none              |
-|            | 3) optional hover pop a viewer - available only on inTo directive |
+|            | 3) optional hover pop a viewer - available only on inTo directive|
+| Example 1  | [rawContent]="myLinkUrl" [into]="'link:true:my image:true'"      |
+|            | intoName="my-link-directive" intoId="my-link-id"                 |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
+| Example 2  | `myLinkUrl | into:'link:_top:my image'`                          |
 
 
 ### Notice Pipe
@@ -218,9 +260,11 @@ export interface PipeServiceComponent {
 | Exports    | NoticeIntoPipeModule, NoticeComponent, NoticePipe                |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will provide a notice / notification reminder. You will be responsible to catch the change event and update data in your data source. |
-| Examples   | [rawContent]="5" [into]="'notice:You have unread messages'" intoName="my-alerts" intoId="my-alerts-id" [onComponentChange]="onComponentChange.bind(this)" |
-| Examples   | `myCounter | into:'notice:You have unread messages'`             |
 | Options    | 1) show hover message                                            |
+| Example 1  | [rawContent]="5" [into]="'notice:You have unread messages'"      |
+|            | intoName="my-alerts" intoId="my-alerts-id"                       |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
+| Example 2  | `myCounter | into:'notice:You have unread messages'`             |
 
 
 ### Phone Format Pipe
@@ -229,10 +273,12 @@ export interface PipeServiceComponent {
 | Exports    | PhoneIntoPipeModule, PhoneComponent, PhonePipe                   |
 | Depends On | CommonPipesModule                                                |
 | Description| Will format a phone number and display it in standard way.       |
-| Examples   | [rawContent]="'+1 976 888 7645 3454'" [into]="'phone:true:true'" intoName="my-phone" intoId="my-phone-id" [onComponentChange]="onComponentChange.bind(this)"  |
-| Examples   | `'+1 976 888 7645 3454' | into:'phone:false:true'`               |
 | Options    | 1) In a Link or not                                              |
 |            | 2) format or not                                                 |
+| Example 1  | [rawContent]="'+1 976 888 7645 3454'" [into]="'phone:true:true'" |
+|            | intoName="my-phone" intoId="my-phone-id"                         |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
+| Example 2  | `'+1 976 888 7645 3454' | into:'phone:false:true'`               |
 
 
 ### Social Rating Pipe
@@ -241,9 +287,11 @@ export interface PipeServiceComponent {
 | Exports    | RatingIntoPipeModule, RatingComponent, RatingPipe                |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will provide ranking value of a source through stars. |
-| Examples   | [rawContent]="'3.5'" [into]="'rating'" intoName="my-rating" intoId="my-rating-id" [onComponentChange]="onComponentChange.bind(this)" |
-| Examples   | `'3.5' | into:'rating:true'`                                     |
 | Options    | 1) show count with single star                                   |
+| Example 1  | [rawContent]="'3.5'" [into]="'rating'" intoName="my-rating"      |
+|            | intoId="my-rating-id"                                            |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
+| Example 2  | `'3.5' | into:'rating:true'`                                     |
 
 
 ### Select Pipe
@@ -252,8 +300,25 @@ export interface PipeServiceComponent {
 | Exports    | SelectIntoPipeModule, SelectComponent                            |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will provide a select options tag through special service that knows how to provide options based on supplied data. You will be responsible to catch the change event and update data in your data source. |
-| Examples   | [rawContent]="'xyz@gmail.com'" intoName="select1" intoId="select1-id" [into]="'select'"  [onComponentChange]="onComponentChange.bind(this)" |
 | Options    | 1) if it is multi-select. Requires implementation of PipeServiceComponent registered with  ComponentPool |
+| Example 1  | [rawContent]="'xyz@gmail.com'" intoName="select1"                |
+| Example 1  | intoId="select1-id" [into]="'select'"                            |
+| Example 1  | [onComponentChange]="onComponentChange.bind(this)"               |
+
+### Slider Pipe
+| Name       | slider                                                           |
+|------------|------------------------------------------------------------------|
+| Exports    | SliderIntoPipeModule, SliderComponent                            |
+| Depends On | CommonPipesModule                                                |
+| Description| For a given source, will provide an interactive range slider. You will be responsible to catch the change event and update date(s) in your data source. |
+| Options    | 1) length of slider                                              |
+|            | 2) true if vertical slider                                       |
+|            | 3) true if show range                                            |
+|            | 4) min value                                                     |
+|            | 5) max value                                                     |
+| Example 1  | [rawContent]="33" [into]="'slider:150:false:true:0:100'"         |
+|            | intoName="my-slider-directive" intoId="my-slider-id"             |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
 ### Social Share Pipe
@@ -262,8 +327,11 @@ export interface PipeServiceComponent {
 | Exports    | ShareIntoPipeModule, ShareComponent                              |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will provide social share buttons.           |
-| Examples   | [rawContent]="'http://thiswebsite.com/thispage/thisarticle'" [into]="'share:facebook:linkedin:google:twitter'" intoName="my-share" intoId="my-shareid" [onComponentChange]="onComponentChange.bind(this)" |
 | Options    | 1) list of any one of supported sites (facebook, linkedin, google, twitter, pinterest, digg, xing, get-pocket, stumbleupon) |
+| Example 1  | [rawContent]="'http://thiswebsite.com/thispage/thisarticle'"     |
+|            | [into]="'share:facebook:linkedin:google:twitter'"                |
+|            | intoName="my-share" intoId="my-shareid"                          |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
 ### Span Pipe
@@ -272,8 +340,22 @@ export interface PipeServiceComponent {
 | Exports    | SpanIntoPipeModule, SpanComponent                                |
 | Depends On | CommonPipesModule                                                |
 | Description| Wraps a given source in a span tag.                              |
-| Examples   | [rawContent]="my text to be wrapped" [into]="'span'"             |
 | Options    | NONE                                                             |
+| Examples   | [rawContent]="my text to be wrapped" [into]="'span'"             |
+
+
+### Switch Pipe
+| Name       | switch                                                           |
+|------------|------------------------------------------------------------------|
+| Exports    | SwitchIntoPipeModule, SwitchComponent                            |
+| Depends On | CommonPipesModule                                                |
+| Description| For a given source, display on/off switch.                       |
+| Options    | 1) the value for which check-box should be checked               |
+|            | 2) text to show on state                                         |
+|            | 3) text to show off state.                                       |
+| Example 1  | [rawContent]="'yes'" [into]="'switch:yes:on:off'"                |
+|            | intoName="my-switch" intoId="my-switchid"                        |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
 ### Table Pipe
@@ -282,10 +364,10 @@ export interface PipeServiceComponent {
 | Exports    | TableIntoPipeModule, TableComponent, TablePipe                   |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will convert source into an table tag. This is a crude table display. If you want a fully fledged interactive table, you should go for @sedeh/flexible-table. |
-| Examples   | [rawContent]="myJson"  [into]="'table:myJsonId:My JSON Items'"   |
-| Examples   | `myJsonData | into:'table:myId:my caption'`                      |
 | Options    | 1) optional ID                                                   |
 |            | 2) optional caption                                              |
+| Example 1  | [rawContent]="myJson"  [into]="'table:myJsonId:My JSON Items'"   |
+| Example 2  | `myJsonData | into:'table:myId:my caption'`                      |
 
 
 ### Textarea Pipe
@@ -294,10 +376,12 @@ export interface PipeServiceComponent {
 | Exports    | TextIntoPipeModule, TextComponent                                |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will provide an interactive text area tag that will become active when user clicks on it. Otherwise a plain text content will be displayed. You will be responsible to catch the change event and update data in your data source. |
-| Examples   | [rawContent]="'this is a test for a large text input.'" [into]="'text:4:123:true'" intoName="myText" intoId="textId" [onComponentChange]="onComponentChange.bind(this)" |
 | Options    | 1) optional rows                                                 |
 |            | 2) optional max limits                                           |
 |            | 3) optional show counter                                         |
+| Example 1  | [rawContent]="'this is a test for a large text input.'"          |
+|            | [into]="'text:4:123:true'" intoName="myText" intoId="textId"     |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 ### Video Pipe
 | Name       | video                                                            |
@@ -305,13 +389,15 @@ export interface PipeServiceComponent {
 | Exports    | VideoIntoPipeModule, VideoComponent, VideoPipe                   |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will convert a link source into an interactive video tag. |
-| Examples   | [rawContent]="myVideoURL" [into]="'video:200px:auto:alt text:false:true'" intoName="video 1" intoId="video1-id" [onComponentChange]="onComponentChange.bind(this)" |
-| Examples   | `myVideoUrl | into:'video:200px:auto:alt text'`                  |
 | Options    | 1) optional width. Use auto if need to specify options 2,3,...   |
 |            | 2) optional height. Use auto if need to specify options 3,4,...  |
 |            | 3) optional alternate text to be displayed. Use '-' if need to specify options 4,5 |
 |            | 4) optional hasControls to include video controls. Default is true. |
 |            | 5) optional hoverPlay to ply video on hover. Default is false.
+| Example 1  | [into]="'video:200px:auto:alt text:false:true'" intoName="video 1"|
+|            | [rawContent]="myVideoURL" intoId="video1-id"                     |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
+| Example 2  | `myVideoUrl | into:'video:200px:auto:alt text'`                  |
 
 ## Common Pipes
 
@@ -321,8 +407,8 @@ export interface PipeServiceComponent {
 | Exports    | AppendPipe                                                       |
 | Exported by| CommonPipesModule                                                |
 | Description| Will append a string to source.                                  |
-| Examples   | `'xyz' | into:'append:*'`                                        |
 | Options    | 1) appending string                                              |
+| Example 1  | `'xyz' | into:'append:*'`                                        |
 
 
 ### Conditional If Else Pipe
@@ -331,7 +417,6 @@ export interface PipeServiceComponent {
 | Exports    | ConditionalPipe                                                  |
 | Exported by| CommonPipesModule                                                |
 | Description| Will execute transformation based on a if else logic.            |
-| Examples   | `'masoud' | into: "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\""` |
 | Options    | 1) condition `=,!=,~=,<,>,~,!~,in`                               |
 |            | 2) value to be evaluated                                         |
 |            | 3) action                                                        |
@@ -339,8 +424,9 @@ export interface PipeServiceComponent {
 | Conditions | "~" is for exist (check to see if transforming object exist and item 2 is ignored). |
 |            | "~=" is for equal ignore case.                                   |
 |            | "!~" is for do not exist (check to see if transforming object is null or undefined exist and item 2 is ignored). |
-|            | "!=" is to evaluate if transforming object is not equal to value. |
+|            | "!=" is to evaluate if transforming object is not equal to value.|
 |            | "in" is to get indexof value in the transforming object.         |
+| Example 1  | `'masoud' | into: "if:=:masoud:\"font:fa fa-check:left:*\":\"font:fa fa-bell:left:*\""` |
 
 
 ### Join Pipe
@@ -349,8 +435,8 @@ export interface PipeServiceComponent {
 | Exports    | JoinPipe                                                         |
 | Exported by| CommonPipesModule                                                |
 | Description| For a given source array, will join array elements into one single delineated string. |
-| Examples   | `myDateList | into:myDateFormat | into:'join: , '`               |
 | Options    | 1) the characters used to join the list                          |
+| Example 1  | `myDateList | into:myDateFormat | into:'join: , '`               |
 
 
 ### Map Pipe
@@ -359,8 +445,8 @@ export interface PipeServiceComponent {
 | Exports    | MapPipe                                                          |
 | Exported by| CommonPipesModule                                                |
 | Description| Will convert a source into a map.                                |
-| Examples   | `'key1;value1/key2;value2/key3;value3' | into:map`               |
 | Options    | 1) take a source as a key and returns value of key from the given map argument |
+| Example 1  | `'key1;value1/key2;value2/key3;value3' | into:map`               |
 
 
 ### Mask Sensitive content Pipe
@@ -369,9 +455,9 @@ export interface PipeServiceComponent {
 | Exports    | MaskPipe                                                         |
 | Exported by| CommonPipesModule                                                |
 | Description| Will mask sensitive characters.                                  |
-| Examples   | `mySSN | into:'mask:4:*'`                                        |
 | Options    | 1) last # number of characters to mask                           |
 |            | 2) optional masking character                                    |
+| Example 1  | `mySSN | into:'mask:4:*'`                                        |
 
 
 ### Prepend Pipe
@@ -380,8 +466,8 @@ export interface PipeServiceComponent {
 | Exports    | PrependPipe                                                      |
 | Exported by| CommonPipesModule                                                |
 | Description| Prepends a string to source.                                     |
-| Examples   | `'xyz' | into:'prepend:*'`                                       |
 | Options    | 1) pre-pending string                                            |
+| Example 1  | `'xyz' | into:'prepend:*'`                                       |
 
 
 ### Sanitize HTML Pipe
@@ -390,8 +476,8 @@ export interface PipeServiceComponent {
 | Exports    | AanitizeHtmlPipe                                                 |
 | Exported by| CommonPipesModule                                                |
 | Description| Will bypass security checks against CORS in a URL.               |
-| Examples   | `'xyz' | into:'prepend:*' | sanitizeHtml`                        |
 | Options    | NONE (This pipe is not used by into pipe)                        |
+| Example 1  | `'xyz' | into:'prepend:*' | sanitizeHtml`                        |
 
 
 ### ValueOf Pipe
@@ -400,8 +486,8 @@ export interface PipeServiceComponent {
 | Exports    | ValueOfPipe                                                      |
 | Exported by| CommonPipesModule                                                |
 | Description| Will traverse through a JSON path and display its value.         |
-| Examples   | `myJson | into:'valueof:birthday'`                               |
 | Options    | 1) key to be used                                                |
+| Example 1  | `myJson | into:'valueof:birthday'`                               |
 
 
 ### Wrap Pipe
@@ -410,9 +496,9 @@ export interface PipeServiceComponent {
 | Exports    | WrapPipe                                                         |
 | Exported by| CommonPipesModule                                                |
 | Description| Will wrap source with given strings.                             |
-| Examples   | `'xyz' | into:'wrap:*'`                                          |
 | Options    | 1) pre-pending string                                            |
 |            | 2) appending string. if appending string is not supplied, pre-pending string will be used. |
+| Example 1  | `'xyz' | into:'wrap:*'`                                          |
 
 
 ## Angular/Common Pipes
@@ -423,17 +509,17 @@ export interface PipeServiceComponent {
 | Exports    | CurrencyPipe                                                     |
 | Exported by| CommonPipesModulesModule                                         |
 | Description| Will convert a source into a currency.                           |
-| Examples   | `'25' | into:'currency:en_US'`                                   |
 | Options    | 1) optional local                                                |
+| Example 1  | `'25' | into:'currency:en_US'`                                   |
 
 ### Lowercase Pipe
-| Name       | lowecase                                                         |
+| Name       | lowercase                                                        |
 |------------|------------------------------------------------------------------|
 | Exports    | LowerCasePipe                                                    |
 | Exported by| CommonPipesModulesModule                                         |
 | Description| Will lower-case the source.                                      |
-| Examples   | `'TRY THIS' | into:'lowercase'`                                  |
 | Options    | NONE                                                             |
+| Example 1  | `'TRY THIS' | into:'lowercase'`                                  |
 
 
 ### Number Format Pipe
@@ -442,9 +528,9 @@ export interface PipeServiceComponent {
 | Exports    | DecimalPipe                                                      |
 | Exported by| CommonPipesModulesModule                                         |
 | Description| Will format a number into a formatted number.                    |
-| Examples   | `'25.34537664' | into:'number:en_US:2`                           |
 | Options    | 1) optional local                                                |
 |            | 2) optional decimal points                                       |
+| Example 1  | `'25.34537664' | into:'number:en_US:2`                           |
 
 
 ### Date Format Pipe
@@ -453,10 +539,10 @@ export interface PipeServiceComponent {
 | Exports    | DatePipe                                                         |
 | Exported by| CommonPipesModulesModule                                         |
 | Description| Will format the source date.                                     |
-| Examples   | `myDate | into:'date:en_US:MMDDYY'`                              |
-| Examples   | `myDate | into:'date:MMDDYY'`                                    |
 | Options    | 1) optional local                                                |
 |            | 2) optional format                                               |
+| Example 1  | `myDate | into:'date:en_US:MMDDYY'`                              |
+| Example 2  | `myDate | into:'date:MMDDYY'`                                    |
 
 
 ### Slice and dice Pipe
@@ -465,9 +551,9 @@ export interface PipeServiceComponent {
 | Exports    | SlicePipe                                                        |
 | Exported by| CommonPipesModulesModule                                         |
 | Description| Will suck a  portion of source out of it.                        |
-| Examples   | `'slice this text for me' | into:'slice:4:8'`                    |
 | Options    | 1) from index                                                    |
 |            | 2) optional to index                                             |
+| Example 1  | `'slice this text for me' | into:'slice:4:8'`                    |
 
 
 ### Uppercase Pipe
@@ -476,8 +562,8 @@ export interface PipeServiceComponent {
 | Exports    | UppercasePipe                                                    |
 | Exported by| CommonPipesModulesModule                                         |
 | Description| Will upper-case the source.                                      |
-| Examples   | `'try this' | into:'uppercase'`                                  |
 | Options    | NONE                                                             |
+| Example 1  | `'try this' | into:'uppercase'`                                  |
 
 
 ### Json Pipe
@@ -486,8 +572,8 @@ export interface PipeServiceComponent {
 | Exports    | JsonPipe                                                         |
 | Exported by| CommonPipesModulesModule                                         |
 | Description| Will format JSON into read-able source.                          |
-| Examples   | `myData | into:json`                                             |
 | Options    | NONE                                                             |
+| Example 1  | `myData | into:json`                                             |
 
 
 ## Usage Examples
@@ -661,6 +747,14 @@ constructor(private pool: ComponentPool) {
 
 | Version |                                                                                                          |
 |---------|----------------------------------------------------------------------------------------------------------|
+| 3.0.0   | Updated to Angular 8.                                                                                    |
+| 2.3.18  | Updated this documentation.                                                                              |
+| 2.3.17  | overloading check box to display switch is not a good idea as a switch needs to display on or off state. As a result, created a switch pipe.  |
+| 2.3.16  | Added Slider pipe component. You can now pipe a value to a slider. Also, modified check box to allow display of on / off switch instead of check mark.  |
+| 2.3.15  | Updated into directive to insert a 'into' class for every component it creates. This can be used in CSS by parent components as a venue to manipulate any of into components. |
+| 2.3.14  | Lack of explicit default selected option on select pipe component was causing print error when used in table. |
+| 2.3.13  | Added css for printing component pipes.                                                                  |
+| 2.3.12  | Added css for printing component pipes.                                                                  |
 | 2.3.11  | Reduced min heigh applied to pipe components.                                                            |
 | 2.3.10  | Looks like I copied wrong file for calendar fixed code to my deployment directory.                       |
 | 2.3.9   | Fixed calendar component to show selected date on initial display.                                       |

@@ -6,7 +6,7 @@ export declare class TableComponent implements PipeComponent {
     name: string;
     headers: any[];
     rows: any[];
-    onIntoComponentChange: EventEmitter<{}>;
+    onIntoComponentChange: EventEmitter<any>;
     transform(source: any, data: any, args: any[]): void;
-    private getHeaders(obj);
+    private getHeaders;
 }

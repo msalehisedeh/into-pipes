@@ -8,7 +8,7 @@ export declare class RatingComponent implements PipeComponent {
     singleStar: boolean;
     value: any[];
     float: any;
-    onIntoComponentChange: EventEmitter<{}>;
+    onIntoComponentChange: EventEmitter<any>;
     constructor(el: ElementRef);
     keyup(event: any): void;
     click(): void;

@@ -20,7 +20,7 @@ export declare class CalendarComponent implements PipeComponent {
     dayNames: string[];
     weeks: CalendarDate[][];
     selectedDays: Date[];
-    onIntoComponentChange: EventEmitter<{}>;
+    onIntoComponentChange: EventEmitter<any>;
     constructor(renderer: Renderer);
     keyup(event: any): void;
     popdatepicker(event: any): void;
@@ -34,7 +34,7 @@ export declare class CalendarComponent implements PipeComponent {
     prevYear(event: any): void;
     nextYear(event: any): void;
     generateCalendar(): void;
-    private isSameDay(a, b);
-    private isSameMonth(a, b);
+    private isSameDay;
+    private isSameMonth;
     fillDates(currentDate: Date): CalendarDate[];
 }

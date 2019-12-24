@@ -5,8 +5,20 @@ import { PipeComponent } from '../common/pipe.component';
     selector: 'checkbox-component',
     template: `
     <span *ngIf="useFont" class="check-font">
-      <span *ngIf="source === ideal" #check tabindex="0" class="fa fa-check" (keyup)="keyup($event)" (click)="click($event)"></span>
-      <span *ngIf="source !== ideal" #uncheck tabindex="0" class="fa fa-close" (keyup)="keyup($event)" (click)="click($event)"></span>
+      <span *ngIf="source === ideal" 
+          #check tabindex="0" 
+          class="fa" 
+          [class.fa-toggle-on]="onOff" 
+          [class.fa-check]="!onOff" 
+          (keyup)="keyup($event)" 
+          (click)="click($event)"></span>
+      <span *ngIf="source !== ideal"
+          #uncheck tabindex="0" 
+          class="fa" 
+          [class.fa-toggle-off]="onOff" 
+          [class.fa-close]="!onOff" 
+          (keyup)="keyup($event)" 
+          (click)="click($event)"></span>
     </span>
     <input *ngIf="!useFont" 
             type="checkbox" 
@@ -17,12 +29,12 @@ import { PipeComponent } from '../common/pipe.component';
             (click)="click($event)" />
     `,
     styles: [
-        `
-        :host .check-font .fa{margin: 0 5px}
-        :host {display:table;float:left;min-height: 20px}
-        .check-font:hover{color: #fabdab;}
-        .check-font {cursor: pointer;}
-        `
+      `
+      :host .check-font .fa{margin: 0 5px}
+      :host {display:table;float:left;min-height: 23px}
+      .check-font:hover{color: #fabdab;}
+      .check-font {cursor: pointer;}
+      `
     ]
 })
 export class CheckboxComponent implements PipeComponent {
@@ -33,12 +45,13 @@ export class CheckboxComponent implements PipeComponent {
   ideal: string;
   id: string;
   name: string;
+  onOff: boolean;
   useFont: boolean;
 
-  @ViewChild("check")
+  @ViewChild("check", {static: false})
   check;
 
-  @ViewChild("uncheck")
+  @ViewChild("uncheck", {static: false})
   uncheck;
 
   @Output("onIntoComponentChange")
@@ -83,6 +96,7 @@ export class CheckboxComponent implements PipeComponent {
   transform(source: any, data: any, args: any[]) {
     this.ideal= args.length ? String(args[0]) : "";
     this.useFont= args.length > 1 ? Boolean(args[1]) : false;
+    this.onOff= args.length > 2 ? Boolean(args[2]) : false;
     this.source= String(source);
     this.data = data;
     this.original= this.source === this.ideal ? "" : source;

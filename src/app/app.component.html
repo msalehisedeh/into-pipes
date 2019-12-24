@@ -197,6 +197,33 @@
       [intoName]="threeFive"></span></td>
   </tr>
   <tr>
+    <td>Horizontal slider</td>
+    <td> [rawContent]="44"<br/>
+      [into]="'slider:200:true:false:-100:100'"<br/>
+      intoId="sliderId"<br/>
+      intoName="mySlider"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span 
+      [rawContent]="33" 
+      [into]="'slider:200:false:true:-100:100'" 
+      intoId="sliderId" [onComponentChange]="onComponentChange.bind(this)"
+      intoName="mySlider"></span></td>
+  </tr>
+  <tr>
+    <td>Vertical slider</td>
+    <td> [rawContent]="22"<br/>
+      style="height: 111px"<br/>
+      [into]="'slider:200:true:true:-100:100'"<br/>
+      intoId="sliderId2"<br/>
+      intoName="mySlider2"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span style="height: 111px"
+      [rawContent]="33" 
+      [into]="'slider:200:true:true:-100:100'" 
+      intoId="sliderId2" [onComponentChange]="onComponentChange.bind(this)"
+      intoName="mySlider"></span></td>
+  </tr>
+  <tr>
     <td>text with counter</td>
     <td> [rawContent]="'this is a test for a large text input.'"<br/>
       [into]="'text:4:100:true'"<br/>
@@ -220,6 +247,18 @@
       [rawContent]="'yes'" 
       [into]="'checkbox:yes:true'" 
       intoId="mycheckbox" intoName="mycheckbox"
+      [onComponentChange]="onComponentChange.bind(this)"></span></td></tr>
+  <tr>
+    <td>Format value <b>into</b> an interactive on/off switch</td>
+    <td> [rawContent]="'yes'"<br/>
+      [into]="'switch:yes:on:off'"<br/>
+      intoId="myswitch" intoName="myswitch"<br/>
+        [onComponentChange]="onComponentChange.bind(this)"
+    </td>
+    <td><span 
+      [rawContent]="'yes'" 
+      [into]="'switch:yes:on:off'" 
+      intoId="myswitch" intoName="myswitch"
       [onComponentChange]="onComponentChange.bind(this)"></span></td></tr>
   <tr>
     <td>Format content <b>into</b> uppercase content</td>

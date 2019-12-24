@@ -8,7 +8,7 @@ export declare class LinkComponent implements PipeComponent {
     poped: boolean;
     poper: boolean;
     target: string;
-    onIntoComponentChange: EventEmitter<{}>;
+    onIntoComponentChange: EventEmitter<any>;
     transform(source: any, data: any, args: any[]): void;
     keyup(event: any): void;
     change(event: any): void;

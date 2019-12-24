@@ -4,6 +4,7 @@ import { PipeComponent } from '../common/pipe.component';
 @Component({
     selector: 'audio-component',
     template: `
+    <span class="audio-hidden" [innerText]="source"></span>
     <audio [src]="source" 
         (keyup)="keyup($event)"
         (play)="change($event)"
@@ -13,7 +14,14 @@ import { PipeComponent } from '../common/pipe.component';
         (error)="change($event)"
         controls="true">Your browser does not support the audio element.</audio>`,
     styles: [`
-    :host {display:table;float:left;min-height: 20px}
+    :host {
+        display: table;
+        float: left;
+        min-height: 23px;
+    }
+    :host .audio-hidden {
+        display: none;
+    }
     `]
 })
 export class AudioComponent implements PipeComponent {

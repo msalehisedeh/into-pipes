@@ -49,6 +49,7 @@ export class ComponentPool {
 			const componentRef: ComponentRef<any> = viewRefrence.createComponent(componentFactory);
 			const domElem = (componentRef.hostView as EmbeddedViewRef < any > ).rootNodes[0] as HTMLElement;
 			el.appendChild(domElem);
+			domElem.setAttribute("class", "into");
 			result = (<PipeComponent>componentRef.instance);
         }
         return  result;

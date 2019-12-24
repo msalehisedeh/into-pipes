@@ -11,7 +11,7 @@ import { PipeComponent } from '../common/pipe.component';
         [style.width]="(origWidth * magnification) + 'px'" 
         [style.height]="(origHeight * magnification) + 'px'" />`,
     styles: [`
-    :host {display:block;overflow:hidden;margin:0;position:relative;float:left;min-width: 23px;min-height: 20px}
+    :host {display:block;overflow:hidden;margin:0;position:relative;float:left;min-width: 23px;min-height: 23px}
     :host .popper{position:absolute;pointer-events: none;display: none;z-index:2;border:2px solid;box-shadow: 3px 3px 3px #999;border-radius: 4px}
     :host img{position:relative;pointer-events: none;}
     `]

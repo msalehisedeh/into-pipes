@@ -23,7 +23,7 @@ import { PipeComponent } from '../common/pipe.component';
     </span>
 `,
     styles: [`
-    :host {display:table;float:left;min-height: 20px;position: relative}
+    :host {display:table;float:left;min-height: 23px;position: relative}
     .share-item-tips {cursor: pointer;}
     .share-item-tips:hover {color: #fabdab;}
     .share-item-tips .fa {margin: 0;}

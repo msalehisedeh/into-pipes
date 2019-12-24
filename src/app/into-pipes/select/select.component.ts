@@ -9,15 +9,30 @@ import { PipeComponent, PipeServiceComponent } from '../common/pipe.component';
       (click)="click($event)" 
       (change)="change($event)">
         <option *ngFor="let x of options" 
-          [selected]="source === x ? true : null"  
+          [attr.selected]="source === x ? 'selected' : null"  
           [value]="x" 
           [textContent]="x"></option>
     </select>
     `,
     styles: [
-        `
-        :host {display:table;float:left;min-height: 20px}
-        `
+      `
+      :host {display:table;float:left;min-height: 23px}
+      @media print {
+        :host select {
+            border: 0;
+        }
+        :host select::-ms-expand {display: none;}
+        :host select {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          text-indent: 0.01px;
+          text-overflow: "";
+          text-indent: 1px;
+          text-overflow: '';
+        }
+      }
+      `
     ]
 })
 export class SelectComponent implements PipeComponent {

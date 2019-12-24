@@ -9,7 +9,7 @@ export declare class InputGroupComponent implements PipeComponent {
     name: string;
     type: string;
     service: PipeServiceComponent;
-    onIntoComponentChange: EventEmitter<{}>;
+    onIntoComponentChange: EventEmitter<any>;
     constructor(renderer: Renderer);
     focused(event: any): void;
     isSelected(item: any): boolean;

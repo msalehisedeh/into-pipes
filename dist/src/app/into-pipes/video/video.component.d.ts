@@ -9,11 +9,11 @@ export declare class VideoComponent implements PipeComponent {
     width: string;
     height: string;
     alt: string;
-    onIntoComponentChange: EventEmitter<{}>;
+    onIntoComponentChange: EventEmitter<any>;
     transform(source: any, data: any, args: any[]): void;
     updateControls(event: any): void;
     resetControls(event: any): void;
-    private isPlaying(video);
+    private isPlaying;
     keyup(event: any): void;
     change(event: any): void;
 }

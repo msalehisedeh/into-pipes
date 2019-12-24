@@ -9,7 +9,7 @@ export declare class AddressComponent implements PipeComponent {
     addr1: string;
     addr2: string;
     hasTarget: boolean;
-    onIntoComponentChange: EventEmitter<{}>;
+    onIntoComponentChange: EventEmitter<any>;
     transform(source: any, data: any, args: any[]): void;
     keyup(event: any): void;
     change(event: any): void;

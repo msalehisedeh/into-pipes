@@ -12,7 +12,7 @@ export declare class TextComponent implements PipeComponent {
     oldValue: string;
     nameEditor: any;
     nameHolder: any;
-    onIntoComponentChange: EventEmitter<{}>;
+    onIntoComponentChange: EventEmitter<any>;
     constructor(renderer: Renderer);
     keyup(event: any): void;
     blur(event: any): void;

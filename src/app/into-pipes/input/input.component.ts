@@ -46,7 +46,7 @@ import { PipeComponent } from '../common/pipe.component';
         input {
           cursor: beam;
         }
-        :host {display:table;float:left;min-height: 20px}
+        :host {display:table;float:left;min-height: 23px}
         :host .locked:hover{border: 1px solid #fabdab;}
         `
     ]
@@ -62,10 +62,10 @@ export class InputComponent implements PipeComponent {
   editName = false;
   oldValue: string;
 
-  @ViewChild("nameEditor")
+  @ViewChild("nameEditor", {static: false})
   nameEditor;
 
-  @ViewChild("nameHolder")
+  @ViewChild("nameHolder", {static: false})
   nameHolder
 
   @Output("onIntoComponentChange")
