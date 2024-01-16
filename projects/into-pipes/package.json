@@ -1,0 +1,46 @@
+{
+  "name": "@sedeh/into-pipes",
+  "version": "4.0.0",
+  "peerDependencies": {
+    "@angular/common": "^15.2.0",
+    "@angular/core": "^15.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "keywords": [
+    "Angular 6+",
+    "pipe",
+    "format",
+    "customizable",
+    "extendible",
+    "pipeline",
+    "readable",
+    "if pipe",
+    "conditional pipe",
+    "social share pipe",
+    "social like pipe",
+    "social ranking pipe",
+    "date picker pipe",
+    "video pipe",
+    "audio pipe",
+    "Email pipe",
+    "table pipe",
+    "text pipe",
+    "phone pipe",
+    "image pipe",
+    "notice pipe",
+    "calendar pipe",
+    "address pipe",
+    "reusable",
+    "filter",
+    "transform",
+    "transformation",
+    "through",
+    "plugin",
+    "interactive",
+    "easy",
+    "best"
+  ],
+  "sideEffects": false
+}
