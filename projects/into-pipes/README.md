@@ -19,6 +19,7 @@ Most of all, this library is truly extendible. It is allowing you to include any
 You are definitely welcome to submit additional pipes and formatting rules to this library and I will gladly incorporate your ideas **InTo** this project. Add your comments an requests through the link provided below.
 
 [Live Demo](https://stackblitz.com/edit/into-pipe?file=src%2Fapp%2Fapp.component.ts) | 
+[NPM](https://www.npmjs.com/package/@sedeh/into-pipes) |
 [Source code](https://github.com/msalehisedeh/into-pipes/tree/master/src/app) | 
 [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
 
