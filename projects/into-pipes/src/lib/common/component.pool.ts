@@ -41,7 +41,7 @@ export class ComponentPool {
 		resolver: ComponentFactoryResolver,
 		viewRefrence: ViewContainerRef,
 		el: HTMLElement): PipeComponent {
-		const component =  this.registeredComponents[name];
+		const component =  name ? this.registeredComponents[name] : undefined;
 		let result!: PipeComponent;
 		
         if (component) {

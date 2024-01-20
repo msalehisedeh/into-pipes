@@ -750,6 +750,7 @@ constructor(private pool: ComponentPool) {
 
 | Version |                                                                                                          |
 |---------|----------------------------------------------------------------------------------------------------------|
+| 4.1.0   | fixed issue with transformation if into value is undefined or not registered.                            |
 | 4.0.0   | Updated to Angular 15.                                                                                   |
 | 3.0.0   | Updated to Angular 8.                                                                                    |
 | 2.3.18  | Updated this documentation.                                                                              |

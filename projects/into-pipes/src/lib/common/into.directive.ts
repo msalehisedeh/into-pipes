@@ -28,7 +28,7 @@ export class IntoDirective implements OnInit {
     intoData: any;
     
     @Input("into")
-    into!: string;
+    into!: string | undefined;
 
     @Input("onComponentChange")
     onComponentChange = (event: any) => {};
@@ -75,7 +75,7 @@ export class IntoDirective implements OnInit {
     }
 
     private transformComponent(type: any, content: any, id: string, name: string, data: any,...args: any[]): any {
-        let result: any;
+        let result = content;
         if (content === undefined) {
             return "";
         }
@@ -83,6 +83,7 @@ export class IntoDirective implements OnInit {
             result =  this.registeredComponentFor(type);
             if (result === null || result === undefined) {
                 console.error("Custom component '" + type+ "' is not defined.");
+                result = content;
             } else {
                 result.id = id;
                 result.name = name;
