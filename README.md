@@ -20,7 +20,6 @@ You are definitely welcome to submit additional pipes and formatting rules to th
 
 [Live Demo](https://stackblitz.com/edit/into-pipe?file=src%2Fapp%2Fapp.component.ts) | 
 [NPM](https://www.npmjs.com/package/@sedeh/into-pipes) |
-[Source code](https://github.com/msalehisedeh/into-pipes/tree/master/src/app) | 
 [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
 
 ## Features
