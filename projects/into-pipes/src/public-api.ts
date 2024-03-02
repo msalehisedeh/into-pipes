@@ -28,5 +28,6 @@ export * from './lib/text/‌index';
 export * from './lib/toggler/‌index';
 export * from './lib/video/‌index';
 export * from './lib/common/‌index';
+export * from './lib/phone/‌index';
 
 export { IntoPipeModule } from './lib/pipe.module';
