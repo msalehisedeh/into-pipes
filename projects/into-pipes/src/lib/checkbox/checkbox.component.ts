@@ -36,7 +36,7 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
       .check-font:hover{color: #fabdab;}
       .check-font {cursor: pointer;}
       .check-font.disabled:hover{color: gray;}
-      .check-font.disabled {clor: gray; pointer-events: none}
+      .check-font.disabled {color: gray; pointer-events: none}
       `
     ]
 })

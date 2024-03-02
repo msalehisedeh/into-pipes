@@ -80,7 +80,7 @@ export interface CalendarDateInterface {
         .popper .fa-calendar{display: inline-block;margin: 0 5px}
         .popper:hover .fa-calendar{color: #fabdab}
         .popper.disabled:hover .fa-calendar{cursor:default;color: #f00}
-        .popper.disabled{color: #000;pointer-events:none;ursor:default;text-decoration: none;}
+        .popper.disabled{color: #000;pointer-events:none;cursor:default;text-decoration: none;}
         .calendar-box {
           display: flex;
           flex-direction: row;
