@@ -1,4 +1,3 @@
-
 export * from './address/‌index';
 export * from './audio/‌index';
 export * from './calendar/‌index';
@@ -18,9 +17,13 @@ export * from './notice/‌index';
 export * from './select/‌index';
 export * from './share/‌index';
 export * from './span/‌index';
+export * from './switch/‌index';
+export * from './slider/‌index';
 export * from './table/‌index';
 export * from './text/‌index';
+export * from './toggler/‌index';
 export * from './video/‌index';
 export * from './common/‌index';
+export * from './phone/‌index';
 
 export { IntoPipeModule } from './pipe.module';
