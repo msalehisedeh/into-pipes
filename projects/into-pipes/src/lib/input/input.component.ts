@@ -1,32 +1,33 @@
 import { Component, ViewChild, Renderer2, Output, EventEmitter } from '@angular/core';
-import { PipeComponent } from '../common/pipe.component';
+import { PipeComponentInterface } from '../common/pipe.component.interface';
 
 @Component({
     selector: 'input-component',
     template: `
-    <span *ngIf="editName">
+    <span *ngIf="editName || locked">
     <input #nameEditor
         type='text' 
         [id]="id"
         [name]="name"
+        [disabled]="disabled"
         [value]="source"
         [placeholder]="placeholder"
         (blur)="blur($event)" 
         (keyup)='keyup($event)'>
     </span>
     <span #nameHolder
-        *ngIf='!editName && formatting'
-        class='locked' 
-        tabindex='0' 
-        (keyup)='keydown($event)'
+        *ngIf="!locked && !editName && formatting"
+        class="locked {{disabled ? 'disabled' : ''}}" 
+        tabindex="{{active ? 0 : -1}}"
+        (keyup)='handleEdit($event)'
         (click)="clickName($event)"
         [innerHTML]="source ? (source | into:formatting) : '&nbsp;'">
     </span>
     <span #nameHolder
-        *ngIf='!editName && !formatting'
+        *ngIf='!locked && !editName && !formatting'
         class='locked' 
-        tabindex='0' 
-        (keyup)='keydown($event)'
+        tabindex="{{active ? 0 : -1}}"
+        (keyup)='handleEdit($event)'
         (click)="clickName($event)"
         [innerHTML]="source ? source : '&nbsp;'">
     </span>
@@ -37,6 +38,7 @@ import { PipeComponent } from '../common/pipe.component';
           display: inline-block;
           cursor: pointer;
           min-width: 30px;
+          width: 100%;
           -webkit-user-select: none;       
           -moz-user-select: none;
           -ms-user-select: none;
@@ -46,12 +48,13 @@ import { PipeComponent } from '../common/pipe.component';
         input {
           cursor: beam;
         }
-        :host {display:table;float:left;min-height: 23px}
+        :host {width: 100%;display:table;float:left;min-height: 23px}
         :host .locked:hover{border: 1px solid #fabdab;}
+        :host .locked.disabled:hover{border-color: transparent;cursor: default;}
         `
     ]
 })
-export class InputComponent implements PipeComponent {
+export class InputComponent implements PipeComponentInterface {
 
   data: any;
   source!: string;
@@ -61,6 +64,10 @@ export class InputComponent implements PipeComponent {
   formatting!:string;
   editName = false;
   oldValue!: string;
+  disabled = false;
+  active = true;
+  locked = false;
+  validate = (item: any, newValue: any) => true;
 
   @ViewChild("nameEditor")
   nameEditor: any;
@@ -79,29 +86,10 @@ export class InputComponent implements PipeComponent {
     event.stopPropagation();
     event.preventDefault();
 
-    const code = event.which;
-    if (((code >= 48) && (code <= 90)) ||
-        ((code >= 96) && (code <= 111)) ||
-        ((code == 32) || (code == 8)) ||
-        ((code >= 186) && (code <= 222))) {
-          this.source = event.target.value;
-    } else if ((code === 13) || (code === 9) || (code === 27) ) {
-      this.editName = false;
-      if (this.oldValue !== String(this.source)) {
-        this.onIntoComponentChange.emit({
-          id: this.id,
-          name: this.name,
-          value: this.source,
-          type: "change",
-          item: this.data
-        });
-      }
-      if (code === 13) {
-        setTimeout(()=>{
-          if (this.nameHolder) {
-            this.renderer.selectRootElement(this.nameHolder.nativeElement).focus();
-          }
-        },66);
+    if (!this.disabled) {
+      const code = event.which;
+      if (!code || (code === 13) || (code === 9) || (code === 27) ) {
+        this.blur(event);
       }
     }
   }
@@ -109,8 +97,25 @@ export class InputComponent implements PipeComponent {
     event.stopPropagation();
     event.preventDefault();
 
+    const newValue = String(event.target.value);
+    if (this.oldValue !== newValue) {
+      if (this.validate(this.data, newValue)) {
+        this.source = newValue;
+        this.editName = false;
+        this.onIntoComponentChange.emit({
+          id: this.id,
+          name: this.name,
+          value: this.source,
+          type: "change",
+          item: this.data
+        });
+      } else {
+        this.source = this.oldValue;
+        this.editName = false;
+      }
+    }
     this.editName = false;
-    if (this.oldValue !== String(this.source)) {
+    if(!this.disabled && this.oldValue !== String(this.source) && this.validate(this.data, String(this.source))) {
       this.onIntoComponentChange.emit({
         id: this.id,
         name: this.name,
@@ -120,29 +125,27 @@ export class InputComponent implements PipeComponent {
     }
   }
 
-  keydown(event: any) {
+  handleEdit(event: any) {
     const code = event.which;
     event.stopPropagation();
     event.preventDefault();
 
-    if ((code === 13) || (code === 9)) {
-      this.renderer.selectRootElement(event.target).click();
-      setTimeout(()=>{
-        if (this.nameEditor) {
-          this.renderer.selectRootElement(this.nameEditor.nativeElement).focus();
-        }
-      },66);
-		}
+    if(!this.disabled && ((code === 13) || (code === 9))) {
+      event.target.click();
+    }
   }
 
   clickName(event: any) {
     event.stopPropagation();
     event.preventDefault();
-    this.editName = true;
-    this.oldValue = String(this.source);
-    setTimeout(() => {
-      this.renderer.selectRootElement(this.nameEditor.nativeElement).focus();
-    },66);
+
+    if (!this.disabled) {
+      this.editName = true;
+      this.oldValue = String(this.source);
+      setTimeout(() => {
+        this.renderer.selectRootElement(this.nameEditor.nativeElement).focus();
+      },66);
+    }
   }
 
   transform(source: any, data: any, args: any[]) {
@@ -150,6 +153,7 @@ export class InputComponent implements PipeComponent {
     this.data = data;
     this.placeholder= args.length ? args[0] : "";
     this.formatting = args.length > 1 ? args[1] : "";
+    this.locked = args.length > 2 ? args[2] : "";
   }
 }
 

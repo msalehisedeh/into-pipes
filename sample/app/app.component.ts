@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
-import { ComponentPool, PipeServiceComponent } from '@sedeh/into-pipes';
+import { ComponentPool } from './into-pipes/common/component.pool';
+import { PipeServiceComponentInterface } from './into-pipes/common/pipe.component.interface';
 
-class myService implements PipeServiceComponent {
+class myService implements PipeServiceComponentInterface {
   
   getDataFor(name: string, id: string, data: any) {
     return [
@@ -15,7 +16,7 @@ class myService implements PipeServiceComponent {
   }
 }
 
-class GroupService implements PipeServiceComponent {
+class GroupService implements PipeServiceComponentInterface {
   
   getDataFor(name: string, id: string, data: any) {
     return [
@@ -34,6 +35,9 @@ class GroupService implements PipeServiceComponent {
 })
 export class AppComponent {
   title = 'In To Pipes';
+  shouldValidaste = true;
+  activate = true;
+  disabled = false;
 
   threeFive = 3.5;
   events: any[] = [];
@@ -50,6 +54,7 @@ export class AppComponent {
   myConditionalThreeFive = "if:>:3:\"font:fa fa-check:replace\":\"font:fa fa-bell:replace\"";
 
   myLastUpdatedDate = new Date(Date.now() - 640000);
+  myComboUpdatedDate = new Date(Date.parse('02/02/2000') - 640000);
 
   dataSet = {
     id: 3453453453,
@@ -72,7 +77,34 @@ export class AppComponent {
     this.pool.registerServiceForComponent("inputgroup", new GroupService());
   }
 
+  isChecked(event: any, key: string) {
+    if (key === 'disabled') {
+      this.disabled = !this.disabled;
+    }
+    if (key === 'activate') {
+      this.activate = !this.activate;
+    }
+    if (key === 'shouldValidaste') {
+      this.shouldValidaste = !this.shouldValidaste;
+    }
+	}
+	keyup(event: any) {
+		const code = event.which;
+		if (code === 13) {
+		  event.target.click();
+		}
+	}
+  performValidation(item: any, value: any) {
+    if (!this.shouldValidaste) {
+      alert("not going to happen!");
+    }
+    return this.shouldValidaste;
+  }
   onComponentChange(event:  any) {
+    this.events.push(event);
+  }
+  onComboChange(event: any) {
+    this.myComboUpdatedDate = event.value[0];
     this.events.push(event);
   }
 

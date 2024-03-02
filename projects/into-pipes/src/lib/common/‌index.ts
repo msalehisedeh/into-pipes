@@ -12,6 +12,6 @@ export {WrapPipe} from './wrap.pipe';
 export { InToPipe } from './into.pipe'
 export { IntoDirective } from './into.directive'
 export { ComponentPool } from './component.pool';
-export { PipeComponent, PipeServiceComponent } from './pipe.component';
+export { PipeComponentInterface, PipeServiceComponentInterface } from './pipe.component.interface';
 
 export {CommonPipesModule} from './common-pipes.module';

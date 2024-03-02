@@ -7,7 +7,7 @@ import {
 	EmbeddedViewRef
 } from '@angular/core';
 
-import { PipeComponent } from './pipe.component';
+import { PipeComponentInterface } from './pipe.component.interface';
 
 @Injectable()
 export class ComponentPool {
@@ -40,9 +40,9 @@ export class ComponentPool {
 		name: string,
 		resolver: ComponentFactoryResolver,
 		viewRefrence: ViewContainerRef,
-		el: HTMLElement): PipeComponent {
+		el: HTMLElement): PipeComponentInterface {
 		const component =  name ? this.registeredComponents[name] : undefined;
-		let result!: PipeComponent;
+		let result!: PipeComponentInterface;
 		
         if (component) {
 			let componentFactory = resolver.resolveComponentFactory(component);
@@ -50,7 +50,7 @@ export class ComponentPool {
 			const domElem = (componentRef.hostView as EmbeddedViewRef < any > ).rootNodes[0] as HTMLElement;
 			el.appendChild(domElem);
 			domElem.setAttribute("class", "into");
-			result = (<PipeComponent>componentRef.instance);
+			result = (<PipeComponentInterface>componentRef.instance);
         }
         return  result;
 	}

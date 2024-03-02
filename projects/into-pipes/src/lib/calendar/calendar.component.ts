@@ -2,9 +2,9 @@
 * http://www.bentedder.com/create-calendar-grid-component-angular-4/
 */
 import { Component, ViewChild, Renderer2, Output, EventEmitter } from '@angular/core';
-import { PipeComponent } from '../common/pipe.component';
+import { PipeComponentInterface } from '../common/pipe.component.interface';
 
-export interface CalendarDate {
+export interface CalendarDateInterface {
     date: Date;
     selected?: boolean;
     today?: boolean;
@@ -15,12 +15,16 @@ export interface CalendarDate {
     template: `
     <span class="calendar-box">
       <span class="date" [textContent]="origDate | date:formatting"></span>
-      <a tabindex="0" class="popper" (keyup)="keyup($event)" (click)="popdatepicker($event)">
+      <a 
+        tabindex="{{active ? 0 : -1}}" 
+        class="popper {{disabled ? 'disabled': ''}}" 
+        (keyup)="keyup($event)" 
+        (click)="popdatepicker($event)">
           <span class="fa fa-calendar" aria-hidden="true"></span>
           <span class="off-screen">Pick a date</span>
       </a>
     </span>
-    <div class="calendar" *ngIf="showCalendar">
+    <div class="calendar" *ngIf="!disabled && showCalendar">
 		<div class="calendar-navs">
 			<div class="month-nav">
                 <button (click)="prevMonth($event)">
@@ -57,7 +61,7 @@ export interface CalendarDate {
 						</div>
 						<div class="week-date enabled"
                            *ngIf="isSelectedMonth(day.date)"
-                           tabindex="0"
+                           tabindex="{{active ? 0 : -1}}"
                            (keyup)="keyup($event)"
 						   (click)="selectDate($event, day)"
 						   [class.today]="day.today"
@@ -75,6 +79,8 @@ export interface CalendarDate {
         :host {display:table;float:left;min-height: 23px}
         .popper .fa-calendar{display: inline-block;margin: 0 5px}
         .popper:hover .fa-calendar{color: #fabdab}
+        .popper.disabled:hover .fa-calendar{cursor:default;color: #f00}
+        .popper.disabled{color: #000;pointer-events:none;ursor:default;text-decoration: none;}
         .calendar-box {
           display: flex;
           flex-direction: row;
@@ -206,9 +212,9 @@ export interface CalendarDate {
         `
     ]
 })
-export class CalendarComponent implements PipeComponent {
+export class CalendarComponent implements PipeComponentInterface {
 
-  source!: string;
+  source!: Date;
   id!: string;
   name!: string;
   item: any;
@@ -216,11 +222,14 @@ export class CalendarComponent implements PipeComponent {
   formatting!:string;
   editName = false;
   multiselect = false;
+  disabled = false;
+  active = true;
+  validate = (item: any, newValue: any) => true;
 
   origDate!: Date;
   currentDate!: Date;
   dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-  weeks: CalendarDate[][] = [];
+  weeks: CalendarDateInterface[][] = [];
   selectedDays: Date[] = [];
 
   @Output("onIntoComponentChange")
@@ -235,7 +244,7 @@ export class CalendarComponent implements PipeComponent {
     event.preventDefault();
 
     const code = event.which;
-    if (code === 13) {
+    if (code === 13 && !this.disabled) {
         event.target.click();
     }
   }
@@ -246,10 +255,10 @@ export class CalendarComponent implements PipeComponent {
     this.showCalendar = !this.showCalendar;
   }
 
-  transform(source: any, data: any, args?: any[]) {
+  transform(source: Date, data: any, args?: any[]) {
     this.source= source;
-    this.currentDate = new Date();
-    this.origDate = new Date();
+    this.currentDate = new Date(source);
+    this.origDate =  new Date(source);
 
     if (source instanceof Array) {
         this.multiselect = true;
@@ -280,7 +289,7 @@ export class CalendarComponent implements PipeComponent {
     return this.isSameMonth(date, this.currentDate);
   }
 
-  toggleSelectedDates(day: CalendarDate) {
+  toggleSelectedDates(day: CalendarDateInterface) {
       let found = false;
       if (this.multiselect) {
         for (let i = 0; i < this.selectedDays.length; i++) {
@@ -301,26 +310,28 @@ export class CalendarComponent implements PipeComponent {
         day.selected = true;
       }
   }
-  selectDate(event: any, day: CalendarDate): void {
+  selectDate(event: any, day: CalendarDateInterface): void {
     event.stopPropagation();
     event.preventDefault();
 
-    this.origDate = day.date;
-    this.currentDate = day.date;
-    this.toggleSelectedDates( day );
-
-    this.selectedDays.sort( (a, b) => {
-        return a > b ? -1 : 1;
-    });
-    this.onIntoComponentChange.emit({
-        id: this.id,
-        name: this.name,
-        value: this.selectedDays,
-        type: "select",
-        item: this.item
-    });
+    if(this.validate(this.item, day.date)) {
+        this.origDate = day.date;
+        this.currentDate = day.date;
+        this.toggleSelectedDates( day );
+    
+        this.selectedDays.sort( (a, b) => {
+            return a > b ? -1 : 1;
+        });
+        this.onIntoComponentChange.emit({
+            id: this.id,
+            name: this.name,
+            value: this.selectedDays,
+            type: "select",
+            item: this.item
+        });
+        this.generateCalendar();
+    }
     this.showCalendar = false;
-    this.generateCalendar();
   }
 
   // actions from calendar
@@ -359,7 +370,7 @@ export class CalendarComponent implements PipeComponent {
     // generate the calendar grid
     generateCalendar(): void {
         const dates = this.fillDates(this.currentDate);
-        const weeks: CalendarDate[][] = [];
+        const weeks: CalendarDateInterface[][] = [];
         while (dates.length > 0) {
         weeks.push(dates.splice(0, 7));
         }
@@ -375,7 +386,7 @@ export class CalendarComponent implements PipeComponent {
             a.getMonth() === b.getMonth();
     }
 
-    fillDates(currentDate: Date): CalendarDate[] {
+    fillDates(currentDate: Date): CalendarDateInterface[] {
         const cm = new Date(currentDate);
         const tm = new Date();
         const firstDay = new Date(cm.getFullYear(), cm.getMonth(), 1)

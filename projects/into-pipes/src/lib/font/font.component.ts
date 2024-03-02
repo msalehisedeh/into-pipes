@@ -1,5 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
-import { PipeComponent } from '../common/pipe.component';
+import { PipeComponentInterface } from '../common/pipe.component.interface';
 
 @Component({
     selector: 'font-component',
@@ -19,13 +19,17 @@ import { PipeComponent } from '../common/pipe.component';
         `
     ]
 })
-export class FontComponent implements PipeComponent {
+export class FontComponent implements PipeComponentInterface {
     font!: string;
     location!: string;
     source!: string;
 	id!: string;
 	name!: string;
     content!: string;
+    disabled = false;
+    active = true;
+    validate = (item: any, newValue: any) => true;
+
 	onIntoComponentChange!: EventEmitter<any>;
 
     transform(source: any, data: any, args: any[]) {

@@ -1,12 +1,12 @@
 import { Component, EventEmitter } from '@angular/core';
-import { PipeComponent } from '../common/pipe.component';
+import { PipeComponentInterface } from '../common/pipe.component.interface';
 
 @Component({
     selector: 'share-component',
     template: `
     <a id='share-comment-{{id}}' 
-        tabindex="0" 
-        class='share-item-tips' 
+        tabindex="{{active ? 0 : -1}}" 
+        class="share-item-tips {{disabled ? 'disabled' : ''}}" 
         (keyup)='keyup($event)'
         (click)='toggleShare()'>
     <span class="fa fa-share-alt"></span>
@@ -15,19 +15,25 @@ import { PipeComponent } from '../common/pipe.component';
     <span id='share-comment-{{id}}-tips' class='tips' *ngIf='shouldDisplay'>
       <span class='social-referal'>
         <a *ngFor="let share of shareList" 
+            tabindex="{{active ? 0 : -1}}" 
             (keyup)='keyup($event)'
             (click)='change(share)'
-            [class]='share.icon' target='_blank' 
-            [href]='share.href'><span class='off-screen' [textContent]="share.title"></span></a>
+            class="{{disabled ? 'disabled' : ''}} {{share.icon}}" target='_blank' 
+            [href]="disabled ? '' : share.href"><span class='off-screen' [textContent]="share.title"></span></a>
       </span>
     </span>
 `,
     styles: [`
     :host {display:table;float:left;min-height: 23px;position: relative}
+    :host a.disabled{color: #000;cursor:default;pointer-events:none;text-decoration: none;}
     .share-item-tips {cursor: pointer;}
-    .share-item-tips:hover {color: #fabdab;}
     .share-item-tips .fa {margin: 0;}
+    .share-item-tips:hover {color: #fabdab;}
     .share-item-tips:hover .fa{color: #fabdab;}
+
+    .share-item-tips.disabled:hover .fa{color: #f00;}
+
+
     .share-item-tips .share{margin-left: 5px;}
     .tips {
         position: absolute;
@@ -42,6 +48,10 @@ import { PipeComponent } from '../common/pipe.component';
     .tips .social-referal {
         display: flex;
         flex-direction: row;
+    }
+    .tips .social-referal a {
+        min-width: 20px;
+        min-height: 20px;
     }
     .tips .social-referal .fa {
         float: left;
@@ -60,13 +70,16 @@ import { PipeComponent } from '../common/pipe.component';
     }
     `]
 })
-export class ShareComponent implements PipeComponent {
+export class ShareComponent implements PipeComponentInterface {
     shouldDisplay = false;
     source!: string; // it should be a link reference to what is being shared.
 	id!: string;
     name!: string;
     shareList: any[] = []; // list of sites to show on share view.
-    
+    disabled = false;
+    active = true;
+    validate = (item: any, newValue: any) => true;
+
 	onIntoComponentChange = new EventEmitter();
     
     private shareInfo(type: string, address: string) {
@@ -81,27 +94,31 @@ export class ShareComponent implements PipeComponent {
         event.stopPropagation();
         event.preventDefault();
     
-        if (code === 13) {
+        if (code === 13 && !this.disabled) {
             event.target.click();
         }
     }
     change(event: any) {
-        this.onIntoComponentChange.emit({
-            id: this.id,
-            name: this.name,
-            value: this.source,
-            item: event.title
-        });
+        if (!this.disabled) {
+            this.onIntoComponentChange.emit({
+                id: this.id,
+                name: this.name,
+                value: this.source,
+                item: event.title
+            });
+        }
     }
     toggleShare() {
-        this.shouldDisplay = !this.shouldDisplay;
-        this.onIntoComponentChange.emit({
-            id: this.id,
-            name: this.name,
-            value: 'Share options',
-            type: 'share',
-            item: this.shouldDisplay ? 'open' : 'close'
-        });
+        if (!this.disabled) {
+            this.shouldDisplay = !this.shouldDisplay;
+            this.onIntoComponentChange.emit({
+                id: this.id,
+                name: this.name,
+                value: 'Share options',
+                type: 'share',
+                item: this.shouldDisplay ? 'open' : 'close'
+            });
+        }
     }  
 
     transform(source: any, data: any, args: any[]) {

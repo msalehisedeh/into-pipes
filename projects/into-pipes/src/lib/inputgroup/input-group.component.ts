@@ -1,18 +1,20 @@
 import { Component, Renderer2, Output, EventEmitter } from '@angular/core';
-import { PipeComponent, PipeServiceComponent } from '../common/pipe.component';
+import { PipeComponentInterface, PipeServiceComponentInterface } from '../common/pipe.component.interface';
 
 @Component({
     selector: 'input-group-component',
     template: `
     <span class="input-group-item" *ngFor="let x of options; let i = index">
-    <input 
-      [type]="type" 
-      [id]="name + i" 
-      [name]="name + (type === 'radio' ? '' : i)" 
-      [value]="x.value ? x.value : x" 
-      [checked]="isSelected(x)"
-      (focus)="focused($event)"/>
-    <label [for]="name + i" [textContent]="x.label ? x.label : x"></label>
+      <input 
+        [type]="type" 
+        [id]="name + i" 
+        tabindex="{{active ? 0 : -1}}"
+        [name]="name + (type === 'radio' ? '' : i)" 
+        [value]="x.value ? x.value : x" 
+        [disabled]="disabled"
+        [checked]="isSelected(x)"
+        (change)="change($event)"/>
+      <label [for]="name + i" [textContent]="x.label ? x.label : x"></label>
     </span>
     <span class="selected-value" [textContent]="source"></span>
     `,
@@ -27,7 +29,7 @@ import { PipeComponent, PipeServiceComponent } from '../common/pipe.component';
       `
     ]
 })
-export class InputGroupComponent implements PipeComponent {
+export class InputGroupComponent implements PipeComponentInterface {
 
   data: any;
   source: any;
@@ -35,36 +37,45 @@ export class InputGroupComponent implements PipeComponent {
   id!: string;
   name!: string;
   type!: string;
-  service!: PipeServiceComponent;
+  disabled = false;
+  active = true;
+  validate = (item: any, newValue: any) => true;
+
+  service!: PipeServiceComponentInterface;
 
   @Output("onIntoComponentChange")
   onIntoComponentChange = new EventEmitter();
 
   constructor(private renderer: Renderer2) {}
 
-  focused(event:any) {
+  change(event:any) {
     event.stopPropagation();
     event.preventDefault();
-    if (this.type === 'radio') {
-      this.source = event.target.value;
-    } else {
-      const i = this.source.indexOf(event.target.value);
-      if (event.target.checked) {
-        if (i < 0) {
-          this.source.push(event.target.value);
+    if (!this.disabled) {
+      let index = -1;
+      this.options.map((option: any, i: number) => {const v = option.value ? option.value : option; if (v === event.target.value)index = i});
+      const change = {index:  index, value: event.target.value};
+      if (this.validate(this.data, change)) {
+        if (this.type === 'radio') {
+          this.source = change.value;
+        } else {
+          if (event.target.checked) {
+            this.source.push(event.target.value);
+          } else {
+            this.source.splice(change.index,1);
+          }
         }
+        this.onIntoComponentChange.emit({
+          id: this.id,
+          name: this.name,
+          value: this.source,
+          type: "select",
+          item: this.data
+        });
       } else {
-        this.source.splice(i,1);
+        this.options = JSON.parse(JSON.stringify(this.options))
       }
     }
-
-    this.onIntoComponentChange.emit({
-      id: this.id,
-      name: this.name,
-      value: this.source,
-      type: "select",
-      item: this.data
-    });
   }
   isSelected(item: any) {
     const xitem = item.value ? item.value : item;

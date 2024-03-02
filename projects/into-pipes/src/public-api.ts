@@ -25,6 +25,7 @@ export * from './lib/switch/‌index';
 export * from './lib/slider/‌index';
 export * from './lib/table/‌index';
 export * from './lib/text/‌index';
+export * from './lib/toggler/‌index';
 export * from './lib/video/‌index';
 export * from './lib/common/‌index';
 

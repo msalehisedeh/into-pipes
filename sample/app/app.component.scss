@@ -17,7 +17,13 @@
   color: #551234;
     font-weight: bold;
 }
-
+.pick-points {
+    margin: 16px 0;
+    box-sizing: border-box;
+    border: 2px groove #598ec3;
+    display: block;
+    width: 100%;
+}
 table{
     border: 1px solid #598ec3;
     border-collapse: separate;

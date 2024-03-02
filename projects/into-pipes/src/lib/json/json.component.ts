@@ -1,5 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
-import { PipeComponent } from '../common/pipe.component';
+import { PipeComponentInterface } from '../common/pipe.component.interface';
 
 @Component({
     selector: 'json-component',
@@ -18,10 +18,14 @@ import { PipeComponent } from '../common/pipe.component';
         `
     ]
 })
-export class JsonComponent implements PipeComponent {
+export class JsonComponent implements PipeComponentInterface {
 	id!: string;
 	name!: string;
     source!: string;
+    disabled = false;
+    active = true;
+    validate = (item: any, newValue: any) => true;
+
 	onIntoComponentChange!: EventEmitter<any>;
 
     transform(source: any, data: any, args: any[]) {

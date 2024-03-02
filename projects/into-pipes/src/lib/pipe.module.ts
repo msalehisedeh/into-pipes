@@ -27,6 +27,7 @@ import { TableIntoPipeModule } from './table/table-pipe.module';
 import { TextIntoPipeModule } from './text/text-pipe.module';
 import { VideoIntoPipeModule } from './video/video-pipe.module';
 import { SliderIntoPipeModule } from './slider/slider-pipe.module';
+import { ToggerIntoPipeModule } from './toggler/toggler-pipe.module'
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import { SliderIntoPipeModule } from './slider/slider-pipe.module';
     SwitchIntoPipeModule.forRoot(),
     TableIntoPipeModule.forRoot(),
     TextIntoPipeModule.forRoot(),
+    ToggerIntoPipeModule.forRoot(),
     VideoIntoPipeModule.forRoot()
   ],
   declarations: [],
@@ -84,6 +86,7 @@ import { SliderIntoPipeModule } from './slider/slider-pipe.module';
     TableIntoPipeModule,
     TableIntoPipeModule,
     TextIntoPipeModule,
+    ToggerIntoPipeModule,
     VideoIntoPipeModule
   ],
   entryComponents: [],

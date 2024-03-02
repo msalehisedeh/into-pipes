@@ -1,24 +1,25 @@
 import { Component, ViewChild, Renderer2, Output, EventEmitter } from '@angular/core';
-import { PipeComponent } from '../common/pipe.component';
+import { PipeComponentInterface } from '../common/pipe.component.interface';
 
 @Component({
     selector: 'slider-component',
     template: `
     <span 
-      class="slidecontainer" 
+      class="slidecontainer {{disabled ? 'disabled' : ''}}" 
       [style.width]="!vertical ? length + 'px' : null"
       [style.height]="vertical ? length + 'px' : null"
       [class.vertical]="vertical">
       <span class="range" *ngIf="showRange">
-      <span class="min" [textContent]="min"></span>
-      <span class="value" [textContent]="source"></span>
-      <span class="max" [textContent]="max"></span>
+        <span class="min" [textContent]="min"></span>
+        <span class="value" [textContent]="source"></span>
+        <span class="max" [textContent]="max"></span>
       </span>
       <input 
         type="range"
         class="slider" 
-        (input)="oninput($event)"
+        tabindex="{{active ? 0 : -1}}" 
         (change)="onchange($event)"
+        [disabled]="disabled"
         [attr.value]="source" 
         [attr.min]="min" 
         [attr.max]="max" 
@@ -28,6 +29,7 @@ import { PipeComponent } from '../common/pipe.component';
     styles: [
         `
         :host .slidecontainer {display: table;}
+        :host .slidecontainer.disabled {opacity: 50%;}
         :host .slidecontainer .range {position: relative; display: table; height: 12px; font-size: 0.8rem;width: 100%}
         :host .slidecontainer .range .min {position: absolute;left: 0;top: 0}
         :host .slidecontainer .range .value {position: absolute;left: 50%;top: 0}
@@ -73,10 +75,11 @@ import { PipeComponent } from '../common/pipe.component';
         `
     ]
 })
-export class SliderComponent implements PipeComponent {
+export class SliderComponent implements PipeComponentInterface {
 
   data: any;
-  source!: string;
+  source!: number;
+  original!: number;
   id!: string;
   name!: string;
   vertical!: boolean;
@@ -84,39 +87,54 @@ export class SliderComponent implements PipeComponent {
   length!: number;
   min!: string;
   max!: string;
+  disabled = false;
+  active = true;
+  validate = (item: any, newValue: any) => true;
 
   @Output("onIntoComponentChange")
   onIntoComponentChange = new EventEmitter();
 
-  keyup(event: any) {
-    event.stopPropagation();
-    event.preventDefault();
-
-    const code = event.which;
-    if (((code >= 48) && (code <= 90)) ||
+  onchange(event: any) {
+    if (!this.disabled) {
+      const code = event.which;
+      if (!code || 
+        ((code >= 48) && (code <= 90)) ||
         ((code >= 96) && (code <= 111)) ||
         ((code == 32) || (code == 8)) ||
         ((code >= 186) && (code <= 222))) {
-          this.source = event.target.value;
+        this.source = event.target.value;
+      } else if (this.vertical) {
+        if (code === 38) {
+          this.source = this.source + 1;
+        } else if (code === 40) {
+          this.source = this.source - 1;
+        }
+      } else {
+        if (code === 39) {
+          this.source = this.source + 1;
+        } else if (code === 37) {
+          this.source = this.source - 1;
+        }
+      }
     }
-  }
-
-  oninput(event: any) {
-    this.source = event.target.value;
-  }
-  onchange(event: any) {
-    this.source = event.target.value;
-    this.onIntoComponentChange.emit({
-      id: this.id,
-      name: this.name,
-      value: this.source,
-      type: "slider",
-      item: this.data
-    });
+    if (!this.disabled && this.validate(this.data, this.source)) {
+      this.original = this.source;
+      this.onIntoComponentChange.emit({
+        id: this.id,
+        name: this.name,
+        value: this.source,
+        type: "slider",
+        item: this.data
+      });
+    } else {
+      this.source = this.original; 
+    }
+    event.target.value = this.source;
   }
 
   transform(source: any, data: any, args: any[]) {
-    this.source= source;
+    this.source= parseInt(source, 10);
+    this.original = this.source;
     this.data = data;
     this.length= args.length ?  parseFloat(args[0]) : 200;
     this.vertical= args.length > 1 ?  String(args[1]) === 'true' : false;

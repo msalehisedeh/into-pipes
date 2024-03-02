@@ -1,11 +1,13 @@
 import { Component, EventEmitter } from '@angular/core';
-import { PipeComponent } from '../common/pipe.component';
+import { PipeComponentInterface } from '../common/pipe.component.interface';
 
 @Component({
     selector: 'audio-component',
     template: `
     <span class="audio-hidden" [innerText]="source"></span>
     <audio [src]="source" 
+        tabindex="{{active ? 0 : -1}}"
+        [class.disabled]="disabled"
         (keyup)="keyup($event)"
         (play)="change($event)"
         (ended)="change($event)"
@@ -14,20 +16,21 @@ import { PipeComponent } from '../common/pipe.component';
         (error)="change($event)"
         controls="true">Your browser does not support the audio element.</audio>`,
     styles: [`
-    :host {
-        display: table;
-        float: left;
-        min-height: 23px;
-    }
+    :host {display: table;float: left;min-height: 23px;}
+    :host audio.disabled{opacity: 0.5; pointer-events: none}
     :host .audio-hidden {
         display: none;
     }
     `]
 })
-export class AudioComponent implements PipeComponent {
+export class AudioComponent implements PipeComponentInterface {
     source!: string;
 	id!: string;
 	name!: string;
+    disabled = false;
+    active = true;
+    validate = (item: any, newValue: any) => true;
+
 	onIntoComponentChange = new EventEmitter();
 
     transform(source: any, data: any, args: any[]) {
@@ -39,7 +42,7 @@ export class AudioComponent implements PipeComponent {
     }
     keyup(event: any) {
         const code = event.which;
-        if (code === 13) {
+        if (code === 13 && !this.disabled) {
             if (this.isPlaying(event.target)) {
                 event.target.pause();
             } else {

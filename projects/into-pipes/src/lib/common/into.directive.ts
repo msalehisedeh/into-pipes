@@ -7,13 +7,17 @@ import {
 	ComponentFactoryResolver
 } from '@angular/core';
 
-import { PipeComponent } from './pipe.component';
+import { PipeComponentInterface } from './pipe.component.interface';
 import { ComponentPool } from './component.pool';
 
 @Directive({
     selector: '[into]'
 })
 export class IntoDirective implements OnInit {
+    private components: any = [];
+    private disabledComponents = false;
+    private activeComponents = true;
+    private validatingMethod = (item: any, value: any) => true;
     
     @Input("rawContent")
     rawContent!: any;
@@ -26,9 +30,27 @@ export class IntoDirective implements OnInit {
     
     @Input("intoData")
     intoData: any;
+
+    @Input("disabled")
+    set disabled(value: boolean){
+        this.disabledComponents = value;
+        this.components.map((c: any) => c.disabled = value);
+    }
+    
+    @Input("active")
+    set active(value: boolean){
+        this.activeComponents = value;
+        this.components.map((c: any) => c.active = value);
+    }
+    
+    @Input("validate")
+    set validate(value: any){
+        this.validatingMethod = value;
+        this.components.map((c: any) => c.validate = value);
+    }
     
     @Input("into")
-    into!: string | undefined;
+    into!: string | string[] | undefined;
 
     @Input("onComponentChange")
     onComponentChange = (event: any) => {};
@@ -87,11 +109,15 @@ export class IntoDirective implements OnInit {
             } else {
                 result.id = id;
                 result.name = name;
+                result.active = this.activeComponents;
+                result.disabled = this.disabledComponents;
+                result.validate = this.validatingMethod;
                 result.service = this.pool.registeredServiceForComponent(type);
                 result.transform(content.source ? content.source : content, data, args);
                 if (result.onIntoComponentChange && this.onComponentChange) {
                     result.onIntoComponentChange.subscribe(this.onComponentChange);
                 }
+                this.components.push(result);
             }
         } else if (content instanceof Array) {
             let counter = 0;
@@ -102,17 +128,21 @@ export class IntoDirective implements OnInit {
                     typeof content === "boolean" || 
                     Object.keys(content).length) {
 
-                    const sx = this.registeredComponentFor(type);
-                    if (sx === null || sx === undefined) {
+                    const comp = this.registeredComponentFor(type);
+                    if (comp === null || comp === undefined) {
                         console.error("Custom component '" + type+ "' is not defined.");
                     } else {
-                        sx.id = id + '-' + (counter++);
-                        sx.name = name;
-                        sx.service = this.pool.registeredServiceForComponent(type);
-                        sx.transform(source.source ? source.source : source, data, args);
-                        if (sx.onIntoComponentChange && this.onComponentChange) {
-                            sx.onIntoComponentChange.subscribe(this.onComponentChange);
+                        comp.id = id + '-' + (counter++);
+                        comp.name = name;
+                        comp.active = this.activeComponents;
+                        comp.disabled = this.disabledComponents;
+                        comp.validate = this.validatingMethod;
+                        comp.service = this.pool.registeredServiceForComponent(type);
+                        comp.transform(source.source ? source.source : source, data, args);
+                        if (comp.onIntoComponentChange && this.onComponentChange) {
+                            comp.onIntoComponentChange.subscribe(this.onComponentChange);
                         }
+                        this.components.push(comp);
                     }
                 }
             });        
@@ -121,37 +151,45 @@ export class IntoDirective implements OnInit {
 
     }
 
-    private registeredComponentFor(name: string): PipeComponent {
+    private registeredComponentFor(name: string): PipeComponentInterface {
         return this.pool.registeredComponent(name, this.componentFactoryResolver, this.viewRef, this.el.nativeElement);
+    }
+    private initInstance(into: string) {
+        let result: any =  this.rawContent;
+        if (into) {
+            into.split("|").map( (item) => {
+                result = this._transform(result, this.split(item), this.intoData);
+            });
+        }
+        if (typeof result === "string") {
+            const comp: PipeComponentInterface = this.registeredComponentFor("span");
+            if (comp)  {
+                comp.transform(result, [], this.intoData);
+                this.components.push(comp);
+            } else {
+                console.error("Custom component 'span' is not defined.");
+            }
+        } else if (result instanceof Array) {
+            result.map((source) => {
+                if (typeof source === "string") {
+                    const comp: PipeComponentInterface = this.registeredComponentFor("span");
+                    if (comp)  {
+                        comp.transform(source, [], this.intoData);
+                        this.components.push(comp);
+                    } else {
+                        console.error("Custom component 'span' is not defined.");
+                    }
+                }
+            });
+        }
     }
     
 	ngOnInit() {
-		if (this.into || this.rawContent) {
-            let result: any =  this.rawContent;
-        
-            if (this.into) {
-                this.into.split("|").map( (item) => {
-                    result = this._transform(result, this.split(item), this.intoData);
-                });
-            }
-            if (typeof result === "string") {
-                const comp: PipeComponent = this.registeredComponentFor("span");
-                if (comp)  {
-                    comp.transform(result, [], this.intoData);
-                } else {
-                    console.error("Custom component 'span' is not defined.");
-                }
-            } else if (result instanceof Array) {
-                result.map((source) => {
-                    if (typeof source === "string") {
-                        const comp: PipeComponent = this.registeredComponentFor("span");
-                        if (comp)  {
-                            comp.transform(source, [], this.intoData);
-                        } else {
-                            console.error("Custom component 'span' is not defined.");
-                        }
-                    }
-                });
+		if (this.into) {
+            if (typeof this.into === 'string') {
+                this.initInstance(this.into);
+            } else {
+                this.into.map((into: string) => this.initInstance(into));
             }
         }
     }

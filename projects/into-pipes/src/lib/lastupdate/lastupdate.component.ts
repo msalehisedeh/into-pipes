@@ -1,5 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
-import { PipeComponent } from '../common/pipe.component';
+import { PipeComponentInterface } from '../common/pipe.component.interface';
 
 @Component({
     selector: 'lastupdate-component',
@@ -19,12 +19,14 @@ import { PipeComponent } from '../common/pipe.component';
         `
     ]
 })
-export class LastUpdateComponent implements PipeComponent {
+export class LastUpdateComponent implements PipeComponentInterface {
     source: any;
 	id!: string;
     name!: string;
     showIcon!: boolean;
-    
+	disabled = false;
+	active = true;
+	validate = (item: any, newValue: any) => true;
     
     count!: string;
 	onIntoComponentChange!: EventEmitter<any>;

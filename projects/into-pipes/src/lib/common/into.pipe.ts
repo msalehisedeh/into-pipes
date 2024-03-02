@@ -1,15 +1,5 @@
 import { Pipe, PipeTransform  } from '@angular/core';
 
-import {
-  DatePipe,
-  CurrencyPipe,
-  DecimalPipe,
-  JsonPipe,
-  SlicePipe,
-  UpperCasePipe,
-  LowerCasePipe
-} from '@angular/common';
-
 import { ComponentPool } from './component.pool';
 
 @Pipe({name:'into'})

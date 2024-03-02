@@ -39,8 +39,8 @@ MODULE:
 EXPORTS from CommonPipesModule
     InToPipe
     IntoDirective
-    PipeComponent
-    PipeServiceComponent
+    PipeComponentInterface
+    PipeServiceComponentInterface
     ComponentPool
     
 DEPENDENCIES: 
@@ -49,17 +49,17 @@ DEPENDENCIES:
 
 ## Interfaces
 ```javascript
-export interface PipeComponent {
+export interface PipeComponentInterface {
 	source: any;
 	id: string;
 	name: string;
-	service?:PipeServiceComponent;
+	service?:PipeServiceComponentInterface;
 	onIntoComponentChange: EventEmitter<any>;
 	  
 	transform(content: any, data: any, args?: any[]);
 }
 
-export interface PipeServiceComponent {
+export interface PipeServiceComponentInterface {
 	getDataFor(name, id, data);
 }
 ```
@@ -82,9 +82,9 @@ export interface PipeServiceComponent {
 
 **NOTE: For all of the pipes, if transforming object is an array, all elements in the array will be transformed and the resulting array will be returned. in case of conditional pipe, a resulting map will be returned.**
 
-## Independent Pipes
+## Independent Directives
 
-### Address Format Pipe
+### Address Format Directive
 | Name       | address                                                          |
 |------------|------------------------------------------------------------------|
 | Exports    | AddressIntoPipeModule, AddressComponent, AddressPipe             |
@@ -94,11 +94,13 @@ export interface PipeServiceComponent {
 |            | 2) should google map be viewed on the same page or pop a new page for it.  |
 | Example 1  | [rawContent]="myaddress" intoId="my-address-id"                  |
 |            | [into]="'address:true:true'" intoName="my-address-directive"     |
+|            | [active]="true"                                                  |
+|            | [disabled]="false"                                               |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 | Examples 2 | `myaddress | into:'address:true:true'`                           |
 
 
-### Audio Pipe
+### Audio Directive
 | Name       | audio                                                            |
 |------------|------------------------------------------------------------------|
 | Exports    | AudioIntoPipeModule, AudioComponent, AudioPipe                   |
@@ -107,11 +109,13 @@ export interface PipeServiceComponent {
 | Options    | NONE                                                             |
 | Example 1  | [rawContent]="myAudioUrl" [into]="'audio'"                       |
 |            | intoName="my-audio-directive" intoId="my-audio-id"               |
+|            | [active]="true"                                                  |
+|            | [disabled]="false"                                               |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 | Example 2  | `myAudioUrl | into:audio`                                        |
 
 
-### Calendar Pipe
+### Calendar Directive
 | Name       | calendar                                                         |
 |------------|------------------------------------------------------------------|
 | Exports    | CalendarIntoPipeModule, CalendarComponent                        |
@@ -119,11 +123,14 @@ export interface PipeServiceComponent {
 | Description| For a given source, will provide interactive date picker. if the source is an array of dates or date strings, the date picker will be multi-select. Otherwise it will be a single select. When selecting a date, an event will be triggered. You will be responsible to catch the change event and update date(s) in your data source. |
 | Options    | 1) date format. if the transformation source is an array of dates or date strings, the calendar will be multi-select calendar. Otherwise it will be a single select calendar. |
 | Example 1  | [rawContent]="myPickDate" [into]="'calendar:MM/dd/yyyy'"         |
+|            | [active]="true"                                                  |
+|            | [disabled]="false"                                               |
+|            | [validate]="validate"                                            |
 |            | intoId="my-calendar-id" intoName="my-calendar-directive"         |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
-### Checkbox Pipe
+### Checkbox Directive
 | Name       | checkbox                                                         |
 |------------|------------------------------------------------------------------|
 | Exports    | CheckboxIntoPipeModule, CheckComponent                           |
@@ -133,11 +140,13 @@ export interface PipeServiceComponent {
 |            | 2)if it is standard check-box or should use fonts to display checked or not checked. |
 |            | 3) if to show it as switch on / off.                             |
 | Example 1  | [rawContent]="'yes'" [into]="'checkbox:yes:true'"                |
+|            | [active]="true"                                                  |
+|            | [disabled]="false"                                               |
 |            | intoName="my-checkbox-directive" intoId="my-checkbox-id"         |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
-### Email Pipe
+### Email Directive
 | Name       | email                                                            |
 |------------|------------------------------------------------------------------|
 | Exports    | EmailIntoPipeModule, EmailComponent, EmailPipe                   |
@@ -146,11 +155,13 @@ export interface PipeServiceComponent {
 | Options    | 1) In a Link or not                                              |
 | Example 1  | [rawContent]="myEmailAddress" [into]="'email:true'"              |
 |            | intoName="my-email-directive" intoId="my-email-id"               |
+|            | [active]="true"                                                  |
+|            | [disabled]="false"                                               |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 | Example 2  | `myEmailAddress |  into:'email:false'`                           |
 
 
-### Font Awesome Pipe
+### Font Awesome Directive
 | Name       | font                                                             |
 |------------|------------------------------------------------------------------|
 | Exports    | FontIntoPipeModule, FontComponent, FontPipe                      |
@@ -165,7 +176,7 @@ export interface PipeServiceComponent {
 | Example 2  | `myValue | into:'font:fa fa-check:left:*'`                       |
 
 
-### Image Display Pipe
+### Image Display Directive
 | Name       | image                                                            |
 |------------|------------------------------------------------------------------|
 | Exports    | ImageIntoPipeModule, ImageComponent, ImagePipe                   |
@@ -178,11 +189,12 @@ export interface PipeServiceComponent {
 |            | 5) optional pop on hover (top, left, right, bottom)              |
 | Example 1  | [rawContent]="myImageUrl" [into]="'image:200px:auto:alt          |
 |            | text:6:true'" intoName="my-image-directive" intoId="my-image-id" |
+|            | [active]="true"                                                  |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 | Example 2  | `myImageUrl | into:'image:width:height:alt text:magnify:pop-hover'` |
 
 
-### Input Pipe
+### Input Directive
 | Name       | input                                                            |
 |------------|------------------------------------------------------------------|
 | Exports    | InputIntoPipeModule, InputComponent                              |
@@ -190,24 +202,30 @@ export interface PipeServiceComponent {
 | Description| For a given source, will provide an interactive input tag that will become active when user clicks on it. Otherwise a plain text content will be displayed. You will be responsible to catch the change event and update data in your data source. Interactive input component will fire event after the input value is changed and a tab, return, or escape key is pressed. After the event is fired, input field will revert back to a plain text. |
 | Options    | 1) place holder text or blank                                    |
 |            | 2) formatting rules for the value to be displayed when text field is not editable |
-| Example 2  | [into]="'input:enter number:mask'" rawContent]="'red'"           |
+|            | 3) optional lock field in editable mode                          |
+| Example 2  | [into]="'input:enter number:mask:locked'" rawContent]="'red'"    |
 |            | intoName="input-directive" intoId="input-id"                     |
+|            | [active]="true"                                                  |
+|            | [disabled]="false"                                               |
+|            | [validate]="validate"                                            |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
-### Input Group Pipe
+### Input Group Directive
 | Name       | inputgroup                                                       |
 |------------|------------------------------------------------------------------|
 | Exports    | InputGroupIntoPipeModule, InputGroupComponent                    |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will provide a list of radio or check-box tags through special service that knows how to provide options based on supplied data. If the source is a list, options are check-box. Otherwise, options are radio buttons. You will be responsible to catch the change event and update data in your data source. |
-| Options    | NONE. Requires implementation of PipeServiceComponent registered with  ComponentPool |
+| Options    | NONE. Requires implementation of DirectiveServiceComponentInterface registered with  ComponentPool |
 | Example 2  | [rawContent]="'red'" [into]="'inputgroup'"                       |
 |            | intoName="group1-directive" intoId="group1-id"                   |
+|            | [active]="true"                                                  |
+|            | [disabled]="false"                                               |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
-### JSON Format Pipe
+### JSON Format Directive
 | Name       | json                                                             |
 |------------|------------------------------------------------------------------|
 | Exports    | JsonIntoPipeModule, JsonComponent                                |
@@ -217,7 +235,7 @@ export interface PipeServiceComponent {
 | Example 1  | [rawContent]="myJson"  [into]="'json'"                           |
 
 
-### Last Update Pipe
+### Last Update Directive
 | Name       | lastupdate                                                       |
 |------------|------------------------------------------------------------------|
 | Exports    | LastUpdateIntoPipeModule, LastUpdateComponent                    |
@@ -227,7 +245,7 @@ export interface PipeServiceComponent {
 | Example 1  | [rawContent]="myLastUpdatedDate" [into]="'lastupdate:true'"      |
 
 
-### Social Like Pipe
+### Social Like Directive
 | Name       | like                                                             |
 |------------|------------------------------------------------------------------|
 | Exports    | LikeIntoPipeModule, LikeComponent                                |
@@ -238,10 +256,13 @@ export interface PipeServiceComponent {
 |            | 3) Attribute in JSON object with unique value to be used for tracking likes or dislikes. |
 | Example 1  | [rawContent]="dataSet.likes" [intoData]="dataSet"                |
 |            | [into]="'like:true:true:id'" intoId="myLikes" intoName="like"    |
+|            | [active]="true"                                                  |
+|            | [validate]="validate"                                            |
+|            | [disabled]="false"                                               |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
-### Link Pipe
+### Link Directive
 | Name       | link                                                             |
 |------------|------------------------------------------------------------------|
 | Exports    | LinkIntoPipeModule, LinkComponent, LinkPipe                      |
@@ -252,11 +273,13 @@ export interface PipeServiceComponent {
 |            | 3) optional hover pop a viewer - available only on inTo directive|
 | Example 1  | [rawContent]="myLinkUrl" [into]="'link:true:my image:true'"      |
 |            | intoName="my-link-directive" intoId="my-link-id"                 |
+|            | [active]="true"                                                  |
+|            | [disabled]="false"                                               |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 | Example 2  | `myLinkUrl | into:'link:_top:my image'`                          |
 
 
-### Notice Pipe
+### Notice Directive
 | Name       | notice                                                           |
 |------------|------------------------------------------------------------------|
 | Exports    | NoticeIntoPipeModule, NoticeComponent, NoticePipe                |
@@ -269,7 +292,7 @@ export interface PipeServiceComponent {
 | Example 2  | `myCounter | into:'notice:You have unread messages'`             |
 
 
-### Phone Format Pipe
+### Phone Format Directive
 | Name       | phone                                                            |
 |------------|------------------------------------------------------------------|
 | Exports    | PhoneIntoPipeModule, PhoneComponent, PhonePipe                   |
@@ -279,11 +302,13 @@ export interface PipeServiceComponent {
 |            | 2) format or not                                                 |
 | Example 1  | [rawContent]="'+1 976 888 7645 3454'" [into]="'phone:true:true'" |
 |            | intoName="my-phone" intoId="my-phone-id"                         |
+|            | [active]="true"                                                  |
+|            | [disabled]="false"                                               |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 | Example 2  | `'+1 976 888 7645 3454' | into:'phone:false:true'`               |
 
 
-### Social Rating Pipe
+### Social Rating Directive
 | Name       | rating                                                           |
 |------------|------------------------------------------------------------------|
 | Exports    | RatingIntoPipeModule, RatingComponent, RatingPipe                |
@@ -296,18 +321,22 @@ export interface PipeServiceComponent {
 | Example 2  | `'3.5' | into:'rating:true'`                                     |
 
 
-### Select Pipe
+### Select Directive
 | Name       | select                                                           |
 |------------|------------------------------------------------------------------|
 | Exports    | SelectIntoPipeModule, SelectComponent                            |
 | Depends On | CommonPipesModule                                                |
 | Description| For a given source, will provide a select options tag through special service that knows how to provide options based on supplied data. You will be responsible to catch the change event and update data in your data source. |
-| Options    | 1) if it is multi-select. Requires implementation of PipeServiceComponent registered with  ComponentPool |
+| Options    | 1) if it is multi-select. Requires implementation of PipeServiceComponentInterface registered with  ComponentPool |
+|            | 2) lock the dropdown in editmode                                 |
 | Example 1  | [rawContent]="'xyz@gmail.com'" intoName="select1"                |
-| Example 1  | intoId="select1-id" [into]="'select'"                            |
-| Example 1  | [onComponentChange]="onComponentChange.bind(this)"               |
+|            | [active]="true"                                                  |
+|            | [validate]="validate"                                            |
+|            | [disabled]="false"                                               |
+|            | intoId="select1-id" [into]="'select'"                            |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
 
-### Slider Pipe
+### Slider Directive
 | Name       | slider                                                           |
 |------------|------------------------------------------------------------------|
 | Exports    | SliderIntoPipeModule, SliderComponent                            |
@@ -320,10 +349,13 @@ export interface PipeServiceComponent {
 |            | 5) max value                                                     |
 | Example 1  | [rawContent]="33" [into]="'slider:150:false:true:0:100'"         |
 |            | intoName="my-slider-directive" intoId="my-slider-id"             |
+|            | [active]="true"                                                  |
+|            | [validate]="validate"                                            |
+|            | [disabled]="false"                                               |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
-### Social Share Pipe
+### Social Share Directive
 | Name       | share                                                            |
 |------------|------------------------------------------------------------------|
 | Exports    | ShareIntoPipeModule, ShareComponent                              |
@@ -333,10 +365,12 @@ export interface PipeServiceComponent {
 | Example 1  | [rawContent]="'http://thiswebsite.com/thispage/thisarticle'"     |
 |            | [into]="'share:facebook:linkedin:google:twitter'"                |
 |            | intoName="my-share" intoId="my-shareid"                          |
+|            | [active]="true"                                                  |
+|            | [disabled]="false"                                               |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
-### Span Pipe
+### Span Directive
 | Name       | span                                                             |
 |------------|------------------------------------------------------------------|
 | Exports    | SpanIntoPipeModule, SpanComponent                                |
@@ -346,7 +380,7 @@ export interface PipeServiceComponent {
 | Examples   | [rawContent]="my text to be wrapped" [into]="'span'"             |
 
 
-### Switch Pipe
+### Switch Directive
 | Name       | switch                                                           |
 |------------|------------------------------------------------------------------|
 | Exports    | SwitchIntoPipeModule, SwitchComponent                            |
@@ -357,10 +391,13 @@ export interface PipeServiceComponent {
 |            | 3) text to show off state.                                       |
 | Example 1  | [rawContent]="'yes'" [into]="'switch:yes:on:off'"                |
 |            | intoName="my-switch" intoId="my-switchid"                        |
+|            | [active]="true"                                                  |
+|            | [validate]="validate"                                            |
+|            | [disabled]="false"                                               |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 
 
-### Table Pipe
+### Table Directive
 | Name       | table                                                            |
 |------------|------------------------------------------------------------------|
 | Exports    | TableIntoPipeModule, TableComponent, TablePipe                   |
@@ -372,7 +409,7 @@ export interface PipeServiceComponent {
 | Example 2  | `myJsonData | into:'table:myId:my caption'`                      |
 
 
-### Textarea Pipe
+### Textarea Directive
 | Name       | text                                                             |
 |------------|------------------------------------------------------------------|
 | Exports    | TextIntoPipeModule, TextComponent                                |
@@ -381,11 +418,30 @@ export interface PipeServiceComponent {
 | Options    | 1) optional rows                                                 |
 |            | 2) optional max limits                                           |
 |            | 3) optional show counter                                         |
+|            | 4) lock fieldc in editable mode                                  |
 | Example 1  | [rawContent]="'this is a test for a large text input.'"          |
 |            | [into]="'text:4:123:true'" intoName="myText" intoId="textId"     |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 
-### Video Pipe
+
+### Toggler Directive
+| Name       | text                                                             |
+|------------|------------------------------------------------------------------|
+| Exports    | TogglerPipeModule, TogglerComponent                              |
+| Depends On | CommonPipesModule                                                |
+| Description| display icon and toggle it on click.                             |
+| Options    | 1) optional name of the toggler                                  |
+|            | 2) optional icon to display on normal state                      |
+|            | 3) optional icon to display on toggled state                     |
+| Example 1  | [intoData]="{}"                                                  |
+|            | [into]="'toggler:toggler:fa fa-thumbs-down:fa fa-thumbs-up"      |
+|            | [active]="true"                                                  |
+|            | [validate]="validate"                                            |
+|            | [disabled]="false"                                               |
+|            | [onComponentChange]="onComponentChange.bind(this)"               |
+
+
+### Video Directive
 | Name       | video                                                            |
 |------------|------------------------------------------------------------------|
 | Exports    | VideoIntoPipeModule, VideoComponent, VideoPipe                   |
@@ -398,6 +454,8 @@ export interface PipeServiceComponent {
 |            | 5) optional hoverPlay to ply video on hover. Default is false.
 | Example 1  | [into]="'video:200px:auto:alt text:false:true'" intoName="video 1"|
 |            | [rawContent]="myVideoURL" intoId="video1-id"                     |
+|            | [active]="true"                                                  |
+|            | [disabled]="false"                                               |
 |            | [onComponentChange]="onComponentChange.bind(this)"               |
 | Example 2  | `myVideoUrl | into:'video:200px:auto:alt text'`                  |
 
@@ -641,7 +699,7 @@ export class MyApplicationModule {
 
 ```javascript
 import { Component, Output, EventEmitter } from '@angular/core';
-import { PipeComponent } from 'into-pipes';
+import { PipeComponentInterface } from 'into-pipes';
 
 @Component({
     selector: 'my-custom-component',
@@ -651,10 +709,13 @@ import { PipeComponent } from 'into-pipes';
         `
     ]
 })
-export class MyCustomInputComponent implements PipeComponent {
+export class MyCustomInputComponent implements PipeComponentInterface {
     source: string;
     name: string;
     id: string;
+    disabled = false;
+    active = true;
+    validate = (item: any, newValue: any) => true;
 
     @Output("onIntoComponentChange")
     onIntoComponentChange = new EventEmitter();
@@ -749,6 +810,10 @@ constructor(private pool: ComponentPool) {
 
 | Version |                                                                                                          |
 |---------|----------------------------------------------------------------------------------------------------------|
+| 4.4.0   | Enhancements to allow for directived to disabled or validated.                                           |
+| 4.3.1   | Updating toggler.                                                                                        |
+| 4.3.0   | Added toggler.                                                                                           |
+| 4.2.0   | fixed hit return on text and input components. made input default to 100% parent in locked mode.         |
 | 4.1.0   | fixed issue with transformation if into value is undefined or not registered.                            |
 | 4.0.0   | Updated to Angular 15.                                                                                   |
 | 3.0.0   | Updated to Angular 8.                                                                                    |
@@ -800,10 +865,10 @@ constructor(private pool: ComponentPool) {
 | 1.4.1   | Calling console.error() if applying a custom rule when the custom component for it is not registered.    |
 | 1.4.0   | Added an interactive share social sites component.                                                       |
 | 1.3.9   | Fixed the firing event on interactive input component. Event will fire after the input value is changed and a tab, return, or escape key is pressed. After the event is fired, input field will revert back to a plain text. |
-| 1.3.8   | Modified all pipe components to accept one more argument allowing you to have additional data when you are formatting data. Consider a case when you are formatting data in a table row. You may need to format based on some attributes from other columns and would need to have ability to access the data for the entire row.  By passing data to a **intoData** attribute, your custom component will have access to the data and you can gain great flexibility formatting a particular table cell. **NOTE:** Standard pipes will not have access to "intoData" object. If you have not created custom pipe components on previous versions, you will have no issue upgrading to this version. However, if you have created custom components, you will have to take note of new parameter passed to your component (please pay attention to the 'PipeComponent' interface presented in this page). |
+| 1.3.8   | Modified all pipe components to accept one more argument allowing you to have additional data when you are formatting data. Consider a case when you are formatting data in a table row. You may need to format based on some attributes from other columns and would need to have ability to access the data for the entire row.  By passing data to a **intoData** attribute, your custom component will have access to the data and you can gain great flexibility formatting a particular table cell. **NOTE:** Standard pipes will not have access to "intoData" object. If you have not created custom pipe components on previous versions, you will have no issue upgrading to this version. However, if you have created custom components, you will have to take note of new parameter passed to your component (please pay attention to the 'PipeComponentInterface' interface presented in this page). |
 | 1.3.7   | Compiled with AOT option and resolved issues.                                                            |
 | 1.3.3   | Added Video pipe... Now you can pipe a URL **into** video tag.                                           |
-| 1.2.0   | Fixed a few logic issues and added event emit to the directive. Added into select option. You are now able to pipe a value **into** a select tag. But you will need to register a service that knows how to provide select options for a given attribute. And this service has to implement PipeServiceComponent.  |
+| 1.2.0   | Fixed a few logic issues and added event emit to the directive. Added into select option. You are now able to pipe a value **into** a select tag. But you will need to register a service that knows how to provide select options for a given attribute. And this service has to implement PipeServiceComponentInterface.  |
 | 1.1.0   | Added ability for you to declare a custom pipe. You will need to create your own custom component for it and register the component as was explained on release 1.0.0. Also, updated custom component declaration process. You will need to make sure your component has id and name attributes as well as source attribute. also, if your component interacts with user actions and as a result its value is changed, you will need to emit event as I have updated the code sample for version 1.0.0. |
 | 1.0.0   | Added a directive to enable morphing values into form fields!! Provisions is in place if you wish to format the values into a custom field. For those to happen, you will need to create your component and register it. You can still continue formatting with existing pipes using InTo directive. However, Email, Address, Font, Image, JSON, Link, and Rating formatters will insert actual components in the end resulting html. This means in the next release, I can add interactions with these components and add editable date component to format and edit the values when user interacts with the fields. To allow you to come up with nifty formatters that can interact with users, in future release, I will add possibility of customizing formatting tags as well. |
 | 0.3.0   | Internally changed code to apply transformation to all items in the array if source is an array.         |

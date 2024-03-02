@@ -1,10 +1,16 @@
 import { Component, EventEmitter } from '@angular/core';
-import { PipeComponent } from '../common/pipe.component';
+import { PipeComponentInterface } from '../common/pipe.component.interface';
 
 @Component({
     selector: 'phone',
     template: `
-    <a  *ngIf="isLink" [href]="'tel:' + normalizeSource()" (keyup)='keyup($event)' (click)="change($event)">
+    <a  
+        *ngIf="isLink" 
+        tabindex="{{active ? 0 : -1}}"
+        class="{{disabled ? 'disabled' : ''}}"
+        [href]="disabled ? null : 'tel:' + normalizeSource()" 
+        (keyup)='keyup($event)' 
+        (click)="change($event)">
         <span class='fa fa-phone' aria-hidden='true'></span>
         <span [textContent]="formattedSource()"></span>
     </a>
@@ -17,6 +23,8 @@ import { PipeComponent } from '../common/pipe.component';
         `
         :host {display:table;float:left;min-height: 23px}
         :host a:hover .fa-phone{color: #fabdab;}
+        :host a.disabled:hover .fa-phone{color: #f00;}
+        :host a.disabled{color: #000;cursor:default;pointer-events: none;text-decoration: none;}
         :host .fa{margin: 0 5px;}
         @media print {
             :host a { text-decoration: none }
@@ -26,12 +34,15 @@ import { PipeComponent } from '../common/pipe.component';
         `
     ]
 })
-export class PhoneComponent implements PipeComponent {
+export class PhoneComponent implements PipeComponentInterface {
     source!: string;
 	id!: string;
     name!: string;
     isLink!: boolean;
-    formatting!: boolean;
+    formatting!: boolean;  disabled = false;
+    active = true;
+    validate = (item: any, newValue: any) => true;
+
 	onIntoComponentChange = new EventEmitter();
 
     transform(source: any, data: any, args: any[]) {
@@ -75,17 +86,19 @@ export class PhoneComponent implements PipeComponent {
         event.stopPropagation();
         event.preventDefault();
     
-        if (code === 13) {
+        if (code === 13 && !this.disabled) {
             event.target.click();
         }
     }
     change(event: any) {
-        this.onIntoComponentChange.emit({
-            id: this.id,
-            name: this.name,
-            value: this.source,
-            type: 'click',
-            item: event.type
-        });
+        if (!this.disabled) {
+            this.onIntoComponentChange.emit({
+                id: this.id,
+                name: this.name,
+                value: this.source,
+                type: 'click',
+                item: event.type
+            });
+        }
     }
 }

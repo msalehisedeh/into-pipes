@@ -8,6 +8,44 @@
     <a href="https://www.npmjs.com/package/@sedeh/into-pipes">npm install @sedeh/into-pipes</a>
     <p>Tested On Safari, Chrome, Mozilla, and IE11 browsers.</p>
 </div>
+<h2>Into directives</h2>
+
+<fieldset class="pick-points">
+	<legend>Directive Options:</legend>
+  <label for="disabled">
+    <input 
+      type="checkbox" 
+      name="disabled" 
+      id="disabled" 
+      [value]="disabled ? true:false" 
+      [checked]="disabled ? true: null" 
+      (keyup)="keyup($event)"
+      (click)="isChecked($event, 'disabled')" /> 
+    <span>Disable change</span>
+  </label> 
+  <label for="activate">
+    <input 
+      type="checkbox" 
+      name="activate" 
+      id="activate" 
+      [value]="activate ? true:false" 
+      [checked]="activate ? true: null" 
+      (keyup)="keyup($event)"
+      (click)="isChecked($event, 'activate')" /> 
+    <span>Activate (hover and tab)</span>
+  </label> 
+  <label for="shouldValidaste">
+    <input 
+      type="checkbox" 
+      name="shouldValidaste" 
+      id="shouldValidaste" 
+      [value]="shouldValidaste ? true:false" 
+      [checked]="shouldValidaste ? true: null" 
+      (keyup)="keyup($event)"
+      (click)="isChecked($event, 'shouldValidaste')" /> 
+    <span>Validate change</span>
+  </label> 
+</fieldset>
 
 <table>
   <tr>
@@ -17,9 +55,11 @@
     <td>Format nothing <b>into</b> nothing.</td>
     <td>[rawContent]="'sdf dfsdfsf sfs sd ssf sfsf sfsf sf'"<br/>
       [into]="undefined"<br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
       intoId="myLikes" intoName="like"</td>
     <td><span  intoId="my1Likes" intoName="like"
       [rawContent]="'sdf dfsdfsf sfs sd ssf sfsf sfsf sf'" 
+      [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled"
       [intoData]="undefined"
       [into]="undefined"></span></td>
   </tr>
@@ -27,9 +67,11 @@
     <td>Format nothing <b>into</b> nothing.</td>
     <td>[rawContent]="'fffff ghghgg g jjjju uuy ssdd'"<br/>
       [into]="'someUndefined'"<br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
       intoId="myLikes" intoName="like"</td>
     <td><span  intoId="my2Likes" intoName="unknown"
       [rawContent]="'fffff ghghgg g jjjju uuy ssdd'" 
+      [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled"
       [intoData]="undefined"
       [into]="'someUndefined'"></span></td>
   </tr>
@@ -37,10 +79,12 @@
     <td>Format a URL of specific content <b>into</b> a Media Share link of specified websites.</td>
     <td>[rawContent]="'http://thiswebsite.com/thispage/thisarticle'" <br/>
       [into]="'share:facebook:linkedin:google:twitter'"<br/>intoId="myshare" intoName="share"<br/>
+      [active]="{{activate}}" [disabled]="{{disabled}}"<br/>
       [onComponentChange]="onComponentChange.bind(this)"
     </td>
     <td><span [rawContent]="'http://thiswebsite.com/thispage/thisarticle'" 
       [into]="'share:facebook:linkedin:google:twitter'" 
+      [active]="activate" [disabled]="disabled"
       intoId="myshare" intoName="share"
       [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
@@ -49,10 +93,12 @@
     <td>[rawContent]="dataSet"<br/>
       [into]="'like:true:true:id'"<br/>
       intoId="myLikes" intoName="like" <br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
       [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span  intoId="myLikes" intoName="like"
       [rawContent]="dataSet.likes" 
       [intoData]="dataSet"
+      [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled"
       [into]="'like:true:true:id'" 
       [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
@@ -61,22 +107,26 @@
     <td>[rawContent]="dataSet"<br/>
       [into]="'like:true:false:id'"<br/>
       intoId="mydisLikes" intoName="like" <br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
       [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span intoId="mydisLikes" intoName="like"
       [rawContent]="dataSet.dislikes" 
       [intoData]="dataSet"
       [into]="'like:true:false:id'" 
+      [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled"
       [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>
-    <td>Display number <b>into</b> number of unread mesages.</td>
+    <td>Display number <b>into</b> a notice icon for number of unread mesages.</td>
     <td>[rawContent]="5"<br/>
       [into]="'notice:You have unread messages'"<br/>
       intoId="myAlerts" intoName="alerts" <br/>
+      [active]="{{activate}}" [disabled]="{{disabled}}"<br/>
       [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span intoId="myAlerts" intoName="alerts"
       [rawContent]="5" 
       [into]="'notice:You have unread messages'" 
+      [active]="activate" [disabled]="disabled"
       [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>
@@ -85,6 +135,7 @@
       [rawContent]="myPickDate" <br/>
       [into]="'calendar:MM/dd/yyyy'"<br/>
       intoId="mycalendar"  intoName="calendar"  <br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
       [onComponentChange]="onComponentChange.bind(this)"
     </td>
     <td>
@@ -93,23 +144,33 @@
         intoName="calendar" 
         [rawContent]="myPickDate" 
         [into]="'calendar:MM/dd/yyyy'"
+        [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled"
         [onComponentChange]="onComponentChange.bind(this)"></span>
     </td>
   </tr>
   <tr>
+    <td>Format date <b>into</b> last update natural language text with option of showing icon. AND on its side a toggler</td>
+    <td>
+      [rawContent]="myComboUpdatedDate"<br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
+      [into]="['lastupdate:true', 'toggler:toggler:fa fa-thumbs-down:fa fa-thumbs-up']" intoData="myComboUpdatedDate" [onComponentChange]="onComponentChange.bind(this)"
+    </td>
+    <td><span 
+      [active]="activate" 
+      [validate]="performValidation.bind(this)" 
+      [disabled]="disabled" 
+      [rawContent]="myComboUpdatedDate" 
+      [into]="['lastupdate:true', 'toggler:toggler:fa fa-thumbs-down:fa fa-thumbs-up']" 
+      intoData="myComboUpdatedDate" 
+      [onComponentChange]="onComboChange.bind(this)"></span></td>
+  </tr>
+  <tr>
     <td>Format date <b>into</b> last update natural language text with option of showing icon.</td>
-    <td>[rawContent]="myLastUpdatedDate"<br/>[into]="'lastupdate:true'"</td>
-    <td><span [rawContent]="myLastUpdatedDate" [into]="'lastupdate:true'"></span></td>
-  </tr>
-  <tr>
-    <td>Execute if else: for example show checkmark if <b>name = masoud</b> or show a bell icon if not.</td>
-    <td>[innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"</td>
-    <td><span [innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"></span></td>
-  </tr>
-  <tr>
-    <td>Execute if else: for example show checkmark if <b>3.5 > 3</b> or show a bell icon if not. </td>
-    <td>[rawContent]="threeFive" [into]="myConditionalThreeFive"</td>
-    <td><span [rawContent]="threeFive" [into]="myConditionalThreeFive"></span></td>
+    <td>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
+      [rawContent]="myLastUpdatedDate"<br/>[into]="'lastupdate:true'"
+    </td>
+    <td><span [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled" [rawContent]="myLastUpdatedDate" [into]="'lastupdate:true'"></span></td>
   </tr>
   <tr>
     <td>Format 3.5 <b>into</b> stars rating representation</td>
@@ -117,64 +178,277 @@
       [into]="'rating'" intoName="myRating" intoId="myRating"<br/>
       [onComponentChange]="onComponentChange.bind(this)"</td>
     <td><span [rawContent]="'3.5'" [into]="'rating'"intoName="myRating" intoId="myRating"
+      [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format email address <b>into</b> a managable email link</td>
+    <td>[rawContent]="'xyz@gmail.com'" [into]="'email:true'" [active]="{{activate}}" [disabled]="{{disabled}}" [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [active]="activate" [disabled]="disabled" [rawContent]="'xyz@gmail.com'" [into]="'email'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format a number <b>into</b> a managable formatted phone link</td>
+    <td>
+      [active]="{{activate}}" [disabled]="{{disabled}}"<br/>
+      [rawContent]="'+1 976 888 7645 3454'" [into]="'phone:true:true'" [onComponentChange]="onComponentChange.bind(this)"
+    </td>
+    <td><span [active]="activate" [disabled]="disabled" [rawContent]="'+1 976 888 7645 3454'" [into]="'phone:true:true'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format content <b>into</b> a list of radio options</td>
+    <td>[rawContent]="'red'" <br/>
+      [into]="'inputgroup'" intoName="group1" intoId="group1" <br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span 
+      [rawContent]="['red']" intoName="group1" intoId="group1" 
+      [into]="'inputgroup'" 
+      [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled"
+      [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format list of email addresses <b>into</b> a selectable list</td>
+    <td>[rawContent]="'xyz@gmail.com'" <br/>
+      [into]="'select'" intoName="select1" intoId="select1" <br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span 
+      [rawContent]="['xyz@gmail.com']" intoName="select1" intoId="select1" 
+      [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled"
+      [into]="'select:true'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format content <b>into</b> a managable address with a marker icon</td>
+    <td>
+      [active]="{{activate}}" [disabled]="{{disabled}}"<br/>
+      [rawContent]="myaddress" [into]="'address:true:true'" [onComponentChange]="onComponentChange.bind(this)"
+    </td>
+    <td><span 
+      [active]="activate" 
+      [disabled]="disabled" 
+      [rawContent]="myaddress" 
+      [into]="'address'" 
+      [onComponentChange]="onComponentChange.bind(this)"></span>
+    </td>
+  </tr>
+  <tr>
+    <td>Format a numbwer <b>into</b> a maasked value and add a checkmark icon on its side</td>
+    <td> [rawContent]="'3423423422'"<br/>
+      [into]="'input:enter number:mask | font:fa fa-check:replace:*'"<br/>
+      [intoId]="threeFive"<br/>
+      [intoName]="threeFive"<br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span style="display: flex"
+      [rawContent]="'3423423422'" 
+      [into]="'input:enter number:mask | font:fa fa-check:replace:*'" 
+      [intoId]="threeFive" [onComponentChange]="onComponentChange.bind(this)"
+      [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled"
+      [intoName]="threeFive"></span></td>
+  </tr>
+  <tr>
+    <td>Format value  <b>into</b> horizontal slider</td>
+    <td> [rawContent]="44"<br/>
+      [into]="'slider:200:true:false:-100:100'"<br/>
+      intoId="sliderId"<br/>
+      intoName="mySlider"<br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span 
+      [rawContent]="33" 
+      [into]="'slider:200:false:true:-100:100'" 
+      [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled"
+      intoId="sliderId" [onComponentChange]="onComponentChange.bind(this)"
+      intoName="mySlider"></span></td>
+  </tr>
+  <tr>
+    <td>Format value  <b>into</b> a Vertical slider</td>
+    <td> [rawContent]="22"<br/>
+      style="height: 111px"<br/>
+      [into]="'slider:200:true:true:-100:100'"<br/>
+      intoId="sliderId2"<br/>
+      intoName="mySlider2"<br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span style="height: 111px"
+      [rawContent]="33" 
+      [into]="'slider:200:true:true:-100:100'" 
+      [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled"
+      intoId="sliderId2" [onComponentChange]="onComponentChange.bind(this)"
+      intoName="mySlider"></span></td>
+  </tr>
+  <tr>
+    <td>Format a text <b>into</b> a managable text area with charachter counter once user clicks on the contents</td>
+    <td> [rawContent]="'this is a test for a large text input.'"<br/>
+      [into]="'text:4:100:true'"<br/>
+      intoId="textId"<br/>
+      intoName="myText"<br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span 
+      [rawContent]="'this is a test for a large text input.'" 
+      [into]="'text:4:100:true'" 
+      [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled"
+      intoId="textId" [onComponentChange]="onComponentChange.bind(this)"
+      intoName="myText"></span></td>
+  </tr>
+  <tr>
+    <td>Execute if else: for example show checkmark if <b>3.5 > 3</b> or show a bell icon if not. </td>
+    <td>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
+      [rawContent]="threeFive" [into]="if:>:3:\\"font:fa fa-check:replace\\":\\"font:fa fa-bell:replace\\""
+    </td>
+    <td><span [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled" [rawContent]="threeFive" [into]="myConditionalThreeFive"></span></td>
+  </tr>
+  <tr>
+    <td>Format value <b>into</b> an interactive checkbox</td>
+    <td> [rawContent]="'yes'"<br/>
+      [into]="'checkbox:yes:true'"<br/>
+      intoId="mycheckbox" intoName="mycheckbox"<br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"
+    </td>
+    <td><span 
+      [rawContent]="'yes'" 
+      [into]="'checkbox:yes:true'" 
+      intoId="mycheckbox" intoName="mycheckbox"
+      [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled"
+      [onComponentChange]="onComponentChange.bind(this)"></span>
+    </td>
+  </tr>
+  <tr>
+    <td>Format value <b>into</b> an interactive on/off switch</td>
+    <td> [rawContent]="'yes'"<br/>
+      [into]="'switch:yes:on:off'"<br/>
+      intoId="myswitch" intoName="myswitch"<br/>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"
+    </td>
+    <td><span 
+      [rawContent]="'yes'" 
+      [into]="'switch:yes:on:off'" 
+      intoId="myswitch" intoName="myswitch"
+      [active]="activate" [validate]="performValidation.bind(this)" [disabled]="disabled"
+      [onComponentChange]="onComponentChange.bind(this)"></span></td>
+    </tr>
+  <tr>
+    <td>Format the URL <b>into</b> a link with a managable hover pop</td>
+    <td>[rawContent]="theURL"<br/>
+       [into]="'link:true:my image:true'"<br/>
+       intoName="myImageLink" intoId="myImageLink"<br/>
+       [active]="activate" [validate]="shouldValidaste" [disabled]="disabled"<br/>
+       [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span 
+      [rawContent]="theURL" 
+      [into]="'link:true:my image:true'" 
+      [active]="activate" [validate]="shouldValidaste" [disabled]="disabled"
+      [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format the URL <b>into</b> a plain image tag</td>
+    <td>[rawContent]="theURL"<br/>
+      [into]="'image:200px:auto:alt text'"<br/>
+      intoName="myImage" intoId="myImage"<br/>
+      [active]="false" [disabled]="true"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="theURL"
+        [into]="'image:200px:auto:alt text'" intoName="myImage" intoId="myImage"
+        [active]="false" [disabled]="true"
         [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>
-    <td>Format email address <b>into</b> an email link</td>
-    <td>[rawContent]="'xyz@gmail.com'" [into]="'email:true'" [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span [rawContent]="'xyz@gmail.com'" [into]="'email'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
+    <td>Format the URL <b>into</b> an image tag with hover pop on top</td>
+    <td>[rawContent]="theURL"<br/>
+      [into]="'image:200px:auto:alt text:3:top'"<br/>
+      intoName="myImagePop" intoId="myImagePop"<br/>
+      [active]="{{activate}}" [disabled]="{{disabled}}"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="theURL"
+        [into]="'image:200px:auto:alt text:3:left'" intoName="myImagePop" intoId="myImagePop"
+        [active]="activate" [disabled]="disabled"
+        [onComponentChange]="onComponentChange.bind(this)"></span></td>
   </tr>
   <tr>
-    <td>Format content <b>into</b> uppercase content</td>
+    <td>Format the URL <b>into</b> a managable image tag with a zoom on hover capability</td>
+    <td>[rawContent]="theURL"<br/>
+      [into]="'image:200px:auto:alt text:6'"<br/>
+      intoName="myImageZoom" intoId="myImageZoom"<br/>
+      [active]="{{activate}}" [disabled]="{{disabled}}"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="theURL"
+        [into]="'image:200px:auto:alt text:6'" intoName="myImageZoom" intoId="myImageZoom"
+        [active]="activate" [disabled]="disabled"
+        [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format a URL <b>into</b> a managable video tag</td>
+    <td>[rawContent]="videoURL" <br/>[into]="'video:200px:auto:alt text'"<br/> 
+      intoName="video 1" intoId="video1"<br/>
+      [active]="{{activate}}" [disabled]="{{disabled}}"<br/>
+      [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="videoURL" 
+       [into]="'video:200px:auto:alt text'"
+       intoName="video 1" intoId="video1" 
+       [active]="activate" 
+       [disabled]="disabled"
+       [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Format a URL <b>into</b> a managable audio tag</td>
+    <td>[rawContent]="audioURL" <br/>[into]="'audio'"<br/> 
+        intoName="audio 1" intoId="audio1" <br/>
+        [active]="{{activate}}" [disabled]="{{disabled}}"<br/>
+        [onComponentChange]="onComponentChange.bind(this)"</td>
+    <td><span [rawContent]="audioURL" [into]="'audio'"
+      intoName="audio 1" intoId="audio1" [active]="activate" [disabled]="disabled"
+      [onComponentChange]="onComponentChange.bind(this)"></span></td>
+  </tr>
+  <tr>
+    <td>Bautify json</td>
+    <td>[rawContent]="myJson"  [into]="'json'"</td>
+    <td><span [rawContent]="myJson"  [into]="'json'"></span></td>
+  </tr>
+  <tr>
+    <td>Format json into a table</td>
+    <td>
+      [active]="{{activate}}" [validate]="{{shouldValidaste}}" [disabled]="{{disabled}}"<br/>
+      [rawContent]="myJson"  [into]="'table:myJsonId:My JSON Items'"
+    </td>
+    <td><span [rawContent]="myJson"  [into]="'table:myJsonId:My JSON Items'"></span></td>
+  </tr>
+</table>
+
+<h2>Into pipes</h2>
+<table>
+  <tr>
+    <th width="300px">Action</th><th>Code</th><th>result</th>
+  </tr>
+  <tr>
+    <td>Pipe content through a conditional logic to be shown or an alternate content to be displayed otherwise.</td>
+    <td>[innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"</td>
+    <td><span [innerHTML]="'masoud' | into: myConditionalLogic | sanitizeHtml"></span></td>
+  </tr>
+  <tr>
+    <td>Pipe content <b>into</b> email content</td>
     <td>[innerHTML]="'xyz@gmail.com' | into:'email:false' | sanitizeHtml"</td>
     <td><span [innerHTML]="'xyz@gmail.com' | into:'email:false' | sanitizeHtml"></span></td>
   </tr>
   <tr>
-    <td>Format phone number <b>into</b> a formatted phone link</td>
-    <td>[rawContent]="'+1 976 888 7645 3454'" [into]="'phone:true:true'" [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span [rawContent]="'+1 976 888 7645 3454'" [into]="'phone:true:true'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
-  </tr>
-  <tr>
-    <td>Format phone number <b>into</b> a formatted phone number</td>
+    <td>Pipe phone number <b>into</b> a formatted phone number</td>
     <td>[innerHTML]="'+1 976 888 7645 3454' | into:'phone:false:true' | sanitizeHtml"</td>
     <td><span [innerHTML]="'+1 976 888 7645 3454' | into:'phone:false:true' | sanitizeHtml"></span></td>
   </tr>
   <tr>
-    <td>Format a source <b>into</b> a list of radio options</td>
-    <td>[rawContent]="'red'" <br/>
-      [into]="'inputgroup'" intoName="group1" intoId="group1" <br/>
-      [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span 
-      [rawContent]="'red'" intoName="group1" intoId="group1" 
-      [into]="'inputgroup'" 
-      [onComponentChange]="onComponentChange.bind(this)"></span></td>
-  </tr>
-  <tr>
-    <td>Format list of email addresses <b>into</b> a select list</td>
-    <td>[rawContent]="'xyz@gmail.com'" <br/>
-      [into]="'select'" intoName="select1" intoId="select1" <br/>
-      [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span 
-      [rawContent]="'xyz@gmail.com'" intoName="select1" intoId="select1" 
-      [into]="'select'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
-  </tr>
-  <tr>
-    <td>Display address with a marker icon</td>
-    <td>[rawContent]="myaddress" [into]="'address:true:true'" [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span [rawContent]="myaddress" [into]="'address'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
-  </tr>
-  <tr>
-    <td>Format content <b>into</b> uppercase content</td>
+    <td>Pipe content <b>into</b> a formatted address</td>
     <td>[innerHTML]="myaddress | into:'address:false' | sanitizeHtml"</td>
     <td><span [innerHTML]="myaddress | into:'address:false' | sanitizeHtml"></span></td>
   </tr>
   <tr>
-    <td>Format date</td>
+    <td>Pipe content into a specific date date format</td>
     <td>[innerHTML]="myDate | into:myDateFormat | sanitizeHtml"</td>
     <td><span [innerHTML]="myDate | into:myDateFormat | sanitizeHtml"></span></td>
   </tr>
   <tr>
-    <td>Format list of dates</td>
+    <td>Pipe a list of content joined into one content</td>
     <td>[innerHTML]="myDateList | into:myDateFormat | into:'join:*' | sanitizeHtml"</td>
     <td><span [innerHTML]="myDateList | into:myDateFormat | into:'join:*' | sanitizeHtml"></span></td>
   </tr>
@@ -194,190 +468,47 @@
     <td><span [innerHTML]="'xyz' | into:'wrap:*' | sanitizeHtml"></span></td>
   </tr>
   <tr>
-    <td>Format number <b>into</b> currency</td>
+    <td>Pipe number <b>into</b> currency</td>
     <td>[innerHTML]="'25' | into:'currency' | sanitizeHtml"</td>
     <td><span [innerHTML]="'25' | into:'currency' | sanitizeHtml"></span></td>
   </tr>
   <tr>
-    <td>Format number <b>into</b> decimals</td>
+    <td>Pipe number <b>into</b> decimals</td>
     <td>[innerHTML]="'25.34537664' | into:'number' | sanitizeHtml"</td>
     <td><span [innerHTML]="'25.34537664' | into:'number' | sanitizeHtml"></span></td>
   </tr>
   <tr>
-    <td>Mask number and add a checkmark icon</td>
-    <td> [rawContent]="'3423423422'"<br/>
-      [into]="'input:enter number:mask | font:fa fa-check:replace:*'"<br/>
-      [intoId]="threeFive"<br/>
-      [intoName]="threeFive"<br/>
-      [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span 
-      [rawContent]="'3423423422'" 
-      [into]="'input:enter number:mask | font:fa fa-check:replace:*'" 
-      [intoId]="threeFive" [onComponentChange]="onComponentChange.bind(this)"
-      [intoName]="threeFive"></span></td>
-  </tr>
-  <tr>
-    <td>Horizontal slider</td>
-    <td> [rawContent]="44"<br/>
-      [into]="'slider:200:true:false:-100:100'"<br/>
-      intoId="sliderId"<br/>
-      intoName="mySlider"<br/>
-      [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span 
-      [rawContent]="33" 
-      [into]="'slider:200:false:true:-100:100'" 
-      intoId="sliderId" [onComponentChange]="onComponentChange.bind(this)"
-      intoName="mySlider"></span></td>
-  </tr>
-  <tr>
-    <td>Vertical slider</td>
-    <td> [rawContent]="22"<br/>
-      style="height: 111px"<br/>
-      [into]="'slider:200:true:true:-100:100'"<br/>
-      intoId="sliderId2"<br/>
-      intoName="mySlider2"<br/>
-      [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span style="height: 111px"
-      [rawContent]="33" 
-      [into]="'slider:200:true:true:-100:100'" 
-      intoId="sliderId2" [onComponentChange]="onComponentChange.bind(this)"
-      intoName="mySlider"></span></td>
-  </tr>
-  <tr>
-    <td>text with counter</td>
-    <td> [rawContent]="'this is a test for a large text input.'"<br/>
-      [into]="'text:4:100:true'"<br/>
-      intoId="textId"<br/>
-      intoName="myText"<br/>
-      [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span 
-      [rawContent]="'this is a test for a large text input.'" 
-      [into]="'text:4:100:true'" 
-      intoId="textId" [onComponentChange]="onComponentChange.bind(this)"
-      intoName="myText"></span></td>
-  </tr>
-  <tr>
-    <td>Format value <b>into</b> an interactive checkbox</td>
-    <td> [rawContent]="'yes'"<br/>
-      [into]="'checkbox:yes:true'"<br/>
-      intoId="mycheckbox" intoName="mycheckbox"<br/>
-        [onComponentChange]="onComponentChange.bind(this)"
-    </td>
-    <td><span 
-      [rawContent]="'yes'" 
-      [into]="'checkbox:yes:true'" 
-      intoId="mycheckbox" intoName="mycheckbox"
-      [onComponentChange]="onComponentChange.bind(this)"></span></td></tr>
-  <tr>
-    <td>Format value <b>into</b> an interactive on/off switch</td>
-    <td> [rawContent]="'yes'"<br/>
-      [into]="'switch:yes:on:off'"<br/>
-      intoId="myswitch" intoName="myswitch"<br/>
-        [onComponentChange]="onComponentChange.bind(this)"
-    </td>
-    <td><span 
-      [rawContent]="'yes'" 
-      [into]="'switch:yes:on:off'" 
-      intoId="myswitch" intoName="myswitch"
-      [onComponentChange]="onComponentChange.bind(this)"></span></td></tr>
-  <tr>
-    <td>Format content <b>into</b> uppercase content</td>
+    <td>Pipe content <b>into</b> uppercase content</td>
     <td>[innerHTML]="'try this' | into:'uppercase' | sanitizeHtml"</td>
     <td><span [innerHTML]="'try this' | into:'uppercase' | sanitizeHtml"></span></td>
   </tr>
   <tr>
-    <td>Format content <b>into</b> lowercase content</td>
+    <td>Pipe content <b>into</b> lowercase content</td>
     <td>[innerHTML]="'TRY THIS' | into:'lowercase' | sanitizeHtml"</td>
     <td><span [innerHTML]="'TRY THIS' | into:'lowercase' | sanitizeHtml"></span></td>
   </tr>
   <tr>
-    <td>Format value <b>into</b> a partial value</td>
+    <td>Pipe whole value <b>into</b> a partial value</td>
     <td>[innerHTML]="'try this sdfads' | into:'slice:4:8' | sanitizeHtml"</td>
     <td><span [innerHTML]="'try this sdfads' | into:'slice:4:8' | sanitizeHtml"></span></td>
   </tr>
   <tr>
-    <td>Bautify json</td>
-    <td>[rawContent]="myJson"  [into]="'json'"</td>
-    <td><span [rawContent]="myJson"  [into]="'json'"></span></td>
-  </tr>
-  <tr>
-    <td>Display json</td>
-    <td>[rawContent]="myJson"  [into]="'table:myJsonId:My JSON Items'"</td>
-    <td><span [rawContent]="myJson"  [into]="'table:myJsonId:My JSON Items'"></span></td>
-  </tr>
-  <tr>
-    <td>Display json With Pipe</td>
+    <td>Pipe a json into a table</td>
     <td>[innerHTML]="myJson | into: 'table:myJsonId:My JSON Items' | sanitizeHtml"</td>
     <td><span [innerHTML]="myJson | into: 'table:myJsonId:My JSON Items' | sanitizeHtml"></span></td>
   </tr>
   <tr>
-    <td>Traverse <b>into</b> JSON Object and display value of "dw" attribute</td>
+    <td>Traverse <b>into</b> JSON Object to find specific attribute 'dw' and display its value</td>
     <td>[innerHTML]="myJson | into:'valueof:dw' | sanitizeHtml"</td>
     <td><span [innerHTML]="myJson | into:'valueof:dw' | sanitizeHtml"></span></td>
   </tr>
   <tr>
-    <td>Format the URL <b>into</b> a link with a hover pop</td>
-    <td>[rawContent]="theURL"<br/>
-       [into]="'link:true:my image:true'"<br/>
-       intoName="myImageLink" intoId="myImageLink"<br/>
-        [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span [rawContent]="theURL" [into]="'link:true:my image:true'" [onComponentChange]="onComponentChange.bind(this)"></span></td>
-  </tr>
-  <tr>
-    <td>Format the URL <b>into</b> an image tag</td>
-    <td>[rawContent]="theURL"<br/>
-      [into]="'image:200px:auto:alt text'"<br/>
-      intoName="myImage" intoId="myImage"<br/>
-      [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span [rawContent]="theURL"
-        [into]="'image:200px:auto:alt text'" intoName="myImage" intoId="myImage"
-        [onComponentChange]="onComponentChange.bind(this)"></span></td>
-  </tr>
-  <tr>
-    <td>Format the URL <b>into</b> an image tag with hover pop on top</td>
-    <td>[rawContent]="theURL"<br/>
-      [into]="'image:200px:auto:alt text:3:top'"<br/>
-      intoName="myImagePop" intoId="myImagePop"<br/>
-      [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span [rawContent]="theURL"
-        [into]="'image:200px:auto:alt text:3:left'" intoName="myImagePop" intoId="myImagePop"
-        [onComponentChange]="onComponentChange.bind(this)"></span></td>
-  </tr>
-  <tr>
-    <td>Format the URL <b>into</b> an image tag with a zoom on hover</td>
-    <td>[rawContent]="theURL"<br/>
-      [into]="'image:200px:auto:alt text:6'"<br/>
-      intoName="myImageZoom" intoId="myImageZoom"<br/>
-      [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span [rawContent]="theURL"
-        [into]="'image:200px:auto:alt text:6'" intoName="myImageZoom" intoId="myImageZoom"
-        [onComponentChange]="onComponentChange.bind(this)"></span></td>
-  </tr>
-  <tr>
-    <td>Format the URL <b>into</b> a video tag</td>
-    <td>[rawContent]="videoURL" <br/>[into]="'video:200px:auto:alt text'"<br/> 
-      intoName="video 1" intoId="video1"<br/>
-      [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span [rawContent]="videoURL" 
-       [into]="'video:200px:auto:alt text'"
-       intoName="video 1" intoId="video1" 
-       [onComponentChange]="onComponentChange.bind(this)"></span></td>
-  </tr>
-  <tr>
-    <td>Format the URL <b>into</b> a audio tag</td>
-    <td>[rawContent]="audioURL" <br/>[into]="'audio'"<br/> 
-        intoName="audio 1" intoId="audio1" <br/>
-        [onComponentChange]="onComponentChange.bind(this)"</td>
-    <td><span [rawContent]="audioURL" [into]="'audio'"
-      intoName="audio 1" intoId="audio1" 
-      [onComponentChange]="onComponentChange.bind(this)"></span></td>
-  </tr>
-  <tr>
-    <td>Format the URL <b>into</b> a audio tag</td>
+    <td>Pipe a URL <b>into</b> an audio tag</td>
     <td>[innerHTML]="audioURL | into:'audio' | sanitizeHtml"</td>
     <td><span [innerHTML]="audioURL | into:'audio' | sanitizeHtml"></span></td>
   </tr>
 </table>
+
 
 <ul class="logger">
   <li *ngFor="let x of events" [textContent]="x | json"></li>

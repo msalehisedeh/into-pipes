@@ -1,5 +1,5 @@
 import { Component, EventEmitter, ElementRef, HostListener } from '@angular/core';
-import { PipeComponent } from '../common/pipe.component';
+import { PipeComponentInterface } from '../common/pipe.component.interface';
 
 @Component({
     selector: 'rating-component',
@@ -15,7 +15,7 @@ import { PipeComponent } from '../common/pipe.component';
     `,
     styles: [
         `
-        :host {display:table;float:left;min-height: 23px;cursor:pointer}
+        :host {cursor: defult;display:table;float:left;min-height: 23px;}
         .rating {
             display: inline-block;
         }
@@ -27,13 +27,17 @@ import { PipeComponent } from '../common/pipe.component';
         `
     ]
 })
-export class RatingComponent implements PipeComponent {
+export class RatingComponent implements PipeComponentInterface {
     source!: string;
 	id!: string;
     name!: string;
     singleStar = false;
     value: any[] = [];
     float: any;
+    disabled = false;
+    active = true;
+    validate = (item: any, newValue: any) => true;
+
 	onIntoComponentChange = new EventEmitter();
 
     constructor(private el: ElementRef){

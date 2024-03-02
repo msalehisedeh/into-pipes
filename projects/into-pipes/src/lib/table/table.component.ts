@@ -1,5 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
-import { PipeComponent } from '../common/pipe.component';
+import { PipeComponentInterface } from '../common/pipe.component.interface';
 
 @Component({
     selector: 'table-component',
@@ -19,12 +19,16 @@ import { PipeComponent } from '../common/pipe.component';
         `
     ]
 })
-export class TableComponent implements PipeComponent {
+export class TableComponent implements PipeComponentInterface {
     source!: string;
     id!: string;
     name!: string;
     headers: any[] = [];
     rows: any[] = [];
+    disabled = false;
+    active = true;
+    validate = (item: any, newValue: any) => true;
+
 	onIntoComponentChange = new EventEmitter();
 
     transform(source: any, data: any, args: any[]) {

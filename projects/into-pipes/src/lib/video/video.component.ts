@@ -1,10 +1,11 @@
 import { Component, EventEmitter } from '@angular/core';
-import { PipeComponent } from '../common/pipe.component';
+import { PipeComponentInterface } from '../common/pipe.component.interface';
 
 @Component({
     selector: 'video-component',
     template: `
-    <video tabindex="0"
+    <video 
+        tabindex="{{active ? 0 : -1}}"
         (focus)="updateControls($event)"
         (mouseenter)="updateControls($event)"
         (mouseleave)="resetControls($event)"
@@ -16,15 +17,18 @@ import { PipeComponent } from '../common/pipe.component';
         (error)="change($event)"
         (fullscreenchange)="change($event)"
         [src]="source" 
+        [class.disabled]="disabled"
         [style.width]="width" 
         [style.height]="height"
-        [title]="alt"></video>
+        [title]="alt">
+    </video>
     `,
     styles: [`
     :host {display:table;float:left;min-height: 23px}
+    :host video.disabled{opacity: 0.5; pointer-events: none}
     `]
 })
-export class VideoComponent implements PipeComponent {
+export class VideoComponent implements PipeComponentInterface {
     hasControls = true;
     hoverPlay = false;
     source!: string;
@@ -33,6 +37,10 @@ export class VideoComponent implements PipeComponent {
     width!: string;
     height!: string;
     alt!: string;
+    disabled = false;
+    active = true;
+    validate = (item: any, newValue: any) => true;
+
 	onIntoComponentChange = new EventEmitter();
 
     transform(source: any, data: any, args: any[]) {
@@ -71,7 +79,7 @@ export class VideoComponent implements PipeComponent {
     }
     keyup(event: any) {
         const code = event.which;
-        if (code === 13) {
+        if (code === 13 && !this.disabled) {
             if (this.isPlaying(event.target)) {
                 event.target.pause();
             } else {
@@ -80,22 +88,24 @@ export class VideoComponent implements PipeComponent {
         }
     }
     change(event: any) {
-        this.onIntoComponentChange.emit({
-            id: this.id,
-            name: this.name,
-            value: this.source,
-            type: event.type,
-            item: {
-                autoplay: event.target.autoplay,
-                controls: event.target.controls,
-                duration: event.target.duration,
-                ended: event.target.ended,
-                error: event.target.error,
-                paused: event.target.paused,
-                muted: event.target.muted,
-                currentTime: event.target.currentTime,
-                volume: event.target.volume
-            }
-        });
+        if (!this.disabled) {
+            this.onIntoComponentChange.emit({
+                id: this.id,
+                name: this.name,
+                value: this.source,
+                type: event.type,
+                item: {
+                    autoplay: event.target.autoplay,
+                    controls: event.target.controls,
+                    duration: event.target.duration,
+                    ended: event.target.ended,
+                    error: event.target.error,
+                    paused: event.target.paused,
+                    muted: event.target.muted,
+                    currentTime: event.target.currentTime,
+                    volume: event.target.volume
+                }
+            });
+        }
     }
 }

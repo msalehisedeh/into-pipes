@@ -1,19 +1,19 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { PipeComponent } from '../common/pipe.component';
+import { PipeComponentInterface } from '../common/pipe.component.interface';
 
 @Component({
     selector: 'checkbox-component',
     template: `
-    <span *ngIf="useFont" class="check-font">
+    <span *ngIf="useFont" class="check-font {{disabled ? 'disabled' : ''}}">
       <span *ngIf="source === ideal" 
-          #check tabindex="0" 
+          #check tabindex="{{active ? 0 : -1}}" 
           class="fa" 
           [class.fa-toggle-on]="onOff" 
           [class.fa-check]="!onOff" 
           (keyup)="keyup($event)" 
           (click)="click($event)"></span>
       <span *ngIf="source !== ideal"
-          #uncheck tabindex="0" 
+          #uncheck tabindex="{{active ? 0 : -1}}" 
           class="fa" 
           [class.fa-toggle-off]="onOff" 
           [class.fa-close]="!onOff" 
@@ -22,7 +22,8 @@ import { PipeComponent } from '../common/pipe.component';
     </span>
     <input *ngIf="!useFont" 
             type="checkbox" 
-            tabindex="0" 
+            tabindex="{{active ? 0 : -1}}" 
+            [disabled]="disabled"
             [value]="source" 
             [checked]="source===ideal ? true : null" 
             (keyup)="keyup($event)"
@@ -34,10 +35,12 @@ import { PipeComponent } from '../common/pipe.component';
       :host {display:table;float:left;min-height: 23px}
       .check-font:hover{color: #fabdab;}
       .check-font {cursor: pointer;}
+      .check-font.disabled:hover{color: gray;}
+      .check-font.disabled {clor: gray; pointer-events: none}
       `
     ]
 })
-export class CheckboxComponent implements PipeComponent {
+export class CheckboxComponent implements PipeComponentInterface {
 
   data: any;
   source!: string;
@@ -47,6 +50,9 @@ export class CheckboxComponent implements PipeComponent {
   name!: string;
   onOff!: boolean;
   useFont!: boolean;
+  disabled = false;
+  active = true;
+  validate = (item: any, newValue: any) => true;
 
   @ViewChild("check")
   check: any;
@@ -59,7 +65,7 @@ export class CheckboxComponent implements PipeComponent {
 
   keyup(event: any) {
     const code = event.which;
-    if (code === 13) {
+    if (code === 13 && !this.disabled) {
       event.target.click();
 		}
   }
@@ -69,27 +75,26 @@ export class CheckboxComponent implements PipeComponent {
     event.stopPropagation();
     event.preventDefault();
 
-    if (this.source === this.ideal) {
-      this.source = this.original;
-		} else {
-      this.source = this.ideal;
-    }
-    this.onIntoComponentChange.emit({
-      id: this.id,
-      name: this.name,
-      value: this.source,
-      type: "check",
-      item: this.data
-    });
-    if (this.useFont) {
-      setTimeout(() => {
-        if (this.check) {
-          this.check.nativeElement.focus();
-        }
-        if (this.uncheck) {
-          this.uncheck.nativeElement.focus();
-        }
-      },66);
+    const newState = ((this.source === this.ideal) ? this.original : this.ideal);
+    if (!this.disabled && this.validate(this.data, newState)) {
+      this.source = newState;
+      this.onIntoComponentChange.emit({
+        id: this.id,
+        name: this.name,
+        value: this.source,
+        type: "check",
+        item: this.data
+      });
+      if (this.useFont) {
+        setTimeout(() => {
+          if (this.check) {
+            this.check.nativeElement.focus();
+          }
+          if (this.uncheck) {
+            this.uncheck.nativeElement.focus();
+          }
+        },66);
+      }
     }
   }
 
