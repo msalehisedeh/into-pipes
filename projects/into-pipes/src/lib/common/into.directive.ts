@@ -158,7 +158,7 @@ export class IntoDirective implements OnInit {
         let result: any =  this.rawContent;
         if (into) {
             into.split("|").map( (item) => {
-                result = this._transform(result, this.split(item), this.intoData);
+                result = this._transform(result, item.trim().split(':'), this.intoData);
             });
         }
         if (typeof result === "string") {

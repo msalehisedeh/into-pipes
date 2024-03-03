@@ -150,8 +150,7 @@ export class TextComponent implements PipeComponentInterface {
     this.oldValue = source;
     this.rows = args.length ? args[0] : 4;
     this.limit = args.length > 1 ? args[1] : 0;
-    this.counter = args.length > 2 ? args[2] : false;
-    this.locked = args.length > 3 ? args[3] : false;
+    this.counter = args.length > 2 ? (args[2] === 'true') : false;
+    this.locked = args.length > 3;
   }
 }
-

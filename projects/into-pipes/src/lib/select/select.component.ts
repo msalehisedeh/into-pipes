@@ -134,8 +134,8 @@ export class SelectComponent implements PipeComponentInterface {
     this.source= source;
     this.data = data;
     this.options = this.service.getDataFor(this.name, this.id, data);
-    this.multiselect = args.length ? args[0] === 'true' : false;
-    this.locked = args.length > 1 ? args[1] : false;
+    this.multiselect = args.length ? (args[0] === 'true') : false;
+    this.locked = args.length > 1;
   }
 }
 

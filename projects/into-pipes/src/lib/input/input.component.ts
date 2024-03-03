@@ -153,7 +153,7 @@ export class InputComponent implements PipeComponentInterface {
     this.data = data;
     this.placeholder= args.length ? args[0] : "";
     this.formatting = args.length > 1 ? args[1] : "";
-    this.locked = args.length > 2 ? args[2] : "";
+    this.locked = args.length > 2;
   }
 }
 
