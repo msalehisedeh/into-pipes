@@ -142,8 +142,10 @@ export class TextComponent implements PipeComponentInterface {
         }
       },99);
     }
-}
-
+  }
+  static settingsPatterns() {
+    return ['text:4::true:false', 'text:4::true:true']; //rows, limit, counter, locked by default
+  }
   transform(source: any, data: any, args: any[]) {
     this.data = data;
     this.source = source;

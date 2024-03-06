@@ -255,6 +255,9 @@ export class CalendarComponent implements PipeComponentInterface {
     this.showCalendar = !this.showCalendar;
   }
 
+  static settingsPatterns() {
+    return ['calendar:MM/dd/yyyy']; //date format
+  }
   transform(source: Date, data: any, args?: any[]) {
     this.source= source;
     this.currentDate = new Date(source);

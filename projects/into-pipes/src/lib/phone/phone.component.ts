@@ -45,6 +45,9 @@ export class PhoneComponent implements PipeComponentInterface {
 
 	onIntoComponentChange = new EventEmitter();
 
+    static settingsPatterns() {
+        return ['phone:true:true']; //islink, format
+    }
     transform(source: any, data: any, args: any[]) {
         this.source = source;
         this.isLink= args.length ? (args[0] === 'true') : false;

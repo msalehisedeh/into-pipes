@@ -31,7 +31,10 @@ export class LastUpdateComponent implements PipeComponentInterface {
     count!: string;
 	onIntoComponentChange!: EventEmitter<any>;
 
-    transform(source: any, data: any, args: any[]) {
+    static settingsPatterns() {
+		return ['lastupdate:false', 'lastupdate:true']; //show icon
+	}
+	transform(source: any, data: any, args: any[]) {
         this.source = source;
         this.showIcon = (args?.length > 0 && args[0] === 'true');
     }

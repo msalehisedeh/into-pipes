@@ -55,7 +55,8 @@ export interface PipeComponentInterface {
 	name: string;
 	service?:PipeServiceComponentInterface;
 	onIntoComponentChange: EventEmitter<any>;
-	  
+	
+    // implementations should implement static settingsPatterns() method that returns pattern that trigger instantiation
 	transform(content: any, data: any, args?: any[]);
 }
 
@@ -810,6 +811,7 @@ constructor(private pool: ComponentPool) {
 
 | Version |                                                                                                          |
 |---------|----------------------------------------------------------------------------------------------------------|
+| 4.4.2   | change call from deprecated angular method and added method to identify setting options on transformation comnponents.|
 | 4.4.0   | Enhancements to allow for directived to disabled or validated.                                           |
 | 4.3.1   | Updating toggler.                                                                                        |
 | 4.3.0   | Added toggler.                                                                                           |

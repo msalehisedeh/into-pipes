@@ -28,6 +28,9 @@ export class JsonComponent implements PipeComponentInterface {
 
 	onIntoComponentChange!: EventEmitter<any>;
 
+    static settingsPatterns() {
+        return ['json']; //no arguments
+    }
     transform(source: any, data: any, args: any[]) {
         this.source = source
     }

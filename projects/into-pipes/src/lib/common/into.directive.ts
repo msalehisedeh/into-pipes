@@ -3,8 +3,7 @@ import {
     ViewContainerRef,
     ElementRef,
     Input,
-    OnInit,
-	ComponentFactoryResolver
+    OnInit
 } from '@angular/core';
 
 import { PipeComponentInterface } from './pipe.component.interface';
@@ -58,8 +57,7 @@ export class IntoDirective implements OnInit {
     constructor(
         private viewRef: ViewContainerRef,
         public el:ElementRef,
-        private pool: ComponentPool,
-		private componentFactoryResolver: ComponentFactoryResolver
+        private pool: ComponentPool
     ) {
     }
     
@@ -101,7 +99,11 @@ export class IntoDirective implements OnInit {
         if (content === undefined) {
             return "";
         }
-        if (content instanceof Date || typeof content === "string" || typeof content === "number" || typeof content === "boolean" || Object.keys(content).length) {
+        if (content instanceof Date || 
+            typeof content === "string" || 
+            typeof content === "number" || 
+            typeof content === "boolean" || 
+            Object.keys(content).length) {
             result =  this.registeredComponentFor(type);
             if (result === null || result === undefined) {
                 console.error("Custom component '" + type+ "' is not defined.");
@@ -152,13 +154,13 @@ export class IntoDirective implements OnInit {
     }
 
     private registeredComponentFor(name: string): PipeComponentInterface {
-        return this.pool.registeredComponent(name, this.componentFactoryResolver, this.viewRef, this.el.nativeElement);
+        return this.pool.registeredComponent(name, this.viewRef, this.el.nativeElement);
     }
     private initInstance(into: string) {
         let result: any =  this.rawContent;
         if (into) {
             into.split("|").map( (item) => {
-                result = this._transform(result, item.trim().split(':'), this.intoData);
+                result = this._transform(result, item.trim().split(/:(?=(?:(?:[^"]*"){2})*[^"]*$)/), this.intoData);
             });
         }
         if (typeof result === "string") {

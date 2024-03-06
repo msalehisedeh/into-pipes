@@ -129,6 +129,9 @@ export class SelectComponent implements PipeComponentInterface {
     }
   }
 
+  static settingsPatterns() {
+    return ['select:false:false', 'select:false:true', 'select:true:false', 'select:true:true']; //multi, locked by default
+  }
   transform(source: any, data: any, args: any[]) {
     this.original = source;
     this.source= source;

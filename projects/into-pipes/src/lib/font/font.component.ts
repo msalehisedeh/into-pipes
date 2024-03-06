@@ -32,6 +32,9 @@ export class FontComponent implements PipeComponentInterface {
 
 	onIntoComponentChange!: EventEmitter<any>;
 
+    static settingsPatterns() {
+        return ['font:fa fa-envelope:laft:*']; //font class, location left/right, action
+    }
     transform(source: any, data: any, args: any[]) {
         this.source = source;
         this.font = args[0];

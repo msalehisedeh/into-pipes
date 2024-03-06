@@ -98,6 +98,9 @@ export class SwitchComponent implements PipeComponentInterface {
     }
   }
 
+  static settingsPatterns() {
+    return ['switch::ON:OFF']; //selected, state, alt state
+  }
   transform(source: any, data: any, args: any[]) {
     this.ideal= args.length ? String(args[0]) : "";
     this.onText= args.length > 1 ? args[1] : 'ON';

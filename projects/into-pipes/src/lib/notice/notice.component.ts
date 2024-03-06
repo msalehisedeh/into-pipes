@@ -66,6 +66,9 @@ export class NoticeComponent implements PipeComponentInterface {
             })
         }
     }
+    static settingsPatterns() {
+        return ['notice:']; //message
+    }
     transform(source: any, data: any, args: any[]) {
         this.message = args.length ? args[0] : undefined;
         this.source = source;

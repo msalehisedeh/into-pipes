@@ -148,6 +148,9 @@ export class InputComponent implements PipeComponentInterface {
     }
   }
 
+  static settingsPatterns() {
+    return ['input:::false','input:::true']; //placeholder, into a pipe, locked by default
+  }
   transform(source: any, data: any, args: any[]) {
     this.source= source;
     this.data = data;

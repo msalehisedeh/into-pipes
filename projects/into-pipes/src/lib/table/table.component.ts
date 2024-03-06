@@ -31,6 +31,9 @@ export class TableComponent implements PipeComponentInterface {
 
 	onIntoComponentChange = new EventEmitter();
 
+    static settingsPatterns() {
+        return ['table::']; //id, name
+    }
     transform(source: any, data: any, args: any[]) {
         this.source= source;
         this.id= args.length ? args[0] : '';

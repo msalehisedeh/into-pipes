@@ -20,6 +20,9 @@ export class SpanComponent implements PipeComponentInterface {
 
 	onIntoComponentChange!: EventEmitter<any>;
 
+    static settingsPatterns() {
+        return ['span']; //no arguments
+    }
     transform(source: any, data: any, args: any[]) {
         this.source = source
     }

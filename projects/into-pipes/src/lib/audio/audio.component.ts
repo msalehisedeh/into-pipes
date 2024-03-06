@@ -33,6 +33,9 @@ export class AudioComponent implements PipeComponentInterface {
 
 	onIntoComponentChange = new EventEmitter();
 
+    static settingsPatterns() {
+        return ['audio']; // no arguments
+    }
     transform(source: any, data: any, args: any[]) {
         this.source = source;
     }

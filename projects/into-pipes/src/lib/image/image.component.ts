@@ -113,6 +113,9 @@ export class ImageComponent implements PipeComponentInterface {
             }
         }
 	}
+    static settingsPatterns() {
+        return ['image:30px:30px::false:false', 'image:30px:30px::true:false', 'image:30px:30px::true:true']; //width, height, alt text, magnify, popup
+    }
     transform(source: any, data: any, args: any[]) {
 
         this.source = source;

@@ -132,6 +132,9 @@ export class SliderComponent implements PipeComponentInterface {
     event.target.value = this.source;
   }
 
+  static settingsPatterns() {
+    return ['slider:50:false:true:0:100']; //length, vertical/horixontal, show range, min, max
+  }
   transform(source: any, data: any, args: any[]) {
     this.source= parseInt(source, 10);
     this.original = this.source;

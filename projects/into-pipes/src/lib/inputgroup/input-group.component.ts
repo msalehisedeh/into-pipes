@@ -91,6 +91,9 @@ export class InputGroupComponent implements PipeComponentInterface {
     return found;
   }
 
+  static settingsPatterns() {
+    return ['inputgroup']; //no argument
+  }
   transform(source: any, data: any, args: any[]) {
     this.source= source;
     this.data = data;

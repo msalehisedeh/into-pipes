@@ -43,6 +43,9 @@ export class VideoComponent implements PipeComponentInterface {
 
 	onIntoComponentChange = new EventEmitter();
 
+    static settingsPatterns() {
+        return ['video::::false:true']; //width, height, alt text, enable controlls, hver play
+    }
     transform(source: any, data: any, args: any[]) {
 
         this.source = source;

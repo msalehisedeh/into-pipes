@@ -47,6 +47,9 @@ export class LikeComponent implements PipeComponentInterface {
 
 	onIntoComponentChange = new EventEmitter();
 
+  static settingsPatterns() {
+    return ['like:true:true::true', 'like:true:false::true']; //show count, state, source attribute key, up/down
+  }
   transform(source: any, data: any, args: any[]) {
     this.source = source;
     this.data = data;

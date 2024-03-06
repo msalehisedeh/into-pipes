@@ -121,6 +121,9 @@ export class ShareComponent implements PipeComponentInterface {
         }
     }  
 
+    static settingsPatterns() {
+        return ['share:facebook:twitter:linkedin:google:pinterest:digg:get-pocket:xing:stumbleupon']; //options
+    }
     transform(source: any, data: any, args: any[]) {
 
         this.source = source;

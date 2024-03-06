@@ -64,6 +64,9 @@ export class RatingComponent implements PipeComponentInterface {
             item: 'rating'
         })
     }
+    static settingsPatterns() {
+        return ['rating:true','rating:false']; //single star
+    }
     transform(source: any, data: any, args: any[]) {
         this.float = parseFloat(source);
         this.singleStar = args.length ? (args[0] === 'true') : false;

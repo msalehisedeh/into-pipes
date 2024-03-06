@@ -39,6 +39,9 @@ export class ToggerComponent implements PipeComponentInterface {
 
 	onIntoComponentChange = new EventEmitter();
 
+    static settingsPatterns() {
+        return ['toggle::1:0']; //name, status, alt status
+    }
     transform(source: any, data: any, args: any[]) {
         this.source = source;
         this.data = data;

@@ -44,6 +44,9 @@ export class EmailComponent implements PipeComponentInterface {
 
 	onIntoComponentChange = new EventEmitter();
 
+    static settingsPatterns() {
+        return ['email:true']; //islink
+    }
     transform(source: any, data: any, args: any[]) {
         this.isLink= args.length ? args[0] : true;
         this.source = source;

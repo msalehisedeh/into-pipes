@@ -42,6 +42,9 @@ export class LinkComponent implements PipeComponentInterface {
 
 	onIntoComponentChange = new EventEmitter();
 
+    static settingsPatterns() {
+        return ['link:::false', 'link:::true']; //target, label, popup
+    }
     transform(source: any, data: any, args: any[]) {
         this.source = source;
         this.target = (args && args.length) ? args[0] : "";

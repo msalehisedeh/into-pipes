@@ -98,6 +98,9 @@ export class CheckboxComponent implements PipeComponentInterface {
     }
   }
 
+  static settingsPatterns() {
+    return ['checkbox:true:false:false', 'checkbox:true:true:false', 'checkbox:true:true:true']; //selected, useFont, onoff
+  }
   transform(source: any, data: any, args: any[]) {
     this.ideal= args.length ? String(args[0]) : "";
     this.useFont= args.length > 1 ? Boolean(args[1]) : false;

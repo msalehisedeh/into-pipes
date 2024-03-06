@@ -56,6 +56,9 @@ export class AddressComponent implements PipeComponentInterface {
 
 	onIntoComponentChange = new EventEmitter();
 
+    static settingsPatterns() {
+        return ['address:true:false', 'address:true:true']; //link, target
+    }
     transform(source: any, data: any, args: any[]) {
         this.source= source;
         this.isLink= args.length ? args[0] : true;

@@ -2,7 +2,6 @@
 import {
 	Injectable, 
 	ComponentRef, 
-	ComponentFactoryResolver, 
 	ViewContainerRef,
 	EmbeddedViewRef
 } from '@angular/core';
@@ -14,7 +13,11 @@ export class ComponentPool {
 	private registeredPipes: any= {};
 	private registeredComponents: any= {};
 	private registeredServices: any= {};
+	private registeredPatterns:any = {};
 
+	getRegisteredPatterns() {
+		return this.registeredPatterns;
+	}
 	registerPipeTransformation (name: string, pipe: any) {
 		this.registeredPipes[name] = pipe;
 	}
@@ -32,21 +35,20 @@ export class ComponentPool {
 
 	registerComponent (name: string, component: any) {
 		this.registeredComponents[name] = component;
+		this.registeredPatterns[name] = component.settingsPatterns()
 	}
 	registeredForComponentWithNamed(name: string) {
 		return this.registeredComponents[name] !== undefined;
 	}
 	registeredComponent(
 		name: string,
-		resolver: ComponentFactoryResolver,
 		viewRefrence: ViewContainerRef,
 		el: HTMLElement): PipeComponentInterface {
 		const component =  name ? this.registeredComponents[name] : undefined;
 		let result!: PipeComponentInterface;
 		
         if (component) {
-			let componentFactory = resolver.resolveComponentFactory(component);
-			const componentRef: ComponentRef<any> = viewRefrence.createComponent(componentFactory);
+			const componentRef: ComponentRef<any> = viewRefrence.createComponent(component);
 			const domElem = (componentRef.hostView as EmbeddedViewRef < any > ).rootNodes[0] as HTMLElement;
 			el.appendChild(domElem);
 			domElem.setAttribute("class", "into");
