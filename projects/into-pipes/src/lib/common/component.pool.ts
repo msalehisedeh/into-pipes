@@ -20,6 +20,9 @@ export class ComponentPool {
 	}
 	registerPipeTransformation (name: string, pipe: any) {
 		this.registeredPipes[name] = pipe;
+		if (!this.registeredPatterns[name]) {
+			this.registeredPatterns[name] = name;
+		}
 	}
 	registeredForPipeTransformationNamed(key: string) {
 		return this.registeredPipes[key] !== undefined;
@@ -31,6 +34,11 @@ export class ComponentPool {
 	}
 	removePipeTransformation (key: string) {
 		delete this.registeredPipes[key];
+
+		const v = this.registeredPatterns[key];
+		if ( v === key) {
+			delete this.registeredPatterns[key];
+		}
 	}
 
 	registerComponent (name: string, component: any) {
@@ -58,6 +66,7 @@ export class ComponentPool {
 	}
 	removeComponent (name: string) {
 		delete this.registeredComponents[name];
+		delete this.registeredPatterns[name];
 	}
 
 	registerServiceForComponent (name: string, service: any) {

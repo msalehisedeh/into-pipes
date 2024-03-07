@@ -133,17 +133,17 @@ export class SliderComponent implements PipeComponentInterface {
   }
 
   static settingsPatterns() {
-    return ['slider:50:false:true:0:100']; //length, vertical/horixontal, show range, min, max
+    return ['slider::false:true::']; //length, vertical/horixontal, show range, min, max
   }
   transform(source: any, data: any, args: any[]) {
     this.source= parseInt(source, 10);
     this.original = this.source;
     this.data = data;
-    this.length= args.length ?  parseFloat(args[0]) : 200;
+    this.length= (args.length && args[0].length) ?  parseFloat(args[0]) : 200;
     this.vertical= args.length > 1 ?  String(args[1]) === 'true' : false;
     this.showRange= args.length > 2 ?  String(args[2]) === 'true' : false;
-    this.min = args.length > 3 ? args[3] : 0;
-    this.max = args.length > 4 ? args[4] : 100;
+    this.min = (args.length > 3 && args[3].length) ? args[3] : 0;
+    this.max = (args.length > 4 && args[4].length) ? args[4] : 100;
   }
 }
 

@@ -50,8 +50,8 @@ export class PhoneComponent implements PipeComponentInterface {
     }
     transform(source: any, data: any, args: any[]) {
         this.source = source;
-        this.isLink= args.length ? (args[0] === 'true') : false;
-        this.formatting= args.length > 1 ? (args[1] === 'true') : false;
+        this.isLink= (args?.length && args[0].length) ? (args[0] === 'true') : false;
+        this.formatting= (args?.length > 1 && args[1].length) ? (args[1] === 'true') : false;
     }
     normalizeSource() {
         let result = this.source.replace(/[\ \-\.\(\)\+]/g, '');

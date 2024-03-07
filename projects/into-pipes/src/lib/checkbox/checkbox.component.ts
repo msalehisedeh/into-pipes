@@ -102,9 +102,9 @@ export class CheckboxComponent implements PipeComponentInterface {
     return ['checkbox:true:false:false', 'checkbox:true:true:false', 'checkbox:true:true:true']; //selected, useFont, onoff
   }
   transform(source: any, data: any, args: any[]) {
-    this.ideal= args.length ? String(args[0]) : "";
-    this.useFont= args.length > 1 ? Boolean(args[1]) : false;
-    this.onOff= args.length > 2 ? Boolean(args[2]) : false;
+    this.ideal= args && args.length ? String(args[0]) : "";
+    this.useFont= (args && args.length > 1 && args[1].length) ? args[1] === 'true' : false;
+    this.onOff= (args && args.length > 2 && args[2].length) ? args[2] === 'true' : false;
     this.source= String(source);
     this.data = data;
     this.original= this.source === this.ideal ? "" : source;

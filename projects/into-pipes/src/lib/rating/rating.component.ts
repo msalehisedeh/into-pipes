@@ -69,7 +69,7 @@ export class RatingComponent implements PipeComponentInterface {
     }
     transform(source: any, data: any, args: any[]) {
         this.float = parseFloat(source);
-        this.singleStar = args.length ? (args[0] === 'true') : false;
+        this.singleStar = (args?.length && args[0].length) ? (args[0] === 'true') : false;
         this.source = source;
         const size = parseInt(source, 10);
         for(let i = 0; i < size; i++) {

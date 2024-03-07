@@ -36,7 +36,7 @@ export class LastUpdateComponent implements PipeComponentInterface {
 	}
 	transform(source: any, data: any, args: any[]) {
         this.source = source;
-        this.showIcon = (args?.length > 0 && args[0] === 'true');
+        this.showIcon = (args && args.length > 0 && args[0].length && args[0] === 'true');
     }
 
     formatDate() {

@@ -154,9 +154,9 @@ export class InputComponent implements PipeComponentInterface {
   transform(source: any, data: any, args: any[]) {
     this.source= source;
     this.data = data;
-    this.placeholder= args.length ? args[0] : "";
-    this.formatting = args.length > 1 ? args[1] : "";
-    this.locked = args.length > 2;
+    this.placeholder= args && args.length ? args[0] : "";
+    this.formatting = args && args.length > 1 ? args[1] : "";
+    this.locked = (args && args.length > 2 && args[2].length) ? args[2] === 'true' : false;
   }
 }
 

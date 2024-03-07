@@ -114,15 +114,15 @@ export class ImageComponent implements PipeComponentInterface {
         }
 	}
     static settingsPatterns() {
-        return ['image:30px:30px::false:false', 'image:30px:30px::true:false', 'image:30px:30px::true:true']; //width, height, alt text, magnify, popup
+        return ['image:::::']; //width, height, alt text, magnify, popup
     }
     transform(source: any, data: any, args: any[]) {
 
         this.source = source;
-        this.width = (args && args.length) ? args[0] : "";
-        this.height = (args && args.length > 1) ? args[1] : "";
+        this.width = (args && args.length) ? args[0] : "auto";
+        this.height = (args && args.length > 1) ? args[1] : "auto";
         this.alt = (args && args.length > 2) ? args[2] : "";
-        this.magnification = (args && args.length > 3) ? parseInt(args[3],10) : 0;
+        this.magnification = (args && args.length > 3) ? parseInt(args[3],10) : 1;
         this.popLocation = (args && args.length > 4) ? args[4] : undefined;
 
         this.magnification = this.magnification < 0 ? 0 : this.magnification;

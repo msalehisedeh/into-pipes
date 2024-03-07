@@ -33,12 +33,12 @@ export class FontComponent implements PipeComponentInterface {
 	onIntoComponentChange!: EventEmitter<any>;
 
     static settingsPatterns() {
-        return ['font:fa fa-envelope:laft:*']; //font class, location left/right, action
+        return ['font:fa fa-check::*']; //font class, location left/right, action
     }
     transform(source: any, data: any, args: any[]) {
         this.source = source;
         this.font = args[0];
-        this.location = args.length > 1 ? args[1] : "left";
+        this.location = (args.length > 1 && args[1].length) ? args[1] : "left";
         const action = args.length > 2 ? args[2].toLowerCase() : "";
         this.content = action === "*" ? source : ("replace" === action.toLowerCase() ? "" : source);
     }

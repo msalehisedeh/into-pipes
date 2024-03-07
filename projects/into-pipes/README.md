@@ -809,74 +809,75 @@ constructor(private pool: ComponentPool) {
 
 # Revision History
 
-| Version |                                                                                                          |
-|---------|----------------------------------------------------------------------------------------------------------|
+| Version |                                                                                                                       |
+|---------|-----------------------------------------------------------------------------------------------------------------------|
+| 4.4.3   | Updated logic that determines presence of arguments in a pipe or component.                                           |
 | 4.4.2   | change call from deprecated angular method and added method to identify setting options on transformation comnponents.|
-| 4.4.0   | Enhancements to allow for directived to disabled or validated.                                           |
-| 4.3.1   | Updating toggler.                                                                                        |
-| 4.3.0   | Added toggler.                                                                                           |
-| 4.2.0   | fixed hit return on text and input components. made input default to 100% parent in locked mode.         |
-| 4.1.0   | fixed issue with transformation if into value is undefined or not registered.                            |
-| 4.0.0   | Updated to Angular 15.                                                                                   |
-| 3.0.0   | Updated to Angular 8.                                                                                    |
-| 2.3.18  | Updated this documentation.                                                                              |
+| 4.4.0   | Enhancements to allow for directived to disabled or validated.                                                        |
+| 4.3.1   | Updating toggler.                                                                                                     |
+| 4.3.0   | Added toggler.                                                                                                        |
+| 4.2.0   | fixed hit return on text and input components. made input default to 100% parent in locked mode.                      |
+| 4.1.0   | fixed issue with transformation if into value is undefined or not registered.                                         |
+| 4.0.0   | Updated to Angular 15.                                                                                                |
+| 3.0.0   | Updated to Angular 8.                                                                                                 |
+| 2.3.18  | Updated this documentation.                                                                                           |
 | 2.3.17  | overloading check box to display switch is not a good idea as a switch needs to display on or off state. As a result, created a switch pipe.  |
 | 2.3.16  | Added Slider pipe component. You can now pipe a value to a slider. Also, modified check box to allow display of on / off switch instead of check mark.  |
 | 2.3.15  | Updated into directive to insert a 'into' class for every component it creates. This can be used in CSS by parent components as a venue to manipulate any of into components. |
-| 2.3.14  | Lack of explicit default selected option on select pipe component was causing print error when used in table. |
-| 2.3.13  | Added css for printing component pipes.                                                                  |
-| 2.3.12  | Added css for printing component pipes.                                                                  |
-| 2.3.11  | Reduced min heigh applied to pipe components.                                                            |
-| 2.3.10  | Looks like I copied wrong file for calendar fixed code to my deployment directory.                       |
-| 2.3.9   | Fixed calendar component to show selected date on initial display.                                       |
-| 2.3.7   | Added one more keyboard handling for video.                                                              |
-| 2.3.6   | Unified attribute names in emitted events. Added keyboard handling for video and audio tags.             |
-| 2.3.5   | Updated documentation.                                                                                   |
-| 2.3.4   | Updated documentation.                                                                                   |
-| 2.3.3   | Realized I am missing some key event handling for input group, notice, rating, and text pipes.           |
+| 2.3.14  | Lack of explicit default selected option on select pipe component was causing print error when used in table.         |
+| 2.3.13  | Added css for printing component pipes.                                                                               |
+| 2.3.12  | Added css for printing component pipes.                                                                               |
+| 2.3.11  | Reduced min heigh applied to pipe components.                                                                         |
+| 2.3.10  | Looks like I copied wrong file for calendar fixed code to my deployment directory.                                    |
+| 2.3.9   | Fixed calendar component to show selected date on initial display.                                                    |
+| 2.3.7   | Added one more keyboard handling for video.                                                                           |
+| 2.3.6   | Unified attribute names in emitted events. Added keyboard handling for video and audio tags.                          |
+| 2.3.5   | Updated documentation.                                                                                                |
+| 2.3.4   | Updated documentation.                                                                                                |
+| 2.3.3   | Realized I am missing some key event handling for input group, notice, rating, and text pipes.                        |
 | 2.3.2   | added pop on hover for image pipe. if zoom is set, you can have magnified image popped out or stay within the image boundaries. |
-| 2.3.1   | added zoom on hover for image pipe to view the magnified image on hover within the image boundaries.     |
+| 2.3.1   | added zoom on hover for image pipe to view the magnified image on hover within the image boundaries.                  |
 | 2.3.0   | Added notice pipe. allowing link to pop image on hover. allowing rating click to issue event and optionally show only one star. |
-| 2.2.12  | Updated angular code.                                                                                    |
-| 2.2.11  | Updated CSS to manage text area.                                                                         |
-| 2.2.10  | Added minimum with to view area for text pipe when it is empty.                                          |
-| 2.2.9   | Added text pipe.                                                                                         |
-| 2.2.8   | Updated documentation.                                                                                   |
+| 2.2.12  | Updated angular code.                                                                                                 |
+| 2.2.11  | Updated CSS to manage text area.                                                                                      |
+| 2.2.10  | Added minimum with to view area for text pipe when it is empty.                                                       |
+| 2.2.9   | Added text pipe.                                                                                                      |
+| 2.2.8   | Updated documentation.                                                                                                |
 | 2.2.7   | Added table pipe.  |
 | 2.2.6   | Added key events to interactive pipes for a better ADA complacency. Added event trapping on all interactive components and updated existing event handling of audio / video with detailed track information. |
-| 2.2.5   | Audio pipe was not able to handle array of references.                                                   |
-| 2.2.4   | Was missing exports of some components.                                                                  |
-| 2.2.3   | NPM was not able to find this document. Re-deploying it again.                                           |
-| 2.2.2   | Was missing exports of some components.                                                                  |
-| 2.2.1   | Had issue running version 2.2.0 on stackblitz.                                                           |
+| 2.2.5   | Audio pipe was not able to handle array of references.                                                                |
+| 2.2.4   | Was missing exports of some components.                                                                               |
+| 2.2.3   | NPM was not able to find this document. Re-deploying it again.                                                        |
+| 2.2.2   | Was missing exports of some components.                                                                               |
+| 2.2.1   | Had issue running version 2.2.0 on stackblitz.                                                                        |
 | 2.2.0   | Revamped internal structure to make this library truly extendible. You can now take all pipes or components or selectively pick those that you need for your application and prevent your application size growing for components that you would not need in your application. |
-| 2.1.5   | Updated documentation.                                                                                   |
+| 2.1.5   | Updated documentation.                                                                                                |
 | 2.1.4   | Did a clean up of CSS code to display adequate spaces between things. Added options to address and email to be displayed with or without link. Added audio pipe. |
 | 2.1.3   | Fixed display issues and re-organized the library in hope of breaking it into smaller chunks to allow you take only the parts you need out of this library and avoid the whole thing taking up space when not needed. Now you should be able to import only `CommonPipesModule` if you do not need directive or components.|
-| 2.1.2   | Enhanced interactive component by displaying hover interaction. Added phone pipe.                        |
-| 2.1.1   | Updated dependencies.                                                                                    |
+| 2.1.2   | Enhanced interactive component by displaying hover interaction. Added phone pipe.                                     |
+| 2.1.1   | Updated dependencies.                                                                                                 |
 | 2.1.0   | It was brought to my attention that some users have trouble using my components in their angular 6 environment. Since I had only updated few dependencies when moved to Angular 6, I am thinking dependencies are causing issues. So, for this release, I am updating all dependencies to what Angular 6 applications are expecting to have. Please let me know if this is fixing or not fixing any issues you are facing. |
-| 2.0.0   | Updated dependencies to become compatible with Angular 6+.                                               |
+| 2.0.0   | Updated dependencies to become compatible with Angular 6+.                                                            |
 | 1.8.0   | Added inputgroup transformation. Sometimes, you need to display a range of options in radio buttons or check-box buttons.  If the source is a list, options are displayed in check-box list. otherwise, the list will be radio buttons.  |
 | 1.7.5   | Made all interactive components emit the same `{id, name, value, item}` event. However, select component will spew two more `selected, action` attributes. |
 | 1.7.0   | Added date picker transformation code. I included and modified code snippet provided by [Ben Tedder](https://gist.github.com/bentedder/136fa7670a8a23617f91be4f9566f96b). Could not use his code directly, as I had to make many adjustments to make it fit within pipe environment. |
-| 1.6.6   | internal fix on select transform to prevent event bubbling when clicked on or when changed selection.    |
+| 1.6.6   | internal fix on select transform to prevent event bubbling when clicked on or when changed selection.                 |
 | 1.6.5   | Modified Select service interface to have the owner data set passed on to it.  Consider a case of displaying drop-downs in a table row. If one drop-down is for state and another for countries, then both drop-downs are interchangeably depend on each other. As a result, the service representing drop-down has to have access to the data set for the entire row in order to return correct set of options for each drop-down item. |
-| 1.6.0   | Fixed ADA related issue with input, check-box, and share components.                                     |
+| 1.6.0   | Fixed ADA related issue with input, check-box, and share components.                                                  |
 | 1.5.0   | Added LIKE and LASTUPDATE formatters. With like/dislike, an event is triggered after user clicks on it. You will be responsible to catch the event and increment or decrement the count in your data source. |
-| 1.4.1   | Calling console.error() if applying a custom rule when the custom component for it is not registered.    |
-| 1.4.0   | Added an interactive share social sites component.                                                       |
+| 1.4.1   | Calling console.error() if applying a custom rule when the custom component for it is not registered.                 |
+| 1.4.0   | Added an interactive share social sites component.                                                                    |
 | 1.3.9   | Fixed the firing event on interactive input component. Event will fire after the input value is changed and a tab, return, or escape key is pressed. After the event is fired, input field will revert back to a plain text. |
 | 1.3.8   | Modified all pipe components to accept one more argument allowing you to have additional data when you are formatting data. Consider a case when you are formatting data in a table row. You may need to format based on some attributes from other columns and would need to have ability to access the data for the entire row.  By passing data to a **intoData** attribute, your custom component will have access to the data and you can gain great flexibility formatting a particular table cell. **NOTE:** Standard pipes will not have access to "intoData" object. If you have not created custom pipe components on previous versions, you will have no issue upgrading to this version. However, if you have created custom components, you will have to take note of new parameter passed to your component (please pay attention to the 'PipeComponentInterface' interface presented in this page). |
-| 1.3.7   | Compiled with AOT option and resolved issues.                                                            |
-| 1.3.3   | Added Video pipe... Now you can pipe a URL **into** video tag.                                           |
+| 1.3.7   | Compiled with AOT option and resolved issues.                                                                         |
+| 1.3.3   | Added Video pipe... Now you can pipe a URL **into** video tag.                                                        |
 | 1.2.0   | Fixed a few logic issues and added event emit to the directive. Added into select option. You are now able to pipe a value **into** a select tag. But you will need to register a service that knows how to provide select options for a given attribute. And this service has to implement PipeServiceComponentInterface.  |
 | 1.1.0   | Added ability for you to declare a custom pipe. You will need to create your own custom component for it and register the component as was explained on release 1.0.0. Also, updated custom component declaration process. You will need to make sure your component has id and name attributes as well as source attribute. also, if your component interacts with user actions and as a result its value is changed, you will need to emit event as I have updated the code sample for version 1.0.0. |
 | 1.0.0   | Added a directive to enable morphing values into form fields!! Provisions is in place if you wish to format the values into a custom field. For those to happen, you will need to create your component and register it. You can still continue formatting with existing pipes using InTo directive. However, Email, Address, Font, Image, JSON, Link, and Rating formatters will insert actual components in the end resulting html. This means in the next release, I can add interactions with these components and add editable date component to format and edit the values when user interacts with the fields. To allow you to come up with nifty formatters that can interact with users, in future release, I will add possibility of customizing formatting tags as well. |
-| 0.3.0   | Internally changed code to apply transformation to all items in the array if source is an array.         |
-| 0.2.2   | A new Conditional Pipe is added to display content based on condition applicable to the source value.    |
+| 0.3.0   | Internally changed code to apply transformation to all items in the array if source is an array.                      |
+| 0.2.2   | A new Conditional Pipe is added to display content based on condition applicable to the source value.                 |
 | 0.0.1   | Font awesome dependency is added because few of the pipes are injecting nodes with font awesome names to create a better UI effects. In Addition code in "into" pipe is modified to allow for cascading pipes by escaping ':' character if is inside quotes. For example **date:"MM/dd/yyyy hh:ss"** will be parsed into an array argument of **date, MM/dd/yyyy hh:ss** |
-| 0.0.0   | Initial Release.                                                                                         |
+| 0.0.0   | Initial Release.                                                                                                      |
 
 
 ![alt text](https://raw.githubusercontent.com/msalehisedeh/into-pipes/master/sample.png  "Commands and results")

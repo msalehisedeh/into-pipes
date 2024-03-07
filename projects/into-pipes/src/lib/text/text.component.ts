@@ -144,15 +144,15 @@ export class TextComponent implements PipeComponentInterface {
     }
   }
   static settingsPatterns() {
-    return ['text:4::true:false', 'text:4::true:true']; //rows, limit, counter, locked by default
+    return ['text:::true:false', 'text:::true:true']; //rows, limit, counter, locked by default
   }
   transform(source: any, data: any, args: any[]) {
     this.data = data;
     this.source = source;
     this.oldValue = source;
-    this.rows = args.length ? args[0] : 4;
-    this.limit = args.length > 1 ? args[1] : 0;
-    this.counter = args.length > 2 ? (args[2] === 'true') : false;
-    this.locked = args.length > 3;
+    this.rows = args?.length ? args[0] : 4;
+    this.limit = args?.length > 1 ? args[1] : 0;
+    this.counter = (args?.length && args[2].length) > 2 ? (args[2] === 'true') : false;
+    this.locked = (args?.length > 3 && args[3].length) ? args[3] === 'true' : false;
   }
 }

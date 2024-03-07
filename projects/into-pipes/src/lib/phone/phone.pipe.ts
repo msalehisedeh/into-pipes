@@ -8,7 +8,7 @@ export class PhonePipe implements PipeTransform {
     static transformationMethod() {
         const x = function  (content: any, args: string[], callback?: any, data?: any) {
             // prepend:something
-            return new PhonePipe().transform(content, args.length > 1 ? args[1]==='true' : false, args.length > 2 ? args[2] === 'true' : false); 
+            return new PhonePipe().transform(content, args && args.length > 1 ? args[1]==='true' : false, args && args.length > 2 && args[2].length ? args[2] === 'true' : false); 
         };
         return x;
     }

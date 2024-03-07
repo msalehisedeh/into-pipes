@@ -61,8 +61,8 @@ export class AddressComponent implements PipeComponentInterface {
     }
     transform(source: any, data: any, args: any[]) {
         this.source= source;
-        this.isLink= args.length ? args[0] : true;
-        this.hasTarget = args.length > 1 ? args[1] : false;
+        this.isLink= (args && args.length && args[0].length) ? args[0]=== 'true' : true;
+        this.hasTarget = (args && args.length > 1 && args[1].length) ? args[1] === 'true' : false;
         this.addr1 = source.street + ', ' + source.suite;
         this.addr2 = source.city + ', ' + source.zipcode;
 

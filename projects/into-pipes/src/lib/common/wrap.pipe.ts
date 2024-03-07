@@ -8,7 +8,10 @@ export class WrapPipe implements PipeTransform {
     static transformationMethod() {
         const x = function  (content: any, args: string[], callback?: any, data?: any) {
             // wrap:something:something  OR wrap:something
-            return new WrapPipe().transform(content, args.length > 1 ? args[1] : "", args.length > 2 ? args[2] : args[1]); 
+            const p1 = args && args.length > 1 ? args[1] : "";
+            const p2 = args && args.length > 2 ? args[2] : args[1];
+
+            return new WrapPipe().transform(content, p1, p2); 
         };
         return x;
     }

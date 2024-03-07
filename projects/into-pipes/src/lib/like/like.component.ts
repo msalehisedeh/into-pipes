@@ -53,8 +53,8 @@ export class LikeComponent implements PipeComponentInterface {
   transform(source: any, data: any, args: any[]) {
     this.source = source;
     this.data = data;
-    this.showCount = (args?.length > 0 && args[0] === 'true');
-    this.thumbsup = (args?.length > 1 && args[1] === 'true');
+    this.showCount = (args && args.length > 0 && args[0].length && args[0] === 'true');
+    this.thumbsup = (args && args.length > 1 && args[1].length && args[1] === 'true');
     this.key = (args && args.length > 2) ? args[2] : "";
     this.thumbs = this.thumbsup ? "thumbs-up-items" : "thumbs-down-items";
     this.selected = (this.getItem(this.data[this.key]) !== null);

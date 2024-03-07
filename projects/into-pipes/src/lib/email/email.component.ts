@@ -48,7 +48,7 @@ export class EmailComponent implements PipeComponentInterface {
         return ['email:true']; //islink
     }
     transform(source: any, data: any, args: any[]) {
-        this.isLink= args.length ? args[0] : true;
+        this.isLink= (args && args.length && args[0].length) ? args[0] === 'true' : true;
         this.source = source;
     }
     keyup(event: any) {

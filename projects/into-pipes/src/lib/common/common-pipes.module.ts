@@ -102,7 +102,7 @@ export class CommonPipesModule {
         let result: any;
         let start = parseInt(args[1], 10);
         let end: any = undefined;
-        if (args.length > 2) {
+        if (args && args.length > 2) {
             end= parseInt(args[2], 10);
         }
         const slicer =new SlicePipe();
@@ -124,7 +124,7 @@ export class CommonPipesModule {
         let result: any;
         let numLocal = "en_US";
         let numDecimal: any= undefined;
-        if (args.length > 2) {
+        if (args && args.length > 2) {
             numLocal = args[1];
             numDecimal= args[2];
         }
@@ -145,7 +145,7 @@ export class CommonPipesModule {
       (content: any, args: string[], callback?: any, data?: any) => {
         // currency:en_US or currency
         let result: any;
-        const cp = new CurrencyPipe(args.length > 1 ? args[1] : "en_US");
+        const cp = new CurrencyPipe(args && args.length > 1 ? args[1] : "en_US");
         if ((typeof content === "string") || !(content instanceof Array)) {
             result = cp.transform(content);
         } else {
@@ -216,7 +216,7 @@ export class CommonPipesModule {
         let result: any;
         let dateLocal = "en_US";
         let dateFormat= args[1];
-        if (args.length > 2) {
+        if (args && args.length > 2) {
             dateLocal = args[1];
             dateFormat= args[2];
         }

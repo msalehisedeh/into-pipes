@@ -32,7 +32,7 @@ export class RatingPipe implements PipeTransform {
     }
 
     transform(source: any, ...args: any[]): any {
-        const singleStar = args.length ? (args[0] === 'true') : false;
+        const singleStar = args?.length && args[0].length ? (args[0] === 'true') : false;
         if ((typeof source === "string") || !(source instanceof Array)) {
             return this.rateString(source, singleStar);
         } else {

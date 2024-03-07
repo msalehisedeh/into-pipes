@@ -52,8 +52,8 @@ export class VideoComponent implements PipeComponentInterface {
         this.width = (args && args.length) ? args[0] : "";
         this.height = (args && args.length > 1) ? args[1] : "";
         this.alt = (args && args.length > 2) ? args[2] : "";
-        this.hasControls = (args && args.length > 3) ? (args[3] === 'true') : true;
-        this.hoverPlay = (args && args.length > 4) ? (args[4] === 'true') : false;
+        this.hasControls = (args && args.length > 3 && args[3].length) ? (args[3] === 'true') : true;
+        this.hoverPlay = (args && args.length > 4 && args[4].length) ? (args[4] === 'true') : false;
 
         if ((typeof source === "string") || !(source instanceof Array)) {
             if(!this.alt || !this.alt.length) {
