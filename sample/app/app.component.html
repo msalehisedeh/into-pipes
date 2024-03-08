@@ -514,7 +514,7 @@
     <td>Format value <b>into</b> an interactive checkbox</td>
     <td>
       [rawContent]="'yes'"<br />
-      [into]="'checkbox:yes:true'"<br />
+      [into]="'checkbox:yes:no:true:false'"<br />
       intoId="mycheckbox" intoName="mycheckbox"<br />
       [active]="{{ activate }}" [validate]="{{ shouldValidaste }}"
       [disabled]="{{ disabled }}"<br />
@@ -523,7 +523,7 @@
     <td>
       <span
         [rawContent]="'yes'"
-        [into]="'checkbox:yes:true'"
+        [into]="'checkbox:yes:no:true:false'"
         intoId="mycheckbox"
         intoName="mycheckbox"
         [active]="activate"
