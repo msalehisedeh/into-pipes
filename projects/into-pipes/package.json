@@ -1,6 +1,6 @@
 {
   "name": "@sedeh/into-pipes",
-  "version": "4.4.4",
+  "version": "4.5.0",
   "license": "MIT",
   "private": false,
   "keywords": [
@@ -36,6 +36,16 @@
     "interactive",
     "easy",
     "best"
+  ],
+  "files": [
+    "lib",
+    "index.d.ts",
+    "public-api.d.ts",
+    "package.json",
+    "README.md",
+    "esm2020",
+    "fesm2015",
+    "fesm2020"
   ],
   "peerDependencies": {
     "@angular/common": "^15.2.0",

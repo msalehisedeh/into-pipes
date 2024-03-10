@@ -1,0 +1,22 @@
+:root {
+    --sedeh-marker-color: #fabdab;
+    --sedeh-disabled-color: #888;
+    --sedeh-margin: 0 5px;
+    --sedeh-margin-right: 5px;
+    --sedeh-margin-left: 5px;
+    --sedeh-margin-bottom: 5px;
+    --sedeh-padding: 5px;
+    --sedeh-padding-top: 5px;
+    --sedeh-padding-bottom: 5px;
+    --sedeh-min-width: 25px;
+    --sedeh-min-height: 25px;
+    --sedeh-sected-color: green;
+    --sedeh-disapproved-color: red;
+    --sedeh-hover-opacity: 0.5;
+    --sedeh-box-shadow: 3px 3px 3px #999;
+    --sedeh-solid-border: 1px solid #fabdab;
+    --sedeh-caption-color:  #1b1b1b;
+    --sedeh-caption-background-color:  #c3e5e2;
+    --sedeh-notice-color: white;
+    --sedeh-notice-background-color: rgb(4, 159, 255);
+}

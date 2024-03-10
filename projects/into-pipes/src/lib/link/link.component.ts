@@ -17,9 +17,9 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
         <img *ngIf='poped' [src]='source' />`,
     styles: [
         `
-        :host {display:table;float:left;min-height: 23px; position:relative}
-        :host a.disabled{color: #000;cursor:default;text-decoration: none; pointer-events: none}
-        :host img{z-index:2;border:2px solid;box-shadow: 3px 3px 3px #999;display:table;float:left;min-height: 23px; width: 250px;top: 22px;position:absolute;border-radius: 4px}
+        :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px); position:relative}
+        :host a.disabled{color: var(--sedeh-disabled-color, #888);cursor:default;text-decoration: none; pointer-events: none}
+        :host img{z-index:2;border:2px solid;box-shadow: var(--sedeh-box-shadow, 3px 3px 3px #999);display:table;float:left;min-height: var(--sedeh-min-height, 25px); width: 250px;top: 22px;position:absolute;border-radius: 4px}
         @media print {
             :host a {
                 text-decoration: none;

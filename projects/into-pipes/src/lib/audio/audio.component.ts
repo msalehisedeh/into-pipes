@@ -16,8 +16,8 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
         (error)="change($event)"
         controls="true">Your browser does not support the audio element.</audio>`,
     styles: [`
-    :host {display: table;float: left;min-height: 23px;}
-    :host audio.disabled{opacity: 0.5; pointer-events: none}
+    :host {display: table;float: left;min-height: var(--sedeh-min-height, 25px);}
+    :host audio.disabled{color: var(--sedeh-disabled-color, #888); opacity: var(--sedeh-hover-opacity, 0.5);pointer-events: none}
     :host .audio-hidden {
         display: none;
     }

@@ -48,8 +48,8 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
         input {
           cursor: beam;
         }
-        :host {width: 100%;display:table;float:left;min-height: 23px}
-        :host .locked:hover{border: 1px solid #fabdab;}
+        :host {width: 100%;display:table;float:left;min-height: var(--sedeh-min-height, 25px)}
+        :host .locked:hover{border: var(--sedeh-solid-border, 1px solid #fabdab);}
         :host .locked.disabled:hover{border-color: transparent;cursor: default;}
         `
     ]

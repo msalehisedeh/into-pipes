@@ -25,18 +25,18 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     `,
     styles: [
       `
-      :host {display:table;float:left;min-height: 23px}
+      :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px)}
       :host .switch {font-size: 1.4rem; cursor: pointer;float: left}
-      :host .switch:hover{color: #fabdab;}
-      :host .switch.fa-toggle-on {color: green}
-      :host .switch.fa-toggle-off {color: red}
-      :host .switch.disabled {opacity: 0.5}
-      :host .switch.disabled.fa-toggle-on {color: gray}
-      :host .switch.disabled.fa-toggle-off {color: gray}
+      :host .switch:hover{opacity: var(--sedeh-hover-opacity, 0.5);}
+      :host .switch.fa-toggle-on {color: var(--sedeh-sected-color, green)}
+      :host .switch.fa-toggle-off {color: var(--sedeh-disapproved-color, red)}
+      :host .switch.disabled {color: var(--sedeh-disabled-color, #888)}
+      :host .switch.disabled.fa-toggle-on {color: var(--sedeh-disabled-color, #888)}
+      :host .switch.disabled.fa-toggle-off {color: var(--sedeh-disabled-color, #888)}
 
-      :host .text {font-size: 1.2rem; text-transform: uppercase; float: left; margin-left: 5px; color: red}
-      :host .text.selected {color:  green}
-      :host .text.disabled {color:  gray}
+      :host .text {font-size: 1.2rem; text-transform: uppercase; float: left; margin-left: var(--sedeh-margin-left, 5px);}
+      :host .text.selected {color:  var(--sedeh-sected-color, green)}
+      :host .text.disabled {color:  var(--sedeh-disabled-color, #888)}
       `
     ]
 })

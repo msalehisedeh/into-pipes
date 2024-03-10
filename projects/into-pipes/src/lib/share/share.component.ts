@@ -12,7 +12,7 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     <span class="fa fa-share-alt"></span>
     <span class="share">share</span>
     </a>
-    <span id='share-comment-{{id}}-tips' class='tips' *ngIf='shouldDisplay'>
+    <span id='share-comment-{{id}}-tips' class="tips {{disabled ? 'disabled' : ''}}" *ngIf='shouldDisplay'>
       <span class='social-referal'>
         <a *ngFor="let share of shareList" 
             tabindex="{{active ? 0 : -1}}" 
@@ -24,17 +24,16 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     </span>
 `,
     styles: [`
-    :host {display:table;float:left;min-height: 23px;position: relative}
-    :host a.disabled{color: #000;cursor:default;pointer-events:none;text-decoration: none;}
+    :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px);position: relative}
+    :host a.disabled{color: var(--sedeh-disabled-color, #888);cursor:default;pointer-events:none;text-decoration: none;}
+    :host a.disabled .fa{color: var(--sedeh-disabled-color, #888);}
     .share-item-tips {cursor: pointer;}
     .share-item-tips .fa {margin: 0;}
-    .share-item-tips:hover {color: #fabdab;}
-    .share-item-tips:hover .fa{color: #fabdab;}
-
-    .share-item-tips.disabled:hover .fa{color: #f00;}
+    :host:hover .share-item-tips .fa, :host:hover .share-item-tips .share, .tips a:hover {opacity: var(--sedeh-hover-opacity, 0.5);}
+    :host:hover .share-item-tips.disabled .fa, :host:hover .share-item-tips.disabled .share, .tips.disabled, .tips.disabled a {opacity:1;color: var(--sedeh-disabled-color, #888) !important;}
 
 
-    .share-item-tips .share{margin-left: 5px;}
+    .share-item-tips .share{margin-left: var(--sedeh-margin-left, 5px);}
     .tips {
         position: absolute;
         display: flex;

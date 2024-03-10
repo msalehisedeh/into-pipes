@@ -13,9 +13,9 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     styles: [
         `
         :host .piped-table {padding: 0;width: 100%;border-collapse: collapse;}
-        :host .piped-table caption {background-color: #c3e5e2;border-radius: 2px;color: #1b1b1b;caption-side: top;font-size: 14px;padding: 5px 6px;margin-bottom: 15px;text-align: left;}
-        :host .piped-table th {user-select: none;height: 24px;position: relative;white-space: nowrap;font-weight: normal;text-transform: uppercase;font-size: 14px;padding-top: 6px;padding-bottom: 6px;text-align: left;}
-        :host .piped-table td {padding-left: 3px;min-height: 21px;}
+        :host .piped-table caption {background-color: var(--sedeh-caption-background-color, #c3e5e2);border-radius: 2px;color: var(--sedeh-caption-color, #1b1b1b);caption-side: top;font-size: 14px;padding: var(--sedeh-padding, 5px);margin-bottom: var(--sedeh-margin-bottom, 5px);text-align: left;}
+        :host .piped-table th {user-select: none;height: 24px;position: relative;white-space: nowrap;font-weight: normal;text-transform: uppercase;font-size: 14px;padding-top: var(--sedeh-padding-top, 5px);padding-bottom: var(--sedeh-padding-bottom, 5px);text-align: left;}
+        :host .piped-table td {padding-left: 3px;min-height: var(--sedeh-min-height, 25px);}
         `
     ]
 })

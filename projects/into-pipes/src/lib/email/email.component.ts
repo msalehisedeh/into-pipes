@@ -7,7 +7,7 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     <a 
         *ngIf="isLink" 
         tabindex="{{active ? 0 : -1}}" 
-        class="{{disabled ? 'disabled':''}}"
+        class="email {{disabled ? 'disabled':''}}"
         [href]="'mailto:' + source" (keyup)='keyup($event)' 
         (click)="change($event)">
         <span class='fa fa-envelope' aria-hidden='true'></span>
@@ -20,11 +20,12 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     `,
     styles: [
         `
-        :host {display:table;float:left;min-height: 23px}
-        :host:hover .fa-envelope{color: #fabdab;}
-        :host:hover .disabled .fa-envelope{color: #f00;}
-        :host a.disabled{color: #000;cursor:default;pointer-events: none;text-decoration: none;}
-        :host .fa{margin: 0 5px;}
+        :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px)}
+        :host:hover .email{opacity: var(--sedeh-hover-opacity, 0.5);}
+        :host .email{text-decoration: none;}
+        :host .email.disabled{color: var(--sedeh-disabled-color, #888);cursor:default;pointer-events: none;text-decoration: none;}
+        :host .email.disabled .fa{color: var(--sedeh-disabled-color, #888);}
+        :host .fa{margin: var(--sedeh-margin, 0 5px);}
         @media print {
             :host a { text-decoration: none;}
             :host a .fa-envelope {display: none;}

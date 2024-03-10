@@ -6,12 +6,12 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     template: `<span class="json-view" [textContent]="source | json"></span>`,
     styles: [
         `
-        :host {display:table;float:left;min-height: 23px}
+        :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px)}
         .json-view {
             display: inline-block;
             float: left;
             font-family: monospace;
-            padding: 5px;
+            padding: var(--sedeh-padding, 5px);
             white-space: pre-wrap;
             unicode-bidi: embed;        
         }

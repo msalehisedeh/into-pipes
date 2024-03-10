@@ -13,17 +13,21 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
         `
         :host .noticable{display: table;position: relative;float: left;cursor:pointer}
         :host .noticable .fa{font-size: 1rem;}
-        :host .noticable:hover{color: red;}
-        :host .noticable:hover .fa{color: red;}
-        :host .noticable.disabled:hover {color: blue;cursor:default}
-        :host .noticable.disabled:hover .fa{color: blue;}
-        :host .noticable:hover .notice{background-color: #000;}
-        :host .noticable.disabled:hover .notice{background-color: rgba(55,155,255,0.9);color:white}
-        .notice {display: table;width: 17px;height: 15px;
+        :host .noticable:hover{opacity: var(--sedeh-hover-opacity, 0.5);}
+        :host .noticable:hover .fa{opacity: var(--sedeh-hover-opacity, 0.5);}
+        :host .noticable.disabled {color: var(--sedeh-disabled-color, #888);cursor:default}
+        :host .noticable.disabled:hover .fa{opacity: 1;}
+        :host .noticable.disabled:hover {opacity:1;color: var(--sedeh-disabled-color, #888);cursor:default}
+        :host .noticable.disabled .notice{color: var(--sedeh-disabled-color, #888);background-color:transparent;}
+        :host .noticable .notice {
+            display: table;
+            width: 17px;
+            height: 15px;
             border-radius: 50%;text-align: center;
-            background-color: rgba(55,155,255,0.9);
+            color: var(--sedeh-notice-color, white);
+            background-color: var(--sedeh-notice-background-color, rgb(4, 159, 255));
             float: right;font-size: 0.7rem;line-height: 1rem;
-            margin-left: -5px;z-index: 2;color: #fff;
+            margin-left: -5px;z-index: 2;
         }
         `
     ]

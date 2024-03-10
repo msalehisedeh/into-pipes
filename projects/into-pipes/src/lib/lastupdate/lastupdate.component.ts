@@ -9,8 +9,8 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     `,
     styles: [
         `
-        :host {display:table;float:left;min-height: 23px;position: relative}
-        .fa {margin:0 5px 0 0}
+        :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px);position: relative}
+        .fa {margin:var(--sedeh-margin, 0 5px)}
         @media print {
             :host .fa-clock-o {
                 display: none;

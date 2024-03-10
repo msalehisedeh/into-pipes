@@ -12,22 +12,21 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
         [class.disabled]="disabled" 
         (keyup)="keyup($event)" 
         (click)='toggleCount($event)'>
-        <span class="fa fa-thumbs-up" *ngIf="thumbsup && !selected" aria-hidden="true"></span>
-        <span class="fa fa-thumbs-up selected" *ngIf="thumbsup && selected" aria-hidden="true"></span>
-        <span class="fa fa-thumbs-down" *ngIf="!thumbsup && !selected" aria-hidden="true"></span>
-        <span class="fa fa-thumbs-down selected" *ngIf="!thumbsup && selected" aria-hidden="true"></span>
+        <span class="fa fa-thumbs-up" *ngIf="thumbsup" aria-hidden="true"></span>
+        <span class="fa fa-thumbs-down" *ngIf="!thumbsup" aria-hidden="true"></span>
         <span class="counts" *ngIf="showCount" [textContent]="formatterSource()"></span>
     </a>`,
     styles: [
         `
-        :host {display:table;float:left;min-height: 23px;position: relative}
+        :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px);position: relative}
         .like {cursor: pointer;}
         .like.disabled {cursor: default;pointer-events: none}
-        .like .counts{margin-left: 5px;}
+        .like.disabled .fa{color: var(--sedeh-disabled-color, #888);}
+        .like .counts{margin-left: var(--sedeh-margin-left, 5px);}
         .like .fa {margin: 0;}
-        .like .fa.selected {color: green;}
-        :host .like .counts, .like:hover, .like:hover .fa, .like:hover .fa.selected{color: #fabdab;}
-        :host .like .counts, .like.disabled:hover, .like.disabled:hover .fa, .like.disabled:hover .fa.selected{color: #f00;}
+        .like.selected .counts, .like.selected .fa {color: var(--sedeh-sected-color, green);}
+        :host .like:hover, .like:hover .fa, .like:hover .fa.selected{opacity: var(--sedeh-hover-opacity, 0.5);}
+        :host .like.disabled:hover, .like.disabled:hover .fa, .like.disabled:hover .fa.selected{color: var(--sedeh-disabled-color, #888);}
         `
     ]
 })

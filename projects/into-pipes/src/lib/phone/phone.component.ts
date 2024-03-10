@@ -7,25 +7,27 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     <a  
         *ngIf="isLink" 
         tabindex="{{active ? 0 : -1}}"
-        class="{{disabled ? 'disabled' : ''}}"
+        class="phone {{disabled ? 'disabled' : ''}}"
         [href]="disabled ? null : 'tel:' + normalizeSource()" 
         (keyup)='keyup($event)' 
         (click)="change($event)">
         <span class='fa fa-phone' aria-hidden='true'></span>
         <span [textContent]="formattedSource()"></span>
     </a>
-    <span *ngIf="!isLink">
+    <span *ngIf="!isLink phone">
         <span class='fa fa-phone' aria-hidden='true'></span>
         <span [textContent]="formattedSource()"></span>
     </span>
     `,
     styles: [
         `
-        :host {display:table;float:left;min-height: 23px}
-        :host a:hover .fa-phone{color: #fabdab;}
-        :host a.disabled:hover .fa-phone{color: #f00;}
-        :host a.disabled{color: #000;cursor:default;pointer-events: none;text-decoration: none;}
-        :host .fa{margin: 0 5px;}
+        :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px)}
+        :host .phone {text-decoration: none;}
+        :host .phone:hover {opacity: var(--sedeh-hover-opacity , 0.5);}
+        :host .phone.disabled .fa-phone{color: var(--sedeh-disabled-color, #888);}
+        :host .phone.disabled:hover .fa-phone{color: var(--sedeh-disabled-color, #888);}
+        :host .phone.disabled{color: var(--sedeh-disabled-color, #888);cursor:default;pointer-events: none;text-decoration: none;}
+        :host .fa{margin: var(--sedeh-margin , 0 5px);}
         @media print {
             :host a { text-decoration: none }
             :host .fa-phone {display: none;}

@@ -15,7 +15,7 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     `,
     styles: [
         `
-        :host {cursor: defult;display:table;float:left;min-height: 23px;}
+        :host {cursor: defult;display:table;float:left;min-height: var(--sedeh-min-height, 25px);}
         .rating {
             display: inline-block;
         }

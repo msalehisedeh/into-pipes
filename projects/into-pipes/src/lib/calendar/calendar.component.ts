@@ -76,11 +76,12 @@ export interface CalendarDateInterface {
     `,
     styles: [
         `
-        :host {display:table;float:left;min-height: 23px}
-        .popper .fa-calendar{display: inline-block;margin: 0 5px}
-        .popper:hover .fa-calendar{color: #fabdab}
-        .popper.disabled:hover .fa-calendar{cursor:default;color: #f00}
-        .popper.disabled{color: #000;pointer-events:none;cursor:default;text-decoration: none;}
+        :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px);}
+        .popper .fa-calendar{display: inline-block;margin: var(--sedeh-margin, 0 5px);}
+        .popper:hover .fa-calendar{color: var(--sedeh-hover-opacity, 0.5);}
+        .popper.disabled .fa-calendar{color: var(--sedeh-disabled-color, #888);}
+        .popper.disabled:hover .fa-calendar{cursor:default;color: var(--sedeh-disabled-color, #888);}
+        .popper.disabled{color: var(--sedeh-disabled-color, #888);pointer-events:none;cursor:default;text-decoration: none;}
         .calendar-box {
           display: flex;
           flex-direction: row;

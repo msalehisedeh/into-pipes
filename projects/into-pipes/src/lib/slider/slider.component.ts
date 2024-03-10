@@ -29,7 +29,7 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     styles: [
         `
         :host .slidecontainer {display: table;}
-        :host .slidecontainer.disabled {opacity: 50%;}
+        :host .slidecontainer.disabled {opacity: var(-sedeh-hover-opacity, 0.5);}
         :host .slidecontainer .range {position: relative; display: table; height: 12px; font-size: 0.8rem;width: 100%}
         :host .slidecontainer .range .min {position: absolute;left: 0;top: 0}
         :host .slidecontainer .range .value {position: absolute;left: 50%;top: 0}

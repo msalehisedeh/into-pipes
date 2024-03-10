@@ -23,15 +23,15 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     </span>
     `,
     styles: [
-        `:host .address {float: left;margin-right: 4px;}
-        :host .google-map {float: left;margin-right: 4px;}
-        :host .fa {float:left;color: #f00;margin: 0 5px;}
+        `:host .address {float: left;margin-right: var(--sedeh-margin-right,5px);}
+        :host .google-map {float: left;text-decoration: none;margin-right: var(--sedeh-margin-right,5px);}
+        :host .fa {float:left;margin: var(--sedeh-margin, 0 5px);}
         :host .off-screen {position: absolute;left: -999em;}
-        :host a:hover .fa-map-marker{color: #fabdab;}
-        :host a.disabled:hover .fa-map-marker{color: #f00;}
-        :host a.disabled{color: #000;cursor:default;text-decoration: none;}
+        :host a:hover, a:hover .fa-map-marker{opacity: var(--sedeh-hover-opacity, 0.5);}
+        :host a.disabled:hover .fa-map-marker{color: var(--sedeh-disabled-color, #888);}
+        :host a.disabled{color: var(--sedeh-disabled-color,#888);cursor:default;text-decoration: none;}
         :host span{float: left;}
-        :host {display: table;float:left;min-height: 23px}
+        :host {display: table;float:left;min-height: var(--sedeh-min-height, 25px)}
         @media print {
             :host {
                 text-decoration: none;

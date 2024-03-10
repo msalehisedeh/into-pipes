@@ -31,12 +31,12 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     `,
     styles: [
       `
-      :host .check-font .fa{margin: 0 5px}
-      :host {display:table;float:left;min-height: 23px}
-      .check-font:hover{color: #fabdab;}
+      :host .check-font .fa{margin: var(--sedeh-margin, 0 5px);}
+      :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px);}
+      .check-font:hover{opacity: var(--sedeh-hover-opacity, 0.5);}
       .check-font {cursor: pointer;}
-      .check-font.disabled:hover{color: gray;}
-      .check-font.disabled {color: gray; pointer-events: none}
+      .check-font.disabled:hover{color: var(--sedeh-disabled-color, #888);}
+      .check-font.disabled {color: var(--sedeh-disabled-color, #888); pointer-events: none}
       `
     ]
 })

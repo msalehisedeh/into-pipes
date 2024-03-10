@@ -35,8 +35,8 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
         .locked {
           display: block;
           cursor: pointer;
-          min-height: 23px;
-          min-width: 33px;
+          min-height: var(--sedeh-min-height, 25px);
+          min-width: var(--sedeh-min-width, 25px);
           -webkit-user-select: none;       
           -moz-user-select: none;
           -ms-user-select: none;
@@ -45,9 +45,9 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
         }
         .text-wrapper{box-sizing: border-box;display:table;width: 100%;}
         .text-wrapper textarea {box-sizing: border-box;display:block;cursor: beam;width: 100%;}
-        .counter{display: table;float:right;color: #ddd;}
-        :host {box-sizing: border-box;width: 100%;display:table;float:left;min-height: 23px;min-width: 33px;}
-        :host .locked:hover{border: 1px solid #fabdab;}
+        .counter{display: table;float:right;}
+        :host {box-sizing: border-box;width: 100%;display:table;float:left;min-height: var(--sedeh-min-height, 25px);min-width: var(--sedeh-min-width, 25px);}
+        :host .locked:hover{border: var(--sedeh-solid-border, 1px solid #fabdab);}
         :host .locked.disabled:hover{border-color: transparent;cursor: default;}
         `
     ]

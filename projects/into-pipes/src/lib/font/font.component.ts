@@ -11,10 +11,10 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     `,
     styles: [
         `
-        :host {display:table;float:left;min-height: 23px}
+        :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px)}
         :host span {
             float: left;
-            margin: 0 5px;
+            margin:  var(--sedeh-margin, 0 5px);
         }
         `
     ]

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ComponentPool } from '@sedeh/into-pipes';
-import { PipeServiceComponentInterface } from '@sedeh/into-pipes';
+import { ComponentPool, PipeServiceComponentInterface } from '@sedeh/into-pipes';
 
 class myService implements PipeServiceComponentInterface {
   

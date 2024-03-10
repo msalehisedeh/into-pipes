@@ -187,12 +187,11 @@ export class IntoDirective implements OnInit {
     }
     
 	ngOnInit() {
-		if (this.into) {
-            if (typeof this.into === 'string') {
-                this.initInstance(this.into);
-            } else {
-                this.into.map((into: string) => this.initInstance(into));
-            }
+        const key = this.into ? this.into : 'span';
+        if (typeof key === 'string') {
+            this.initInstance(key);
+        } else {
+            key.map((into: string) => this.initInstance(into));
         }
     }
 }

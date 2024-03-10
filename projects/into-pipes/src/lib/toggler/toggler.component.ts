@@ -14,7 +14,8 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
         `
         :host {display:inline-block;float:left}
         :host a{width: 23px;height: 23px;cursor: pointer;text-decoration: none;}
-        :host a.disabled{pointer-events: none;color: #000;cursor:default;text-decoration: none;}
+        :host a:hover{opacity: var(--sedeh-hover-opacity, 0.5);}
+        :host a.disabled, :host a.disabled:hover{opacity: 1;pointer-events: none;color: var(--sedeh-disabled-color, #888);cursor:default;text-decoration: none;}
         @media print {
             :host a {
                 width: 23px;

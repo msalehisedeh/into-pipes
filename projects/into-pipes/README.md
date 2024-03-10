@@ -47,6 +47,34 @@ DEPENDENCIES:
     "font-awesome": "^4.7.0"
 ```
 
+## Design system
+Create a css file with the following and modify its value to fit your application needs. Then include it in root of application css file.
+
+```javascript
+:root {
+    --sedeh-marker-color: #fabdab;
+    --sedeh-disabled-color: #888;
+    --sedeh-margin: 0 5px;
+    --sedeh-margin-right: 5px;
+    --sedeh-margin-left: 5px;
+    --sedeh-margin-bottom: 5px;
+    --sedeh-padding: 5px;
+    --sedeh-padding-top: 5px;
+    --sedeh-padding-bottom: 5px;
+    --sedeh-min-width: 25px;
+    --sedeh-min-height: 25px;
+    --sedeh-sected-color: green;
+    --sedeh-disapproved-color: red;
+    --sedeh-hover-opacity: 0.5;
+    --sedeh-box-shadow: 3px 3px 3px #999;
+    --sedeh-solid-border: 1px solid #fabdab;
+    --sedeh-caption-color:  #1b1b1b;
+    --sedeh-caption-background-color:  #c3e5e2;
+    --sedeh-notice-color: white;
+    --sedeh-notice-background-color: rgb(4, 159, 255);
+}
+```
+
 ## Interfaces
 ```javascript
 export interface PipeComponentInterface {
@@ -812,6 +840,7 @@ constructor(private pool: ComponentPool) {
 
 | Version |                                                                                                          |
 |---------|----------------------------------------------------------------------------------------------------------|
+| 4.5.0   | Added Design system to allow for easy modification of styling of into components.                        |
 | 4.4.4   | fixed checkbox logic by adding one more parameter in arguments to specify alternate atate.               |
 | 4.4.3   | Updated logic that determines presence of arguments in a pipe or component.                                           |
 | 4.4.2   | change call from deprecated angular method and added method to identify setting options on transformation comnponents.|

@@ -20,7 +20,7 @@ import { PipeComponentInterface, PipeServiceComponentInterface } from '../common
     `,
     styles: [
       `
-      :host {display:table;float:left;min-height: 23px}
+      :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px)}
       :host .selected-value {display:none}
       @media print {
         :host .selected-value {display: block;}

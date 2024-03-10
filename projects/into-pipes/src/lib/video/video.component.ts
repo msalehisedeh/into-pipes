@@ -24,8 +24,8 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     </video>
     `,
     styles: [`
-    :host {display:table;float:left;min-height: 23px}
-    :host video.disabled{opacity: 0.5; pointer-events: none}
+    :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px)}
+    :host video.disabled{opacity: var(--sedeh-hover-opacity, 0.5); pointer-events: none}
     `]
 })
 export class VideoComponent implements PipeComponentInterface {
