@@ -4,7 +4,7 @@ Have you ever wanted to transform data in different parts of your application in
 
 This library provides few Angular pipes that are all used by an **InTo** pipe or directive. 
 
-**NOTE** Current version 4.5.2
+**NOTE** Current version 4.5.3
 
 **InTo** will determine how the object value should be formatted based with meta-data formatting rules!!
 Moreover, **"InTo"** can be customized by adding custom formatters **into** it!
@@ -37,18 +37,15 @@ pull it from [NPM](https://www.npmjs.com/package/@sedeh/into-pipes)
 
 ## Directive 
 
-| Attribute  | Description                                                              |
-|------------|--------------------------------------------------------------------------|
-| rawContent | Raw data to be operated on.                                              |
-| intoId     | Id to be used for the component in use.                                  |
-| intoName   | name for the component in use.                                           |
-| intoData   | data to be operated on.                                                  |
-| into       | Type of InTo operation to be executed.                                   |
+| input/output      | Description                                                              |
+|-------------------|--------------------------------------------------------------------------|
+| rawContent        | Raw data to be operated on.                                              |
+| intoId            | Id to be used for the component in use.                                  |
+| intoName          | name for the component in use.                                           |
+| intoData          | data to be operated on.                                                  |
+| into              | Type of InTo operation to be executed.                                   |
+| onComponentChange | fired when pipe component change happen through user interaction.        |
 
-
-| Event             | Description                                                       |
-|-------------------|-------------------------------------------------------------------|
-| onComponentChange | fired when pipe component change happen through user interaction. |
 
 ## Sample use of directive
 

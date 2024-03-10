@@ -101,6 +101,7 @@ export interface CalendarDateInterface {
             z-index: 2;
             border: 1px solid #ddd;
             border-radius: 4px;
+            box-shadow: var(--sedeh-box-shadow, 3px 3px 3px #999);
         }
         .calendar * {
             box-sizing: border-box;
