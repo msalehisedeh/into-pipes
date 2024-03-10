@@ -16,6 +16,8 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
     styles: [
         `
         :host {cursor: defult;display:table;float:left;min-height: var(--sedeh-min-height, 25px);}
+        :host:focus {outline: none;}
+        :host:focus .fa{zoom: 1.1;right: var(--sedeh-shift-right, 0);position: relative;color: var(--sedeh-focus-color, darkblue);}
         .rating {
             display: inline-block;
         }
