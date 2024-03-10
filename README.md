@@ -21,13 +21,13 @@ Most of all, this library is truly extendible. It is allowing you to include any
 
 **NOTE:** Starting with version 2.1.1 you need to import this library through @sedeh/into-pipes.
 
-**You are definitely welcome to submit additional pipes and formatting rules to this library and I will gladly incorporate your ideas InTo this project.** Add your comments and requests through the link provided below.
+**You are definitely welcome to submit additional pipes and formatting rules to this library and I will gladly incorporate your ideas InTo this project.** 
 
-[Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
+Add your comments and requests through [Comments/Requests](https://github.com/msalehisedeh/into-pipes/issues)
 
 See it in action through [Live Demo](https://stackblitz.com/edit/into-pipe?file=src%2Fapp%2Fapp.component.ts)
 
-pull it from [NPM](https://www.npmjs.com/package/@sedeh/into-pipes) |
+pull it from [NPM](https://www.npmjs.com/package/@sedeh/into-pipes)
 
 ## Features
 * Responsive
