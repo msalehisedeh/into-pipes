@@ -1,6 +1,6 @@
 {
   "name": "@sedeh/into-pipes",
-  "version": "4.5.0",
+  "version": "4.5.1",
   "license": "MIT",
   "private": false,
   "keywords": [
@@ -37,6 +37,11 @@
     "easy",
     "best"
   ],
+  "exports": {
+    ".": {
+      "assets": "./assets/drag.scss"
+    }
+  },
   "files": [
     "lib",
     "index.d.ts",

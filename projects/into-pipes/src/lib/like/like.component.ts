@@ -24,6 +24,8 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
         .like.disabled .fa{color: var(--sedeh-disabled-color, #888);}
         .like .counts{margin-left: var(--sedeh-margin-left, 5px);}
         .like .fa {margin: 0;}
+        .like:focus{outline: none;}
+        .like:focus .fa{zoom: 1.1;right: var(--sedeh-shift-right, 0);position: relative;color: var(--sedeh-focus-color, darkblue);}
         .like.selected .counts, .like.selected .fa {color: var(--sedeh-sected-color, green);}
         :host .like:hover, .like:hover .fa, .like:hover .fa.selected{opacity: var(--sedeh-hover-opacity, 0.5);}
         :host .like.disabled:hover, .like.disabled:hover .fa, .like.disabled:hover .fa.selected{color: var(--sedeh-disabled-color, #888);}

@@ -27,6 +27,7 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
       `
       :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px)}
       :host .switch {font-size: 1.4rem; cursor: pointer;float: left}
+      :host .switch:focus{outline: none;zoom: 1.1;right: var(--sedeh-shift-right, 0);position: relative;color: var(--sedeh-focus-color, darkblue);}
       :host .switch:hover{opacity: var(--sedeh-hover-opacity, 0.5);}
       :host .switch.fa-toggle-on {color: var(--sedeh-sected-color, green)}
       :host .switch.fa-toggle-off {color: var(--sedeh-disapproved-color, red)}

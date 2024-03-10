@@ -23,6 +23,8 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
         :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px)}
         :host:hover .email{opacity: var(--sedeh-hover-opacity, 0.5);}
         :host .email{text-decoration: none;}
+        :host .email:focus{outline: none;}
+        :host .email:focus .fa{zoom: 1.1;right: var(--sedeh-shift-right, 0);position: relative;color: var(--sedeh-focus-color, darkblue);}
         :host .email.disabled{color: var(--sedeh-disabled-color, #888);cursor:default;pointer-events: none;text-decoration: none;}
         :host .email.disabled .fa{color: var(--sedeh-disabled-color, #888);}
         :host .fa{margin: var(--sedeh-margin, 0 5px);}

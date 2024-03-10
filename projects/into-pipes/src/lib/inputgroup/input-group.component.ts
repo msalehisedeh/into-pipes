@@ -13,6 +13,7 @@ import { PipeComponentInterface, PipeServiceComponentInterface } from '../common
         [value]="x.value ? x.value : x" 
         [disabled]="disabled"
         [checked]="isSelected(x)"
+        (keyup)='keyup($event)'
         (change)="change($event)"/>
       <label [for]="name + i" [textContent]="x.label ? x.label : x"></label>
     </span>
@@ -48,6 +49,15 @@ export class InputGroupComponent implements PipeComponentInterface {
 
   constructor(private renderer: Renderer2) {}
 
+  keyup(event: any) {
+    const code = event.which;
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (code === 13 && !this.disabled) {
+        event.target.click();
+    }
+  }
   change(event:any) {
     event.stopPropagation();
     event.preventDefault();
@@ -62,7 +72,8 @@ export class InputGroupComponent implements PipeComponentInterface {
           if (event.target.checked) {
             this.source.push(event.target.value);
           } else {
-            this.source.splice(change.index,1);
+            const x = (<any[]>this.source).indexOf(event.target.value);
+            this.source.splice(change.index,x);
           }
         }
         this.onIntoComponentChange.emit({

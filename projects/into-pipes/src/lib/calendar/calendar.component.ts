@@ -79,6 +79,8 @@ export interface CalendarDateInterface {
         :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px);}
         .popper .fa-calendar{display: inline-block;margin: var(--sedeh-margin, 0 5px);}
         .popper:hover .fa-calendar{color: var(--sedeh-hover-opacity, 0.5);}
+        .popper:focus {outline: none;}
+        .popper:focus .fa{zoom: 1.1;right: var(--sedeh-shift-right, 0);position: relative;color: var(--sedeh-focus-color, darkblue);}
         .popper.disabled .fa-calendar{color: var(--sedeh-disabled-color, #888);}
         .popper.disabled:hover .fa-calendar{cursor:default;color: var(--sedeh-disabled-color, #888);}
         .popper.disabled{color: var(--sedeh-disabled-color, #888);pointer-events:none;cursor:default;text-decoration: none;}

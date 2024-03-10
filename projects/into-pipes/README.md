@@ -63,6 +63,8 @@ Create a css file with the following and modify its value to fit your applicatio
     --sedeh-padding-bottom: 5px;
     --sedeh-min-width: 25px;
     --sedeh-min-height: 25px;
+    --sedeh-shift-right: 0;
+    --sedeh-focus-color: darkblue;
     --sedeh-sected-color: green;
     --sedeh-disapproved-color: red;
     --sedeh-hover-opacity: 0.5;
@@ -840,6 +842,7 @@ constructor(private pool: ComponentPool) {
 
 | Version |                                                                                                          |
 |---------|----------------------------------------------------------------------------------------------------------|
+| 4.5.1   | Added design style on focus for focussable pipes.                                                        |
 | 4.5.0   | Added Design system to allow for easy modification of styling of into components.                        |
 | 4.4.4   | fixed checkbox logic by adding one more parameter in arguments to specify alternate atate.               |
 | 4.4.3   | Updated logic that determines presence of arguments in a pipe or component.                                           |

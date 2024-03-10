@@ -10,6 +10,8 @@
     --sedeh-padding-bottom: 5px;
     --sedeh-min-width: 25px;
     --sedeh-min-height: 25px;
+    --sedeh-shift-right: 0;
+    --sedeh-focus-color: darkblue;
     --sedeh-sected-color: green;
     --sedeh-disapproved-color: red;
     --sedeh-hover-opacity: 0.5;

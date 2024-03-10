@@ -25,6 +25,8 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
 `,
     styles: [`
     :host {display:table;float:left;min-height: var(--sedeh-min-height, 25px);position: relative}
+    :host .share-item-tips:focus{outline: none;}
+    :host .share-item-tips:focus .fa{zoom: 1.1;right: var(--sedeh-shift-right, 0);position: relative;color: var(--sedeh-focus-color, darkblue);}
     :host a.disabled{color: var(--sedeh-disabled-color, #888);cursor:default;pointer-events:none;text-decoration: none;}
     :host a.disabled .fa{color: var(--sedeh-disabled-color, #888);}
     .share-item-tips {cursor: pointer;}

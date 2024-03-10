@@ -4,7 +4,7 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
 @Component({
     selector: 'notice-component',
     template: `
-        <span tabindex="{{active ? o : -1" class="noticable {{disabled ? 'disabled' : ''}}">
+        <span tabindex="{{active ? 0 : -1}}" class="noticable {{disabled ? 'disabled' : ''}}">
             <span class="fa fa-bell" aria-hidden='true'></span>
             <span class="notice" [textContent]="source"></span>
         </span>
@@ -13,6 +13,8 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
         `
         :host .noticable{display: table;position: relative;float: left;cursor:pointer}
         :host .noticable .fa{font-size: 1rem;}
+        :host .noticable:focus{outline: none;}
+        :host .noticable:focus .fa{zoom: 1.1;right: var(--sedeh-shift-right, 0);position: relative;color: var(--sedeh-focus-color, darkblue);}
         :host .noticable:hover{opacity: var(--sedeh-hover-opacity, 0.5);}
         :host .noticable:hover .fa{opacity: var(--sedeh-hover-opacity, 0.5);}
         :host .noticable.disabled {color: var(--sedeh-disabled-color, #888);cursor:default}

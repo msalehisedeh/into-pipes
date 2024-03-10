@@ -28,6 +28,8 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
         :host .fa {float:left;margin: var(--sedeh-margin, 0 5px);}
         :host .off-screen {position: absolute;left: -999em;}
         :host a:hover, a:hover .fa-map-marker{opacity: var(--sedeh-hover-opacity, 0.5);}
+        :host a:focus {outline: none}
+        :host a:focus .fa{zoom: 1.1;right: var(--sedeh-shift-right, 0);position: relative;color: var(--sedeh-focus-color, darkblue);}
         :host a.disabled:hover .fa-map-marker{color: var(--sedeh-disabled-color, #888);}
         :host a.disabled{color: var(--sedeh-disabled-color,#888);cursor:default;text-decoration: none;}
         :host span{float: left;}

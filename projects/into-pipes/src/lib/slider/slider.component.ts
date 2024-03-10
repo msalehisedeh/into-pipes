@@ -51,6 +51,7 @@ import { PipeComponentInterface } from '../common/pipe.component.interface';
         :host .slidecontainer.vertical .range .min {top: inherit; right:5px; bottom: 0;}
         :host .slidecontainer.vertical .range .value {left: inherit;right: 5px;top: 50%}
         :host .slidecontainer.vertical .range .max {right:5px; top: 0;}
+        :host .slider:focus {border-color: var(--sedeh-focus-color, darkblue) !important;}
         :host .slider:hover {opacity: 1;}
         :host .slider::-webkit-slider-thumb {
           -webkit-appearance: none;
