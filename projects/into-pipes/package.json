@@ -39,7 +39,7 @@
   ],
   "exports": {
     ".": {
-      "assets": "./assets/drag.scss"
+      "assets": "./assets/sedeh-design-system.css"
     }
   },
   "files": [
